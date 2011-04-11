@@ -16,7 +16,7 @@ shared_ptr<TileState> EnterTileState::update( Tile & tile )
         tile.addAlpha( 0.01f );
         return shared_from_this();
     } else {
-        return shared_ptr<TileState>(new LeaveTileState());
+        return shared_ptr<TileState>( new LeaveTileState() );
     }
 }
 
@@ -26,6 +26,6 @@ shared_ptr<TileState> LeaveTileState::update( Tile & tile )
         tile.addAlpha( -0.01f );
         return shared_from_this();
     } else {
-        return shared_ptr<TileState>(new EnterTileState());
+        return shared_ptr<TileState>( new EnterTileState() );
     }
 }

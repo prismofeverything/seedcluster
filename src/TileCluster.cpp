@@ -12,10 +12,9 @@ TileCluster::TileCluster()
 
 }
 
-void TileCluster::bloomPoint( Vec2i position, Vec2f vel, Vec3f color )
+void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
 {
-    Tile bloom = Tile( position, Rand::randInt( 5 ) + 1, Rand::randInt( 5 ) + 1, Rand::randFloat()*20-10, color );
-    tiles.push_back( bloom );
+    tiles.push_back( Tile( *this, position, Rand::randInt( 5 ) + 1, Rand::randInt( 5 ) + 1, Rand::randFloat()*20-10, color ) );
 }
 
 void TileCluster::update()

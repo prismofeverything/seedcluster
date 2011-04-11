@@ -6,16 +6,31 @@
 #include "TileState.h"
 #include <vector>
 
+class TileCluster;
+
 class Tile {
  public:
-    Tile();
-    Tile( ci::Vec2i grid, int row, int column, float z, ci::Vec3f col );
+    Tile( TileCluster & clust, 
+          ci::Vec2i grid, 
+          int row, 
+          int column, 
+          float z, 
+          ci::Vec3f col );
+
+    Tile( const Tile & rhs );
+    Tile & operator=( const Tile & rhs );
+
     void update();
     void draw();
+
     void addAlpha( float variance );
+    void extendLiberty( int direction );
+    void bloom();
 
     static const int atomWidth = 270;
     static const int atomHeight = 240;
+
+    TileCluster & cluster;
 
     ci::Rectf box;
     ci::Vec3f position;

@@ -170,7 +170,7 @@ void SeedClusterApp::mouseDown( MouseEvent event )
     bloomColor[2] = Rand::randFloat();
 
     // cluster.bloomPoint( mousePosition - centering, mouseVelocity, bloomColor );
-    cluster.bloomPoint( centering, mouseVelocity, bloomColor );
+    cluster.mouseDown( centering, mouseVelocity, bloomColor );
 }
 
 void SeedClusterApp::mouseUp( MouseEvent event )

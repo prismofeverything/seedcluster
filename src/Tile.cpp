@@ -14,31 +14,67 @@ using namespace std;
 
 #define TAU 6.2831853071795862f
 
-Tile::Tile()
+Tile::Tile( TileCluster & clust, Vec2i grid, int row, int column, float z, Vec3f col )
+    : cluster( clust ),
+      corner( grid ),
+      rows( row ),
+      columns( column ),
+      position( Vec3f( grid[0]*atomWidth, grid[1]*atomHeight, z ) ),
+      box( Rectf( 0, 0, atomWidth*column, atomHeight*row ) ),
+      color( col ),
+      velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
+      alpha( 0.0f )
 {
-    
-}
-
-Tile::Tile( Vec2i grid, int row, int column, float z, Vec3f col )
-{
-    corner = grid;
-    rows = row;
-    columns = column;
-    box = Rectf( 0, 0, atomWidth*columns, atomHeight*rows );
-    position = Vec3f( grid[0]*atomWidth, grid[1]*atomHeight, z );
-    color = col;
-    velocity = Vec3f( 0.0f, 0.0f, 0.0f );
-    alpha = 0.0f;
     for ( int l = 0; l < 4; l++ ) {
         liberties[l] = -1;
     }
 
-    state = boost::shared_ptr<TileState>(new EnterTileState());
+    state = boost::shared_ptr<TileState>( new EnterTileState() );
+}
+
+Tile::Tile( const Tile & rhs ) 
+    : cluster( rhs.cluster ),
+      corner( rhs.corner ),
+      rows( rhs.rows ),
+      columns( rhs.columns ),
+      position( rhs.position ),
+      box( rhs.box ),
+      color( rhs.color ),
+      velocity( rhs.velocity ),
+      alpha( rhs.alpha )
+{
+    for ( int l = 0; l < 4; l++ ) {
+        liberties[l] = rhs.liberties[l];
+    }
+
+    state = rhs.state;
+}
+
+Tile & Tile::operator=( const Tile & rhs )
+{
+    corner = rhs.corner;
+    rows = rhs.rows;
+    columns = rhs.columns;
+    position = rhs.position;
+    box = rhs.box;
+    color = rhs.color;
+    velocity = rhs.velocity;
+    alpha = rhs.alpha;
+
+    for ( int l = 0; l < 4; l++ ) {
+        liberties[l] = rhs.liberties[l];
+    }
+
+    state = rhs.state;
+
+    return *this;
 }
 
 void Tile::addAlpha( float variance )
 {
     alpha += variance;
+    if ( alpha < 0.0f ) alpha = 0.0f;
+    if ( alpha > 1.0f ) alpha = 1.0f;
 }
 
 void Tile::update()

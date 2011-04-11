@@ -11,7 +11,7 @@ class TileCluster {
     void update();
     void draw();
 
-    void bloomPoint( ci::Vec2i position, ci::Vec2f velocity, ci::Vec3f color );
+    void mouseDown( ci::Vec2i position, ci::Vec2f velocity, ci::Vec3f color );
 
     std::vector<Tile> tiles;
 };
