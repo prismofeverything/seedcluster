@@ -1,8 +1,10 @@
 #include "cinder/Cinder.h"
+#include "cinder/Rand.h"
 #include "boost/enable_shared_from_this.hpp"
 #include "Tile.h"
 #include "TileState.h"
 
+using namespace ci;
 using namespace boost;
 
 shared_ptr<TileState> TileState::update( Tile & tile )
@@ -16,16 +18,29 @@ shared_ptr<TileState> EnterTileState::update( Tile & tile )
         tile.addAlpha( 0.01f );
         return shared_from_this();
     } else {
+        return shared_ptr<TileState>( new BloomTileState() );
+    }
+}
+
+shared_ptr<TileState> BloomTileState::update( Tile & tile )
+{
+    bool full = false;
+    if ( Rand::randFloat() < 0.02 ) {
+        full = tile.branch();
+    }
+
+    if ( full ) {
         return shared_ptr<TileState>( new LeaveTileState() );
+    } else {
+        return shared_from_this();
     }
 }
 
 shared_ptr<TileState> LeaveTileState::update( Tile & tile )
 {
-    if ( tile.alpha > 0.1f ) {
+    if ( tile.alpha > 0.2f ) {
         tile.addAlpha( -0.01f );
-        return shared_from_this();
-    } else {
-        return shared_ptr<TileState>( new EnterTileState() );
-    }
+    } 
+
+    return shared_from_this();
 }

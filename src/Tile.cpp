@@ -7,6 +7,7 @@
 #include "cinder/gl/gl.h"
 #include "TileState.h"
 #include "Tile.h"
+#include "TileCluster.h"
 #include <vector>
 
 using namespace ci;
@@ -75,6 +76,50 @@ void Tile::addAlpha( float variance )
     alpha += variance;
     if ( alpha < 0.0f ) alpha = 0.0f;
     if ( alpha > 1.0f ) alpha = 1.0f;
+}
+
+bool Tile::branch()
+{
+    int l = Rand::randInt( 4 );
+
+    if ( liberties[l] < 0 ) {
+        Vec2i grid;
+        Vec3f newColor = color;
+        newColor[2] = Rand::randFloat();
+        int row = Rand::randInt( 5 ) + 1;
+        int column = Rand::randInt( 5 ) + 1;
+
+        switch( l )
+            {
+            case 0:
+                grid[0] = corner[0] + columns;
+                grid[1] = Rand::randInt( 5 ) - 2 + corner[1];
+                break;
+            case 1:
+                grid[0] = Rand::randInt( 5 ) - 2 + corner[0];
+                grid[1] = corner[1] - row;
+                break;
+            case 2:
+                grid[0] = corner[0] - column;
+                grid[1] = Rand::randInt( 5 ) - 2 + corner[1];
+                break;
+            case 3:
+                grid[0] = Rand::randInt( 5 ) - 2 + corner[0];
+                grid[1] = corner[1] + rows;
+                break;
+            }
+
+        liberties[l] = cluster.tiles.size();
+        cluster.addTile( grid, row, column, Rand::randFloat() * 20 - 10, newColor ); //, l );
+    }
+
+    bool full = true;
+    for ( l = 0 ; l < 4 ; l++ ) {
+        if ( liberties[l] < 0 ) {
+            full = false;
+        }
+    }
+    return full;
 }
 
 void Tile::update()

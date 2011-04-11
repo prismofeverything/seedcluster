@@ -24,8 +24,7 @@ class Tile {
     void draw();
 
     void addAlpha( float variance );
-    void extendLiberty( int direction );
-    void bloom();
+    bool branch();
 
     static const int atomWidth = 270;
     static const int atomHeight = 240;

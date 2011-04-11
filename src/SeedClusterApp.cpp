@@ -112,7 +112,7 @@ void SeedClusterApp::prepareSettings( Settings *settings )
 	settings->setFrameRate( 40.0f );
     fovea = 75.0f;
     near = 5.0f;
-    far = 2000.0f;
+    far = 10000.0f;
     centering = Vec2i( -1, -1 );
 }
 
@@ -191,7 +191,7 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
 }
 
 void SeedClusterApp::update() {
-    eye[2] += 0.7f;
+    eye[2] += 4.0f;
     // towards[0] += 1.0f;
     updateCamera();
 

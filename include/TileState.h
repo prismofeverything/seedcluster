@@ -1,5 +1,6 @@
 #pragma once
 #include "cinder/Cinder.h"
+#include "cinder/Rand.h"
 #include "boost/enable_shared_from_this.hpp"
 
 class Tile;
@@ -15,6 +16,13 @@ class EnterTileState : public TileState {
  public:
     EnterTileState() {};
     virtual ~EnterTileState() {};
+    virtual boost::shared_ptr<TileState> update( Tile & tile );
+};
+
+class BloomTileState : public TileState {
+ public:
+    BloomTileState() {};
+    virtual ~BloomTileState() {};
     virtual boost::shared_ptr<TileState> update( Tile & tile );
 };
 
