@@ -78,6 +78,11 @@ void Tile::addAlpha( float variance )
     if ( alpha > 1.0f ) alpha = 1.0f;
 }
 
+void Tile::setAlpha( float newAlpha )
+{
+    alpha = newAlpha;
+}
+
 bool Tile::branch()
 {
     int l = Rand::randInt( 4 );

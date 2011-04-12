@@ -14,9 +14,10 @@ class TileState : public boost::enable_shared_from_this<TileState> {
 
 class EnterTileState : public TileState {
  public:
-    EnterTileState() {};
+    EnterTileState() : time( 0.0f ) {};
     virtual ~EnterTileState() {};
     virtual boost::shared_ptr<TileState> update( Tile & tile );
+	float time;
 };
 
 class BloomTileState : public TileState {

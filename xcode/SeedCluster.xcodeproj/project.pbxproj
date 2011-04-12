@@ -27,6 +27,17 @@
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
 		53E3CDFC0E86099300238D2B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E3CDFB0E86099300238D2B /* Carbon.framework */; };
+		5E29F58B1354D4E9009CCA0F /* Back.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5801354D4E9009CCA0F /* Back.cpp */; };
+		5E29F58C1354D4E9009CCA0F /* Bounce.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5811354D4E9009CCA0F /* Bounce.cpp */; };
+		5E29F58D1354D4E9009CCA0F /* Circ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5821354D4E9009CCA0F /* Circ.cpp */; };
+		5E29F58E1354D4E9009CCA0F /* Cubic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5831354D4E9009CCA0F /* Cubic.cpp */; };
+		5E29F58F1354D4E9009CCA0F /* Elastic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5841354D4E9009CCA0F /* Elastic.cpp */; };
+		5E29F5901354D4E9009CCA0F /* Expo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5851354D4E9009CCA0F /* Expo.cpp */; };
+		5E29F5911354D4E9009CCA0F /* Linear.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5861354D4E9009CCA0F /* Linear.cpp */; };
+		5E29F5921354D4E9009CCA0F /* Quad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5871354D4E9009CCA0F /* Quad.cpp */; };
+		5E29F5931354D4E9009CCA0F /* Quart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5881354D4E9009CCA0F /* Quart.cpp */; };
+		5E29F5941354D4E9009CCA0F /* Quint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5891354D4E9009CCA0F /* Quint.cpp */; };
+		5E29F5951354D4E9009CCA0F /* Sine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F58A1354D4E9009CCA0F /* Sine.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +71,28 @@
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		5323E6B50EAFCA7E003A9687 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		53E3CDFB0E86099300238D2B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		5E29F5741354D4D6009CCA0F /* Back.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Back.h; sourceTree = "<group>"; };
+		5E29F5751354D4D6009CCA0F /* Bounce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bounce.h; sourceTree = "<group>"; };
+		5E29F5761354D4D6009CCA0F /* Circ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Circ.h; sourceTree = "<group>"; };
+		5E29F5771354D4D6009CCA0F /* Cubic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cubic.h; sourceTree = "<group>"; };
+		5E29F5781354D4D6009CCA0F /* Elastic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Elastic.h; sourceTree = "<group>"; };
+		5E29F5791354D4D6009CCA0F /* Expo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Expo.h; sourceTree = "<group>"; };
+		5E29F57A1354D4D6009CCA0F /* Linear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Linear.h; sourceTree = "<group>"; };
+		5E29F57B1354D4D6009CCA0F /* Quad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quad.h; sourceTree = "<group>"; };
+		5E29F57C1354D4D6009CCA0F /* Quart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quart.h; sourceTree = "<group>"; };
+		5E29F57D1354D4D6009CCA0F /* Quint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quint.h; sourceTree = "<group>"; };
+		5E29F57E1354D4D6009CCA0F /* Sine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sine.h; sourceTree = "<group>"; };
+		5E29F5801354D4E9009CCA0F /* Back.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Back.cpp; sourceTree = "<group>"; };
+		5E29F5811354D4E9009CCA0F /* Bounce.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bounce.cpp; sourceTree = "<group>"; };
+		5E29F5821354D4E9009CCA0F /* Circ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Circ.cpp; sourceTree = "<group>"; };
+		5E29F5831354D4E9009CCA0F /* Cubic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cubic.cpp; sourceTree = "<group>"; };
+		5E29F5841354D4E9009CCA0F /* Elastic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Elastic.cpp; sourceTree = "<group>"; };
+		5E29F5851354D4E9009CCA0F /* Expo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Expo.cpp; sourceTree = "<group>"; };
+		5E29F5861354D4E9009CCA0F /* Linear.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Linear.cpp; sourceTree = "<group>"; };
+		5E29F5871354D4E9009CCA0F /* Quad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quad.cpp; sourceTree = "<group>"; };
+		5E29F5881354D4E9009CCA0F /* Quart.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quart.cpp; sourceTree = "<group>"; };
+		5E29F5891354D4E9009CCA0F /* Quint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Quint.cpp; sourceTree = "<group>"; };
+		5E29F58A1354D4E9009CCA0F /* Sine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sine.cpp; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* SeedCluster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeedCluster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -93,6 +126,7 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				5E29F57F1354D4E9009CCA0F /* penner */,
 				407B881F13515A490069D7B7 /* TileState.cpp */,
 				4003D41D134F8ECA0058C709 /* Tile.cpp */,
 				4003D41E134F8ECA0058C709 /* TileCluster.cpp */,
@@ -153,6 +187,7 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				5E29F5731354D4D6009CCA0F /* penner */,
 				407B881E13515A310069D7B7 /* TileState.h */,
 				4003D41A134F8EB80058C709 /* Resources.h */,
 				4003D41B134F8EB80058C709 /* Tile.h */,
@@ -183,6 +218,44 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		5E29F5731354D4D6009CCA0F /* penner */ = {
+			isa = PBXGroup;
+			children = (
+				5E29F5741354D4D6009CCA0F /* Back.h */,
+				5E29F5751354D4D6009CCA0F /* Bounce.h */,
+				5E29F5761354D4D6009CCA0F /* Circ.h */,
+				5E29F5771354D4D6009CCA0F /* Cubic.h */,
+				5E29F5781354D4D6009CCA0F /* Elastic.h */,
+				5E29F5791354D4D6009CCA0F /* Expo.h */,
+				5E29F57A1354D4D6009CCA0F /* Linear.h */,
+				5E29F57B1354D4D6009CCA0F /* Quad.h */,
+				5E29F57C1354D4D6009CCA0F /* Quart.h */,
+				5E29F57D1354D4D6009CCA0F /* Quint.h */,
+				5E29F57E1354D4D6009CCA0F /* Sine.h */,
+			);
+			name = penner;
+			path = ../include/penner;
+			sourceTree = SOURCE_ROOT;
+		};
+		5E29F57F1354D4E9009CCA0F /* penner */ = {
+			isa = PBXGroup;
+			children = (
+				5E29F5801354D4E9009CCA0F /* Back.cpp */,
+				5E29F5811354D4E9009CCA0F /* Bounce.cpp */,
+				5E29F5821354D4E9009CCA0F /* Circ.cpp */,
+				5E29F5831354D4E9009CCA0F /* Cubic.cpp */,
+				5E29F5841354D4E9009CCA0F /* Elastic.cpp */,
+				5E29F5851354D4E9009CCA0F /* Expo.cpp */,
+				5E29F5861354D4E9009CCA0F /* Linear.cpp */,
+				5E29F5871354D4E9009CCA0F /* Quad.cpp */,
+				5E29F5881354D4E9009CCA0F /* Quart.cpp */,
+				5E29F5891354D4E9009CCA0F /* Quint.cpp */,
+				5E29F58A1354D4E9009CCA0F /* Sine.cpp */,
+			);
+			name = penner;
+			path = ../src/penner;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -250,6 +323,17 @@
 				4003D41F134F8ECA0058C709 /* Tile.cpp in Sources */,
 				4003D420134F8ECA0058C709 /* TileCluster.cpp in Sources */,
 				407B882013515A490069D7B7 /* TileState.cpp in Sources */,
+				5E29F58B1354D4E9009CCA0F /* Back.cpp in Sources */,
+				5E29F58C1354D4E9009CCA0F /* Bounce.cpp in Sources */,
+				5E29F58D1354D4E9009CCA0F /* Circ.cpp in Sources */,
+				5E29F58E1354D4E9009CCA0F /* Cubic.cpp in Sources */,
+				5E29F58F1354D4E9009CCA0F /* Elastic.cpp in Sources */,
+				5E29F5901354D4E9009CCA0F /* Expo.cpp in Sources */,
+				5E29F5911354D4E9009CCA0F /* Linear.cpp in Sources */,
+				5E29F5921354D4E9009CCA0F /* Quad.cpp in Sources */,
+				5E29F5931354D4E9009CCA0F /* Quart.cpp in Sources */,
+				5E29F5941354D4E9009CCA0F /* Quint.cpp in Sources */,
+				5E29F5951354D4E9009CCA0F /* Sine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

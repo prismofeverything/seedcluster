@@ -3,6 +3,8 @@
 #include "boost/enable_shared_from_this.hpp"
 #include "Tile.h"
 #include "TileState.h"
+#include "penner/Expo.h"
+
 
 using namespace ci;
 using namespace boost;
@@ -15,7 +17,10 @@ shared_ptr<TileState> TileState::update( Tile & tile )
 shared_ptr<TileState> EnterTileState::update( Tile & tile )
 {
     if ( tile.alpha < 0.9 ) {
-        tile.addAlpha( 0.01f );
+        
+		tile.setAlpha( Expo::easeOut( time, 0.0f, 0.91f, 40.0f ) );
+		time += 1.0f;
+		
         return shared_from_this();
     } else {
         return shared_ptr<TileState>( new BloomTileState() );

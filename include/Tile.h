@@ -24,6 +24,7 @@ class Tile {
     void draw();
 
     void addAlpha( float variance );
+	void setAlpha( float newAlpha );
     bool branch();
 
     static const int atomWidth = 270;
