@@ -83,8 +83,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 324320090;
-			PBXWorkspaceStateSaveDate = 324320090;
+			PBXPerProjectTemplateStateSaveDate = 324328243;
+			PBXWorkspaceStateSaveDate = 324328243;
 		};
 		perUserProjectItems = {
 			4003D402134F86C30058C709 = 4003D402134F86C30058C709 /* PBXTextBookmark */;
@@ -95,7 +95,7 @@
 			407B884613515CC90069D7B7 = 407B884613515CC90069D7B7 /* PBXTextBookmark */;
 			407B89041352F9590069D7B7 = 407B89041352F9590069D7B7 /* PBXTextBookmark */;
 			407B890A1352F9F90069D7B7 = 407B890A1352F9F90069D7B7 /* PBXTextBookmark */;
-			40C244451354BB6E0058021C /* PBXTextBookmark */ = 40C244451354BB6E0058021C /* PBXTextBookmark */;
+			40C244451354BB6E0058021C = 40C244451354BB6E0058021C /* PBXTextBookmark */;
 			40E832201353D4BC008F656C = 40E832201353D4BC008F656C /* PBXTextBookmark */;
 			40E832211353D4BC008F656C = 40E832211353D4BC008F656C /* PBXTextBookmark */;
 			40FB91721353F8EE008531A9 = 40FB91721353F8EE008531A9 /* PBXTextBookmark */;
@@ -243,11 +243,6 @@
 		name = checked_delete.hpp;
 		path = /Users/rspangler/Projects/Cinder/boost/boost/checked_delete.hpp;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {716, 858}}";
-			sepNavSelRange = "{895, 0}";
-			sepNavVisRange = "{618, 475}";
-		};
 	};
 	407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
