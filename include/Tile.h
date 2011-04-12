@@ -11,6 +11,7 @@ class TileCluster;
 class Tile {
  public:
     Tile( TileCluster & clust, 
+          int id,
           ci::Vec2i grid, 
           int row, 
           int column, 
@@ -26,8 +27,8 @@ class Tile {
     void addAlpha( float variance );
     bool branch();
 
-    static const int atomWidth = 270;
-    static const int atomHeight = 240;
+    static const int atomWidth = 240;
+    static const int atomHeight = 270;
 
     TileCluster & cluster;
 
@@ -36,6 +37,7 @@ class Tile {
     ci::Vec3f velocity;
     ci::Vec3f color;
   
+    int id;
     ci::Vec2i corner;
     int rows;
     int columns;

@@ -112,7 +112,7 @@ void SeedClusterApp::prepareSettings( Settings *settings )
 	settings->setFrameRate( 40.0f );
     fovea = 75.0f;
     near = 5.0f;
-    far = 10000.0f;
+    far = 50000.0f;
     centering = Vec2i( -1, -1 );
 }
 
@@ -184,14 +184,15 @@ void SeedClusterApp::mouseMove( MouseEvent event )
     mousePosition = event.getPos();
 }
 
-void SeedClusterApp::mouseDrag( MouseEvent event ) 
+void SeedClusterApp::mouseDrag( MouseEvent event )
 {
     mouseMove( event );
-    // system->mouseImpact( mousePosition, mouseVelocity, changeColor ); 
+    // system->mouseImpact( mousePosition, mouseVelocity, changeColor );
 }
 
-void SeedClusterApp::update() {
-    eye[2] += 4.0f;
+void SeedClusterApp::update() 
+{
+    eye[2] += eye[2] * 0.0015f;
     // towards[0] += 1.0f;
     updateCamera();
 
