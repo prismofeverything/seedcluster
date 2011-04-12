@@ -69,7 +69,7 @@
 					498,
 					60,
 					20,
-					48.16259765625,
+					48,
 					43,
 					43,
 				);
@@ -96,6 +96,9 @@
 			407B89041352F9590069D7B7 = 407B89041352F9590069D7B7 /* PBXTextBookmark */;
 			407B890A1352F9F90069D7B7 = 407B890A1352F9F90069D7B7 /* PBXTextBookmark */;
 			40C244451354BB6E0058021C = 40C244451354BB6E0058021C /* PBXTextBookmark */;
+			40C244CA1355094D0058021C /* PBXTextBookmark */ = 40C244CA1355094D0058021C /* PBXTextBookmark */;
+			40C244CC1355094D0058021C /* XCBuildMessageTextBookmark */ = 40C244CC1355094D0058021C /* XCBuildMessageTextBookmark */;
+			40C244CE1355094D0058021C /* PBXTextBookmark */ = 40C244CE1355094D0058021C /* PBXTextBookmark */;
 			40E832201353D4BC008F656C = 40E832201353D4BC008F656C /* PBXTextBookmark */;
 			40E832211353D4BC008F656C = 40E832211353D4BC008F656C /* PBXTextBookmark */;
 			40FB91721353F8EE008531A9 = 40FB91721353F8EE008531A9 /* PBXTextBookmark */;
@@ -327,6 +330,64 @@
 		rType = 0;
 		vrLen = 475;
 		vrLoc = 618;
+	};
+	40C244CA1355094D0058021C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 40C244CB1355094D0058021C /* cv.h */;
+		name = "cv.h: 63";
+		rLen = 0;
+		rLoc = 2850;
+		rType = 0;
+		vrLen = 458;
+		vrLoc = 2955;
+	};
+	40C244CB1355094D0058021C /* cv.h */ = {
+		isa = PBXFileReference;
+		name = cv.h;
+		path = /opt/local/include/opencv/cv.h;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {971, 1092}}";
+			sepNavSelRange = "{2850, 0}";
+			sepNavVisRange = "{0, 753}";
+		};
+	};
+	40C244CC1355094D0058021C /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Gcj/libgcj-config.h: No such file or directory";
+		fRef = 40C244CD1355094D0058021C /* javaprims.h */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 18;
+		rType = 1;
+	};
+	40C244CD1355094D0058021C /* javaprims.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = javaprims.h;
+		path = "/opt/local/include/gcc44/c++/gcj/javaprims.h";
+		sourceTree = "<absolute>";
+	};
+	40C244CE1355094D0058021C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 40C244CF1355094D0058021C /* javaprims.h */;
+		name = "javaprims.h: 19";
+		rLen = 0;
+		rLoc = 492;
+		rType = 0;
+		vrLen = 523;
+		vrLoc = 0;
+	};
+	40C244CF1355094D0058021C /* javaprims.h */ = {
+		isa = PBXFileReference;
+		name = javaprims.h;
+		path = "/opt/local/include/gcc44/c++/gcj/javaprims.h";
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {695, 12870}}";
+			sepNavSelRange = "{492, 0}";
+			sepNavVisRange = "{0, 523}";
+		};
 	};
 	40E832201353D4BC008F656C /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

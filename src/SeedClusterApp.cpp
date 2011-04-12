@@ -8,6 +8,7 @@
 #include "cinder/Cinder.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
+#include <cv.h>
 #include "Kinect.h"
 #include "TileCluster.h"
 
@@ -190,7 +191,7 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
     // system->mouseImpact( mousePosition, mouseVelocity, changeColor );
 }
 
-void SeedClusterApp::update() 
+void SeedClusterApp::update()
 {
     if ( kinectEnabled ) {
         if( kinect.checkNewDepthFrame() ) {
