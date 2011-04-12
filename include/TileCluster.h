@@ -12,8 +12,8 @@ class TileCluster {
     void draw();
 
     void addTile( ci::Vec2i position, 
-                  int rows, int columns, float z, ci::Vec3f color );
-                  //                  int from=-1, int liberty=-1 );
+                  int rows, int columns, float z, ci::Vec3f color, 
+                  int from=-1, int liberty=-1 );
     void mouseDown( ci::Vec2i position, ci::Vec2f velocity, ci::Vec3f color );
 
     std::vector<Tile> tiles;

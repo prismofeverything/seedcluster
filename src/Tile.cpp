@@ -15,8 +15,9 @@ using namespace std;
 
 #define TAU 6.2831853071795862f
 
-Tile::Tile( TileCluster & clust, Vec2i grid, int row, int column, float z, Vec3f col )
+Tile::Tile( TileCluster & clust, int index, Vec2i grid, int row, int column, float z, Vec3f col )
     : cluster( clust ),
+      id( index ),
       corner( grid ),
       rows( row ),
       columns( column ),
@@ -35,6 +36,7 @@ Tile::Tile( TileCluster & clust, Vec2i grid, int row, int column, float z, Vec3f
 
 Tile::Tile( const Tile & rhs ) 
     : cluster( rhs.cluster ),
+      id( rhs.id ),
       corner( rhs.corner ),
       rows( rhs.rows ),
       columns( rhs.columns ),
@@ -53,6 +55,7 @@ Tile::Tile( const Tile & rhs )
 
 Tile & Tile::operator=( const Tile & rhs )
 {
+    id = rhs.id;
     corner = rhs.corner;
     rows = rhs.rows;
     columns = rhs.columns;
@@ -115,7 +118,7 @@ bool Tile::branch()
             }
 
         liberties[l] = cluster.tiles.size();
-        cluster.addTile( grid, row, column, Rand::randFloat() * 20 - 10, newColor ); //, l );
+        cluster.addTile( grid, row, column, Rand::randFloat() * 20 - 10, newColor, id, (2 + l) % 4 );
     }
 
     bool full = true;

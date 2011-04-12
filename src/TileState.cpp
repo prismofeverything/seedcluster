@@ -34,11 +34,13 @@ shared_ptr<TileState> BloomTileState::update( Tile & tile )
         full = tile.branch();
     }
 
-    if ( full ) {
-        return shared_ptr<TileState>( new LeaveTileState() );
-    } else {
-        return shared_from_this();
-    }
+    return shared_from_this();
+
+    // if ( full ) {
+    //     return shared_ptr<TileState>( new LeaveTileState() );
+    // } else {
+    //     return shared_from_this();
+    // }
 }
 
 shared_ptr<TileState> LeaveTileState::update( Tile & tile )
