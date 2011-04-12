@@ -192,7 +192,19 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
 
 void SeedClusterApp::update() 
 {
-    eye[2] += eye[2] * 0.0015f;
+    if ( kinectEnabled ) {
+        if( kinect.checkNewDepthFrame() ) {
+            // kinectDepth = kinect.getDepthData();
+            kinectDepthTexture = kinect.getDepthImage();
+            kinectDepthTexture.setFlipped(true);
+        }
+
+        if( kinectTilt != kinect.getTilt() ) {
+            kinect.setTilt( kinectTilt );
+        }
+    }
+
+    eye[2] += eye[2] * 0.0035f;
     // towards[0] += 1.0f;
     updateCamera();
 
