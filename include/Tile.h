@@ -26,6 +26,8 @@ class Tile {
 
     void addAlpha( float variance );
 	void setAlpha( float newAlpha );
+	void setRotation( float newRotation );
+	void addRotation( float variance );
     bool branch();
 
     static const int atomWidth = 240;
@@ -43,6 +45,7 @@ class Tile {
     int rows;
     int columns;
     float alpha;
+	float rotate;
 
     boost::shared_ptr<TileState> state;
     int liberties[4];

@@ -5,6 +5,8 @@
 
 class Tile;
 
+#define TAU 6.2831853071795862f
+
 class TileState : public boost::enable_shared_from_this<TileState> {
  public:
     TileState() {};
@@ -14,10 +16,11 @@ class TileState : public boost::enable_shared_from_this<TileState> {
 
 class EnterTileState : public TileState {
  public:
-    EnterTileState() : time( 0.0f ) {};
+    EnterTileState() : time( 0.0f ) , rot( TAU*0.5f ) {};
     virtual ~EnterTileState() {};
     virtual boost::shared_ptr<TileState> update( Tile & tile );
 	float time;
+	float rot;
 };
 
 class BloomTileState : public TileState {

@@ -22,7 +22,7 @@ void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f
 
 void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
 {
-    addTile( position, Rand::randInt( 5 ) + 1, Rand::randInt( 3 ) + 2, Rand::randFloat() * 50 - 25, color );
+    addTile( position, Rand::randInt( 5 ) + 1, Rand::randInt( 3 ) + 2, Rand::randFloat() * 500 - 25, color );
 }
 
 void TileCluster::update()

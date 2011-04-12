@@ -9,6 +9,8 @@
 using namespace ci;
 using namespace boost;
 
+#define TAU 6.2831853071795862f
+
 shared_ptr<TileState> TileState::update( Tile & tile )
 {
     return shared_from_this();
@@ -18,8 +20,11 @@ shared_ptr<TileState> EnterTileState::update( Tile & tile )
 {
     if ( tile.alpha < 0.9 ) {
         
-		tile.setAlpha( Expo::easeOut( time, 0.0f, 0.91f, 40.0f ) );
+		tile.setAlpha( Expo::easeOut( time, 0.0f, 0.91f, 140.0f ) );
 		time += 1.0f;
+		
+		tile.setRotation( Expo::easeOut( time, TAU*0.5f, TAU, 140.0f ) );
+		rot += 1.0f;
 		
         return shared_from_this();
     } else {

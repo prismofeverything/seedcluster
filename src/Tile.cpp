@@ -25,7 +25,8 @@ Tile::Tile( TileCluster & clust, int index, Vec2i grid, int row, int column, flo
       box( Rectf( 0, 0, atomWidth*column, atomHeight*row ) ),
       color( col ),
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
-      alpha( 0.0f )
+      alpha( 0.0f ),
+	  rotate(TAU*0.5f)
 {
     for ( int l = 0; l < 4; l++ ) {
         liberties[l] = -1;
@@ -44,7 +45,8 @@ Tile::Tile( const Tile & rhs )
       box( rhs.box ),
       color( rhs.color ),
       velocity( rhs.velocity ),
-      alpha( rhs.alpha )
+      alpha( rhs.alpha ),
+	  rotate( rhs.rotate )
 {
     for ( int l = 0; l < 4; l++ ) {
         liberties[l] = rhs.liberties[l];
@@ -64,6 +66,7 @@ Tile & Tile::operator=( const Tile & rhs )
     color = rhs.color;
     velocity = rhs.velocity;
     alpha = rhs.alpha;
+	rotate = rhs.rotate;
 
     for ( int l = 0; l < 4; l++ ) {
         liberties[l] = rhs.liberties[l];
@@ -81,9 +84,19 @@ void Tile::addAlpha( float variance )
     if ( alpha > 1.0f ) alpha = 1.0f;
 }
 
+void Tile::addRotation( float variance )
+{
+    rotate += variance;
+}
+
 void Tile::setAlpha( float newAlpha )
 {
     alpha = newAlpha;
+}
+
+void Tile::setRotation( float newRotation )
+{
+    rotate = newRotation;
 }
 
 bool Tile::branch()
@@ -140,8 +153,11 @@ void Tile::draw()
 {
     Color colorcolor = Color( CM_HSV, color );
     glColor4f( colorcolor.r, colorcolor.g, colorcolor.b, alpha );
-    gl::pushModelView();
-    gl::translate( position );
-    gl::drawSolidRect( box );
+    gl::pushModelView();    
+	gl::translate( position );
+	gl::rotate( rotate * (360.0f/TAU) );
+	gl::translate( Vec3f( columns*atomWidth*-0.5f, rows*atomHeight*-0.5f, 0.0f ) );
+		gl::translate( position );
+	gl::drawSolidRect( box );
     gl::popModelView();
 }
