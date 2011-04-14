@@ -17,6 +17,10 @@ void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f
     tiles.push_back( Tile( *this, tiles.size(), position, rows, columns, z, color ) );
     if ( from >= 0 ) {
         tiles[tiles.size() - 1].liberties[liberty] = from;
+		int size = tiles.size();
+		for ( int ii = 0; ii < size; ii++ ) {
+			tiles[ii].draw();
+		}
     }
 }
 
@@ -29,7 +33,7 @@ void TileCluster::update()
 {
     int size = tiles.size();
     for ( int ii = 0; ii < size; ii++ ) {
-        tiles[ii].update();
+		tiles[ii].update();
     }
 }
 

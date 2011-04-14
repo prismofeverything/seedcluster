@@ -28,6 +28,7 @@ class BloomTileState : public TileState {
     BloomTileState() {};
     virtual ~BloomTileState() {};
     virtual boost::shared_ptr<TileState> update( Tile & tile );
+		float rot;
 };
 
 class LeaveTileState : public TileState {

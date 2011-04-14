@@ -15,8 +15,27 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
+
+GLfloat no_mat[]			= { 0.0, 0.0, 0.0, 1.0 };
+GLfloat mat_ambient[]		= { 0.6, 0.3, 0.4, 1.0 };
+GLfloat mat_diffuse[]		= { 0.3, 0.5, 0.8, 1.0 };
+GLfloat mat_specular[]		= { 1.0, 1.0, 1.0, 1.0 };
+GLfloat mat_emission[]		= { 0.0, 0.1, 0.3, 0.0 };
+
+GLfloat mat_shininess[]		= { 128.0 };
+GLfloat no_shininess[]		= { 0.0 };
+
+
 class SeedClusterApp : public AppBasic {
   public:
+	
+	
+	bool DIFFUSE;
+	bool AMBIENT;
+	bool SPECULAR;
+	bool EMISSIVE;
+	float mDirectional;
+	
 	void prepareSettings( Settings *settings );
 	void setup();
 	void update();
@@ -35,6 +54,10 @@ class SeedClusterApp : public AppBasic {
 	void mouseMove( MouseEvent event );	
 	void mouseDrag( MouseEvent event );	
 
+	Vec2f			mMousePos;
+	bool mIsMouseDown;
+	
+	
     TileCluster cluster;
     Vec3f bloomColor;
     Matrix44f bloomTransform;
@@ -106,10 +129,10 @@ void SeedClusterApp::prepareSettings( Settings *settings )
 {
     Rand::randomize();
 
-    width = 800;
-    height = width * 0.866;
+    width = 1920;
+    height = 1080;
 	settings->setWindowSize( width, height );
-	settings->setFrameRate( 40.0f );
+	settings->setFrameRate( 60.0f );
     fovea = 75.0f;
     near = 5.0f;
     far = 50000.0f;
@@ -124,16 +147,22 @@ void SeedClusterApp::updateCamera()
 
 void SeedClusterApp::setup()
 {
-    background = Color( CM_HSV, Vec3f( 0.0f, 0.0f, 0.9f ) );
+    
+	DIFFUSE		= true;
+	AMBIENT		= false;
+	SPECULAR	= false;
+	EMISSIVE	= false;
+	
+	background = Color( CM_HSV, Vec3f( 0.0f, 0.0f, 0.9f ) );
     bloomColor = Vec3f( Rand::randFloat(), 0.4f, 1.0f );
     bloomTransform = Matrix44f() + randomMatrix44f( 0.04f, -0.02f );
 
     mouseIsDown = false;
     keyIsDown = false;
 
-    rotation.w = 0.0f;
-    // rotation.w = -0.74f;
-    eye = Vec3f( 0.0f, 0.0f, 1000.0f );
+    //rotation.w = 0.0f;
+    rotation.w = -0.74f;
+    eye = Vec3f( 0.0f, 0.0f, 3000.0f );
     towards = Vec3f::zero();
     up = Vec3f::yAxis();
 	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
@@ -166,7 +195,8 @@ void SeedClusterApp::keyUp( KeyEvent event )
 
 void SeedClusterApp::mouseDown( MouseEvent event )
 {
-    mouseIsDown = true;
+    mIsMouseDown = true;
+	mouseIsDown = true;
     bloomColor[2] = Rand::randFloat();
 
     // cluster.bloomPoint( mousePosition - centering, mouseVelocity, bloomColor );
@@ -176,12 +206,17 @@ void SeedClusterApp::mouseDown( MouseEvent event )
 void SeedClusterApp::mouseUp( MouseEvent event )
 {
     mouseIsDown = false;
+	mIsMouseDown = false;
 }
 
 void SeedClusterApp::mouseMove( MouseEvent event )
 {
     mouseVelocity = event.getPos() - mousePosition;
     mousePosition = event.getPos();
+	
+	mMousePos.x = event.getX() - getWindowWidth() * 0.5f;
+	mMousePos.y = getWindowHeight() * 0.5f - event.getY();
+	
 }
 
 void SeedClusterApp::mouseDrag( MouseEvent event )
@@ -192,10 +227,15 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
 
 void SeedClusterApp::update() 
 {
-    eye[2] += eye[2] * 0.0015f;
+    eye[2] += eye[2] * 0.00015f;
     // towards[0] += 1.0f;
     updateCamera();
-
+	
+	if( mIsMouseDown ) // using small number instead of 0.0 because lights go black after a few seconds when going to 0.0f
+		mDirectional -= ( mDirectional - 0.00001f ) * 0.1f;  
+	else 
+		mDirectional -= ( mDirectional - 1.0f ) * 0.1f;
+	
     gl::setMatrices( camera );
     gl::rotate( rotation );
     cluster.update(); 
@@ -203,6 +243,14 @@ void SeedClusterApp::update()
 
 void SeedClusterApp::draw()
 {
+
+	glEnable( GL_LIGHTING );
+	glEnable( GL_LIGHT0 );
+	
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	GLfloat light_position[] = { mMousePos.x, mMousePos.y, -175.0f, mDirectional };
+	glLightfv( GL_LIGHT0, GL_POSITION, light_position );
+	
 	gl::clear( background );
     cluster.draw();
 }

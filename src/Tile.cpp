@@ -5,6 +5,9 @@
 #include "cinder/Color.h"
 #include "cinder/CinderMath.h"
 #include "cinder/gl/gl.h"
+#include "cinder/gl/Texture.h"
+#include "cinder/Text.h"
+#include "cinder/Font.h"
 #include "TileState.h"
 #include "Tile.h"
 #include "TileCluster.h"
@@ -14,6 +17,8 @@ using namespace ci;
 using namespace std;
 
 #define TAU 6.2831853071795862f
+static const bool PREMULT = false;
+
 
 Tile::Tile( TileCluster & clust, int index, Vec2i grid, int row, int column, float z, Vec3f col )
     : cluster( clust ),
@@ -24,15 +29,29 @@ Tile::Tile( TileCluster & clust, int index, Vec2i grid, int row, int column, flo
       position( Vec3f( grid[0]*atomWidth, grid[1]*atomHeight, z ) ),
       box( Rectf( 0, 0, atomWidth*column, atomHeight*row ) ),
       color( col ),
-      velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
+      velocity( Vec3f( 0.0f, 10.0f, 1.0f ) ),
       alpha( 0.0f ),
 	  rotate(TAU*0.5f)
+
 {
-    for ( int l = 0; l < 4; l++ ) {
+	
+	cubeSize = Vec3f(Rand::randFloat(500) + 500,Rand::randFloat(1000) + 500,Rand::randFloat(20) + 40);
+
+	std::string boldFont( "Arial Bold" );
+	
+	// this does a complicated layout
+	TextLayout layout;
+	
+	layout.setFont( Font( boldFont, 1204 ) );
+	layout.setColor( Color( 0, 0, 0 ) );
+	layout.addLine( std::string( "JAY-Z, I Made It!" ) );
+	
+	for ( int l = 0; l < 4; l++ ) {
         liberties[l] = -1;
     }
 
     state = boost::shared_ptr<TileState>( new EnterTileState() );
+	
 }
 
 Tile::Tile( const Tile & rhs ) 
@@ -46,12 +65,13 @@ Tile::Tile( const Tile & rhs )
       color( rhs.color ),
       velocity( rhs.velocity ),
       alpha( rhs.alpha ),
-	  rotate( rhs.rotate )
+	  rotate( rhs.rotate ),
+	  cubeSize( rhs.cubeSize )
 {
-    for ( int l = 0; l < 4; l++ ) {
+    
+	for ( int l = 0; l < 4; l++ ) {
         liberties[l] = rhs.liberties[l];
     }
-
     state = rhs.state;
 }
 
@@ -67,13 +87,13 @@ Tile & Tile::operator=( const Tile & rhs )
     velocity = rhs.velocity;
     alpha = rhs.alpha;
 	rotate = rhs.rotate;
-
-    for ( int l = 0; l < 4; l++ ) {
+	cubeSize = rhs.cubeSize;
+	
+	for ( int l = 0; l < 4; l++ ) {
         liberties[l] = rhs.liberties[l];
     }
 
     state = rhs.state;
-
     return *this;
 }
 
@@ -99,6 +119,9 @@ void Tile::setRotation( float newRotation )
     rotate = newRotation;
 }
 
+
+
+
 bool Tile::branch()
 {
     int l = Rand::randInt( 4 );
@@ -109,7 +132,7 @@ bool Tile::branch()
         newColor[2] = Rand::randFloat();
         int row = Rand::randInt( 5 ) + 1;
         int column = Rand::randInt( 5 ) + 1;
-
+		
         switch( l )
             {
             case 0:
@@ -157,7 +180,11 @@ void Tile::draw()
 	gl::translate( position );
 	gl::rotate( rotate * (360.0f/TAU) );
 	gl::translate( Vec3f( columns*atomWidth*-0.5f, rows*atomHeight*-0.5f, 0.0f ) );
-		gl::translate( position );
-	gl::drawSolidRect( box );
-    gl::popModelView();
+	gl::translate( position );
+	gl::drawCube( position, cubeSize );
+//	gl::drawSolidRect( box);
+	gl::color( Color::white() );
+	
+	gl::popModelView();
+	
 }

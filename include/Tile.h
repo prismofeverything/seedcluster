@@ -21,13 +21,16 @@ class Tile {
     Tile( const Tile & rhs );
     Tile & operator=( const Tile & rhs );
 
-    void update();
+    void setup();
+	void update();
     void draw();
 
     void addAlpha( float variance );
 	void setAlpha( float newAlpha );
 	void setRotation( float newRotation );
 	void addRotation( float variance );
+	
+	
     bool branch();
 
     static const int atomWidth = 240;
@@ -37,6 +40,9 @@ class Tile {
 
     ci::Rectf box;
     ci::Vec3f position;
+	
+	ci::Vec3f cubeSize;
+	
     ci::Vec3f velocity;
     ci::Vec3f color;
   

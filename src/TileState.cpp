@@ -18,13 +18,12 @@ shared_ptr<TileState> TileState::update( Tile & tile )
 
 shared_ptr<TileState> EnterTileState::update( Tile & tile )
 {
-    if ( tile.alpha < 0.9 ) {
+    if ( tile.alpha < 0.8 ) {
         
-		tile.setAlpha( Expo::easeOut( time, 0.0f, 0.91f, 140.0f ) );
+		tile.setAlpha( Expo::easeOut( time, 0.0f, 0.81f, 140.0f ) );
 		time += 1.0f;
 		
-		tile.setRotation( Expo::easeOut( time, TAU*0.5f, TAU, 140.0f ) );
-		rot += 1.0f;
+		tile.setRotation( Expo::easeOut( time, TAU*0.5f, TAU, 360.0f ) );
 		
         return shared_from_this();
     } else {
