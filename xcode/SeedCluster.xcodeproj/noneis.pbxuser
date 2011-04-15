@@ -68,8 +68,8 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 324591656;
-			PBXWorkspaceStateSaveDate = 324591656;
+			PBXPerProjectTemplateStateSaveDate = 324596962;
+			PBXWorkspaceStateSaveDate = 324596962;
 		};
 		perUserProjectItems = {
 			5E29F7D713552A48009CCA0F = 5E29F7D713552A48009CCA0F /* PBXTextBookmark */;
@@ -87,8 +87,8 @@
 			5E5B19D71357B46D001A5ED2 = 5E5B19D71357B46D001A5ED2 /* PBXTextBookmark */;
 			5E5B1B451358CFFF001A5ED2 = 5E5B1B451358CFFF001A5ED2 /* PBXTextBookmark */;
 			5E5B1B461358CFFF001A5ED2 = 5E5B1B461358CFFF001A5ED2 /* PBXTextBookmark */;
-			5EE3CB571358E03A00933294 /* PBXTextBookmark */ = 5EE3CB571358E03A00933294 /* PBXTextBookmark */;
-			5EE3CB5A1358E03A00933294 /* PBXTextBookmark */ = 5EE3CB5A1358E03A00933294 /* PBXTextBookmark */;
+			5EE3CB571358E03A00933294 = 5EE3CB571358E03A00933294 /* PBXTextBookmark */;
+			5EE3CB5A1358E03A00933294 = 5EE3CB5A1358E03A00933294 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 5EFCAF8A1353D227008BB73A /* Source Control */;
 		userBuildSettings = {
@@ -170,7 +170,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 58;
-		modificationTime = 324591673.006546;
+		modificationTime = 324596972.736375;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -204,11 +204,6 @@
 		name = gl.h;
 		path = ../../Cinder/include/cinder/gl/gl.h;
 		sourceTree = "<group>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1769, 4199}}";
-			sepNavSelRange = "{11765, 13}";
-			sepNavVisRange = "{11310, 5996}";
-		};
 	};
 	5E29F85F1355311B009CCA0F /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

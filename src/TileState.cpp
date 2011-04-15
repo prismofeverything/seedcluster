@@ -3,6 +3,7 @@
 #include "boost/enable_shared_from_this.hpp"
 #include "Tile.h"
 #include "TileState.h"
+#include "penner/Elastic.h"
 #include "penner/Expo.h"
 
 
@@ -18,12 +19,12 @@ shared_ptr<TileState> TileState::update( Tile & tile )
 
 shared_ptr<TileState> EnterTileState::update( Tile & tile )
 {
-    if ( tile.alpha < 0.8 ) {
+    if ( tile.rotate < TAU-.001) {
         
 		tile.setAlpha( Expo::easeOut( time, 0.0f, 0.81f, 140.0f ) );
 		time += 1.0f;
 		
-		tile.setRotation( Expo::easeOut( time, TAU*0.5f, TAU, 360.0f ) );
+		tile.setRotation( Elastic::easeOut( time, TAU*0.5f, TAU, 360.0f ) );
 		
         return shared_from_this();
     } else {
