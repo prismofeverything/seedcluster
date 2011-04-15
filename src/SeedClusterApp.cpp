@@ -9,7 +9,9 @@
 #include "cinder/Cinder.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
-#include "OpenCV/cv.h"
+// #include "OpenCV/cv.h"
+// #include "OpenCV/highgui.h"
+#include "CinderOpenCv.h"
 #include "Fingertips.h"
 #include "Kinect.h"
 #include "TileCluster.h"
@@ -56,12 +58,12 @@ class SeedClusterApp : public AppBasic {
 
     // opencv
     cv::Mat1f depthz;
-//    std::shared_array<float> depthz;
 
     // kinect
 	Kinect kinect;
     bool kinectEnabled;
-	gl::Texture kinectDepthTexture;
+	gl::Texture depthTexture;
+    ci::Surface depthSurface;
     std::shared_ptr<uint16_t> kinectDepth;
 	float kinectTilt, kinectScale;
 	float XOff, mYOff;
@@ -152,7 +154,7 @@ void SeedClusterApp::setup()
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;
-        // kinectDepthTexture = gl::Texture( kinectWidth, kinectHeight );
+        depthTexture = gl::Texture( kinectWidth, kinectHeight );
         kinectColor = Vec3f( 0.0f, 0.0f, 1.0f );
     }
 
@@ -202,11 +204,16 @@ void SeedClusterApp::update()
 {
     if ( kinectEnabled ) {
         if( kinect.checkNewDepthFrame() ) {
-            // kinectDepthTexture = kinect.getDepthImage();
-            // kinectDepthTexture.setFlipped( true );
+            ImageSourceRef depthImage = kinect.getDepthImage();
+            depthSurface = depthImage;
+            depthTexture = depthImage;
+            // depthTexture.setFlipped( true );
             kinectDepth = kinect.getDepthData();
-            fingertips.unproject( kinectDepth.get(), NULL, NULL, (float *) depthz.data );
-            fingertips.detectFingertips( depthz, 0.0f, 100.0f );
+            cv::Mat input( toOcv( Channel8u( depthSurface ) ) );
+            fingertips.detectFingertips( input );
+
+            // fingertips.unproject( kinectDepth.get(), NULL, NULL, (float *) depthz.data );
+            // fingertips.detectFingertips( depthz );
         }
 
         if( kinectTilt != kinect.getTilt() ) {

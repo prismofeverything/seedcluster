@@ -2,7 +2,10 @@
 #include "cinder/Cinder.h"
 #include "cinder/Vector.h"
 #include "cinder/gl/gl.h"
-#include "OpenCV/cv.h"
+#include "cinder/gl/Texture.h"
+// #include "OpenCV/cv.h"
+// #include "OpenCV/highgui.h"
+#include "CinderOpenCv.h"
 #include "Fingertips.h"
 
 using namespace cv;
@@ -16,7 +19,8 @@ Fingertips::Fingertips()
     initialized = false;
 }
 
-void Fingertips::unproject( unsigned short* depth, float* x, float* y, float* z ) {
+void Fingertips::unproject( unsigned short* depth, float* x, float* y, float* z ) 
+{
     int u,v;
     const float f = 500.0f;
     const float u0 = 320.0f;
@@ -28,7 +32,7 @@ void Fingertips::unproject( unsigned short* depth, float* x, float* y, float* z 
     for ( int i=0; i<640*480; i++ ) {
         u = i % 640;
         v = i / 640;
-        zCurrent = 1.0f / ( -0.0307110156374373f * depth[i] + 3.33094951605675f );
+        zCurrent = 1.0f / ( -0.00307110156374373f * depth[i] + 3.33094951605675f );
         if ( z != NULL ) {
             z[i] = zCurrent;
         }
@@ -41,7 +45,8 @@ void Fingertips::unproject( unsigned short* depth, float* x, float* y, float* z 
     }
 }
 
-std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat1f z, float zMin, float zMax ) 
+    //std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat z, float zMin, float zMax ) 
+std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat z, int zMin, int zMax ) 
 { 
     // vector<Point2i> fingertips;
     handmask = z < zMax & z > zMin;
@@ -49,6 +54,7 @@ std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat1f z, float zMin, 
     contours.clear();
     curves.clear();
     hulls.clear();
+    field = z < -10000;
 
     // we are cloning here since method will destruct the image
     findContours( handmask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE ); 
@@ -107,36 +113,38 @@ void Fingertips::drawContours()
 {
     if ( initialized ) {
         for ( int i=0; i<contours.size(); i++ ) {
-            // Scalar center = mean( Mat( contours[i] ) );
-            // Point centerPoint = Point( center.val[0], center.val[1] );
+            Scalar center = mean( Mat( contours[i] ) );
+            Point centerPoint = Point( center.val[0], center.val[1] );
             vector<Point> contour = contours[i];
             vector<Point> curve = curves[i];
             vector<int> hull = hulls[i];
 
             // draw cutoff threshold
-            // cv::line( field, Point( center.val[0]-100, cutoff ), Point( center.val[0]+100, cutoff ), Scalar( 1.0f ) );
+            cv::line( field, Point( center.val[0]-100, cutoff ), Point( center.val[0]+100, cutoff ), Scalar( 1.0f ) );
 
             int last = contour.size();
             for ( int j=0; j<last; j++ ) {
-                // cv::circle( field, contour[j], 10, Scalar( 1.0f ) );
-                ci::Vec2f jnow( contour[j].x, contour[j].y );
-                ci::Vec2f jprev( contour[(j-1) % last].x, contour[(j-1) % last].y );
+                cv::circle( field, contour[j], 10, Scalar( 1.0f ) );
+                cv::line( field, contour[j], contour[(j-1)%last], Scalar( 1.0f ) );
 
-                gl::drawSolidCircle( jnow, 10.0f );
-                gl::drawLine( jnow, jprev );
-                // cv::line( field, contour[j], contour[j-1], Scalar( 1.0f ) );
+                // ci::Vec2f jnow( contour[j].x, contour[j].y );
+                // ci::Vec2f jprev( contour[(j-1) % last].x, contour[(j-1) % last].y );
+
+                // gl::drawSolidCircle( jnow, 10.0f );
+                // gl::drawLine( jnow, jprev );
             }
 
-            // int last = curve.size();
-            // for ( int j=0; j<last; j++ ) {
-            //     // cv::circle( field, curve[j], 10, Scalar( 1.0f ) );
-            //     ci::Vec2f jnow( curve[j].x, curve[j].y );
-            //     ci::Vec2f jprev( curve[(j-1) % last].x, curve[(j-1) % last].y );
+            last = curve.size();
+            for ( int j=0; j<last; j++ ) {
+                cv::circle( field, curve[j], 10, Scalar( 1.0f ) );
+                cv::line( field, curve[j], curve[j-1], Scalar( 1.0f ) );
 
-            //     gl::drawSolidCircle( jnow, 10.0f );
-            //     gl::drawLine( jnow, jprev );
-            //     // cv::line( field, curve[j], curve[j-1], Scalar( 1.0f ) );
-            // }
+                // ci::Vec2f jnow( curve[j].x, curve[j].y );
+                // ci::Vec2f jprev( curve[(j-1) % last].x, curve[(j-1) % last].y );
+
+                // gl::drawSolidCircle( jnow, 10.0f );
+                // gl::drawLine( jnow, jprev );
+            }
 
             // int last = hull.size();
             // for ( int j=0; j<last; j++ ) {
@@ -165,14 +173,15 @@ void Fingertips::drawContours()
 void Fingertips::drawFingertips()
 {
     for( vector<Point2i>::iterator it = fingertips.begin(); it != fingertips.end(); it++ ) {
-        gl::drawSolidCircle( ci::Vec2f( it->x, it->y ), 10.0f );
-        //        cv::circle( field, (*it), 10, Scalar( 1.0f ), -1 );
+        // gl::drawSolidCircle( ci::Vec2f( it->x, it->y ), 10.0f );
+        cv::circle( field, (*it), 10, Scalar( 1.0f ), -1 );
     }                   
 }
 
 void Fingertips::drawField()
 {
-    
+    gl::Texture fieldTexture( fromOcv( field ) );
+    gl::draw( fieldTexture );
 }
 
 

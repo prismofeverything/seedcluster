@@ -75,7 +75,6 @@
 		4003D41E134F8ECA0058C709 /* TileCluster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileCluster.cpp; path = ../src/TileCluster.cpp; sourceTree = SOURCE_ROOT; };
 		404C21751356BE8200C92A6F /* Fingertips.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fingertips.h; path = ../include/Fingertips.h; sourceTree = SOURCE_ROOT; };
 		404C21761356BE9300C92A6F /* Fingertips.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Fingertips.cpp; path = ../src/Fingertips.cpp; sourceTree = SOURCE_ROOT; };
-		404C22141356DC7000C92A6F /* libopencv_core.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.dylib; path = /usr/local/lib/libopencv_core.dylib; sourceTree = "<absolute>"; };
 		404C22281356EE4C00C92A6F /* libcv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcv.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcv.a; sourceTree = SOURCE_ROOT; };
 		404C22291356EE4C00C92A6F /* libcvaux.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcvaux.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcvaux.a; sourceTree = SOURCE_ROOT; };
 		404C222A1356EE4C00C92A6F /* libcvhaartraining.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcvhaartraining.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcvhaartraining.a; sourceTree = SOURCE_ROOT; };
@@ -204,7 +203,6 @@
 				404C222B1356EE4C00C92A6F /* libcxcore.a */,
 				404C222C1356EE4C00C92A6F /* libhighgui.a */,
 				404C222D1356EE4C00C92A6F /* libml.a */,
-				404C22141356DC7000C92A6F /* libopencv_core.dylib */,
 				29B97315FDCFA39411CA2CEA /* Headers */,
 				080E96DDFE201D6D7F000001 /* Source */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
