@@ -236,9 +236,10 @@ void SeedClusterApp::draw()
     cluster.draw();
     Vec3f center;
 
-    glColor4f( 1.0f, 0.2f, 0.5f, 1.0f );
     fingertips.drawContours();
+    glColor4f( 0.2f, 0.5f, 1.0f, 1.0f );
     fingertips.drawFingertips();
+    glColor4f( 1.0f, 0.2f, 0.5f, 1.0f );
     fingertips.drawField();
 
     // for ( std::vector<cv::Point2i>::iterator it = fingertips.fingertips.begin(); it < fingertips.fingertips.end(); it++ ) {

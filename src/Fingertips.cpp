@@ -10,6 +10,8 @@ using namespace cv;
 using namespace std;
 using namespace cinder;
 
+#define TAU 6.2831853071795862f
+
 namespace ix {
 
 Fingertips::Fingertips()
@@ -57,6 +59,7 @@ std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat z, int zMin, int 
                     int pdx = idx == 0 ? approxCurve.size() - 1 : idx - 1; //  predecessor of idx
                     int sdx = idx == approxCurve.size() - 1 ? 0 : idx + 1; // successor of idx
 
+                    // Point v1 = approxCurve[sdx] - approxCurve[idx];
                     Point v1 = approxCurve[sdx] - approxCurve[idx];
                     Point v2 = approxCurve[pdx] - approxCurve[idx];
 
