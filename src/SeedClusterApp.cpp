@@ -1,3 +1,4 @@
+#include <iostream>
 #include "cinder/app/AppBasic.h"
 #include "cinder/Rand.h"
 #include "cinder/Vector.h"
@@ -8,7 +9,8 @@
 #include "cinder/Cinder.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
-#include <cv.h>
+#include "OpenCV/cv.h"
+#include "Fingertips.h"
 #include "Kinect.h"
 #include "TileCluster.h"
 
@@ -24,8 +26,8 @@ class SeedClusterApp : public AppBasic {
 	void draw();
 
     Vec3f randomVec3f();
-    Matrix44f randomMatrix44f( float scale = 1.0f, float offset = 0.0f );
     Color randomColor();
+    Matrix44f randomMatrix44f( float scale = 1.0f, float offset = 0.0f );
 
     void updateCamera();
 
@@ -38,7 +40,6 @@ class SeedClusterApp : public AppBasic {
 
     TileCluster cluster;
     Vec3f bloomColor;
-    Matrix44f bloomTransform;
 
     // viewport
     CameraPersp camera;
@@ -53,6 +54,10 @@ class SeedClusterApp : public AppBasic {
     int width;
     int height;
 
+    // opencv
+    cv::Mat1f depthz;
+//    std::shared_array<float> depthz;
+
     // kinect
 	Kinect kinect;
     bool kinectEnabled;
@@ -62,6 +67,8 @@ class SeedClusterApp : public AppBasic {
 	float XOff, mYOff;
     int kinectWidth, kinectHeight;
     Vec3f kinectColor;
+
+    ix::Fingertips fingertips;
 
     // input
     char key;
@@ -127,17 +134,17 @@ void SeedClusterApp::setup()
 {
     background = Color( CM_HSV, Vec3f( 0.0f, 0.0f, 0.9f ) );
     bloomColor = Vec3f( Rand::randFloat(), 0.4f, 1.0f );
-    bloomTransform = Matrix44f() + randomMatrix44f( 0.04f, -0.02f );
 
     mouseIsDown = false;
     keyIsDown = false;
 
     rotation.w = 0.0f;
-    // rotation.w = -0.74f;
     eye = Vec3f( 0.0f, 0.0f, 1000.0f );
     towards = Vec3f::zero();
     up = Vec3f::yAxis();
 	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
+
+    depthz = cv::Mat1f( 480, 640 );
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
@@ -145,7 +152,7 @@ void SeedClusterApp::setup()
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;
-        kinectDepthTexture = gl::Texture( kinectWidth, kinectHeight );
+        // kinectDepthTexture = gl::Texture( kinectWidth, kinectHeight );
         kinectColor = Vec3f( 0.0f, 0.0f, 1.0f );
     }
 
@@ -195,9 +202,11 @@ void SeedClusterApp::update()
 {
     if ( kinectEnabled ) {
         if( kinect.checkNewDepthFrame() ) {
-            // kinectDepth = kinect.getDepthData();
-            kinectDepthTexture = kinect.getDepthImage();
-            kinectDepthTexture.setFlipped(true);
+            // kinectDepthTexture = kinect.getDepthImage();
+            // kinectDepthTexture.setFlipped( true );
+            kinectDepth = kinect.getDepthData();
+            fingertips.unproject( kinectDepth.get(), NULL, NULL, (float *) depthz.data );
+            fingertips.detectFingertips( depthz, 0.0f, 100.0f );
         }
 
         if( kinectTilt != kinect.getTilt() ) {
@@ -205,19 +214,31 @@ void SeedClusterApp::update()
         }
     }
 
-    eye[2] += eye[2] * 0.0035f;
+    // eye[2] += eye[2] * 0.0035f;
     // towards[0] += 1.0f;
     updateCamera();
 
     gl::setMatrices( camera );
     gl::rotate( rotation );
-    cluster.update(); 
+    cluster.update();
 }
 
 void SeedClusterApp::draw()
 {
 	gl::clear( background );
     cluster.draw();
+    Vec3f center;
+
+    glColor4f( 1.0f, 0.2f, 0.5f, 1.0f );
+    fingertips.drawContours();
+    fingertips.drawFingertips();
+    fingertips.drawField();
+
+    // for ( std::vector<cv::Point2i>::iterator it = fingertips.fingertips.begin(); it < fingertips.fingertips.end(); it++ ) {
+    //     center = Vec3f( it->x - 320, it->y - 240, 0.0f );
+    //     // towards += center * 0.01;
+    //     gl::drawSphere( center, 50.0f );
+    // }
 }
 
 
