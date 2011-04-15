@@ -29,7 +29,7 @@ Tile::Tile( TileCluster & clust, int index, Vec2i grid, int row, int column, flo
       position( Vec3f( grid[0]*atomWidth, grid[1]*atomHeight, z ) ),
       box( Rectf( 0, 0, atomWidth*column, atomHeight*row ) ),
       color( col ),
-      velocity( Vec3f( 0.0f, 10.0f, 1.0f ) ),
+      velocity( Vec3f( 0.0f, 30.0f, 1.0f ) ),
       alpha( 0.0f ),
 	  rotate(TAU*0.5f)
 
