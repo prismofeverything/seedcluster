@@ -2,7 +2,6 @@
 #include "cinder/Cinder.h"
 #include "cinder/gl/gl.h"
 #include "cinder/Surface.h"
-// #include "OpenCV/cv.h"
 #include "CinderOpenCv.h"
 
 namespace ix {
@@ -12,8 +11,7 @@ class Fingertips
 public:
     Fingertips();
     void unproject( unsigned short* depth, float* x, float* y, float* z );
-    // std::vector<cv::Point2i> detectFingertips( cv::Mat1f z, float zMin=0.0f, float zMax=0.75f );
-    std::vector<cv::Point2i> detectFingertips( cv::Mat z, int zMin=0, int zMax=1000 );
+    std::vector<cv::Point2i> detectFingertips( cv::Mat z, int zMin=180, int zMax=255 );
     void drawContours();
     void drawFingertips();
     void drawField();
@@ -29,6 +27,7 @@ public:
 
     ci::Surface surface;
     float cutoff;
+    cv::Scalar fieldMean;
 };
 
 } // namespace ix
