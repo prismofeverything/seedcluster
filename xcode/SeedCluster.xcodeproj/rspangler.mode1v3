@@ -321,7 +321,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Fingertips.cpp</string>
+								<string>cxoperations.hpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -329,11 +329,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Fingertips.cpp</string>
+										<string>cxoperations.hpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>404C24701358203F00C92A6F</string>
+										<string>404C24B813582A4C00C92A6F</string>
 										<key>history</key>
 										<array>
 											<string>4003D403134F86C30058C709</string>
@@ -346,9 +346,9 @@
 											<string>40620BCE135642AA00881359</string>
 											<string>404C230E1357B53D00C92A6F</string>
 											<string>404C23271357B91C00C92A6F</string>
-											<string>404C238E1357C4BA00C92A6F</string>
 											<string>404C244F135815BD00C92A6F</string>
-											<string>404C2450135815BD00C92A6F</string>
+											<string>404C2492135827E900C92A6F</string>
+											<string>404C2493135827E900C92A6F</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -546,14 +546,14 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>404C24711358203F00C92A6F</string>
+		<string>404C24B913582A4C00C92A6F</string>
 		<string>404C223D1356EF4900C92A6F</string>
 		<string>404C223E1356EF4900C92A6F</string>
 		<string>404C21911356C1BF00C92A6F</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>4003D382134F80970058C709</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/rspangler/Projects/SeedCluster/xcode/SeedCluster.xcodeproj</string>
+		<string>4003D382134F80970058C709</string>
 	</array>
 	<key>WindowString</key>
 	<string>59 402 1208 752 0 0 1920 1178 </string>
@@ -648,7 +648,7 @@
 			<key>WindowToolGUID</key>
 			<string>4003D382134F80970058C709</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

@@ -10,8 +10,7 @@ class Fingertips
 {
 public:
     Fingertips();
-    void unproject( unsigned short* depth, float* x, float* y, float* z );
-    std::vector<cv::Point2i> detectFingertips( cv::Mat z, int zMin=180, int zMax=255 );
+    std::vector<cv::Point2i> detectFingertips( cv::Mat z, int zMin=100, int zMax=255 );
     void drawContours();
     void drawFingertips();
     void drawField();
@@ -25,8 +24,8 @@ public:
     std::vector< std::vector< cv::Point > > curves;
     std::vector< std::vector< int > > hulls;
 
-    ci::Surface surface;
     float cutoff;
+    ci::Surface surface;
     cv::Scalar fieldMean;
 };
 

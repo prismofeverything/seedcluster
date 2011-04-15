@@ -17,32 +17,6 @@ Fingertips::Fingertips()
     initialized = false;
 }
 
-void Fingertips::unproject( unsigned short* depth, float* x, float* y, float* z ) 
-{
-    int u,v;
-    const float f = 500.0f;
-    const float u0 = 320.0f;
-    const float v0 = 240.0f;
-    float zCurrent;
-
-    // TODO calibration
-
-    for ( int i=0; i<640*480; i++ ) {
-        u = i % 640;
-        v = i / 640;
-        zCurrent = 1.0f / ( -0.00307110156374373f * depth[i] + 3.33094951605675f );
-        if ( z != NULL ) {
-            z[i] = zCurrent;
-        }
-        if ( x != NULL ) {
-            x[i] = ( u - u0 ) * zCurrent / f;
-        }
-        if ( y != NULL ) {
-            y[i] = ( v - v0 ) * zCurrent / f;
-        }
-    }
-}
-
 std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat z, int zMin, int zMax ) 
 { 
     handmask = z < zMax & z > zMin;
@@ -50,7 +24,7 @@ std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat z, int zMin, int 
     contours.clear();
     curves.clear();
     hulls.clear();
-    field = z < -10000;
+    field = z < -1;
 
     findContours( handmask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE ); 
     if ( contours.size() ) {
@@ -114,42 +88,44 @@ void Fingertips::drawContours()
             vector<Point> curve = curves[i];
             vector<int> hull = hulls[i];
 
-            // draw cutoff threshold
-            cv::line( field, Point( center.val[0]-100, cutoff ), Point( center.val[0]+100, cutoff ), Scalar( 254.0f ) );
+            // // draw cutoff threshold
+            // cv::line( field, Point( center.val[0]-100, cutoff ), Point( center.val[0]+100, cutoff ), Scalar( 254.0f ) );
 
             int last = contour.size();
             for ( int j=0; j<last; j++ ) {
                 cv::circle( field, contour[j], 10, Scalar( 254.0f ) );
                 cv::line( field, contour[j], contour[(j-1)%last], Scalar( 254.0f ) );
 
-                ci::Vec2f jnow( contour[j].x, contour[j].y );
-                ci::Vec2f jprev( contour[(j-1) % last].x, contour[(j-1) % last].y );
+                // ci::Vec2f jnow( contour[j].x, contour[j].y );
+                // ci::Vec2f jprev( contour[(j-1) % last].x, contour[(j-1) % last].y );
 
-                gl::drawSolidCircle( jnow, 10.0f );
-                gl::drawLine( jnow, jprev );
+                // gl::drawSolidCircle( jnow, 10.0f );
+                // gl::drawLine( jnow, jprev );
             }
 
             last = curve.size();
             for ( int j=0; j<last; j++ ) {
                 cv::circle( field, curve[j], 10, Scalar( 254.0f ) );
-                cv::line( field, curve[j], curve[j-1], Scalar( 254.0f ) );
+                cv::line( field, curve[j], curve[(j-1)%last], Scalar( 254.0f ) );
 
-                ci::Vec2f jnow( curve[j].x, curve[j].y );
-                ci::Vec2f jprev( curve[(j-1) % last].x, curve[(j-1) % last].y );
+                // ci::Vec2f jnow( curve[j].x, curve[j].y );
+                // ci::Vec2f jprev( curve[(j-1) % last].x, curve[(j-1) % last].y );
 
-                gl::drawSolidCircle( jnow, 10.0f );
-                gl::drawLine( jnow, jprev );
+                // gl::drawSolidCircle( jnow, 10.0f );
+                // gl::drawLine( jnow, jprev );
             }
 
-            // int last = hull.size();
+            // last = hull.size();
             // for ( int j=0; j<last; j++ ) {
-            //     // cv::circle( field, hull[j], 10, Scalar( 254.0f ) );
-            //     ci::Vec2f jnow( curve[hull[j]].x, curve[hull[j]].y );
-            //     ci::Vec2f jprev( curve[hull[(j-1) % last]].x, curve[hull[(j-1) % last]].y );
+            //     if ( hull[j] < curve.size() && hull[(j-1)%last] < curve.size() ) {
+            //     cv::circle( field, curve[hull[j]], 10, Scalar( 254.0f ) );
+            //     cv::line( field, curve[hull[j]], curve[hull[(j-1)%last]], Scalar( 254.0f ) );
+            //     }
+            //     // ci::Vec2f jnow( curve[hull[j]].x, curve[hull[j]].y );
+            //     // ci::Vec2f jprev( curve[hull[(j-1) % last]].x, curve[hull[(j-1) % last]].y );
 
-            //     gl::drawSolidCircle( jnow, 10.0f );
-            //     gl::drawLine( jnow, jprev );
-            //     // cv::line( field, hull[j], hull[j-1], Scalar( 254.0f ) );
+            //     // gl::drawSolidCircle( jnow, 10.0f );
+            //     // gl::drawLine( jnow, jprev );
             // }
 
             // draw curve hull

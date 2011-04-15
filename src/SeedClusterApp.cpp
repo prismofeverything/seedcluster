@@ -141,7 +141,7 @@ void SeedClusterApp::setup()
     keyIsDown = false;
 
     rotation.w = 0.0f;
-    eye = Vec3f( 320.0f, -240.0f, 500.0f );
+    eye = Vec3f( 320.0f, -240.0f, -500.0f );
     towards = Vec3f( 320.0f, -240.0f, 0.0f );
     up = Vec3f::yAxis();
 	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
