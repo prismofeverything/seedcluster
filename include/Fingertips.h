@@ -6,11 +6,26 @@
 
 namespace ix {
 
+class Hand
+{
+ public:
+    Hand();
+    void drawFingertips();
+
+    cv::Point center;
+    double area;
+    std::vector<cv::Point> fingertips;
+    std::vector<cv::Point> contour;
+    std::vector<cv::Point> approx;
+    std::vector<int> hull;
+};
+
 class Fingertips
 {
-public:
+ public:
     Fingertips();
     std::vector<cv::Point2i> detectFingertips( cv::Mat z, int zMin=100, int zMax=255 );
+    std::vector<Hand> detectHands( cv::Mat z, int zMin=100, int zMax=255 );
     void drawContours();
     void drawFingertips();
     void drawField();
@@ -19,14 +34,14 @@ public:
 
     cv::Mat field;
     cv::Mat handmask;
-    std::vector< cv::Point2i > fingertips;
-    std::vector< std::vector< cv::Point > > contours;
-    std::vector< std::vector< cv::Point > > curves;
-    std::vector< std::vector< int > > hulls;
+    std::vector<Hand> hands;
+    std::vector<cv::Point> fingertips;
+    std::vector<std::vector<cv::Point> > contours;
+    std::vector<std::vector<cv::Point> > curves;
+    std::vector<std::vector<int> > hulls;
 
     float cutoff;
     ci::Surface surface;
-    cv::Scalar fieldMean;
 };
 
 } // namespace ix

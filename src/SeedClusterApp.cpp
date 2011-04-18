@@ -9,8 +9,6 @@
 #include "cinder/Cinder.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
-// #include "OpenCV/cv.h"
-// #include "OpenCV/highgui.h"
 #include "CinderOpenCv.h"
 #include "Fingertips.h"
 #include "Kinect.h"
@@ -30,7 +28,9 @@ class SeedClusterApp : public AppBasic {
     Vec3f randomVec3f();
     Color randomColor();
     Matrix44f randomMatrix44f( float scale = 1.0f, float offset = 0.0f );
+    void setColor( Vec3f color, float alpha );
 
+    void drawMat( cv::Mat & mat );
     void updateCamera();
 
 	void keyDown( KeyEvent event );	
@@ -57,7 +57,7 @@ class SeedClusterApp : public AppBasic {
     int height;
 
     // opencv
-    cv::Mat1f depthz;
+    cv::Mat depth;
 
     // kinect
 	Kinect kinect;
@@ -71,6 +71,8 @@ class SeedClusterApp : public AppBasic {
     Vec3f kinectColor;
 
     ix::Fingertips fingertips;
+    std::vector<ix::Hand> hands;
+    std::vector<float> hues;
 
     // input
     char key;
@@ -112,6 +114,12 @@ Color SeedClusterApp::randomColor()
     return Color( CM_HSV, randomVec3f() );
 }
 
+void SeedClusterApp::setColor( ci::Vec3f color, float alpha )
+{
+    Color hsv( CM_HSV, color );
+    glColor4f( hsv.r, hsv.g, hsv.b, alpha );
+}
+
 void SeedClusterApp::prepareSettings( Settings *settings )
 {
     Rand::randomize();
@@ -146,7 +154,9 @@ void SeedClusterApp::setup()
     up = Vec3f::yAxis();
 	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
 
-    depthz = cv::Mat1f( 480, 640 );
+    for ( int hue = 0; hue < 20; hue++ ) {
+        hues.push_back( Rand::randFloat() );
+    }
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
@@ -207,13 +217,10 @@ void SeedClusterApp::update()
             ImageSourceRef depthImage = kinect.getDepthImage();
             depthSurface = depthImage;
             depthTexture = depthImage;
-            // depthTexture.setFlipped( true );
             kinectDepth = kinect.getDepthData();
-            cv::Mat input( toOcv( Channel8u( depthSurface ) ) );
-            fingertips.detectFingertips( input );
-
-            // fingertips.unproject( kinectDepth.get(), NULL, NULL, (float *) depthz.data );
-            // fingertips.detectFingertips( depthz );
+            depth = toOcv( Channel8u( depthSurface ) );
+            cv::dilate( depth, depth, cv::Mat() );
+            hands = fingertips.detectHands( depth, 180, 255 );
         }
 
         if( kinectTilt != kinect.getTilt() ) {
@@ -230,23 +237,36 @@ void SeedClusterApp::update()
     cluster.update();
 }
 
+void SeedClusterApp::drawMat( cv::Mat & mat ) 
+{
+    gl::Texture texture( fromOcv( mat ) );
+    gl::draw( texture );
+}
+
 void SeedClusterApp::draw()
 {
 	gl::clear( background );
     cluster.draw();
     Vec3f center;
 
-    fingertips.drawContours();
-    glColor4f( 0.2f, 0.5f, 1.0f, 1.0f );
-    fingertips.drawFingertips();
-    glColor4f( 1.0f, 0.2f, 0.5f, 1.0f );
-    fingertips.drawField();
+    // gl::pushModelView();
+    // gl::translate( Vec3f( 0.0f, 0.0f, -5.0f ) );
+    // glColor4f( 0.4f, 0.5f, 0.4f, 1.0f );
+    // drawMat( depth );
+    // gl::popModelView();
 
-    // for ( std::vector<cv::Point2i>::iterator it = fingertips.fingertips.begin(); it < fingertips.fingertips.end(); it++ ) {
-    //     center = Vec3f( it->x - 320, it->y - 240, 0.0f );
-    //     // towards += center * 0.01;
-    //     gl::drawSphere( center, 50.0f );
-    // }
+    int hue = 1;
+    for ( std::vector<ix::Hand>::iterator it = hands.begin(); it < hands.end(); it++ ) {
+        setColor( Vec3f( hues[hue], 0.5f, 0.7f ), 1.0f );
+        gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
+
+        setColor( Vec3f( hues[hue], 0.5f, 1.0f ), 1.0f );
+        it->drawFingertips();
+        hue++;
+    }
+
+    setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
+    fingertips.drawField();
 }
 
 
