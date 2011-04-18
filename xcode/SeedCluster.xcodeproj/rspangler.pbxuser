@@ -2,9 +2,9 @@
 {
 	00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {939, 3289}}";
-			sepNavSelRange = "{5137, 0}";
-			sepNavVisRange = "{5870, 566}";
+			sepNavIntBoundsRect = "{{0, 0}, {896, 3523}}";
+			sepNavSelRange = "{6967, 0}";
+			sepNavVisRange = "{5587, 912}";
 			sepNavWindowFrame = "{{15, 620}, {750, 558}}";
 		};
 	};
@@ -85,19 +85,19 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 324689112;
-			PBXWorkspaceStateSaveDate = 324689112;
+			PBXPerProjectTemplateStateSaveDate = 324836650;
+			PBXWorkspaceStateSaveDate = 324836650;
 		};
 		perUserProjectItems = {
 			4003D403134F86C30058C709 = 4003D403134F86C30058C709 /* PlistBookmark */;
 			4003D404134F86C30058C709 = 4003D404134F86C30058C709 /* PBXTextBookmark */;
-			4005690113591C3B0083531C = 4005690113591C3B0083531C /* PBXTextBookmark */;
 			404C230E1357B53D00C92A6F = 404C230E1357B53D00C92A6F /* PBXTextBookmark */;
 			404C23271357B91C00C92A6F = 404C23271357B91C00C92A6F /* PBXTextBookmark */;
-			404C244F135815BD00C92A6F = 404C244F135815BD00C92A6F /* PBXTextBookmark */;
 			404C2492135827E900C92A6F = 404C2492135827E900C92A6F /* PBXTextBookmark */;
-			404C24D713583B9400C92A6F = 404C24D713583B9400C92A6F /* PBXTextBookmark */;
 			40620BCE135642AA00881359 = 40620BCE135642AA00881359 /* PBXTextBookmark */;
+			4073B376135C6B0200BC9EA1 = 4073B376135C6B0200BC9EA1 /* PBXTextBookmark */;
+			4073B377135C6B0200BC9EA1 = 4073B377135C6B0200BC9EA1 /* PBXTextBookmark */;
+			4073B378135C6B0200BC9EA1 = 4073B378135C6B0200BC9EA1 /* PBXTextBookmark */;
 			407B87CF1350FFDC0069D7B7 = 407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */;
 			407B89041352F9590069D7B7 = 407B89041352F9590069D7B7 /* PBXTextBookmark */;
 			407B890A1352F9F90069D7B7 = 407B890A1352F9F90069D7B7 /* PBXTextBookmark */;
@@ -221,16 +221,6 @@
 			sepNavWindowFrame = "{{153, 489}, {750, 558}}";
 		};
 	};
-	4005690113591C3B0083531C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 4005690213591C3B0083531C /* cxoperations.hpp */;
-		name = "cxoperations.hpp: 591";
-		rLen = 0;
-		rLoc = 20063;
-		rType = 0;
-		vrLen = 1087;
-		vrLoc = 19589;
-	};
 	4005690213591C3B0083531C /* cxoperations.hpp */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.cpp.h;
@@ -239,6 +229,12 @@
 		sourceTree = "<absolute>";
 	};
 	404C21751356BE8200C92A6F /* Fingertips.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = Fingertips.h;
+		path = /Users/rspangler/Projects/SeedCluster/include/Fingertips.h;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {939, 377}}";
 			sepNavSelRange = "{664, 0}";
@@ -247,6 +243,12 @@
 		};
 	};
 	404C21761356BE9300C92A6F /* Fingertips.cpp */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = Fingertips.cpp;
+		path = /Users/rspangler/Projects/SeedCluster/src/Fingertips.cpp;
+		sourceTree = "<absolute>";
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {915, 2249}}";
 			sepNavSelRange = "{6038, 0}";
@@ -317,16 +319,6 @@
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
-	404C244F135815BD00C92A6F /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */;
-		name = "SeedClusterApp.cpp: 207";
-		rLen = 0;
-		rLoc = 5137;
-		rType = 0;
-		vrLen = 566;
-		vrLoc = 5870;
-	};
 	404C2492135827E900C92A6F /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 404C21761356BE9300C92A6F /* Fingertips.cpp */;
@@ -337,23 +329,6 @@
 		vrLen = 1010;
 		vrLoc = 2901;
 	};
-	404C24D713583B9400C92A6F /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 404C24D813583B9400C92A6F /* cxoperations.hpp */;
-		name = "cxoperations.hpp: 591";
-		rLen = 0;
-		rLoc = 20063;
-		rType = 0;
-		vrLen = 1126;
-		vrLoc = 19589;
-	};
-	404C24D813583B9400C92A6F /* cxoperations.hpp */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.cpp.h;
-		name = cxoperations.hpp;
-		path = /Users/rspangler/Projects/Cinder/blocks/opencv/include/OpenCV/cxoperations.hpp;
-		sourceTree = "<absolute>";
-	};
 	40620BCE135642AA00881359 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 4003D41B134F8EB80058C709 /* Tile.h */;
@@ -363,6 +338,40 @@
 		rType = 0;
 		vrLen = 229;
 		vrLoc = 141;
+	};
+	4073B376135C6B0200BC9EA1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */;
+		name = "SeedClusterApp.cpp: 262";
+		rLen = 0;
+		rLoc = 6590;
+		rType = 0;
+		vrLen = 498;
+		vrLoc = 5239;
+	};
+	4073B377135C6B0200BC9EA1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4005690213591C3B0083531C /* cxoperations.hpp */;
+		rLen = 0;
+		rLoc = 590;
+		rType = 1;
+	};
+	4073B378135C6B0200BC9EA1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4073B379135C6B0200BC9EA1 /* cxoperations.hpp */;
+		name = "cxoperations.hpp: 591";
+		rLen = 0;
+		rLoc = 20063;
+		rType = 0;
+		vrLen = 1070;
+		vrLoc = 19644;
+	};
+	4073B379135C6B0200BC9EA1 /* cxoperations.hpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.h;
+		name = cxoperations.hpp;
+		path = /Users/rspangler/Projects/Cinder/blocks/opencv/include/OpenCV/cxoperations.hpp;
+		sourceTree = "<absolute>";
 	};
 	407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
