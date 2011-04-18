@@ -124,10 +124,10 @@ void SeedClusterApp::prepareSettings( Settings *settings )
 {
     Rand::randomize();
 
-    width = 800;
-    height = width * 0.866;
+    width = 1920;
+    height = 1080;
 	settings->setWindowSize( width, height );
-	settings->setFrameRate( 40.0f );
+	settings->setFrameRate( 60.0f );
     fovea = 75.0f;
     near = 5.0f;
     far = 50000.0f;
@@ -160,7 +160,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 0.0f;
+        kinectTilt = 50.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;
