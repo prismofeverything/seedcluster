@@ -23,7 +23,7 @@
 		4003D3EC134F86300058C709 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		4003D41F134F8ECA0058C709 /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */; };
 		4003D420134F8ECA0058C709 /* TileCluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4003D41E134F8ECA0058C709 /* TileCluster.cpp */; };
-		404C21771356BE9300C92A6F /* Fingertips.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 404C21761356BE9300C92A6F /* Fingertips.cpp */; };
+		403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */; };
 		404C222E1356EE4C00C92A6F /* libcv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C22281356EE4C00C92A6F /* libcv.a */; };
 		404C222F1356EE4C00C92A6F /* libcvaux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C22291356EE4C00C92A6F /* libcvaux.a */; };
 		404C22301356EE4C00C92A6F /* libcvhaartraining.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C222A1356EE4C00C92A6F /* libcvhaartraining.a */; };
@@ -73,8 +73,8 @@
 		4003D41C134F8EB80058C709 /* TileCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileCluster.h; path = ../include/TileCluster.h; sourceTree = SOURCE_ROOT; };
 		4003D41D134F8ECA0058C709 /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tile.cpp; path = ../src/Tile.cpp; sourceTree = SOURCE_ROOT; };
 		4003D41E134F8ECA0058C709 /* TileCluster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileCluster.cpp; path = ../src/TileCluster.cpp; sourceTree = SOURCE_ROOT; };
-		404C21751356BE8200C92A6F /* Fingertips.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fingertips.h; path = ../include/Fingertips.h; sourceTree = SOURCE_ROOT; };
-		404C21761356BE9300C92A6F /* Fingertips.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Fingertips.cpp; path = ../src/Fingertips.cpp; sourceTree = SOURCE_ROOT; };
+		403BD98B135CA7730071B047 /* HandTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandTracker.h; path = ../include/HandTracker.h; sourceTree = SOURCE_ROOT; };
+		403BD98C135CA7810071B047 /* HandTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HandTracker.cpp; path = ../src/HandTracker.cpp; sourceTree = SOURCE_ROOT; };
 		404C22281356EE4C00C92A6F /* libcv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcv.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcv.a; sourceTree = SOURCE_ROOT; };
 		404C22291356EE4C00C92A6F /* libcvaux.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcvaux.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcvaux.a; sourceTree = SOURCE_ROOT; };
 		404C222A1356EE4C00C92A6F /* libcvhaartraining.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcvhaartraining.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcvhaartraining.a; sourceTree = SOURCE_ROOT; };
@@ -147,7 +147,7 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				404C21761356BE9300C92A6F /* Fingertips.cpp */,
+				403BD98C135CA7810071B047 /* HandTracker.cpp */,
 				5E29F57F1354D4E9009CCA0F /* penner */,
 				407B881F13515A490069D7B7 /* TileState.cpp */,
 				4003D41D134F8ECA0058C709 /* Tile.cpp */,
@@ -215,7 +215,7 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				404C21751356BE8200C92A6F /* Fingertips.h */,
+				403BD98B135CA7730071B047 /* HandTracker.h */,
 				5E29F5731354D4D6009CCA0F /* penner */,
 				407B881E13515A310069D7B7 /* TileState.h */,
 				4003D41A134F8EB80058C709 /* Resources.h */,
@@ -363,7 +363,7 @@
 				5E29F5931354D4E9009CCA0F /* Quart.cpp in Sources */,
 				5E29F5941354D4E9009CCA0F /* Quint.cpp in Sources */,
 				5E29F5951354D4E9009CCA0F /* Sine.cpp in Sources */,
-				404C21771356BE9300C92A6F /* Fingertips.cpp in Sources */,
+				403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

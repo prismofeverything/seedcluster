@@ -20,10 +20,10 @@ class Hand
     std::vector<int> hull;
 };
 
-class Fingertips
+class HandTracker
 {
  public:
-    Fingertips();
+    HandTracker();
     std::vector<cv::Point2i> detectFingertips( cv::Mat z, int zMin=100, int zMax=255 );
     std::vector<Hand> detectHands( cv::Mat z, int zMin=100, int zMax=255 );
     void drawContours();

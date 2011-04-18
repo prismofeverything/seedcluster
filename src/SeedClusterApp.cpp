@@ -10,8 +10,8 @@
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
 #include "CinderOpenCv.h"
-#include "Fingertips.h"
 #include "Kinect.h"
+#include "HandTracker.h"
 #include "TileCluster.h"
 
 using namespace ci;
@@ -70,7 +70,7 @@ class SeedClusterApp : public AppBasic {
     int kinectWidth, kinectHeight;
     Vec3f kinectColor;
 
-    ix::Fingertips fingertips;
+    ix::HandTracker tracker;
     std::vector<ix::Hand> hands;
     std::vector<float> hues;
 
@@ -220,7 +220,7 @@ void SeedClusterApp::update()
             kinectDepth = kinect.getDepthData();
             depth = toOcv( Channel8u( depthSurface ) );
             cv::dilate( depth, depth, cv::Mat() );
-            hands = fingertips.detectHands( depth, 180, 255 );
+            hands = tracker.detectHands( depth, 180, 255 );
         }
 
         if( kinectTilt != kinect.getTilt() ) {
@@ -266,7 +266,7 @@ void SeedClusterApp::draw()
     }
 
     setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
-    fingertips.drawField();
+    tracker.drawField();
 }
 
 

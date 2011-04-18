@@ -5,7 +5,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/gl/Texture.h"
 #include "CinderOpenCv.h"
-#include "Fingertips.h"
+#include "HandTracker.h"
 
 using namespace cv;
 using namespace std;
@@ -28,12 +28,12 @@ void Hand::drawFingertips()
     }                   
 }
 
-Fingertips::Fingertips()
+HandTracker::HandTracker()
 {
     initialized = false;
 }
 
-std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat z, int zMin, int zMax ) 
+std::vector<cv::Point2i> HandTracker::detectFingertips( cv::Mat z, int zMin, int zMax ) 
 { 
     handmask = z < zMax & z > zMin;
     fingertips.clear();
@@ -89,7 +89,7 @@ std::vector<cv::Point2i> Fingertips::detectFingertips( cv::Mat z, int zMin, int 
     return fingertips;
 }
 
-std::vector<Hand> Fingertips::detectHands( cv::Mat z, int zMin, int zMax ) 
+std::vector<Hand> HandTracker::detectHands( cv::Mat z, int zMin, int zMax ) 
 { 
     handmask = z < zMax & z > zMin;
     field = z < -1;
@@ -135,14 +135,14 @@ std::vector<Hand> Fingertips::detectHands( cv::Mat z, int zMin, int zMax )
     return hands;
 }
 
-void Fingertips::drawFingertips()
+void HandTracker::drawFingertips()
 {
     for( vector<Point2i>::iterator it = fingertips.begin(); it != fingertips.end(); it++ ) {
         gl::drawSolidCircle( ci::Vec2f( it->x, it->y ), 10.0f );
     }                   
 }
 
-void Fingertips::drawField()
+void HandTracker::drawField()
 {
     cv::Mat amp = handmask * 254.0f;
     gl::Texture fieldTexture( fromOcv( amp ) );
