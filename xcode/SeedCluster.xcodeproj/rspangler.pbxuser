@@ -92,6 +92,11 @@
 			4003D403134F86C30058C709 = 4003D403134F86C30058C709 /* PlistBookmark */;
 			4003D404134F86C30058C709 = 4003D404134F86C30058C709 /* PBXTextBookmark */;
 			4033F63E135D42EF002B76CF /* PBXTextBookmark */ = 4033F63E135D42EF002B76CF /* PBXTextBookmark */;
+			4033F656135D915E002B76CF /* XCBuildMessageTextBookmark */ = 4033F656135D915E002B76CF /* XCBuildMessageTextBookmark */;
+			4033F65B135D9171002B76CF /* PBXTextBookmark */ = 4033F65B135D9171002B76CF /* PBXTextBookmark */;
+			4033F65C135D9171002B76CF /* XCBuildMessageTextBookmark */ = 4033F65C135D9171002B76CF /* XCBuildMessageTextBookmark */;
+			4033F65D135D9171002B76CF /* PBXTextBookmark */ = 4033F65D135D9171002B76CF /* PBXTextBookmark */;
+			4033F660135D9171002B76CF /* PBXTextBookmark */ = 4033F660135D9171002B76CF /* PBXTextBookmark */;
 			403BD9A0135D11590071B047 = 403BD9A0135D11590071B047 /* PBXTextBookmark */;
 			404C230E1357B53D00C92A6F = 404C230E1357B53D00C92A6F /* PBXTextBookmark */;
 			404C23271357B91C00C92A6F = 404C23271357B91C00C92A6F /* PBXTextBookmark */;
@@ -232,6 +237,68 @@
 		vrLen = 750;
 		vrLoc = 19644;
 	};
+	4033F656135D915E002B76CF /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'randomFloat' is not a member of 'cinder::Rand'";
+		fRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 19;
+		rType = 1;
+	};
+	4033F65B135D9171002B76CF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 403BD9A1135D11590071B047 /* cxoperations.hpp */;
+		name = "cxoperations.hpp: 591";
+		rLen = 0;
+		rLoc = 20063;
+		rType = 0;
+		vrLen = 946;
+		vrLoc = 19644;
+	};
+	4033F65C135D9171002B76CF /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'boolean' does not name a type";
+		fRef = 403BD98B135CA7730071B047 /* HandTracker.h */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 16;
+		rType = 1;
+	};
+	4033F65D135D9171002B76CF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 403BD98B135CA7730071B047 /* HandTracker.h */;
+		name = "HandTracker.h: 46";
+		rLen = 0;
+		rLoc = 823;
+		rType = 0;
+		vrLen = 294;
+		vrLoc = 0;
+	};
+	4033F660135D9171002B76CF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */;
+		name = "HandTracker.cpp: 20";
+		rLen = 0;
+		rLoc = 358;
+		rType = 0;
+		vrLen = 680;
+		vrLoc = 0;
+	};
+	403BD98B135CA7730071B047 /* HandTracker.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {939, 572}}";
+			sepNavSelRange = "{823, 0}";
+			sepNavVisRange = "{0, 294}";
+		};
+	};
+	403BD98C135CA7810071B047 /* HandTracker.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {691, 1287}}";
+			sepNavSelRange = "{358, 0}";
+			sepNavVisRange = "{0, 680}";
+		};
+	};
 	403BD9A0135D11590071B047 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 403BD9A1135D11590071B047 /* cxoperations.hpp */;
@@ -251,7 +318,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {939, 33527}}";
 			sepNavSelRange = "{20063, 0}";
-			sepNavVisRange = "{19644, 750}";
+			sepNavVisRange = "{19644, 946}";
 		};
 	};
 	404C21751356BE8200C92A6F /* Fingertips.h */ = {

@@ -17,7 +17,7 @@ namespace ix {
 
 Hand::Hand()
 {
-    hue = Rand::randomFloat();
+    hue = Rand::randFloat();
 }
 
 void Hand::drawFingertips()
