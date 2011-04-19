@@ -41,7 +41,7 @@ class HandTracker
     std::vector<std::vector<int> > hulls;
 
     float cutoff;
-    ci::Surface surface;
+    ci::gl::Texture texture;
 };
 
 } // namespace ix

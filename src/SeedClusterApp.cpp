@@ -149,7 +149,7 @@ void SeedClusterApp::setup()
     keyIsDown = false;
 
     rotation.w = 0.0f;
-    eye = Vec3f( 320.0f, -240.0f, -360.0f );
+    eye = Vec3f( 320.0f, -240.0f, -300.0f );
     towards = Vec3f( 320.0f, -240.0f, 0.0f );
     up = Vec3f::yAxis();
 	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
@@ -160,7 +160,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 50.0f;
+        kinectTilt = 0.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;

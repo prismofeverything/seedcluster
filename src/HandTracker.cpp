@@ -25,7 +25,7 @@ void Hand::drawFingertips()
     for( vector<Point2i>::iterator it = fingertips.begin(); it != fingertips.end(); it++ ) {
         gl::drawSolidCircle( ci::Vec2f( it->x, it->y ), 10.0f );
         gl::drawLine( ci::Vec2f( center.x, center.y ), ci::Vec2f( it->x, it->y ) );
-    }                   
+    }
 }
 
 HandTracker::HandTracker()
@@ -33,7 +33,7 @@ HandTracker::HandTracker()
     initialized = false;
 }
 
-std::vector<cv::Point2i> HandTracker::detectFingertips( cv::Mat z, int zMin, int zMax ) 
+std::vector<cv::Point2i> HandTracker::detectFingertips( cv::Mat z, int zMin, int zMax )
 { 
     handmask = z < zMax & z > zMin;
     fingertips.clear();
@@ -139,14 +139,14 @@ void HandTracker::drawFingertips()
 {
     for( vector<Point2i>::iterator it = fingertips.begin(); it != fingertips.end(); it++ ) {
         gl::drawSolidCircle( ci::Vec2f( it->x, it->y ), 10.0f );
-    }                   
+    }
 }
 
 void HandTracker::drawField()
 {
     cv::Mat amp = handmask * 254.0f;
-    gl::Texture fieldTexture( fromOcv( amp ) );
-    gl::draw( fieldTexture );
+    texture = gl::Texture( fromOcv( amp ) );
+    gl::draw( texture );
 }
 
 
