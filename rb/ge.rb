@@ -66,7 +66,7 @@ def greedy_exchange(a, b)
       powermatrix[alone] = [weakest]
       bunmatched.shift
     else
-      weakest = (powermatrix[overlap] + aunmatched).max do |pre, post|
+      weakest = powermatrix[overlap].max do |pre, post|
         pre.first.power <=> post.first.power
       end
       powermatrix[overlap].delete(weakest)
