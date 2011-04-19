@@ -85,18 +85,19 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 324836650;
-			PBXWorkspaceStateSaveDate = 324836650;
+			PBXPerProjectTemplateStateSaveDate = 324879068;
+			PBXWorkspaceStateSaveDate = 324879068;
 		};
 		perUserProjectItems = {
 			4003D403134F86C30058C709 = 4003D403134F86C30058C709 /* PlistBookmark */;
 			4003D404134F86C30058C709 = 4003D404134F86C30058C709 /* PBXTextBookmark */;
+			4033F63E135D42EF002B76CF /* PBXTextBookmark */ = 4033F63E135D42EF002B76CF /* PBXTextBookmark */;
+			403BD9A0135D11590071B047 = 403BD9A0135D11590071B047 /* PBXTextBookmark */;
 			404C230E1357B53D00C92A6F = 404C230E1357B53D00C92A6F /* PBXTextBookmark */;
 			404C23271357B91C00C92A6F = 404C23271357B91C00C92A6F /* PBXTextBookmark */;
 			404C2492135827E900C92A6F = 404C2492135827E900C92A6F /* PBXTextBookmark */;
 			40620BCE135642AA00881359 = 40620BCE135642AA00881359 /* PBXTextBookmark */;
 			4073B376135C6B0200BC9EA1 = 4073B376135C6B0200BC9EA1 /* PBXTextBookmark */;
-			4073B377135C6B0200BC9EA1 = 4073B377135C6B0200BC9EA1 /* PBXTextBookmark */;
 			4073B378135C6B0200BC9EA1 = 4073B378135C6B0200BC9EA1 /* PBXTextBookmark */;
 			407B87CF1350FFDC0069D7B7 = 407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */;
 			407B89041352F9590069D7B7 = 407B89041352F9590069D7B7 /* PBXTextBookmark */;
@@ -221,12 +222,37 @@
 			sepNavWindowFrame = "{{153, 489}, {750, 558}}";
 		};
 	};
-	4005690213591C3B0083531C /* cxoperations.hpp */ = {
+	4033F63E135D42EF002B76CF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 403BD9A1135D11590071B047 /* cxoperations.hpp */;
+		name = "cxoperations.hpp: 591";
+		rLen = 0;
+		rLoc = 20063;
+		rType = 0;
+		vrLen = 750;
+		vrLoc = 19644;
+	};
+	403BD9A0135D11590071B047 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 403BD9A1135D11590071B047 /* cxoperations.hpp */;
+		name = "cxoperations.hpp: 591";
+		rLen = 0;
+		rLoc = 20063;
+		rType = 0;
+		vrLen = 946;
+		vrLoc = 19644;
+	};
+	403BD9A1135D11590071B047 /* cxoperations.hpp */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.cpp.h;
 		name = cxoperations.hpp;
 		path = /Users/rspangler/Projects/Cinder/blocks/opencv/include/OpenCV/cxoperations.hpp;
 		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {939, 33527}}";
+			sepNavSelRange = "{20063, 0}";
+			sepNavVisRange = "{19644, 750}";
+		};
 	};
 	404C21751356BE8200C92A6F /* Fingertips.h */ = {
 		isa = PBXFileReference;
@@ -235,12 +261,6 @@
 		name = Fingertips.h;
 		path = /Users/rspangler/Projects/SeedCluster/include/Fingertips.h;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {939, 377}}";
-			sepNavSelRange = "{664, 0}";
-			sepNavVisRange = "{0, 641}";
-			sepNavWindowFrame = "{{15, 615}, {750, 558}}";
-		};
 	};
 	404C21761356BE9300C92A6F /* Fingertips.cpp */ = {
 		isa = PBXFileReference;
@@ -249,12 +269,6 @@
 		name = Fingertips.cpp;
 		path = /Users/rspangler/Projects/SeedCluster/src/Fingertips.cpp;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {915, 2249}}";
-			sepNavSelRange = "{6038, 0}";
-			sepNavVisRange = "{1721, 1546}";
-			sepNavWindowFrame = "{{433, 145}, {750, 558}}";
-		};
 	};
 	404C22DC1356F99A00C92A6F /* stl_vector.h */ = {
 		isa = PBXFileReference;
@@ -348,13 +362,6 @@
 		rType = 0;
 		vrLen = 498;
 		vrLoc = 5239;
-	};
-	4073B377135C6B0200BC9EA1 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 4005690213591C3B0083531C /* cxoperations.hpp */;
-		rLen = 0;
-		rLoc = 590;
-		rType = 1;
 	};
 	4073B378135C6B0200BC9EA1 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

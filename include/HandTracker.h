@@ -10,10 +10,14 @@ class Hand
 {
  public:
     Hand();
+    ~Hand() {};
     void drawFingertips();
 
     cv::Point center;
+    bool isHand;
     double area;
+    float radius;
+    float hue;
     std::vector<cv::Point> fingertips;
     std::vector<cv::Point> contour;
     std::vector<cv::Point> approx;
@@ -24,23 +28,16 @@ class HandTracker
 {
  public:
     HandTracker();
-    std::vector<cv::Point2i> detectFingertips( cv::Mat z, int zMin=100, int zMax=255 );
     std::vector<Hand> detectHands( cv::Mat z, int zMin=100, int zMax=255 );
-    void drawContours();
-    void drawFingertips();
     void drawField();
 
     bool initialized;
 
     cv::Mat field;
     cv::Mat handmask;
+    std::vector<Hand> before;
     std::vector<Hand> hands;
-    std::vector<cv::Point> fingertips;
     std::vector<std::vector<cv::Point> > contours;
-    std::vector<std::vector<cv::Point> > curves;
-    std::vector<std::vector<int> > hulls;
-
-    float cutoff;
     ci::gl::Texture texture;
 };
 
