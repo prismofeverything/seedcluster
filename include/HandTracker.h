@@ -3,6 +3,7 @@
 #include "cinder/gl/gl.h"
 #include "cinder/Surface.h"
 #include "CinderOpenCv.h"
+#include "FrameBridge.h"
 
 namespace ix {
 
@@ -33,6 +34,7 @@ class HandTracker
 
     bool initialized;
 
+    ix::FrameBridge<cv::Point> bridge;
     cv::Mat field;
     cv::Mat handmask;
     std::vector<Hand> before;

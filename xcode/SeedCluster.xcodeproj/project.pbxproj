@@ -31,6 +31,7 @@
 		404C22321356EE4C00C92A6F /* libhighgui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C222C1356EE4C00C92A6F /* libhighgui.a */; };
 		404C22331356EE4C00C92A6F /* libml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C222D1356EE4C00C92A6F /* libml.a */; };
 		407B882013515A490069D7B7 /* TileState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 407B881F13515A490069D7B7 /* TileState.cpp */; };
+		40E259D7135F709800C92521 /* FrameBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40E259D6135F709800C92521 /* FrameBridge.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
 		53E3CDFC0E86099300238D2B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E3CDFB0E86099300238D2B /* Carbon.framework */; };
@@ -83,6 +84,8 @@
 		404C222D1356EE4C00C92A6F /* libml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libml.a; path = ../../Cinder/blocks/opencv/lib/macosx/libml.a; sourceTree = SOURCE_ROOT; };
 		407B881E13515A310069D7B7 /* TileState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileState.h; path = ../include/TileState.h; sourceTree = SOURCE_ROOT; };
 		407B881F13515A490069D7B7 /* TileState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileState.cpp; path = ../src/TileState.cpp; sourceTree = SOURCE_ROOT; };
+		40E259D5135F708B00C92521 /* FrameBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FrameBridge.h; path = ../include/FrameBridge.h; sourceTree = SOURCE_ROOT; };
+		40E259D6135F709800C92521 /* FrameBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FrameBridge.cpp; path = ../src/FrameBridge.cpp; sourceTree = SOURCE_ROOT; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		5323E6B50EAFCA7E003A9687 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		53E3CDFB0E86099300238D2B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -147,6 +150,7 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				40E259D6135F709800C92521 /* FrameBridge.cpp */,
 				403BD98C135CA7810071B047 /* HandTracker.cpp */,
 				5E29F57F1354D4E9009CCA0F /* penner */,
 				407B881F13515A490069D7B7 /* TileState.cpp */,
@@ -215,6 +219,7 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				40E259D5135F708B00C92521 /* FrameBridge.h */,
 				403BD98B135CA7730071B047 /* HandTracker.h */,
 				5E29F5731354D4D6009CCA0F /* penner */,
 				407B881E13515A310069D7B7 /* TileState.h */,
@@ -364,6 +369,7 @@
 				5E29F5941354D4E9009CCA0F /* Quint.cpp in Sources */,
 				5E29F5951354D4E9009CCA0F /* Sine.cpp in Sources */,
 				403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */,
+				40E259D7135F709800C92521 /* FrameBridge.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
