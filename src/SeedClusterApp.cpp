@@ -255,14 +255,12 @@ void SeedClusterApp::draw()
     // drawMat( depth );
     // gl::popModelView();
 
-    int hue = 1;
     for ( std::vector<ix::Hand>::iterator it = hands.begin(); it < hands.end(); it++ ) {
-        setColor( Vec3f( hues[hue], 0.5f, 0.7f ), 1.0f );
+        setColor( Vec3f( it->hue, 0.5f, 0.7f ), 1.0f );
         gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
 
-        setColor( Vec3f( hues[hue], 0.5f, 1.0f ), 1.0f );
+        setColor( Vec3f( it->hue, 0.5f, 1.0f ), 1.0f );
         it->drawFingertips();
-        hue++;
     }
 
     setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );

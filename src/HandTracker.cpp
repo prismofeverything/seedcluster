@@ -1,4 +1,6 @@
 #include <iostream>
+#include <algorithm>
+#include <functional>
 #include "cinder/Cinder.h"
 #include "cinder/Vector.h"
 #include "cinder/Rand.h"
@@ -18,6 +20,13 @@ namespace ix {
 Hand::Hand()
 {
     hue = Rand::randFloat();
+    isHand = false;
+}
+
+void Hand::sync( const Hand & other )
+{
+    hue = other.hue;
+    isHand = other.isHand;
 }
 
 void Hand::drawFingertips()
@@ -75,8 +84,25 @@ std::vector<Hand> HandTracker::detectHands( cv::Mat z, int zMin, int zMax )
         }
     }
 
+    bridgeFrames();
     initialized = true;
     return hands;
+}
+
+void HandTracker::bridgeFrames()
+{
+    std::vector<cv::Point> preframe, postframe;
+    for ( std::vector<Hand>::iterator it = before.begin(); it < before.end(); it++ ) {
+        preframe.push_back( it->center );
+    }
+    for ( std::vector<Hand>::iterator it = hands.begin(); it < hands.end(); it++ ) {
+        postframe.push_back( it->center );
+    }
+
+    std::vector<FrameLink> links = bridge.bridge( preframe, postframe, PointDistance() );
+    for ( std::vector<FrameLink>::iterator it = links.begin(); it < links.end(); it++ ) {
+        hands[ it->b ].sync( before[ it->a ] );
+    }
 }
 
 void HandTracker::drawField()
