@@ -11,6 +11,7 @@
 #include "cinder/gl/gl.h"
 #include "CinderOpenCv.h"
 #include "Kinect.h"
+#include "Ease.h"
 #include "HandTracker.h"
 #include "TileCluster.h"
 
@@ -39,6 +40,8 @@ class SeedClusterApp : public AppBasic {
 	void mouseUp( MouseEvent event );	
 	void mouseMove( MouseEvent event );	
 	void mouseDrag( MouseEvent event );	
+    void handIn( const ix::Hand & hand );
+    void handOut( const ix::Hand & hand );
 
     TileCluster cluster;
     Vec3f bloomColor;
@@ -47,7 +50,8 @@ class SeedClusterApp : public AppBasic {
     CameraPersp camera;
     Quatf rotation;
     Vec3f eye, towards, up;
-    Color background;
+    Vec3f background;
+    Ease backgroundEase;
     Vec3f changeColor;
     float fovea;
     float near;
@@ -70,8 +74,7 @@ class SeedClusterApp : public AppBasic {
     int kinectWidth, kinectHeight;
     Vec3f kinectColor;
 
-    ix::HandTracker tracker;
-    std::vector<ix::Hand> hands;
+    ix::HandTracker<SeedClusterApp> tracker;
     std::vector<float> hues;
 
     // input
@@ -142,7 +145,10 @@ void SeedClusterApp::updateCamera()
 
 void SeedClusterApp::setup()
 {
-    background = Color( CM_HSV, Vec3f( 0.0f, 0.0f, 0.9f ) );
+    tracker.registerListener( this );
+
+    background = Vec3f( 0.0f, 0.0f, 0.9f );
+    backgroundEase = Ease( 0, 0, 0 );
     bloomColor = Vec3f( Rand::randFloat(), 0.4f, 1.0f );
 
     mouseIsDown = false;
@@ -210,6 +216,22 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
     // system->mouseImpact( mousePosition, mouseVelocity, changeColor );
 }
 
+void SeedClusterApp::handIn( const ix::Hand & hand )
+{
+    if ( tracker.numberOfHands() == 1 ) {
+        backgroundEase = Ease( background[1], 0.5f, 40 );
+    } else if ( tracker.numberOfHands() > 1 ) {
+        cluster.seed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, 0.4f, 0.7f ) );
+    }
+}
+
+void SeedClusterApp::handOut( const ix::Hand & hand )
+{
+    if ( tracker.numberOfHands() == 0 ) {
+        backgroundEase = Ease( background[1], 0.0f, 40 );
+    }
+}
+
 void SeedClusterApp::update()
 {
     if ( kinectEnabled ) {
@@ -220,12 +242,17 @@ void SeedClusterApp::update()
             kinectDepth = kinect.getDepthData();
             depth = toOcv( Channel8u( depthSurface ) );
             cv::dilate( depth, depth, cv::Mat() );
-            hands = tracker.detectHands( depth, 180, 255 );
+            // cv::morphologyEx( depth, depth, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
+			tracker.detectHands( depth, 180, 255 );
         }
 
         if( kinectTilt != kinect.getTilt() ) {
             kinect.setTilt( kinectTilt );
         }
+    }
+
+    if ( !backgroundEase.done() ) {
+        background[1] = backgroundEase.step();
     }
 
     // eye[2] += eye[2] * 0.0035f;
@@ -245,7 +272,7 @@ void SeedClusterApp::drawMat( cv::Mat & mat )
 
 void SeedClusterApp::draw()
 {
-	gl::clear( background );
+	gl::clear( Color( CM_HSV, background ) );
     cluster.draw();
     Vec3f center;
 
@@ -255,12 +282,14 @@ void SeedClusterApp::draw()
     // drawMat( depth );
     // gl::popModelView();
 
-    for ( std::vector<ix::Hand>::iterator it = hands.begin(); it < hands.end(); it++ ) {
-        setColor( Vec3f( it->hue, 0.5f, 0.7f ), 1.0f );
-        gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
+    for ( std::vector<ix::Hand>::iterator it = tracker.hands.begin(); it < tracker.hands.end(); it++ ) {
+        if ( it->isHand ) {
+            setColor( Vec3f( it->hue, 0.5f, 0.7f ), 1.0f );
+            gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
 
-        setColor( Vec3f( it->hue, 0.5f, 1.0f ), 1.0f );
-        it->drawFingertips();
+            setColor( Vec3f( it->hue, 0.5f, 1.0f ), 1.0f );
+            it->drawFingertips();
+        }
     }
 
     setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );

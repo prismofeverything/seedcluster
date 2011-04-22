@@ -23,6 +23,8 @@
 		4003D3EC134F86300058C709 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		4003D41F134F8ECA0058C709 /* Tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */; };
 		4003D420134F8ECA0058C709 /* TileCluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4003D41E134F8ECA0058C709 /* TileCluster.cpp */; };
+		400E022713614EDC00855B19 /* Seed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 400E022613614EDC00855B19 /* Seed.cpp */; };
+		400E02441361515B00855B19 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 400E02431361515B00855B19 /* Ease.cpp */; };
 		403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */; };
 		404C222E1356EE4C00C92A6F /* libcv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C22281356EE4C00C92A6F /* libcv.a */; };
 		404C222F1356EE4C00C92A6F /* libcvaux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C22291356EE4C00C92A6F /* libcvaux.a */; };
@@ -31,6 +33,7 @@
 		404C22321356EE4C00C92A6F /* libhighgui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C222C1356EE4C00C92A6F /* libhighgui.a */; };
 		404C22331356EE4C00C92A6F /* libml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C222D1356EE4C00C92A6F /* libml.a */; };
 		407B882013515A490069D7B7 /* TileState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 407B881F13515A490069D7B7 /* TileState.cpp */; };
+		40B41CA81360D6C40099FCE2 /* libminpack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40B41CA71360D6C40099FCE2 /* libminpack.a */; };
 		40E259D7135F709800C92521 /* FrameBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40E259D6135F709800C92521 /* FrameBridge.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
@@ -74,6 +77,10 @@
 		4003D41C134F8EB80058C709 /* TileCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileCluster.h; path = ../include/TileCluster.h; sourceTree = SOURCE_ROOT; };
 		4003D41D134F8ECA0058C709 /* Tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tile.cpp; path = ../src/Tile.cpp; sourceTree = SOURCE_ROOT; };
 		4003D41E134F8ECA0058C709 /* TileCluster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileCluster.cpp; path = ../src/TileCluster.cpp; sourceTree = SOURCE_ROOT; };
+		400E022413614ECC00855B19 /* Ease.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ease.h; path = ../include/Ease.h; sourceTree = SOURCE_ROOT; };
+		400E022513614ECC00855B19 /* Seed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Seed.h; path = ../include/Seed.h; sourceTree = SOURCE_ROOT; };
+		400E022613614EDC00855B19 /* Seed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Seed.cpp; path = ../src/Seed.cpp; sourceTree = SOURCE_ROOT; };
+		400E02431361515B00855B19 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ease.cpp; path = ../src/Ease.cpp; sourceTree = SOURCE_ROOT; };
 		403BD98B135CA7730071B047 /* HandTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandTracker.h; path = ../include/HandTracker.h; sourceTree = SOURCE_ROOT; };
 		403BD98C135CA7810071B047 /* HandTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HandTracker.cpp; path = ../src/HandTracker.cpp; sourceTree = SOURCE_ROOT; };
 		404C22281356EE4C00C92A6F /* libcv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcv.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcv.a; sourceTree = SOURCE_ROOT; };
@@ -84,6 +91,8 @@
 		404C222D1356EE4C00C92A6F /* libml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libml.a; path = ../../Cinder/blocks/opencv/lib/macosx/libml.a; sourceTree = SOURCE_ROOT; };
 		407B881E13515A310069D7B7 /* TileState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileState.h; path = ../include/TileState.h; sourceTree = SOURCE_ROOT; };
 		407B881F13515A490069D7B7 /* TileState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileState.cpp; path = ../src/TileState.cpp; sourceTree = SOURCE_ROOT; };
+		40B41CA71360D6C40099FCE2 /* libminpack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libminpack.a; path = ../lib/libminpack.a; sourceTree = SOURCE_ROOT; };
+		40B41CB81360D8740099FCE2 /* cminpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cminpack.h; path = ../include/cminpack.h; sourceTree = SOURCE_ROOT; };
 		40E259D5135F708B00C92521 /* FrameBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FrameBridge.h; path = ../include/FrameBridge.h; sourceTree = SOURCE_ROOT; };
 		40E259D6135F709800C92521 /* FrameBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FrameBridge.cpp; path = ../src/FrameBridge.cpp; sourceTree = SOURCE_ROOT; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
@@ -141,6 +150,7 @@
 				404C22311356EE4C00C92A6F /* libcxcore.a in Frameworks */,
 				404C22321356EE4C00C92A6F /* libhighgui.a in Frameworks */,
 				404C22331356EE4C00C92A6F /* libml.a in Frameworks */,
+				40B41CA81360D6C40099FCE2 /* libminpack.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +160,8 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				400E02431361515B00855B19 /* Ease.cpp */,
+				400E022613614EDC00855B19 /* Seed.cpp */,
 				40E259D6135F709800C92521 /* FrameBridge.cpp */,
 				403BD98C135CA7810071B047 /* HandTracker.cpp */,
 				5E29F57F1354D4E9009CCA0F /* penner */,
@@ -201,6 +213,7 @@
 		29B97314FDCFA39411CA2CEA /* SeedCluster */ = {
 			isa = PBXGroup;
 			children = (
+				40B41CA71360D6C40099FCE2 /* libminpack.a */,
 				404C22281356EE4C00C92A6F /* libcv.a */,
 				404C22291356EE4C00C92A6F /* libcvaux.a */,
 				404C222A1356EE4C00C92A6F /* libcvhaartraining.a */,
@@ -219,6 +232,9 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				400E022413614ECC00855B19 /* Ease.h */,
+				400E022513614ECC00855B19 /* Seed.h */,
+				40B41CB81360D8740099FCE2 /* cminpack.h */,
 				40E259D5135F708B00C92521 /* FrameBridge.h */,
 				403BD98B135CA7730071B047 /* HandTracker.h */,
 				5E29F5731354D4D6009CCA0F /* penner */,
@@ -370,6 +386,8 @@
 				5E29F5951354D4E9009CCA0F /* Sine.cpp in Sources */,
 				403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */,
 				40E259D7135F709800C92521 /* FrameBridge.cpp in Sources */,
+				400E022713614EDC00855B19 /* Seed.cpp in Sources */,
+				400E02441361515B00855B19 /* Ease.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +412,7 @@
 					"$(inherited)",
 					/opt/local/lib,
 					"\"$(SRCROOT)/../../Cinder/blocks/opencv/lib/macosx\"",
+					"\"$(SRCROOT)/../lib\"",
 				);
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/blocks/Cinder-Kinect/lib/macosx/libusb-1.0.a\"",
@@ -424,6 +443,7 @@
 					"$(inherited)",
 					/opt/local/lib,
 					"\"$(SRCROOT)/../../Cinder/blocks/opencv/lib/macosx\"",
+					"\"$(SRCROOT)/../lib\"",
 				);
 				OTHER_LDFLAGS = "\"$(CINDER_PATH)/lib/libcinder.a\"";
 				PRODUCT_NAME = SeedCluster;
@@ -449,6 +469,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
+					lib/libminpack.a,
 					"\"$(CINDER_PATH)/blocks/opencv/lib/macosx/libml.a\"",
 					"\"$(CINDER_PATH)/blocks/opencv/lib/macosx/libcxcore.a\"",
 					"\"$(CINDER_PATH)/blocks/opencv/lib/macosx/libcv.a\"",
@@ -479,6 +500,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
+					lib/libminpack.a,
 					"\"$(CINDER_PATH)/blocks/opencv/lib/macosx/libml.a\"",
 					"\"$(CINDER_PATH)/blocks/opencv/lib/macosx/libcxcore.a\"",
 					"\"$(CINDER_PATH)/blocks/opencv/lib/macosx/libcv.a\"",

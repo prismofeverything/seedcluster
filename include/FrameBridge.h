@@ -90,8 +90,9 @@ std::vector<FrameLink> FrameBridge<T, Distance>::bridge( std::vector<T> a, std::
             while ( powermatrix[ *mit ].size() > 1 ) {
                 if ( !bUnmatched.empty() ) {
                     int alone = bUnmatched.front();
-                    std::vector<FramePath>::iterator affine = std::min_element( powermatrix[ *mit ].begin(), powermatrix[ *mit ].end(), FramePathCompare( alone ) );
-                
+                    std::vector<FramePath>::iterator affine = std::min_element( powermatrix[ *mit ].begin(), 
+                                                                                powermatrix[ *mit ].end(), 
+                                                                                FramePathCompare( alone ) );
                     FramePath path(*affine);
                     powermatrix[ *mit ].erase( affine );
                     path.reassign( alone );

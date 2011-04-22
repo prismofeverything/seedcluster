@@ -12,6 +12,11 @@ TileCluster::TileCluster()
 
 }
 
+void TileCluster::seed( Vec2i center, Vec3f color )
+{
+    seeds.push_back( Seed( center, color ) );
+}
+
 void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f color, int from, int liberty )
 {
     tiles.push_back( Tile( *this, tiles.size(), position, rows, columns, z, color ) );
