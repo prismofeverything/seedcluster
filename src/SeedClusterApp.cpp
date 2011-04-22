@@ -55,9 +55,10 @@ class SeedClusterApp : public AppBasic {
     float fovea;
     float near;
     float far;
-
+	
     int width;
     int height;
+	static int cameraZ;
 
     Vec3f defaultBackground;
     Vec3f oneBackground;
@@ -82,6 +83,8 @@ class SeedClusterApp : public AppBasic {
 
     ix::HandTracker<SeedClusterApp> tracker;
     std::vector<float> hues;
+	
+	
 
     // input
     char key;
@@ -91,6 +94,9 @@ class SeedClusterApp : public AppBasic {
     Vec2f mouseVelocity;
     Vec2i centering;
 };
+
+
+int SeedClusterApp::cameraZ = -200;
 
 Vec3f SeedClusterApp::randomVec3f()
 {
@@ -154,7 +160,7 @@ void SeedClusterApp::setup()
     tracker.registerListener( this );
 
     defaultBackground = Vec3f( 0.0f, 0.1f, 0.2f );
-    oneBackground = Vec3f( 0.0f, 0.1f, 0.65f );
+    oneBackground = Vec3f( 0.0f, 0.1f, 0.3f );
     manyBackground = Vec3f( 0.0f, 0.1f, 0.95f );
     background = defaultBackground;
     bloomColor = Vec3f( Rand::randFloat(), 0.4f, 1.0f );
@@ -174,7 +180,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 0.0f;
+        kinectTilt = 25.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;
@@ -231,12 +237,6 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
         hueEase = Ease( background[0], oneBackground[0], 100 );
         saturationEase = Ease( background[1], oneBackground[1], 100 );
         brightnessEase = Ease( background[2], oneBackground[2], 100 );
-    } else if ( tracker.numberOfHands() > 1 ) {
-        hueEase = Ease( background[0], manyBackground[0], 100 );
-        saturationEase = Ease( background[1], manyBackground[1], 100 );
-        brightnessEase = Ease( background[2], manyBackground[2], 100 );
-
-        cluster.seed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
     }
 }
 
@@ -264,7 +264,7 @@ void SeedClusterApp::update()
             depth = toOcv( Channel8u( depthSurface ) );
             cv::dilate( depth, depth, cv::Mat() );
             // cv::morphologyEx( depth, depth, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
-            tracker.detectHands( depth, 130, 255 );
+            tracker.detectHands( depth, 180, 255 );
         }
 
         if( kinectTilt != kinect.getTilt() ) {
@@ -284,7 +284,7 @@ void SeedClusterApp::update()
 
     // eye[2] += eye[2] * 0.0035f;
     // towards[0] += 1.0f;
-    updateCamera();
+    // updateCamera();
 
     gl::setMatrices( camera );
     gl::rotate( rotation );
@@ -310,6 +310,7 @@ void SeedClusterApp::draw()
     // gl::popModelView();
 
     for ( std::vector<ix::Hand>::iterator it = tracker.hands.begin(); it < tracker.hands.end(); it++ ) {
+		
         if ( it->isHand ) {
             setColor( Vec3f( it->hue, 0.5f, 0.7f ), 0.8f );
             gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
@@ -317,7 +318,20 @@ void SeedClusterApp::draw()
             setColor( Vec3f( it->hue, 0.5f, 1.0f ), 0.8f );
             it->drawFingertips();
         }
+		
+			
+		if ( it->fingertips.size() < 3 ){
+			eye = Vec3f( 320.0f + (it->center.x), -240.0f + (it->center.y), cameraZ );
+			updateCamera();
+			cameraZ = cameraZ--;
+			cluster.seed( Vec2i( it->center.x, it->center.y ), Vec3f( it->hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
+		}
+			
+
     }
+	
+	
+	
 
     // gl::pushModelView();
     // gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );

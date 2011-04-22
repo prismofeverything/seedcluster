@@ -20,4 +20,5 @@ class Seed {
     ci::Vec3f color;
     float alpha;
     Ease radiusEase;
+	static int currentZ;
 };
