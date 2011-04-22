@@ -243,7 +243,7 @@ void SeedClusterApp::update()
             depth = toOcv( Channel8u( depthSurface ) );
             cv::dilate( depth, depth, cv::Mat() );
             // cv::morphologyEx( depth, depth, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
-			tracker.detectHands( depth, 180, 255 );
+            tracker.detectHands( depth, 180, 255 );
         }
 
         if( kinectTilt != kinect.getTilt() ) {
@@ -252,7 +252,7 @@ void SeedClusterApp::update()
     }
 
     if ( !backgroundEase.done() ) {
-        background[1] = backgroundEase.step();
+        background[1] = backgroundEase.out();
     }
 
     // eye[2] += eye[2] * 0.0035f;

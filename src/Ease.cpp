@@ -10,9 +10,16 @@ Ease::Ease( float _from, float _to, int _duration )
     
 }
 
-float Ease::step()
+float Ease::in()
 {
     float slice = ( now == 0 ) ? from : ( to - from ) * pow( 2, 10 * (((float) now) / duration - 1) ) + from;
+    now++;
+    return slice;
+}
+
+float Ease::out()
+{
+    float slice = ( now == 0 ) ? from : ( to - from ) * ( -pow( 2, -10 * ((float) now) / duration ) + 1 ) + from;
     now++;
     return slice;
 }

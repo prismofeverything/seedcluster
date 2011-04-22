@@ -27,7 +27,7 @@ Seed::Seed( Vec2i _center, Vec3f _color )
 void Seed::update()
 {
     if ( !radiusEase.done() ) {
-        radius = radiusEase.step();
+        radius = radiusEase.in();
     }
 }
 

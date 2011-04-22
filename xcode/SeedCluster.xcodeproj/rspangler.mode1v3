@@ -300,7 +300,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>52 277 1333 881 0 0 1920 1178 </string>
+						<string>51 278 1333 881 0 0 1920 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -318,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>SeedClusterApp.cpp</string>
+								<string>Seed.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,11 +326,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>SeedClusterApp.cpp</string>
+										<string>Seed.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>400E029613616BC300855B19</string>
+										<string>400E02B81361717F00855B19</string>
 										<key>history</key>
 										<array>
 											<string>4003D403134F86C30058C709</string>
@@ -347,8 +347,9 @@
 											<string>40E25AA7135FABCD00C92521</string>
 											<string>40E25ACD135FB2C400C92521</string>
 											<string>40D7AD9413608A5500761937</string>
-											<string>400E02891361685200855B19</string>
-											<string>400E028A1361685200855B19</string>
+											<string>400E029A13616DC200855B19</string>
+											<string>400E02AD1361710A00855B19</string>
+											<string>400E02AE1361710A00855B19</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -362,7 +363,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1125, 359}}</string>
 								<key>RubberWindowFrame</key>
-								<string>52 277 1333 881 0 0 1920 1178 </string>
+								<string>51 278 1333 881 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -382,7 +383,7 @@
 								<key>Frame</key>
 								<string>{{0, 364}, {1125, 476}}</string>
 								<key>RubberWindowFrame</key>
-								<string>52 277 1333 881 0 0 1920 1178 </string>
+								<string>51 278 1333 881 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -546,16 +547,16 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>400E029713616BC300855B19</string>
+		<string>400E02B91361717F00855B19</string>
 		<string>400E021C136133E200855B19</string>
 		<string>400E021D136133E200855B19</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>4003D382134F80970058C709</string>
-		<string>/Users/rspangler/Projects/SeedCluster/xcode/SeedCluster.xcodeproj</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>/Users/rspangler/Projects/SeedCluster/xcode/SeedCluster.xcodeproj</string>
+		<string>4003D382134F80970058C709</string>
 	</array>
 	<key>WindowString</key>
-	<string>52 277 1333 881 0 0 1920 1178 </string>
+	<string>51 278 1333 881 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -576,7 +577,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>SeedClusterApp.cpp</string>
+								<string>Ease.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -647,7 +648,7 @@
 			<key>WindowToolGUID</key>
 			<string>4003D382134F80970058C709</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

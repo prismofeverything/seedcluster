@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <functional>
@@ -121,16 +122,16 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
 
     bridgeFrames();
 
-    // count hands first because the listener will need to know 
-    // how many total there are.
+
+    // count the real hands
     handsCount = 0;
     for ( std::vector<Hand>::iterator hand = hands.begin(); hand < hands.end(); hand++ ) {
-        if ( hand->isHand || ( !hand->isHand && hand->fingertips.size() > 4 ) ) {
+        if ( hand->isHand || hand->fingertips.size() > 4 ) {
             handsCount++;
         }
     }
 
-    // now notify the listeners that hands have departed or arrived.
+    // notify the listeners that hands have departed or arrived, now that we have a count
     for ( std::vector<int>::iterator it = bridge.aUnmatched.begin();
           it < bridge.aUnmatched.end(); it++ ) {
         if ( before[ *it ].isHand ) {

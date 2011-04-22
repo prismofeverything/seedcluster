@@ -6,7 +6,8 @@ class Ease
     Ease() : now(0), duration(0), from(0), to(0) {};
     Ease( float _from, float _to, int _duration );
     bool done();
-    float step();
+    float in();
+    float out();
 
     int now;
     int duration;
