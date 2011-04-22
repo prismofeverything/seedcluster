@@ -160,7 +160,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 0.0f;
+        kinectTilt = 20.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;

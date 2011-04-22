@@ -35,6 +35,7 @@
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
 		53E3CDFC0E86099300238D2B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E3CDFB0E86099300238D2B /* Carbon.framework */; };
+		5E14DDD4136102E200AEE85A /* cinder_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E14DDD3136102E200AEE85A /* cinder_logo.png */; };
 		5E29F58B1354D4E9009CCA0F /* Back.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5801354D4E9009CCA0F /* Back.cpp */; };
 		5E29F58C1354D4E9009CCA0F /* Bounce.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5811354D4E9009CCA0F /* Bounce.cpp */; };
 		5E29F58D1354D4E9009CCA0F /* Circ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E29F5821354D4E9009CCA0F /* Circ.cpp */; };
@@ -89,6 +90,7 @@
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		5323E6B50EAFCA7E003A9687 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		53E3CDFB0E86099300238D2B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		5E14DDD3136102E200AEE85A /* cinder_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cinder_logo.png; path = ../resources/cinder_logo.png; sourceTree = SOURCE_ROOT; };
 		5E29F5741354D4D6009CCA0F /* Back.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Back.h; sourceTree = "<group>"; };
 		5E29F5751354D4D6009CCA0F /* Bounce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bounce.h; sourceTree = "<group>"; };
 		5E29F5761354D4D6009CCA0F /* Circ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Circ.h; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5E14DDD3136102E200AEE85A /* cinder_logo.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				00CCAF14116A9FEE008396D5 /* CinderApp.icns */,
 			);
@@ -342,6 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00CCAF15116A9FEE008396D5 /* CinderApp.icns in Resources */,
+				5E14DDD4136102E200AEE85A /* cinder_logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
