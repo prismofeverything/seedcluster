@@ -264,7 +264,7 @@ void SeedClusterApp::update()
             depth = toOcv( Channel8u( depthSurface ) );
             cv::dilate( depth, depth, cv::Mat() );
             // cv::morphologyEx( depth, depth, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
-            tracker.detectHands( depth, 180, 255 );
+            tracker.detectHands( depth, 120, 255 );
         }
 
         if( kinectTilt != kinect.getTilt() ) {
