@@ -15,6 +15,7 @@ class Seed {
     void draw();
 
     float radius;
+    float z;
     ci::Vec2i center;
     ci::Vec3f color;
     float alpha;

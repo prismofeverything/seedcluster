@@ -36,6 +36,11 @@ void TileCluster::update()
     for ( int ii = 0; ii < size; ii++ ) {
         tiles[ii].update();
     }
+
+    size = seeds.size();
+    for ( int ee = 0; ee < size; ee++ ) {
+        seeds[ee].update();
+    }
 }
 
 void TileCluster::draw()
@@ -43,5 +48,10 @@ void TileCluster::draw()
     int size = tiles.size();
     for ( int ii = 0; ii < size; ii++ ) {
         tiles[ii].draw();
+    }
+
+    size = seeds.size();
+    for ( int ee = 0; ee < size; ee++ ) {
+        seeds[ee].draw();
     }
 }

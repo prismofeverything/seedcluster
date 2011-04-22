@@ -8,6 +8,7 @@
 #include "TileState.h"
 #include "Seed.h"
 #include "TileCluster.h"
+#include "Ease.h"
 #include <vector>
 
 using namespace ci;
@@ -18,16 +19,17 @@ using namespace std;
 Seed::Seed( Vec2i _center, Vec3f _color )
     : center( _center ),
       color( _color ),
-      radiusEase( 1.0f, 50.0f, 40.0f ),
-      alpha( 1.0f )
+      alpha( 0.8f ),
+      radius( 1.0f )
 {
-
+    z = Rand::randFloat() * 20.0 + 20.0;
+    radiusEase = Ease( 1.0f, Rand::randFloat() * 80.0f + 40.0f, 100 );
 }
 
 void Seed::update()
 {
     if ( !radiusEase.done() ) {
-        radius = radiusEase.in();
+        radius = radiusEase.out();
     }
 }
 
@@ -35,5 +37,9 @@ void Seed::draw()
 {
     Color colorcolor = Color( CM_HSV, color );
     glColor4f( colorcolor.r, colorcolor.g, colorcolor.b, alpha );
+    gl::pushModelView();
+    gl::translate( Vec3f( 0.0f, 0.0f, z ) );
     gl::drawSolidCircle( center, radius );
+    gl::popModelView();
 }
+

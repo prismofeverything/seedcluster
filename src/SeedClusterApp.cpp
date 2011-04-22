@@ -51,7 +51,6 @@ class SeedClusterApp : public AppBasic {
     Quatf rotation;
     Vec3f eye, towards, up;
     Vec3f background;
-    Ease backgroundEase;
     Vec3f changeColor;
     float fovea;
     float near;
@@ -59,6 +58,13 @@ class SeedClusterApp : public AppBasic {
 
     int width;
     int height;
+
+    Vec3f defaultBackground;
+    Vec3f oneBackground;
+    Vec3f manyBackground;
+    Ease hueEase;
+    Ease saturationEase;
+    Ease brightnessEase;
 
     // opencv
     cv::Mat depth;
@@ -147,15 +153,17 @@ void SeedClusterApp::setup()
 {
     tracker.registerListener( this );
 
-    background = Vec3f( 0.0f, 0.0f, 0.9f );
-    backgroundEase = Ease( 0, 0, 0 );
+    defaultBackground = Vec3f( 0.0f, 0.1f, 0.2f );
+    oneBackground = Vec3f( 0.0f, 0.1f, 0.65f );
+    manyBackground = Vec3f( 0.0f, 0.1f, 0.95f );
+    background = defaultBackground;
     bloomColor = Vec3f( Rand::randFloat(), 0.4f, 1.0f );
 
     mouseIsDown = false;
     keyIsDown = false;
 
     rotation.w = 0.0f;
-    eye = Vec3f( 320.0f, -240.0f, -300.0f );
+    eye = Vec3f( 320.0f, -240.0f, -200.0f );
     towards = Vec3f( 320.0f, -240.0f, 0.0f );
     up = Vec3f::yAxis();
 	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
@@ -175,6 +183,7 @@ void SeedClusterApp::setup()
     }
 
     gl::enableAlphaBlending();
+    gl::enableAdditiveBlending();
     gl::enableDepthRead();
     gl::enableDepthWrite();
 }
@@ -219,16 +228,28 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
 void SeedClusterApp::handIn( const ix::Hand & hand )
 {
     if ( tracker.numberOfHands() == 1 ) {
-        backgroundEase = Ease( background[1], 0.5f, 40 );
+        hueEase = Ease( background[0], oneBackground[0], 100 );
+        saturationEase = Ease( background[1], oneBackground[1], 100 );
+        brightnessEase = Ease( background[2], oneBackground[2], 100 );
     } else if ( tracker.numberOfHands() > 1 ) {
-        cluster.seed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, 0.4f, 0.7f ) );
+        hueEase = Ease( background[0], manyBackground[0], 100 );
+        saturationEase = Ease( background[1], manyBackground[1], 100 );
+        brightnessEase = Ease( background[2], manyBackground[2], 100 );
+
+        cluster.seed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
     }
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
 {
     if ( tracker.numberOfHands() == 0 ) {
-        backgroundEase = Ease( background[1], 0.0f, 40 );
+        hueEase = Ease( background[0], defaultBackground[0], 100 );
+        saturationEase = Ease( background[1], defaultBackground[1], 100 );
+        brightnessEase = Ease( background[2], defaultBackground[2], 100 );
+    } else if ( tracker.numberOfHands() > 0 ) {
+        hueEase = Ease( background[0], oneBackground[0], 100 );
+        saturationEase = Ease( background[1], oneBackground[1], 100 );
+        brightnessEase = Ease( background[2], oneBackground[2], 100 );
     }
 }
 
@@ -251,8 +272,14 @@ void SeedClusterApp::update()
         }
     }
 
-    if ( !backgroundEase.done() ) {
-        background[1] = backgroundEase.out();
+    if ( !hueEase.done() ) {
+        background[0] = hueEase.out();
+    }
+    if ( !saturationEase.done() ) {
+        background[1] = saturationEase.out();
+    }
+    if ( !hueEase.done() ) {
+        background[2] = brightnessEase.out();
     }
 
     // eye[2] += eye[2] * 0.0035f;
@@ -284,16 +311,19 @@ void SeedClusterApp::draw()
 
     for ( std::vector<ix::Hand>::iterator it = tracker.hands.begin(); it < tracker.hands.end(); it++ ) {
         if ( it->isHand ) {
-            setColor( Vec3f( it->hue, 0.5f, 0.7f ), 1.0f );
+            setColor( Vec3f( it->hue, 0.5f, 0.7f ), 0.8f );
             gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
 
-            setColor( Vec3f( it->hue, 0.5f, 1.0f ), 1.0f );
+            setColor( Vec3f( it->hue, 0.5f, 1.0f ), 0.8f );
             it->drawFingertips();
         }
     }
 
-    setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
-    tracker.drawField();
+    // gl::pushModelView();
+    // gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );
+    // setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
+    // tracker.drawField();
+    // gl::popModelView();
 }
 
 
