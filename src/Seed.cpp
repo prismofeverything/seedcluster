@@ -22,7 +22,7 @@ Seed::Seed( Vec2i _center, Vec3f _color )
       alpha( 0.8f ),
       radius( 1.0f )
 {
-    z = Rand::randFloat() * 20.0 + 20.0;
+    z = Rand::randFloat() * -20.0 - 20.0;
     radiusEase = Ease( 1.0f, Rand::randFloat() * 50.0f + 40.0f, 100 );
 }
 

@@ -126,7 +126,7 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
     // count the real hands
     handsCount = 0;
     for ( std::vector<Hand>::iterator hand = hands.begin(); hand < hands.end(); hand++ ) {
-        if ( hand->isHand || hand->fingertips.size() > 4 ) {
+        if ( hand->isHand || hand->fingertips.size() > 3 ) {
             handsCount++;
         }
     }
@@ -140,7 +140,7 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
     }
 
     for ( std::vector<Hand>::iterator hand = hands.begin(); hand < hands.end(); hand++ ) {
-        if ( !hand->isHand && hand->fingertips.size() > 4 ) {
+        if ( !hand->isHand && hand->fingertips.size() > 3 ) {
             hand->isHand = true;
             listener->handIn( *hand );
         }
