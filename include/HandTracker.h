@@ -81,6 +81,8 @@ template <class Listener>
 void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax ) 
 { 
     handmask = z < zMax & z > zMin;
+    cv::morphologyEx( handmask, handmask, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
+    // cv::dilate( handmask, handmask, cv::Mat(), cv::Point( -1, -1 ), 3 );
     field = z < -1;
     before = hands;
     hands.clear();
@@ -96,7 +98,7 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
             hand.center = cv::Point( center.val[0], center.val[1] );
             hand.area = cv::contourArea( contourMat );
 
-            if ( hand.area > 3000 )  { // possible hand
+            if ( hand.area > 1000 )  { // possible hand
                 cv::approxPolyDP( contourMat, hand.approx, 20, true );
                 cv::convexHull( cv::Mat( hand.approx ), hand.hull );
 

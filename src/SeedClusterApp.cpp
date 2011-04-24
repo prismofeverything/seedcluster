@@ -262,9 +262,9 @@ void SeedClusterApp::update()
             depthTexture = depthImage;
             kinectDepth = kinect.getDepthData();
             depth = toOcv( Channel8u( depthSurface ) );
-            cv::dilate( depth, depth, cv::Mat() );
+            // cv::dilate( depth, depth, cv::Mat() );
             // cv::morphologyEx( depth, depth, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
-            tracker.detectHands( depth, 130, 255 );
+            tracker.detectHands( depth, 150, 280 );
         }
 
         if( kinectTilt != kinect.getTilt() ) {
@@ -319,11 +319,11 @@ void SeedClusterApp::draw()
         }
     }
 
-    // gl::pushModelView();
-    // gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );
-    // setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
-    // tracker.drawField();
-    // gl::popModelView();
+    gl::pushModelView();
+    gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );
+    setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
+    tracker.drawField();
+    gl::popModelView();
 }
 
 
