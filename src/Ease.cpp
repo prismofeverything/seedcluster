@@ -10,6 +10,14 @@ Ease::Ease( float _from, float _to, int _duration )
     
 }
 
+void Ease::realign( float _from, float _to, int _duration )
+{
+    now = 0;
+    from = _from;
+    to = _to;
+    duration = _duration;
+}
+
 float Ease::in()
 {
     float slice = ( now == 0 ) ? from : ( to - from ) * pow( 2, 10 * (((float) now) / duration - 1) ) + from;

@@ -159,7 +159,7 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
                 } else {
                     listener->handDrag( *hand );
                 }
-            } else if ( !hand->isClosed && hand->fingertips.size() < 3 ) {
+            } else if ( !hand->isClosed && hand->fingertips.size() < 2 ) {
                 hand->isClosed = true;
                 listener->handClose( *hand );
             }

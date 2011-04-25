@@ -8,6 +8,7 @@ class Ease
     bool done();
     float in();
     float out();
+    void realign( float _from, float _to, int _duration );
 
     int now;
     int duration;

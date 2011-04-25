@@ -248,6 +248,7 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
         hueEase = Ease( background[0], defaultBackground[0], 100 );
         saturationEase = Ease( background[1], defaultBackground[1], 100 );
         brightnessEase = Ease( background[2], defaultBackground[2], 100 );
+        cluster.releaseSeed();
     } else if ( tracker.numberOfHands() > 0 ) {
         hueEase = Ease( background[0], oneBackground[0], 100 );
         saturationEase = Ease( background[1], oneBackground[1], 100 );
@@ -259,7 +260,7 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 {
     if ( tracker.numberOfHands() == 1 ) {
         if ( cluster.chooseSeed( Vec2i( hand.center.x, hand.center.y ) ) ) {
-            
+
         } else {
             cluster.seed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
         }
@@ -268,12 +269,16 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
-
+    if ( cluster.isSeedChosen() ) {
+        cluster.chosenSeed->seek( Vec2i( hand.center.x, hand.center.y ) );
+    }
 }
 
 void SeedClusterApp::handOpen( const ix::Hand & hand )
 {
-
+    if ( tracker.numberOfHands() == 1 ) {
+        cluster.releaseSeed();
+    }
 }
 
 void SeedClusterApp::update()
