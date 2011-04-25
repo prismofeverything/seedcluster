@@ -21,12 +21,31 @@ Hand::Hand()
 {
     hue = Rand::randFloat();
     isHand = false;
+    isClosed = false;
+    pathIndex = 0;
 }
 
 void Hand::sync( const Hand & other )
 {
     hue = other.hue;
     isHand = other.isHand;
+    isClosed = other.isClosed;
+    pathIndex = other.pathIndex;
+
+    path = other.path;
+    if ( path.size() < maxHistory ) {
+        pathIndex = path.size();
+        path.push_back( center );
+    } else {
+        pathIndex++;
+        pathIndex = pathIndex % maxHistory;
+        path[pathIndex] = center;
+    }
+}
+
+cv::Point Hand::motion()
+{
+    return path[pathIndex] - path[(pathIndex - 1) % maxHistory];
 }
 
 void Hand::drawFingertips()

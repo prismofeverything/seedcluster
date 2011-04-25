@@ -30,6 +30,12 @@ void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
     addTile( position, Rand::randInt( 5 ) + 1, Rand::randInt( 3 ) + 2, Rand::randFloat() * 50 - 25, color );
 }
 
+bool TileCluster::chooseSeed( Vec2i point )
+{
+    chosen = std::find_if ( seeds.begin(), seeds.end(), mem_fun( Seed::contains ) );
+    return chosen != seeds.end();
+}
+
 void TileCluster::update()
 {
     int size = tiles.size();

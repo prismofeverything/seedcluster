@@ -40,8 +40,12 @@ class SeedClusterApp : public AppBasic {
 	void mouseUp( MouseEvent event );	
 	void mouseMove( MouseEvent event );	
 	void mouseDrag( MouseEvent event );	
+
     void handIn( const ix::Hand & hand );
     void handOut( const ix::Hand & hand );
+    void handClose( const ix::Hand & hand );
+    void handDrag( const ix::Hand & hand );
+    void handOpen( const ix::Hand & hand );
 
     TileCluster cluster;
     Vec3f bloomColor;
@@ -235,8 +239,6 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
         hueEase = Ease( background[0], manyBackground[0], 100 );
         saturationEase = Ease( background[1], manyBackground[1], 100 );
         brightnessEase = Ease( background[2], manyBackground[2], 100 );
-
-        cluster.seed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
     }
 }
 
@@ -251,6 +253,27 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
         saturationEase = Ease( background[1], oneBackground[1], 100 );
         brightnessEase = Ease( background[2], oneBackground[2], 100 );
     }
+}
+
+void SeedClusterApp::handClose( const ix::Hand & hand )
+{
+    if ( tracker.numberOfHands() == 1 ) {
+        if ( cluster.chooseSeed( Vec2i( hand.center.x, hand.center.y ) ) ) {
+            
+        } else {
+            cluster.seed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
+        }
+    }
+}
+
+void SeedClusterApp::handDrag( const ix::Hand & hand )
+{
+
+}
+
+void SeedClusterApp::handOpen( const ix::Hand & hand )
+{
+
 }
 
 void SeedClusterApp::update()

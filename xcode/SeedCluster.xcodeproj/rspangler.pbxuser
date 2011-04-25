@@ -85,8 +85,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 325282425;
-			PBXWorkspaceStateSaveDate = 325282425;
+			PBXPerProjectTemplateStateSaveDate = 325441638;
+			PBXWorkspaceStateSaveDate = 325441638;
 		};
 		perUserProjectItems = {
 			4003D403134F86C30058C709 = 4003D403134F86C30058C709 /* PlistBookmark */;
@@ -94,13 +94,13 @@
 			400B0FCB136240B100EB85F6 = 400B0FCB136240B100EB85F6 /* PBXTextBookmark */;
 			400E029A13616DC200855B19 = 400E029A13616DC200855B19 /* PBXTextBookmark */;
 			400E02AD1361710A00855B19 = 400E02AD1361710A00855B19 /* PBXTextBookmark */;
-			400E035413618C7900855B19 = 400E035413618C7900855B19 /* PBXTextBookmark */;
+			4037BAAB1365D88300A56FD3 /* PBXTextBookmark */ = 4037BAAB1365D88300A56FD3 /* PBXTextBookmark */;
 			404C230E1357B53D00C92A6F = 404C230E1357B53D00C92A6F /* PBXTextBookmark */;
 			40620BCE135642AA00881359 = 40620BCE135642AA00881359 /* PBXTextBookmark */;
 			407B87CF1350FFDC0069D7B7 = 407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */;
 			407B89041352F9590069D7B7 = 407B89041352F9590069D7B7 /* PBXTextBookmark */;
 			407B890A1352F9F90069D7B7 = 407B890A1352F9F90069D7B7 /* PBXTextBookmark */;
-			40B7006A13636A7C00BB8405 /* PBXTextBookmark */ = 40B7006A13636A7C00BB8405 /* PBXTextBookmark */;
+			40B7008413655F5D00BB8405 = 40B7008413655F5D00BB8405 /* PBXTextBookmark */;
 			40D7AD9413608A5500761937 = 40D7AD9413608A5500761937 /* PBXTextBookmark */;
 			40E25A63135FA51D00C92521 = 40E25A63135FA51D00C92521 /* PBXTextBookmark */;
 			40E25A64135FA51D00C92521 = 40E25A64135FA51D00C92521 /* PBXTextBookmark */;
@@ -247,7 +247,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1064, 598}}";
 			sepNavSelRange = "{986, 0}";
-			sepNavVisRange = "{541, 445}";
+			sepNavVisRange = "{612, 373}";
 		};
 	};
 	400E02431361515B00855B19 /* Ease.cpp */ = {
@@ -277,15 +277,15 @@
 		vrLen = 844;
 		vrLoc = 2464;
 	};
-	400E035413618C7900855B19 /* PBXTextBookmark */ = {
+	4037BAAB1365D88300A56FD3 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 400E022613614EDC00855B19 /* Seed.cpp */;
 		name = "Seed.cpp: 46";
 		rLen = 0;
-		rLoc = 985;
+		rLoc = 986;
 		rType = 0;
-		vrLen = 611;
-		vrLoc = 0;
+		vrLen = 373;
+		vrLoc = 612;
 	};
 	403BD98B135CA7730071B047 /* HandTracker.h */ = {
 		uiCtxt = {
@@ -445,7 +445,7 @@
 		vrLen = 480;
 		vrLoc = 398;
 	};
-	40B7006A13636A7C00BB8405 /* PBXTextBookmark */ = {
+	40B7008413655F5D00BB8405 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 400E022613614EDC00855B19 /* Seed.cpp */;
 		name = "Seed.cpp: 46";

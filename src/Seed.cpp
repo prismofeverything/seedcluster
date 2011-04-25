@@ -26,6 +26,11 @@ Seed::Seed( Vec2i _center, Vec3f _color )
     radiusEase = Ease( 1.0f, Rand::randFloat() * 50.0f + 40.0f, 100 );
 }
 
+bool Seed::contains( ci::Vec2i point )
+{
+    return point.distance( center ) < radius;
+}
+
 void Seed::update()
 {
     if ( !radiusEase.done() ) {

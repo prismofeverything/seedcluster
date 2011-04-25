@@ -29,9 +29,16 @@ class Hand
     ~Hand() {};
     void sync( const Hand & other );
     void drawFingertips();
+    cv::Point motion();
 
     cv::Point center;
     bool isHand;
+    bool isClosed;
+
+    std::vector<cv::Point> path;
+    int pathIndex;
+    static const int maxHistory = 12;
+
     double area;
     float radius;
     float hue;
@@ -52,7 +59,7 @@ template <class Listener>
 class HandTracker
 {
  public:
-    HandTracker() : handsCount(0) { listener = NULL; };
+    HandTracker() { listener = NULL; };
     void detectHands( cv::Mat z, int zMin=100, int zMax=255 );
     void bridgeFrames();
     void drawField();
@@ -61,11 +68,11 @@ class HandTracker
 
     Listener * listener;
 
-    int handsCount;
     ix::FrameBridge<cv::Point, PointDistance> bridge;
     cv::Mat field;
     cv::Mat handmask;
     std::vector<Hand> before;
+    std::vector<Hand> possibleHands;
     std::vector<Hand> hands;
     std::vector<std::vector<cv::Point> > contours;
     ci::gl::Texture texture;
@@ -84,8 +91,8 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
     cv::morphologyEx( handmask, handmask, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
     // cv::dilate( handmask, handmask, cv::Mat(), cv::Point( -1, -1 ), 3 );
     field = z < -1;
-    before = hands;
-    hands.clear();
+    before = possibleHands;
+    possibleHands.clear();
 
     findContours( handmask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE ); 
     if ( contours.size() ) {
@@ -117,19 +124,18 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
                     }
                 }
 
-                hands.push_back( hand );
+                possibleHands.push_back( hand );
             }
         }
     }
 
     bridgeFrames();
 
-
-    // count the real hands
-    handsCount = 0;
-    for ( std::vector<Hand>::iterator hand = hands.begin(); hand < hands.end(); hand++ ) {
+    // collect the real hands
+    hands.clear();
+    for ( std::vector<Hand>::iterator hand = possibleHands.begin(); hand < possibleHands.end(); hand++ ) {
         if ( hand->isHand || hand->fingertips.size() > 3 ) {
-            handsCount++;
+            hands.push_back( *hand );
         }
     }
 
@@ -141,10 +147,22 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
         }
     }
 
-    for ( std::vector<Hand>::iterator hand = hands.begin(); hand < hands.end(); hand++ ) {
+    for ( std::vector<Hand>::iterator hand = possibleHands.begin(); hand < possibleHands.end(); hand++ ) {
         if ( !hand->isHand && hand->fingertips.size() > 3 ) {
             hand->isHand = true;
             listener->handIn( *hand );
+        } else if ( hand->isHand ) {
+            if ( hand->isClosed ) {
+                if ( hand->fingertips.size() > 3 ) {
+                    hand->isClosed = false;
+                    listener->handOpen( *hand );
+                } else {
+                    listener->handDrag( *hand );
+                }
+            } else if ( !hand->isClosed && hand->fingertips.size() < 3 ) {
+                hand->isClosed = true;
+                listener->handClose( *hand );
+            }
         }
     }
 }
@@ -152,7 +170,7 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
 template <class Listener>
 int HandTracker<Listener>::numberOfHands()
 {
-    return handsCount;
+    return hands.size();
 }
 
 template <class Listener>
@@ -162,13 +180,13 @@ void HandTracker<Listener>::bridgeFrames()
     for ( std::vector<Hand>::iterator it = before.begin(); it < before.end(); it++ ) {
         preframe.push_back( it->center );
     }
-    for ( std::vector<Hand>::iterator it = hands.begin(); it < hands.end(); it++ ) {
+    for ( std::vector<Hand>::iterator it = possibleHands.begin(); it < possibleHands.end(); it++ ) {
         postframe.push_back( it->center );
     }
 
     std::vector<FrameLink> links = bridge.bridge( preframe, postframe, PointDistance() );
     for ( std::vector<FrameLink>::iterator it = links.begin(); it < links.end(); it++ ) {
-        hands[ it->b ].sync( before[ it->a ] );
+        possibleHands[ it->b ].sync( before[ it->a ] );
     }
 }
 
