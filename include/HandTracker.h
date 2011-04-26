@@ -145,17 +145,23 @@ void HandTracker<Listener>::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
                 cv::approxPolyDP( contourMat, hand.approx, 20, true );
                 cv::convexHull( cv::Mat( hand.approx ), hand.hull );
 
-                for ( int j = 0; j < hand.hull.size(); j++ ) {
-                    int idx = hand.hull[j]; 
+                // for ( int j = 0; j < hand.hull.size(); j++ ) {
+                //     int idx = hand.hull[j]; 
+
+                for ( int idx = 0; idx < hand.approx.size(); idx++ ) {
                     int pdx = idx == 0 ? hand.approx.size() - 1 : idx - 1;
                     int sdx = idx == hand.approx.size() - 1 ? 0 : idx + 1;
 
                     cv::Point v1 = hand.approx[sdx] - hand.approx[idx];
                     cv::Point v2 = hand.approx[pdx] - hand.approx[idx];
 
-                    float angle = acos( ( v1.x*v2.x + v1.y*v2.y ) / ( norm( v1 ) * norm( v2 ) ) );
+                    double a = atan2( v1.y, v1.x );
+                    double b = atan2( v2.y, v2.x );
+                    double angle = a - b;
 
-                    if ( angle < 1.0 ) { 
+                    // float angle = acos( ( v1.x*v2.x + v1.y*v2.y ) / ( norm( v1 ) * norm( v2 ) ) );
+
+                    if ( angle > 0.0 && angle < 1.0 ) { 
                         hand.fingertips.push_back( hand.approx[idx] );
                     }
                 }
