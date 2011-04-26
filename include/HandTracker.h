@@ -60,7 +60,8 @@ class HandTracker
 {
  public:
     HandTracker() { listener = NULL; };
-    void detectHands( cv::Mat z, int zMin=100, int zMax=255 );
+    void detectHands( cv::Mat z );
+    void detectHands( cv::Mat z, int zMin, int zMax );
     void bridgeFrames();
     void drawField();
     void registerListener( Listener * _listener );
@@ -84,17 +85,18 @@ void HandTracker<Listener>::registerListener( Listener * _listener )
     listener = _listener;
 }
 
-/* template <class Listener> */
-/* void HandTracker<Listener>::detectHands( cv::Mat z ) */
-/* { */
-/*     cv::Mat depth = z.clone(); */
-/*     double max = 300.0; */
-/*     possibleHands.clear(); */
-/*     while ( max > 30.0 ) { */
-/*         cv::minMaxLoc( depth, NULL, &max ); */
-        
-/*     } */
-/* } */
+template <class Listener>
+void HandTracker<Listener>::detectHands( cv::Mat z )
+{
+    // cv::Mat depth = z.clone();
+    // possibleHands.clear();
+
+    double doublemax = 300.0;
+    cv::threshold( z, z, 250, 250, CV_THRESH_TOZERO_INV );
+    cv::minMaxLoc( z, NULL, &doublemax );
+    int max = ceil( doublemax );
+    detectHands( z, max - 20, max );
+}
 
 template <class Listener>
 void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
