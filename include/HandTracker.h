@@ -61,7 +61,9 @@ class HandTracker
  public:
     HandTracker() { listener = NULL; };
     void detectHands( cv::Mat z );
-    void detectHands( cv::Mat z, int zMin, int zMax );
+    int adaptThreshold( cv::Mat depth, int threshold );
+    void detectHandsInSlice( cv::Mat z, int zMin, int zMax );
+    void notifyListeners();
     void bridgeFrames();
     void drawField();
     void registerListener( Listener * _listener );
@@ -77,29 +79,49 @@ class HandTracker
     std::vector<Hand> hands;
     std::vector<std::vector<cv::Point> > contours;
     ci::gl::Texture texture;
+    bool blankFrame;
 };
 
 template <class Listener>
 void HandTracker<Listener>::registerListener( Listener * _listener )
 {
     listener = _listener;
+    blankFrame = false;
 }
 
 template <class Listener>
 void HandTracker<Listener>::detectHands( cv::Mat z )
 {
-    // cv::Mat depth = z.clone();
-    // possibleHands.clear();
+    cv::Mat depth = z.clone();
+    std::vector<Hand> previousPossible = possibleHands;
+    std::vector<Hand> previousHands = hands;
+    int max = adaptThreshold( depth, 250 );
 
-    double doublemax = 300.0;
-    cv::threshold( z, z, 250, 250, CV_THRESH_TOZERO_INV );
-    cv::minMaxLoc( z, NULL, &doublemax );
-    int max = ceil( doublemax );
-    detectHands( z, max - 20, max );
+    if ( !blankFrame && hands.size() == 0 && previousHands.size() > 0 ) {
+        hands = previousHands;
+        possibleHands = previousPossible;
+        before = previousPossible;
+        blankFrame = true;
+    } else {
+        blankFrame = false;
+    }
+
+    notifyListeners();
 }
 
 template <class Listener>
-void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
+int HandTracker<Listener>::adaptThreshold( cv::Mat depth, int threshold )
+{
+    double doublemax = 300.0;
+    cv::threshold( depth, depth, threshold, threshold, CV_THRESH_TOZERO_INV );
+    cv::minMaxLoc( depth, NULL, &doublemax );
+    int max = ceil( doublemax );
+    detectHandsInSlice( depth, max - 20, max );
+    return max;
+}
+
+template <class Listener>
+void HandTracker<Listener>::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
 { 
     handmask = z < zMax & z > zMin;
     cv::morphologyEx( handmask, handmask, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
@@ -133,7 +155,7 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
 
                     float angle = acos( ( v1.x*v2.x + v1.y*v2.y ) / ( norm( v1 ) * norm( v2 ) ) );
 
-                    if ( angle < 0.8 ) { 
+                    if ( angle < 1.0 ) { 
                         hand.fingertips.push_back( hand.approx[idx] );
                     }
                 }
@@ -152,7 +174,11 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
             hands.push_back( *hand );
         }
     }
+}
 
+template <class Listener>
+void HandTracker<Listener>::notifyListeners()
+{
     // notify the listeners that hands have departed or arrived, now that we have a count
     for ( std::vector<int>::iterator it = bridge.aUnmatched.begin();
           it < bridge.aUnmatched.end(); it++ ) {
