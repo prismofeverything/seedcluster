@@ -216,7 +216,7 @@ void SeedClusterApp::mouseDown( MouseEvent event )
 
 void SeedClusterApp::mouseUp( MouseEvent event )
 {
-    mouseIsDown = false;
+    mouseIsDown = false;	
 }
 
 void SeedClusterApp::mouseMove( MouseEvent event )
@@ -289,6 +289,7 @@ void SeedClusterApp::update()
     gl::setMatrices( camera );
     gl::rotate( rotation );
     cluster.update();
+	
 }
 
 void SeedClusterApp::drawMat( cv::Mat & mat ) 
@@ -302,7 +303,9 @@ void SeedClusterApp::draw()
 	gl::clear( Color( CM_HSV, background ) );
     cluster.draw();
     Vec3f center;
-
+	float lastX = 0.0f;
+	float lastY = 0.0f;
+	
     // gl::pushModelView();
     // gl::translate( Vec3f( 0.0f, 0.0f, -5.0f ) );
     // glColor4f( 0.4f, 0.5f, 0.4f, 1.0f );
@@ -311,27 +314,25 @@ void SeedClusterApp::draw()
 
     for ( std::vector<ix::Hand>::iterator it = tracker.hands.begin(); it < tracker.hands.end(); it++ ) {
 		
-        if ( it->isHand ) {
+        if ( it->isHand && it->fingertips.size() > 3) {
             setColor( Vec3f( it->hue, 0.5f, 0.7f ), 0.8f );
-            gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
-
+            
+			gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
+			
             setColor( Vec3f( it->hue, 0.5f, 1.0f ), 0.8f );
             it->drawFingertips();
         }
 		
 			
-		if ( it->fingertips.size() < 3 ){
-			eye = Vec3f( 320.0f + (it->center.x), -240.0f + (it->center.y), cameraZ );
+		if ( it->isHand && it->fingertips.size() < 3 ){
+			eye = Vec3f( 320.0f + (it->center.x*.01), -240.0f + (it->center.y*.01), cameraZ );
 			updateCamera();
-			cameraZ = cameraZ--;
+			cameraZ = cameraZ-2;
 			cluster.seed( Vec2i( it->center.x, it->center.y ), Vec3f( it->hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
 		}
 			
 
     }
-	
-	
-	
 
     // gl::pushModelView();
     // gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );

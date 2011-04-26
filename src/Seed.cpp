@@ -24,10 +24,10 @@ Seed::Seed( Vec2i _center, Vec3f _color )
 {
     z = (Rand::randFloat() * -10.0) - currentZ;
 	currentZ--;
-    radiusEase = Ease( 1.0f, (Rand::randFloat() * 200.0f) + 40.0f, 200 );
+    radiusEase = Ease( 1.0f, (Rand::randFloat() * 200.0f) + 10.0f, 200 );
 }
 
-int Seed::currentZ = -.01;
+int Seed::currentZ = -1.1;
 
 void Seed::update()
 {
@@ -42,7 +42,8 @@ void Seed::draw()
     glColor4f( colorcolor.r, colorcolor.g, colorcolor.b, alpha );
     gl::pushModelView();
     gl::translate( Vec3f( 0.0f, 0.0f, z ) );
-    gl::drawSolidCircle( center, radius );
+	gl::drawSphere(Vec3f( center.x, center.y, z), radius);
+	//gl::drawSolidCircle( center, radius );
     gl::popModelView();
 }
 
