@@ -311,8 +311,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -330,7 +328,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>40333D4A13661B1C00D47512</string>
+										<string>40333D9213663BA400D47512</string>
 										<key>history</key>
 										<array>
 											<string>4003D403134F86C30058C709</string>
@@ -348,8 +346,8 @@
 											<string>40D7AD9413608A5500761937</string>
 											<string>400E029A13616DC200855B19</string>
 											<string>400E02AD1361710A00855B19</string>
-											<string>40333D34136619E700D47512</string>
-											<string>40333D35136619E700D47512</string>
+											<string>40333D8D13663A9400D47512</string>
+											<string>40333D8E13663A9400D47512</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -371,6 +369,8 @@
 							<string>246pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -547,11 +547,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>40333D4B13661B1C00D47512</string>
+		<string>40333D9313663BA400D47512</string>
 		<string>40333D3E136619E700D47512</string>
 		<string>40333D3F136619E700D47512</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/rspangler/Projects/SeedCluster/xcode/SeedCluster.xcodeproj</string>
 		<string>4003D382134F80970058C709</string>
 	</array>
@@ -572,14 +572,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>TileCluster.cpp</string>
+								<string>stl_iterator.h</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -596,6 +594,8 @@
 							<string>913pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -890,6 +890,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -935,7 +937,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

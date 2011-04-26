@@ -31,27 +31,27 @@ Seed::Seed( Vec2i _center, Vec3f _color )
 
 void Seed::hover()
 {
-    radiusEase.realign( radius, hoverRadius, 50 );
+    radiusEase = Ease( radius, hoverRadius, 50 );
 }
 
 void Seed::unhover()
 {
-    radiusEase.realign( radius, baseRadius, 50 );
+    radiusEase = Ease( radius, baseRadius, 50 );
 }
 
 void Seed::choose()
 {
-    brightnessEase.realign( color[2], 1.0f, 50 );
+    brightnessEase = Ease( color[2], 1.0f, 50 );
 }
 
 void Seed::release()
 {
-    brightnessEase.realign( color[2], originalColor[2], 50 );
+    brightnessEase = Ease( color[2], originalColor[2], 50 );
 }
 
 void Seed::seek( ci::Vec2i towards )
 {
-    center += (towards - center) * 0.3;
+    center += (towards - center) * 0.2;
     // xEase.realign( center[0], towards[0], 50 );
     // yEase.realign( center[1], towards[1], 50 );
 }

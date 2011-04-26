@@ -42,6 +42,7 @@ class SeedClusterApp : public AppBasic {
 	void mouseDrag( MouseEvent event );	
 
     void handIn( const ix::Hand & hand );
+    void handMove( const ix::Hand & hand );
     void handOut( const ix::Hand & hand );
     void handClose( const ix::Hand & hand );
     void handDrag( const ix::Hand & hand );
@@ -242,6 +243,15 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
     }
 }
 
+void SeedClusterApp::handMove( const ix::Hand & hand )
+{
+    if ( tracker.numberOfHands() == 1 ) {
+        cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
+    } else {
+        cluster.unhover();
+    }
+}
+
 void SeedClusterApp::handOut( const ix::Hand & hand )
 {
     if ( tracker.numberOfHands() == 0 ) {
@@ -262,7 +272,7 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
         if ( cluster.chooseSeed( Vec2i( hand.center.x, hand.center.y ) ) ) {
 
         } else {
-            cluster.seed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
+            cluster.plantSeed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
         }
     }
 }
@@ -290,8 +300,6 @@ void SeedClusterApp::update()
             depthTexture = depthImage;
             kinectDepth = kinect.getDepthData();
             depth = toOcv( Channel8u( depthSurface ) );
-            // cv::dilate( depth, depth, cv::Mat() );
-            // cv::morphologyEx( depth, depth, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
             tracker.detectHands( depth, 150, 280 );
         }
 

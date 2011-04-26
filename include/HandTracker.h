@@ -119,7 +119,7 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
 
                     float angle = acos( ( v1.x*v2.x + v1.y*v2.y ) / ( norm( v1 ) * norm( v2 ) ) );
 
-                    if ( angle < 1 ) { 
+                    if ( angle < 0.8 ) { 
                         hand.fingertips.push_back( hand.approx[idx] );
                     }
                 }
@@ -153,15 +153,19 @@ void HandTracker<Listener>::detectHands( cv::Mat z, int zMin, int zMax )
             listener->handIn( *hand );
         } else if ( hand->isHand ) {
             if ( hand->isClosed ) {
-                if ( hand->fingertips.size() > 3 ) {
+                if ( hand->fingertips.size() > 1 ) {
                     hand->isClosed = false;
                     listener->handOpen( *hand );
                 } else {
                     listener->handDrag( *hand );
                 }
-            } else if ( !hand->isClosed && hand->fingertips.size() < 2 ) {
-                hand->isClosed = true;
-                listener->handClose( *hand );
+            } else {
+                if ( !hand->isClosed && hand->fingertips.size() < 1 ) {
+                    hand->isClosed = true;
+                    listener->handClose( *hand );
+                } else {
+                    listener->handMove( *hand );
+                }
             }
         }
     }

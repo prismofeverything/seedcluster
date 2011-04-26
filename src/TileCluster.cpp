@@ -10,7 +10,8 @@ using namespace std;
 
 TileCluster::TileCluster()
 {
-
+    chosenSeed = seeds.end();
+    hoverSeed = seeds.end();
 }
 
 void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f color, int from, int liberty )
@@ -26,16 +27,43 @@ void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
     addTile( position, Rand::randInt( 5 ) + 1, Rand::randInt( 3 ) + 2, Rand::randFloat() * 50 - 25, color );
 }
 
-void TileCluster::seed( Vec2i center, Vec3f color )
+void TileCluster::handOver( Vec2i point )
 {
-    // seeds.push_back( Seed( center, color ) );
+    std::vector<Seed>::iterator previous = hoverSeed;
+    hoverSeed = std::find_if ( seeds.begin(), seeds.end(), SeedContains( point ) );
+
+    if ( previous == seeds.end() ) {
+        if ( hoverSeed != seeds.end() ) {
+            hoverSeed->hover();
+        }
+    } else if ( previous != hoverSeed ) {
+        previous->unhover();
+        if ( hoverSeed != seeds.end() ) {
+            hoverSeed->hover();
+        }
+    }
+}
+
+void TileCluster::unhover()
+{
+    if ( hoverSeed != seeds.end() ) {
+        hoverSeed->unhover();
+        hoverSeed = seeds.end();
+    }
+}
+
+void TileCluster::plantSeed( Vec2i center, Vec3f color )
+{
     chosenSeed = seeds.insert( seeds.begin(), Seed( center, color ) );
     chosenSeed->choose();
+    hoverSeed = seeds.end();
 }
 
 bool TileCluster::chooseSeed( Vec2i point )
 {
     chosenSeed = std::find_if ( seeds.begin(), seeds.end(), SeedContains( point ) );
+    unhover();
+
     if ( isSeedChosen() ) {
         chosenSeed->choose();
     }
