@@ -272,7 +272,7 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
         if ( cluster.chooseSeed( Vec2i( hand.center.x, hand.center.y ) ) ) {
 
         } else {
-            cluster.plantSeed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 ) );
+            cluster.plantSeed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
         }
     }
 }
