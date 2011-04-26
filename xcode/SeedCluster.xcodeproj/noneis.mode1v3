@@ -327,7 +327,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>5E14DFFD13623F3400AEE85A</string>
+										<string>5E14E00F1365E78200AEE85A</string>
 										<key>history</key>
 										<array>
 											<string>5E14DED31362234500AEE85A</string>
@@ -544,12 +544,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>5E14DFFE13623F3400AEE85A</string>
 		<string>5E14DEAB1361F15C00AEE85A</string>
 		<string>5E14DEAC1361F15C00AEE85A</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>5EFCAF8F1353DAF5008BB73A</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Work/xbox/dev/seeds/seedcluster/xcode/SeedCluster.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
