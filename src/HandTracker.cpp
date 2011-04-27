@@ -56,5 +56,12 @@ void Hand::drawFingertips()
     }
 }
 
+double angleBetween( const cv::Point & center, const cv::Point & a, const cv::Point & b )
+{
+    double aa = atan2( a.y - center.y, a.x - center.x );
+    double bb = atan2( b.y - center.y, b.x - center.x );
+    return aa - bb;
+}
+
 } // namespace ix
 

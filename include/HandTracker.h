@@ -48,6 +48,8 @@ class Hand
     std::vector<int> hull;
 };
 
+double angleBetween( const cv::Point & center, const cv::Point & a, const cv::Point & b );
+
 struct PointDistance : public std::binary_function<cv::Point, cv::Point, float>
 {
     inline float operator() ( const cv::Point & a, const cv::Point & b ) {
@@ -126,48 +128,50 @@ void HandTracker<Listener>::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
     handmask = z < zMax & z > zMin;
     cv::morphologyEx( handmask, handmask, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
     // cv::dilate( handmask, handmask, cv::Mat(), cv::Point( -1, -1 ), 3 );
-    field = z < -1;
+    // field = z < -1;
     before = possibleHands;
     possibleHands.clear();
 
     findContours( handmask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE );
-    if ( contours.size() ) {
-        for ( int i = 0; i < contours.size(); i++ ) {
-            Hand hand;
-            hand.contour = contours[i];
+    // if ( contours.size() ) {
 
-            cv::Mat contourMat = cv::Mat( hand.contour );
-            cv::Scalar center = mean( contourMat );
-            hand.center = cv::Point( center.val[0], center.val[1] );
-            hand.area = cv::contourArea( contourMat );
+    for ( int i = 0; i < contours.size(); i++ ) {
+        Hand hand;
+        hand.contour = contours[i];
 
-            if ( hand.area > 1000 )  { // possible hand
-                cv::approxPolyDP( contourMat, hand.approx, 20, true );
-                cv::convexHull( cv::Mat( hand.approx ), hand.hull );
+        cv::Mat contourMat = cv::Mat( hand.contour );
+        cv::Scalar center = mean( contourMat );
+        hand.center = cv::Point( center.val[0], center.val[1] );
+        hand.area = cv::contourArea( contourMat );
 
-                // for ( int j = 0; j < hand.hull.size(); j++ ) {
-                //     int idx = hand.hull[j]; 
+        if ( hand.area > 1000 )  { // possible hand
+            cv::approxPolyDP( contourMat, hand.approx, 20, true );
 
-                for ( int idx = 0; idx < hand.approx.size(); idx++ ) {
-                    int pdx = idx == 0 ? hand.approx.size() - 1 : idx - 1;
-                    int sdx = idx == hand.approx.size() - 1 ? 0 : idx + 1;
+            // cv::convexHull( cv::Mat( hand.approx ), hand.hull );
+            // for ( int j = 0; j < hand.hull.size(); j++ ) {
+            //     int hx = hand.hull[j]; 
 
-                    cv::Point v1 = hand.approx[sdx] - hand.approx[idx];
-                    cv::Point v2 = hand.approx[pdx] - hand.approx[idx];
+            for ( int hx = 0; hx < hand.approx.size(); hx++ ) {
+                int px = hx == 0 ? hand.approx.size() - 1 : hx - 1;
+                int sx = hx == hand.approx.size() - 1 ? 0 : hx + 1;
 
-                    double a = atan2( v1.y, v1.x );
-                    double b = atan2( v2.y, v2.x );
-                    double angle = a - b;
+                // cv::Point v1 = hand.approx[sx] - hand.approx[hx];
+                // cv::Point v2 = hand.approx[px] - hand.approx[hx];
 
-                    // float angle = acos( ( v1.x*v2.x + v1.y*v2.y ) / ( norm( v1 ) * norm( v2 ) ) );
+                // double a = atan2( v1.y, v1.x );
+                // double b = atan2( v2.y, v2.x );
+                // double angle = a - b;
 
-                    if ( angle > 0.0 && angle < 1.0 ) { 
-                        hand.fingertips.push_back( hand.approx[idx] );
-                    }
+                double angle = angleBetween( hand.approx[hx], hand.approx[sx], hand.approx[px] );
+
+                // float angle = acos( ( v1.x*v2.x + v1.y*v2.y ) / ( norm( v1 ) * norm( v2 ) ) );
+
+                if ( angle > 0.0 && angle < 1.0 ) { 
+                    hand.fingertips.push_back( hand.approx[hx] );
                 }
-
-                possibleHands.push_back( hand );
             }
+
+            possibleHands.push_back( hand );
         }
     }
 
@@ -199,7 +203,7 @@ void HandTracker<Listener>::notifyListeners()
             listener->handIn( *hand );
         } else if ( hand->isHand ) {
             if ( hand->isClosed ) {
-                if ( hand->fingertips.size() > 1 ) {
+                if ( hand->fingertips.size() > 2 ) {
                     hand->isClosed = false;
                     listener->handOpen( *hand );
                 } else {
