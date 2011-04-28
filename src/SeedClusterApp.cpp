@@ -7,6 +7,7 @@
 #include "cinder/Camera.h"
 #include "cinder/CinderMath.h"
 #include "cinder/Cinder.h"
+#include "cinder/params/Params.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
 #include "CinderOpenCv.h"
@@ -63,6 +64,10 @@ class SeedClusterApp : public AppBasic {
 
     int width;
     int height;
+
+    int cannyLowerThreshold;
+    int cannyUpperThreshold;
+	params::InterfaceGl	params;
 
     Vec3f defaultBackground;
     Vec3f oneBackground;
@@ -158,6 +163,13 @@ void SeedClusterApp::setup()
 {
     tracker.registerListener( this );
 
+    cannyLowerThreshold = 0;
+    cannyUpperThreshold = 0;
+
+	params = params::InterfaceGl( "seedcluster", Vec2i( 200, 180 ) );
+	params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
+	params.addParam( "canny upper threshold", &cannyUpperThreshold, "min=0 max=250 step=1" );
+
     defaultBackground = Vec3f( 0.0f, 0.1f, 0.2f );
     oneBackground = Vec3f( 0.0f, 0.1f, 0.65f );
     manyBackground = Vec3f( 0.0f, 0.1f, 0.95f );
@@ -168,7 +180,7 @@ void SeedClusterApp::setup()
     keyIsDown = false;
 
     rotation.w = 0.0f;
-    eye = Vec3f( 320.0f, -240.0f, -200.0f );
+    eye = Vec3f( 320.0f, -240.0f, 250.0f );
     towards = Vec3f( 320.0f, -240.0f, 0.0f );
     up = Vec3f::yAxis();
 	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
@@ -358,8 +370,10 @@ void SeedClusterApp::draw()
     gl::pushModelView();
     gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );
     setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
-    tracker.drawField();
+    tracker.drawField( cannyLowerThreshold, cannyUpperThreshold );
     gl::popModelView();
+
+	params::InterfaceGl::draw();
 }
 
 

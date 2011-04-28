@@ -67,14 +67,14 @@ class HandTracker
     void detectHandsInSlice( cv::Mat z, int zMin, int zMax );
     void notifyListeners();
     void bridgeFrames();
-    void drawField();
+    void drawField( int lower, int upper );
     void registerListener( Listener * _listener );
     int numberOfHands();
 
     Listener * listener;
 
     ix::FrameBridge<cv::Point, PointDistance> bridge;
-    cv::Mat field;
+    cv::Mat depth;
     cv::Mat handmask;
     std::vector<Hand> before;
     std::vector<Hand> possibleHands;
@@ -82,6 +82,7 @@ class HandTracker
     std::vector<std::vector<cv::Point> > contours;
     ci::gl::Texture texture;
     bool blankFrame;
+    bool drawable;
 };
 
 template <class Listener>
@@ -94,19 +95,23 @@ void HandTracker<Listener>::registerListener( Listener * _listener )
 template <class Listener>
 void HandTracker<Listener>::detectHands( cv::Mat z )
 {
-    cv::Mat depth = z.clone();
-    std::vector<Hand> previousPossible = possibleHands;
-    std::vector<Hand> previousHands = hands;
-    int max = adaptThreshold( depth, 250 );
+    // cv::Mat depth = z.clone();
+    // cv::erode( depth, depth, cv::Mat() );
+    // std::vector<Hand> previousPossible = possibleHands;
+    // std::vector<Hand> previousHands = hands;
+    // int max = adaptThreshold( depth, 250 );
 
-    if ( !blankFrame && hands.size() == 0 && previousHands.size() > 0 ) {
-        hands = previousHands;
-        possibleHands = previousPossible;
-        before = previousPossible;
-        blankFrame = true;
-    } else {
-        blankFrame = false;
-    }
+    // if ( !blankFrame && hands.size() == 0 && previousHands.size() > 0 ) {
+    //     hands = previousHands;
+    //     possibleHands = previousPossible;
+    //     before = previousPossible;
+    //     blankFrame = true;
+    // } else {
+    //     blankFrame = false;
+    // }
+
+    depth = z.clone();
+    detectHandsInSlice( z, 150, 255 );
 
     notifyListeners();
 }
@@ -128,7 +133,6 @@ void HandTracker<Listener>::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
     handmask = z < zMax & z > zMin;
     cv::morphologyEx( handmask, handmask, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
     // cv::dilate( handmask, handmask, cv::Mat(), cv::Point( -1, -1 ), 3 );
-    // field = z < -1;
     before = possibleHands;
     possibleHands.clear();
 
@@ -245,11 +249,22 @@ void HandTracker<Listener>::bridgeFrames()
 }
 
 template <class Listener>
-void HandTracker<Listener>::drawField()
+void HandTracker<Listener>::drawField( int lower, int upper )
 {
-    cv::Mat amp = handmask * 254.0f;
-    texture = ci::gl::Texture( ci::fromOcv( amp ) );
-    ci::gl::draw( texture );
+    if ( !depth.rows == 0 ) {
+        // cv::Mat amp = handmask * 254.0f;
+        // texture = ci::gl::Texture( ci::fromOcv( amp ) );
+        // texture = ci::gl::Texture( ci::fromOcv( handmask ) );
+
+        cv::Mat canny = depth.clone();
+        std::vector<std::vector<cv::Point> > edges;
+        cv::Canny( depth, canny, 10, 20 );
+        cv::findContours( canny, edges, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE );
+        cv::drawContours( depth, edges, -1, cv::Scalar( 250.0 ) );
+        texture = ci::gl::Texture( ci::fromOcv( depth ) );
+
+        ci::gl::draw( texture );
+    }
 }
 
 } // namespace ix
