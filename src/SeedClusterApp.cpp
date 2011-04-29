@@ -20,7 +20,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class SeedClusterApp : public AppBasic {
+class SeedClusterApp : public AppBasic, public ix::HandListener {
   public:
 	void prepareSettings( Settings *settings );
 	void setup();
@@ -48,6 +48,16 @@ class SeedClusterApp : public AppBasic {
     void handClose( const ix::Hand & hand );
     void handDrag( const ix::Hand & hand );
     void handOpen( const ix::Hand & hand );
+
+    void secondHandIn( const ix::Hand & in, const ix::Hand & other );
+    void secondHandOut( const ix::Hand & out, const ix::Hand & other );
+    void firstHandClose( const ix::Hand & close, const ix::Hand & other );
+    void firstHandOpen( const ix::Hand & open, const ix::Hand & other );
+    void secondHandClose( const ix::Hand & close, const ix::Hand & other );
+    void secondHandOpen( const ix::Hand & open, const ix::Hand & other );
+    void openHandsMove( const ix::Hand & first, const ix::Hand & second );
+    void mixedHandsMove( const ix::Hand & open, const ix::Hand & close );
+    void closedHandsMove( const ix::Hand & first, const ix::Hand & second );
 
     TileCluster cluster;
     Vec3f bloomColor;
@@ -90,7 +100,7 @@ class SeedClusterApp : public AppBasic {
     int kinectWidth, kinectHeight;
     Vec3f kinectColor;
 
-    ix::HandTracker<SeedClusterApp> tracker;
+    ix::HandTracker tracker;
     std::vector<float> hues;
 
     // input
@@ -244,15 +254,18 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
 
 void SeedClusterApp::handIn( const ix::Hand & hand )
 {
-    if ( tracker.numberOfHands() == 1 ) {
-        hueEase = Ease( background[0], oneBackground[0], 100 );
-        saturationEase = Ease( background[1], oneBackground[1], 100 );
-        brightnessEase = Ease( background[2], oneBackground[2], 100 );
-    } else if ( tracker.numberOfHands() > 1 ) {
-        hueEase = Ease( background[0], manyBackground[0], 100 );
-        saturationEase = Ease( background[1], manyBackground[1], 100 );
-        brightnessEase = Ease( background[2], manyBackground[2], 100 );
-    }
+    // hueEase = Ease( background[0], oneBackground[0], 100 );
+    // saturationEase = Ease( background[1], oneBackground[1], 100 );
+    // brightnessEase = Ease( background[2], oneBackground[2], 100 );
+    std::cout << "hand in - " << hand.isHand << std::endl;
+}
+
+void SeedClusterApp::handOut( const ix::Hand & hand )
+{
+    // hueEase = Ease( background[0], defaultBackground[0], 100 );
+    // saturationEase = Ease( background[1], defaultBackground[1], 100 );
+    // brightnessEase = Ease( background[2], defaultBackground[2], 100 );
+    cluster.releaseSeed();
 }
 
 void SeedClusterApp::handMove( const ix::Hand & hand )
@@ -264,29 +277,18 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
     }
 }
 
-void SeedClusterApp::handOut( const ix::Hand & hand )
+void SeedClusterApp::handClose( const ix::Hand & hand )
 {
-    if ( tracker.numberOfHands() == 0 ) {
-        hueEase = Ease( background[0], defaultBackground[0], 100 );
-        saturationEase = Ease( background[1], defaultBackground[1], 100 );
-        brightnessEase = Ease( background[2], defaultBackground[2], 100 );
-        cluster.releaseSeed();
-    } else if ( tracker.numberOfHands() > 0 ) {
-        hueEase = Ease( background[0], oneBackground[0], 100 );
-        saturationEase = Ease( background[1], oneBackground[1], 100 );
-        brightnessEase = Ease( background[2], oneBackground[2], 100 );
+    if ( cluster.chooseSeed( Vec2i( hand.center.x, hand.center.y ) ) ) {
+
+    } else {
+        cluster.plantSeed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
     }
 }
 
-void SeedClusterApp::handClose( const ix::Hand & hand )
+void SeedClusterApp::handOpen( const ix::Hand & hand )
 {
-    if ( tracker.numberOfHands() == 1 ) {
-        if ( cluster.chooseSeed( Vec2i( hand.center.x, hand.center.y ) ) ) {
-
-        } else {
-            cluster.plantSeed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
-        }
-    }
+    cluster.releaseSeed();
 }
 
 void SeedClusterApp::handDrag( const ix::Hand & hand )
@@ -296,11 +298,49 @@ void SeedClusterApp::handDrag( const ix::Hand & hand )
     }
 }
 
-void SeedClusterApp::handOpen( const ix::Hand & hand )
+void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other ) 
 {
-    if ( tracker.numberOfHands() == 1 ) {
-        cluster.releaseSeed();
-    }
+
+}
+
+void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other ) 
+{
+
+}
+
+void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & other ) 
+{
+
+}
+
+void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & other ) 
+{
+
+}
+
+void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other ) 
+{
+
+}
+
+void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & other ) 
+{
+
+}
+
+void SeedClusterApp::openHandsMove( const ix::Hand & first, const ix::Hand & second ) 
+{
+
+}
+
+void SeedClusterApp::mixedHandsMove( const ix::Hand & open, const ix::Hand & close ) 
+{
+
+}
+
+void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & second ) 
+{
+
 }
 
 void SeedClusterApp::update()
