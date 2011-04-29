@@ -254,14 +254,17 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
 
 void SeedClusterApp::handIn( const ix::Hand & hand )
 {
+    std::cout << "hand in - " << hand.hue << std::endl;
+
     // hueEase = Ease( background[0], oneBackground[0], 100 );
     // saturationEase = Ease( background[1], oneBackground[1], 100 );
     // brightnessEase = Ease( background[2], oneBackground[2], 100 );
-    std::cout << "hand in - " << hand.isHand << std::endl;
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
 {
+    std::cout << "hand out - " << hand.hue << std::endl;
+
     // hueEase = Ease( background[0], defaultBackground[0], 100 );
     // saturationEase = Ease( background[1], defaultBackground[1], 100 );
     // brightnessEase = Ease( background[2], defaultBackground[2], 100 );
@@ -279,6 +282,8 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
 
 void SeedClusterApp::handClose( const ix::Hand & hand )
 {
+    std::cout << "hand close - " << hand.hue << std::endl;
+
     if ( cluster.chooseSeed( Vec2i( hand.center.x, hand.center.y ) ) ) {
 
     } else {
@@ -288,6 +293,8 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 
 void SeedClusterApp::handOpen( const ix::Hand & hand )
 {
+    std::cout << "hand open - " << hand.hue << std::endl;
+
     cluster.releaseSeed();
 }
 
@@ -300,32 +307,32 @@ void SeedClusterApp::handDrag( const ix::Hand & hand )
 
 void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other ) 
 {
-
+    std::cout << "second hand in - " << in.hue << std::endl;
 }
 
 void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other ) 
 {
-
+    std::cout << "second hand out - " << out.hue << std::endl;
 }
 
 void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & other ) 
 {
-
+    std::cout << "first hand close - " << close.hue << std::endl;
 }
 
 void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & other ) 
 {
-
+    std::cout << "first hand open - " << open.hue << std::endl;
 }
 
 void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other ) 
 {
-
+    std::cout << "second hand close - " << close.hue << std::endl;
 }
 
 void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & other ) 
 {
-
+    std::cout << "second hand open - " << open.hue << std::endl;
 }
 
 void SeedClusterApp::openHandsMove( const ix::Hand & first, const ix::Hand & second ) 
