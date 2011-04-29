@@ -45,7 +45,6 @@ class Hand
     std::vector<cv::Point> fingertips;
     std::vector<cv::Point> contour;
     std::vector<cv::Point> approx;
-    std::vector<int> hull;
 };
 
 double angleBetween( const cv::Point & center, const cv::Point & a, const cv::Point & b );
@@ -111,20 +110,29 @@ void HandTracker<Listener>::detectHands( cv::Mat z )
     // }
 
     depth = z.clone();
+    adaptThreshold( z, 0 );
     detectHandsInSlice( z, 150, 255 );
 
     notifyListeners();
 }
 
 template <class Listener>
-int HandTracker<Listener>::adaptThreshold( cv::Mat depth, int threshold )
+int HandTracker<Listener>::adaptThreshold( cv::Mat z, int threshold )
 {
-    double doublemax = 300.0;
-    cv::threshold( depth, depth, threshold, threshold, CV_THRESH_TOZERO_INV );
-    cv::minMaxLoc( depth, NULL, &doublemax );
-    int max = ceil( doublemax );
-    detectHandsInSlice( depth, max - 20, max );
-    return max;
+    const int channels[] = { 0 };
+    const int histSize[] = { 20 };
+    float range[] = { 0, 255 };
+    const float * ranges[] = { range };
+    cv::MatND hist;
+    cv::calcHist( &z, 1, channels, cv::Mat(), hist, 1, histSize, ranges, true, false );
+    return 0;
+
+    // double doublemax = 300.0;
+    // cv::threshold( z, z, threshold, threshold, CV_THRESH_TOZERO_INV );
+    // cv::minMaxLoc( z, NULL, &doublemax );
+    // int max = ceil( doublemax );
+    // detectHandsInSlice( z, max - 20, max );
+    // return max;
 }
 
 template <class Listener>
@@ -137,7 +145,6 @@ void HandTracker<Listener>::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
     possibleHands.clear();
 
     findContours( handmask, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE );
-    // if ( contours.size() ) {
 
     for ( int i = 0; i < contours.size(); i++ ) {
         Hand hand;
@@ -148,27 +155,13 @@ void HandTracker<Listener>::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
         hand.center = cv::Point( center.val[0], center.val[1] );
         hand.area = cv::contourArea( contourMat );
 
-        if ( hand.area > 1000 )  { // possible hand
+        if ( hand.area > 1000 ) { // possible hand
             cv::approxPolyDP( contourMat, hand.approx, 20, true );
-
-            // cv::convexHull( cv::Mat( hand.approx ), hand.hull );
-            // for ( int j = 0; j < hand.hull.size(); j++ ) {
-            //     int hx = hand.hull[j]; 
 
             for ( int hx = 0; hx < hand.approx.size(); hx++ ) {
                 int px = hx == 0 ? hand.approx.size() - 1 : hx - 1;
                 int sx = hx == hand.approx.size() - 1 ? 0 : hx + 1;
-
-                // cv::Point v1 = hand.approx[sx] - hand.approx[hx];
-                // cv::Point v2 = hand.approx[px] - hand.approx[hx];
-
-                // double a = atan2( v1.y, v1.x );
-                // double b = atan2( v2.y, v2.x );
-                // double angle = a - b;
-
                 double angle = angleBetween( hand.approx[hx], hand.approx[sx], hand.approx[px] );
-
-                // float angle = acos( ( v1.x*v2.x + v1.y*v2.y ) / ( norm( v1 ) * norm( v2 ) ) );
 
                 if ( angle > 0.0 && angle < 1.0 ) { 
                     hand.fingertips.push_back( hand.approx[hx] );
@@ -261,6 +254,19 @@ void HandTracker<Listener>::drawField( int lower, int upper )
         cv::Canny( depth, canny, 10, 20 );
         cv::findContours( canny, edges, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE );
         cv::drawContours( depth, edges, -1, cv::Scalar( 250.0 ) );
+
+        for ( int i = 0; i < edges.size(); i++ ) {
+            std::vector<cv::Point> approx;
+            cv::Mat contourMat = cv::Mat( edges[i] );
+            cv::approxPolyDP( contourMat, approx, 10, true );
+
+            if ( approx.size() > 6 ) {
+                for ( int j = 0; j < approx.size(); j++ ) {
+                    cv::line( depth, approx[j], approx[(j-1) % approx.size()], cv::Scalar( 150.0 ) );
+                }
+            }
+        }
+
         texture = ci::gl::Texture( ci::fromOcv( depth ) );
 
         ci::gl::draw( texture );
