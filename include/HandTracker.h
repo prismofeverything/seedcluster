@@ -29,7 +29,8 @@ class Hand
     ~Hand() {};
     void sync( const Hand & other );
     void drawFingertips();
-    cv::Point motion();
+    cv::Point motion() const;
+    cv::Point previousCenter() const;
     inline bool isOpen() { return fingertips.size() > 3; };
     inline bool isEntering() { return !isHand && isOpen(); };
     inline bool isOpening() { return isClosed && isOpen(); };

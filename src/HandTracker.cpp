@@ -43,7 +43,12 @@ void Hand::sync( const Hand & other )
     }
 }
 
-cv::Point Hand::motion()
+cv::Point Hand::previousCenter() const 
+{
+    return path[(pathIndex - 1) % maxHistory];
+}
+
+cv::Point Hand::motion() const 
 {
     return path[pathIndex] - path[(pathIndex - 1) % maxHistory];
 }
@@ -94,18 +99,18 @@ void HandTracker::detectHands( cv::Mat z )
 
 void HandTracker::adaptThreshold( cv::Mat z, int threshold )
 {
-    const int channels[] = { 0 };
-    const int histSize[] = { 20 };
-    float range[] = { 0, 255 };
-    const float * ranges[] = { range };
-    cv::calcHist( &z, 1, channels, cv::Mat(), histogram, 1, histSize, ranges, true, false );
+    // const int channels[] = { 0 };
+    // const int histSize[] = { 20 };
+    // float range[] = { 0, 255 };
+    // const float * ranges[] = { range };
+    // cv::calcHist( &z, 1, channels, cv::Mat(), histogram, 1, histSize, ranges, true, false );
 
-    // double doublemax = 300.0;
-    // cv::threshold( z, z, threshold, threshold, CV_THRESH_TOZERO_INV );
-    // cv::minMaxLoc( z, NULL, &doublemax );
-    // int max = ceil( doublemax );
-    // detectHandsInSlice( z, max - 20, max );
-    // return max;
+    // // double doublemax = 300.0;
+    // // cv::threshold( z, z, threshold, threshold, CV_THRESH_TOZERO_INV );
+    // // cv::minMaxLoc( z, NULL, &doublemax );
+    // // int max = ceil( doublemax );
+    // // detectHandsInSlice( z, max - 20, max );
+    // // return max;
 }
 
 void HandTracker::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
@@ -157,7 +162,7 @@ void HandTracker::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
             } else if ( hand->isOpening() ) {
                 hand->isClosed = false;
             }
-        } 
+        }
     }
 }
 

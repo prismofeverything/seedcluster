@@ -20,6 +20,7 @@ class Seed {
     void release();
 
     void seek( ci::Vec2i towards );
+    void zoom( float factor );
 
     float radius;
     float baseRadius;
@@ -29,6 +30,7 @@ class Seed {
     ci::Vec3f color;
     ci::Vec3f originalColor;
     float alpha;
+    float zoomFactor;
     Ease radiusEase;
     Ease brightnessEase;
     Ease xEase;

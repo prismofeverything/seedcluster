@@ -78,6 +78,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     int cannyLowerThreshold;
     int cannyUpperThreshold;
 	params::InterfaceGl	params;
+    ix::PointDistance distance;
 
     Vec3f defaultBackground;
     Vec3f oneBackground;
@@ -347,7 +348,15 @@ void SeedClusterApp::mixedHandsMove( const ix::Hand & open, const ix::Hand & clo
 
 void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & second ) 
 {
+    std::cout << "closed hands move" << std::endl;
 
+    if ( cluster.isSeedChosen() ) {
+        float distanceMotion = sqrt( distance( first.center, second.center ) ) - sqrt( distance( first.previousCenter(), second.previousCenter() ) );
+        std::cout << "chosen seed zoom - " << distanceMotion << std::endl;
+        if ( distanceMotion < 10 && distanceMotion > -10 ) {
+            cluster.chosenSeed->zoom( distanceMotion );
+        }
+    }
 }
 
 void SeedClusterApp::update()

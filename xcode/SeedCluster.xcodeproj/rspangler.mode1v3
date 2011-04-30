@@ -330,7 +330,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>4021A95A136B7583008D5BB5</string>
+										<string>4021A9A1136B8E8F008D5BB5</string>
 										<key>history</key>
 										<array>
 											<string>4003D403134F86C30058C709</string>
@@ -550,13 +550,12 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>4021A957136B755E008D5BB5</string>
 		<string>4021A92D136B34F8008D5BB5</string>
 		<string>4021A92E136B34F8008D5BB5</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>4003D382134F80970058C709</string>
 		<string>/Users/rspangler/Projects/SeedCluster/xcode/SeedCluster.xcodeproj</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>4003D382134F80970058C709</string>
 	</array>
 	<key>WindowString</key>
 	<string>111 559 1413 1019 0 0 2560 1578 </string>
@@ -587,14 +586,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1440, 613}}</string>
+								<string>{{0, 0}, {1440, 439}}</string>
 								<key>RubberWindowFrame</key>
 								<string>1120 760 1440 818 0 0 2560 1578 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>613pt</string>
+							<string>439pt</string>
 						</dict>
 						<dict>
 							<key>BecomeActive</key>
@@ -613,14 +612,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 618}, {1440, 159}}</string>
+								<string>{{0, 444}, {1440, 333}}</string>
 								<key>RubberWindowFrame</key>
 								<string>1120 760 1440 818 0 0 2560 1578 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
 							<key>Proportion</key>
-							<string>159pt</string>
+							<string>333pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>

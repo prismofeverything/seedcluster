@@ -21,7 +21,8 @@ Seed::Seed( Vec2i _center, Vec3f _color )
       color( _color ),
       originalColor( _color ), 
       alpha( 0.8f ),
-      radius( 1.0f )
+      radius( 1.0f ),
+      zoomFactor( 0.0f )
 {
     z = Rand::randFloat() * -20.0 - 20.0;
     baseRadius = Rand::randFloat() * 50.0f + 40.0f;
@@ -56,6 +57,22 @@ void Seed::seek( ci::Vec2i towards )
     // yEase.realign( center[1], towards[1], 50 );
 }
 
+void Seed::zoom( float factor )
+{
+    zoomFactor += factor * 0.1;
+    radius += zoomFactor;
+    zoomFactor -= zoomFactor * 0.04;
+    baseRadius += zoomFactor;
+    hoverRadius = baseRadius * 1.2f;
+
+    // float adjustment = radius * pow( 1.02f, factor ) - radius;
+    // zoomFactor += adjustment * 0.1;
+    // zoomFactor -= zoomFactor * 0.01;
+
+    // radius += zoomFactor * 0.2;
+    // baseRadius += zoomFactor * 0.2;
+}
+
 void Seed::update()
 {
     if ( !radiusEase.done() ) {
@@ -64,6 +81,7 @@ void Seed::update()
     if ( !brightnessEase.done() ) {
         color[2] = brightnessEase.out();
     }
+
     // if ( !xEase.done() ) {
     //     center[0] = xEase.out();
     // }
