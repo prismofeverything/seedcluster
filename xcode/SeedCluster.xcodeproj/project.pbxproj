@@ -25,6 +25,7 @@
 		4003D420134F8ECA0058C709 /* TileCluster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4003D41E134F8ECA0058C709 /* TileCluster.cpp */; };
 		400E022713614EDC00855B19 /* Seed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 400E022613614EDC00855B19 /* Seed.cpp */; };
 		400E02441361515B00855B19 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 400E02431361515B00855B19 /* Ease.cpp */; };
+		4031478A136DE3A200C6B9C1 /* whirlpool.png in Resources */ = {isa = PBXBuildFile; fileRef = 40314789136DE3A200C6B9C1 /* whirlpool.png */; };
 		403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */; };
 		404C222E1356EE4C00C92A6F /* libcv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C22281356EE4C00C92A6F /* libcv.a */; };
 		404C222F1356EE4C00C92A6F /* libcvaux.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C22291356EE4C00C92A6F /* libcvaux.a */; };
@@ -32,6 +33,8 @@
 		404C22311356EE4C00C92A6F /* libcxcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C222B1356EE4C00C92A6F /* libcxcore.a */; };
 		404C22321356EE4C00C92A6F /* libhighgui.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C222C1356EE4C00C92A6F /* libhighgui.a */; };
 		404C22331356EE4C00C92A6F /* libml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 404C222D1356EE4C00C92A6F /* libml.a */; };
+		405015A0136F755300554741 /* libfreenect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4050159E136F755300554741 /* libfreenect.a */; };
+		405015A1136F755300554741 /* libusb-1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4050159F136F755300554741 /* libusb-1.0.a */; };
 		407B882013515A490069D7B7 /* TileState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 407B881F13515A490069D7B7 /* TileState.cpp */; };
 		40B41CA81360D6C40099FCE2 /* libminpack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40B41CA71360D6C40099FCE2 /* libminpack.a */; };
 		40E259D7135F709800C92521 /* FrameBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40E259D6135F709800C92521 /* FrameBridge.cpp */; };
@@ -81,6 +84,7 @@
 		400E022513614ECC00855B19 /* Seed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Seed.h; path = ../include/Seed.h; sourceTree = SOURCE_ROOT; };
 		400E022613614EDC00855B19 /* Seed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Seed.cpp; path = ../src/Seed.cpp; sourceTree = SOURCE_ROOT; };
 		400E02431361515B00855B19 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ease.cpp; path = ../src/Ease.cpp; sourceTree = SOURCE_ROOT; };
+		40314789136DE3A200C6B9C1 /* whirlpool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whirlpool.png; path = ../resources/whirlpool.png; sourceTree = SOURCE_ROOT; };
 		403BD98B135CA7730071B047 /* HandTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandTracker.h; path = ../include/HandTracker.h; sourceTree = SOURCE_ROOT; };
 		403BD98C135CA7810071B047 /* HandTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HandTracker.cpp; path = ../src/HandTracker.cpp; sourceTree = SOURCE_ROOT; };
 		404C22281356EE4C00C92A6F /* libcv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcv.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcv.a; sourceTree = SOURCE_ROOT; };
@@ -89,6 +93,8 @@
 		404C222B1356EE4C00C92A6F /* libcxcore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcxcore.a; path = ../../Cinder/blocks/opencv/lib/macosx/libcxcore.a; sourceTree = SOURCE_ROOT; };
 		404C222C1356EE4C00C92A6F /* libhighgui.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libhighgui.a; path = ../../Cinder/blocks/opencv/lib/macosx/libhighgui.a; sourceTree = SOURCE_ROOT; };
 		404C222D1356EE4C00C92A6F /* libml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libml.a; path = ../../Cinder/blocks/opencv/lib/macosx/libml.a; sourceTree = SOURCE_ROOT; };
+		4050159E136F755300554741 /* libfreenect.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreenect.a; path = "../../Cinder/blocks/Cinder-Kinect/lib/macosx/libfreenect.a"; sourceTree = SOURCE_ROOT; };
+		4050159F136F755300554741 /* libusb-1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libusb-1.0.a"; path = "../../Cinder/blocks/Cinder-Kinect/lib/macosx/libusb-1.0.a"; sourceTree = SOURCE_ROOT; };
 		407B881E13515A310069D7B7 /* TileState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileState.h; path = ../include/TileState.h; sourceTree = SOURCE_ROOT; };
 		407B881F13515A490069D7B7 /* TileState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileState.cpp; path = ../src/TileState.cpp; sourceTree = SOURCE_ROOT; };
 		40B41CA71360D6C40099FCE2 /* libminpack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libminpack.a; path = ../lib/libminpack.a; sourceTree = SOURCE_ROOT; };
@@ -151,6 +157,8 @@
 				404C22321356EE4C00C92A6F /* libhighgui.a in Frameworks */,
 				404C22331356EE4C00C92A6F /* libml.a in Frameworks */,
 				40B41CA81360D6C40099FCE2 /* libminpack.a in Frameworks */,
+				405015A0136F755300554741 /* libfreenect.a in Frameworks */,
+				405015A1136F755300554741 /* libusb-1.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +221,8 @@
 		29B97314FDCFA39411CA2CEA /* SeedCluster */ = {
 			isa = PBXGroup;
 			children = (
+				4050159E136F755300554741 /* libfreenect.a */,
+				4050159F136F755300554741 /* libusb-1.0.a */,
 				40B41CA71360D6C40099FCE2 /* libminpack.a */,
 				404C22281356EE4C00C92A6F /* libcv.a */,
 				404C22291356EE4C00C92A6F /* libcvaux.a */,
@@ -253,6 +263,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				40314789136DE3A200C6B9C1 /* whirlpool.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				00CCAF14116A9FEE008396D5 /* CinderApp.icns */,
 			);
@@ -358,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00CCAF15116A9FEE008396D5 /* CinderApp.icns in Resources */,
+				4031478A136DE3A200C6B9C1 /* whirlpool.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +425,7 @@
 					/opt/local/lib,
 					"\"$(SRCROOT)/../../Cinder/blocks/opencv/lib/macosx\"",
 					"\"$(SRCROOT)/../lib\"",
+					"\"$(SRCROOT)/../../Cinder/blocks/Cinder-Kinect/lib/macosx\"",
 				);
 				OTHER_LDFLAGS = (
 					"\"$(CINDER_PATH)/blocks/Cinder-Kinect/lib/macosx/libusb-1.0.a\"",
@@ -444,6 +457,7 @@
 					/opt/local/lib,
 					"\"$(SRCROOT)/../../Cinder/blocks/opencv/lib/macosx\"",
 					"\"$(SRCROOT)/../lib\"",
+					"\"$(SRCROOT)/../../Cinder/blocks/Cinder-Kinect/lib/macosx\"",
 				);
 				OTHER_LDFLAGS = "\"$(CINDER_PATH)/lib/libcinder.a\"";
 				PRODUCT_NAME = SeedCluster;

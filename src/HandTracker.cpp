@@ -363,17 +363,17 @@ void HandTracker::drawField( int lower, int upper )
         cv::findContours( canny, edges, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE );
         cv::drawContours( depth, edges, -1, cv::Scalar( 250.0 ) );
 
-        for ( int i = 0; i < edges.size(); i++ ) {
-            std::vector<cv::Point> approx;
-            cv::Mat contourMat = cv::Mat( edges[i] );
-            cv::approxPolyDP( contourMat, approx, 10, true );
+        // for ( int i = 0; i < edges.size(); i++ ) {
+        //     std::vector<cv::Point> approx;
+        //     cv::Mat contourMat = cv::Mat( edges[i] );
+        //     cv::approxPolyDP( contourMat, approx, 10, true );
 
-            if ( approx.size() > 6 ) {
-                for ( int j = 0; j < approx.size(); j++ ) {
-                    cv::line( depth, approx[j], approx[(j-1) % approx.size()], cv::Scalar( 150.0 ) );
-                }
-            }
-        }
+        //     if ( approx.size() > 6 ) {
+        //         for ( int j = 0; j < approx.size(); j++ ) {
+        //             cv::line( depth, approx[j], approx[(j-1) % approx.size()], cv::Scalar( 150.0 ) );
+        //         }
+        //     }
+        // }
 
         texture = ci::gl::Texture( ci::fromOcv( depth ) );
 

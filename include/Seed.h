@@ -26,9 +26,11 @@ class Seed {
     float baseRadius;
     float hoverRadius;
     float z;
+
     ci::Vec2i center;
     ci::Vec3f color;
     ci::Vec3f originalColor;
+
     float alpha;
     float zoomFactor;
     Ease radiusEase;

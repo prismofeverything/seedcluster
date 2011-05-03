@@ -10,11 +10,13 @@
 #include "cinder/params/Params.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
+#include "cinder/qtime/MovieWriter.h"
 #include "CinderOpenCv.h"
 #include "Kinect.h"
 #include "Ease.h"
 #include "HandTracker.h"
 #include "TileCluster.h"
+#include "Resources.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -77,6 +79,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
 
     int cannyLowerThreshold;
     int cannyUpperThreshold;
+    qtime::MovieWriter movieWriter;
 	params::InterfaceGl	params;
     ix::PointDistance distance;
 
@@ -103,6 +106,9 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
 
     ix::HandTracker tracker;
     std::vector<float> hues;
+    ci::Vec2f closePoint;
+    ci::Vec2f zoomPoint;
+    float zoomAnchor;
 
     // input
     char key;
@@ -214,6 +220,14 @@ void SeedClusterApp::setup()
     gl::enableAdditiveBlending();
     gl::enableDepthRead();
     gl::enableDepthWrite();
+
+    // std::string path = getSaveFilePath();
+    // if ( !path.empty() ) {
+    //     qtime::MovieWriter::Format format;
+    //     if( qtime::MovieWriter::getUserCompressionSettings( &format, loadImage( loadResource( RES_WHIRLPOOL ) ) ) ) {
+    //         movieWriter = qtime::MovieWriter( path, getWindowWidth(), getWindowHeight(), format );
+    //     }
+    // }
 }
 
 void SeedClusterApp::keyDown( KeyEvent event )
@@ -285,10 +299,12 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 {
     std::cout << "hand close - " << hand.hue << std::endl;
 
-    if ( cluster.chooseSeed( Vec2i( hand.center.x, hand.center.y ) ) ) {
+    closePoint = Vec2i( hand.center.x, hand.center.y );
 
+    if ( cluster.chooseSeed( closePoint ) ) {
+        
     } else {
-        cluster.plantSeed( Vec2i( hand.center.x, hand.center.y ), Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
+        cluster.plantSeed( closePoint, Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
     }
 }
 
@@ -301,8 +317,10 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
 
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
+    closePoint = Vec2i( hand.center.x, hand.center.y );
+
     if ( cluster.isSeedChosen() ) {
-        cluster.chosenSeed->seek( Vec2i( hand.center.x, hand.center.y ) );
+        cluster.chosenSeed->seek( closePoint );
     }
 }
 
@@ -329,6 +347,11 @@ void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & othe
 void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other ) 
 {
     std::cout << "second hand close - " << close.hue << std::endl;
+
+    closePoint = Vec2i( other.center.x, other.center.y );
+    zoomPoint = Vec2i( close.center.x, close.center.y );
+
+    zoomAnchor = sqrt( distance( close.center, other.center ) );
 }
 
 void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & other ) 
@@ -351,11 +374,14 @@ void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & s
     std::cout << "closed hands move" << std::endl;
 
     if ( cluster.isSeedChosen() ) {
-        float distanceMotion = sqrt( distance( first.center, second.center ) ) - sqrt( distance( first.previousCenter(), second.previousCenter() ) );
-        std::cout << "chosen seed zoom - " << distanceMotion << std::endl;
-        if ( distanceMotion < 10 && distanceMotion > -10 ) {
-            cluster.chosenSeed->zoom( distanceMotion );
-        }
+        float zoom = sqrt( distance( first.center, second.center ) ) - zoomAnchor;
+        cluster.chosenSeed->zoom( zoom );
+
+        // float distanceMotion = sqrt( distance( first.center, second.center ) ) - sqrt( distance( first.previousCenter(), second.previousCenter() ) );
+        // std::cout << "chosen seed zoom - " << distanceMotion << std::endl;
+        // if ( distanceMotion < 10 && distanceMotion > -10 ) {
+        //     cluster.chosenSeed->zoom( distanceMotion );
+        // }
     }
 }
 
@@ -429,7 +455,10 @@ void SeedClusterApp::draw()
     tracker.drawField( cannyLowerThreshold, cannyUpperThreshold );
     gl::popModelView();
 
-	params::InterfaceGl::draw();
+	// params::InterfaceGl::draw();
+    // if ( movieWriter ) {
+    //     movieWriter.addFrame( copyWindowSurface() );
+    // }
 }
 
 
