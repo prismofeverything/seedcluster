@@ -183,7 +183,7 @@ void HandTracker::notifyListeners()
                       listener != listeners.end(); listener++ ) {
                     (*listener)->handOut( before[ *it ] );
                 }
-            } else if ( hands.size() == 1 ) {
+            } else if ( hands.size() >= 1 ) {
                 for ( std::vector<HandListener *>::iterator listener = listeners.begin(); 
                       listener != listeners.end(); listener++ ) {
                     (*listener)->secondHandOut( before[ *it ], hands.front() );

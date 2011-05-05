@@ -5,7 +5,7 @@
 namespace ix {
 
 HandCursor::HandCursor()
-    : radius( 50.0f ),
+    : radius( 1.0f ),
       alpha( 0.8f ),
       color( 0.364, 1, 0.6 ),
       goingOut( false ),
@@ -14,14 +14,17 @@ HandCursor::HandCursor()
 
 }
 
-void HandCursor::in( cv::Point _center )
+void HandCursor::in( const Hand & hand, cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
+    radiusEase = Ease( radius, 50.0f, 50 );
 }
 
 void HandCursor::out( cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
+    // radiusEase = Ease( radius, 1.0f, 30 );
+    // brightnessEase = Ease( color[2], 0.6f, 30 );
     goingOut = true;
 }
 
@@ -52,6 +55,7 @@ void HandCursor::drag( cv::Point _center )
 void HandCursor::update()
 {
     bool transitionsComplete = true;
+
     if ( !radiusEase.done() ) {
         transitionsComplete = false;
         radius = radiusEase.out();
@@ -65,9 +69,9 @@ void HandCursor::update()
         color[2] = brightnessEase.out();
     }
 
-    if ( goingOut && transitionsComplete ) {
-        complete = true;
-    }
+    // if ( goingOut && transitionsComplete ) {
+    //     complete = true;
+    // }
 }
 
 void HandCursor::draw()
@@ -121,13 +125,14 @@ void HandMap::draw()
 void HandMap::in( const Hand & hand )
 {
     HandCursor cursor;
-    cursor.in( hand.center );
+    cursor.in( hand, hand.center );
     handmap[ hand.hue ] = cursor;
 }
 
 void HandMap::out( const Hand & hand )
 {
     handmap[ hand.hue ].out( hand.smoothCenter( smoothing ) );
+    handmap.erase( hand.hue );
 }
 
 void HandMap::close( const Hand & hand )

@@ -13,7 +13,7 @@ class HandCursor {
  public:
     HandCursor();
 
-    void in( cv::Point _center );
+    void in( const Hand & hand, cv::Point _center );
     void out( cv::Point _center );
     void close( cv::Point _center );
     void open( cv::Point _center );
@@ -36,6 +36,8 @@ class HandCursor {
     Ease radiusEase;
     Ease alphaEase;
     Ease brightnessEase;
+
+    std::vector<Fingertip> fingertips;
 };
 
 class HandMap {
