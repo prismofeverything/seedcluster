@@ -351,7 +351,7 @@ void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & othe
     std::cout << "first hand open - " << open.hue << std::endl;
 }
 
-void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other ) 
+void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other )
 {
     std::cout << "second hand close - " << close.hue << std::endl;
 
