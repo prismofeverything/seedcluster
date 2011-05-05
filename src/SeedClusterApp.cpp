@@ -317,17 +317,11 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
 
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
-    cv::Point prepreprevious = hand.previousCenter( 3 );
-    cv::Point preprevious = hand.previousCenter( 2 );
-    cv::Point previous = hand.previousCenter( 1 );
-    closePoint = Vec2f( hand.center.x, hand.center.y );
-    Vec2f preprepreviousPoint = Vec2f( prepreprevious.x, prepreprevious.y );
-    Vec2f prepreviousPoint = Vec2f( preprevious.x, preprevious.y );
-    Vec2f previousPoint = Vec2f( previous.x, previous.y );
-    Vec2f average = (closePoint + previousPoint + prepreviousPoint + preprepreviousPoint) / 4.0f;
+    cv::Point average = hand.smoothCenter( 5 );
+    Vec2f smooth( average.x, average.y );
 
     if ( cluster.isSeedChosen() ) {
-        cluster.chosenSeed->seek( average );
+        cluster.chosenSeed->seek( smooth );
     }
 }
 
@@ -383,12 +377,6 @@ void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & s
     if ( cluster.isSeedChosen() ) {
         float zoom = sqrt( distance( first.center, second.center ) ) - zoomAnchor;
         cluster.chosenSeed->zoom( zoom );
-
-        // float distanceMotion = sqrt( distance( first.center, second.center ) ) - sqrt( distance( first.previousCenter(), second.previousCenter() ) );
-        // std::cout << "chosen seed zoom - " << distanceMotion << std::endl;
-        // if ( distanceMotion < 10 && distanceMotion > -10 ) {
-        //     cluster.chosenSeed->zoom( distanceMotion );
-        // }
     }
 }
 
@@ -438,28 +426,25 @@ void SeedClusterApp::draw()
 {
 	gl::clear( Color( CM_HSV, background ) );
     cluster.draw();
-    Vec3f center;
 
-    // gl::pushModelView();
-    // gl::translate( Vec3f( 0.0f, 0.0f, -5.0f ) );
-    // glColor4f( 0.4f, 0.5f, 0.4f, 1.0f );
-    // drawMat( depth );
-    // gl::popModelView();
+    for ( std::vector<ix::Hand>::iterator hand = tracker.hands.begin(); hand < tracker.hands.end(); hand++ ) {
+        if ( hand->isHand ) {
+            setColor( Vec3f( hand->hue, 0.5f, 0.7f ), 0.8f );
+            gl::drawSolidCircle( ci::Vec2f( hand->center.x, hand->center.y ), 20.0f );
 
-    for ( std::vector<ix::Hand>::iterator it = tracker.hands.begin(); it < tracker.hands.end(); it++ ) {
-        if ( it->isHand ) {
-            setColor( Vec3f( it->hue, 0.5f, 0.7f ), 0.8f );
-            gl::drawSolidCircle( ci::Vec2f( it->center.x, it->center.y ), 20.0f );
-
-            setColor( Vec3f( it->hue, 0.5f, 1.0f ), 0.8f );
-            it->drawFingertips();
+            setColor( Vec3f( hand->hue, 0.5f, 1.0f ), 0.8f );
+            for( vector<cv::Point2i>::iterator fingertip = hand->fingertips.begin(); fingertip != hand->fingertips.end(); fingertip++ ) {
+                gl::drawSolidCircle( ci::Vec2f( fingertip->x, fingertip->y ), 10.0f );
+                gl::drawLine( ci::Vec2f( hand->center.x, hand->center.y ), ci::Vec2f( fingertip->x, fingertip->y ) );
+            }
         }
     }
 
     gl::pushModelView();
     gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );
     setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
-    tracker.drawField( cannyLowerThreshold, cannyUpperThreshold );
+    cv::Mat field = tracker.displayField( cannyLowerThreshold, cannyUpperThreshold );
+    drawMat( field );
     gl::popModelView();
 
 	// params::InterfaceGl::draw();

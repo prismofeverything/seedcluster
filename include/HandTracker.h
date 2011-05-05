@@ -3,11 +3,11 @@
 #include <algorithm>
 #include <functional>
 #include <math.h>
-#include "cinder/Cinder.h"
-#include "cinder/Vector.h"
-#include "cinder/Rand.h"
-#include "cinder/gl/Texture.h"
-#include "cinder/gl/gl.h"
+// #include "cinder/Cinder.h"
+// #include "cinder/Vector.h"
+// #include "cinder/Rand.h"
+// #include "cinder/gl/Texture.h"
+// #include "cinder/gl/gl.h"
 #include "CinderOpenCv.h"
 #include "FrameBridge.h"
 
@@ -28,9 +28,9 @@ class Hand
     Hand();
     ~Hand() {};
     void sync( const Hand & other );
-    void drawFingertips();
     cv::Point motion() const;
     cv::Point previousCenter( int offset=1 ) const;
+    cv::Point smoothCenter( int reach=3 ) const;
     inline bool isOpen() { return fingertips.size() > 3; };
     inline bool isEntering() { return !isHand && isOpen(); };
     inline bool isOpening() { return isClosed && isOpen(); };
@@ -94,9 +94,9 @@ class HandTracker
     void detectHandsInSlice( cv::Mat z, int zMin, int zMax );
     void notifyListeners();
     void bridgeFrames();
-    void drawField( int lower, int upper );
     void registerListener( HandListener * listener );
     int numberOfHands();
+    cv::Mat displayField( int lower, int upper );
 
     std::vector<HandListener *> listeners;
 
@@ -108,7 +108,6 @@ class HandTracker
     std::vector<Hand> possibleHands;
     std::vector<Hand> hands;
     std::vector<std::vector<cv::Point> > contours;
-    ci::gl::Texture texture;
     bool blankFrame;
     bool drawable;
 };

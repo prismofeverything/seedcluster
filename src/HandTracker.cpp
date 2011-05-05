@@ -1,25 +1,19 @@
 #include <algorithm>
 #include <functional>
-#include "cminpack.h"
-#include "cinder/Cinder.h"
-#include "cinder/Vector.h"
 #include "cinder/Rand.h"
-#include "cinder/gl/gl.h"
-#include "cinder/gl/Texture.h"
 #include "CinderOpenCv.h"
 #include "HandTracker.h"
 
 using namespace cv;
 using namespace std;
-using namespace cinder;
 
 #define TAU 6.2831853071795862f
 
 namespace ix {
-
+    
 Hand::Hand()
 {
-    hue = Rand::randFloat();
+    hue = ci::Rand::randFloat();
     isHand = false;
     isClosed = false;
     pathIndex = 0;
@@ -51,17 +45,22 @@ cv::Point Hand::previousCenter( int offset ) const
     return path[previousIndex];
 }
 
+cv::Point Hand::smoothCenter( int reach ) const
+{
+    cv::Point average( 0.0f, 0.0f );
+    if ( reach > 0 ) {
+        for ( int rr = 0; rr < reach; rr++ ) {
+            average += previousCenter( rr );
+        }
+        average *= (1.0f / reach);
+    }
+
+    return average;
+}
+
 cv::Point Hand::motion() const 
 {
     return path[pathIndex] - previousCenter();
-}
-
-void Hand::drawFingertips()
-{
-    for( vector<Point2i>::iterator it = fingertips.begin(); it != fingertips.end(); it++ ) {
-        gl::drawSolidCircle( ci::Vec2f( it->x, it->y ), 10.0f );
-        gl::drawLine( ci::Vec2f( center.x, center.y ), ci::Vec2f( it->x, it->y ) );
-    }
 }
 
 double angleBetween( const cv::Point & center, const cv::Point & a, const cv::Point & b )
@@ -95,7 +94,7 @@ void HandTracker::detectHands( cv::Mat z )
 
     depth = z.clone();
     adaptThreshold( z, 0 );
-    detectHandsInSlice( z, 150, 255 );
+    detectHandsInSlice( z, 130, 255 );
 
     notifyListeners();
 }
@@ -353,7 +352,7 @@ void HandTracker::bridgeFrames()
     }
 }
 
-void HandTracker::drawField( int lower, int upper )
+cv::Mat HandTracker::displayField( int lower, int upper )
 {
     if ( !depth.rows == 0 ) {
         // cv::Mat amp = handmask * 254.0f;
@@ -377,11 +376,9 @@ void HandTracker::drawField( int lower, int upper )
         //         }
         //     }
         // }
-
-        texture = ci::gl::Texture( ci::fromOcv( depth ) );
-
-        ci::gl::draw( texture );
     }
+
+    return depth;
 }
 
 } // namespace ix
