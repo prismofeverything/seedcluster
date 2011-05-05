@@ -39,10 +39,14 @@ void Hand::sync( const Hand & other )
 
 cv::Point Hand::previousCenter( int offset ) const 
 {
-    int previousIndex = pathIndex-offset;
-    while ( previousIndex < 0 ) previousIndex += maxHistory;
-    while ( previousIndex >= maxHistory ) previousIndex -= maxHistory;
-    return path[previousIndex];
+    if ( !path.empty() ) {
+        int previousIndex = pathIndex-offset;
+        while ( previousIndex < 0 ) previousIndex += maxHistory;
+        while ( previousIndex >= maxHistory ) previousIndex -= maxHistory;
+        return path[previousIndex];
+    } else {
+        return cv::Point();
+    }
 }
 
 cv::Point Hand::smoothCenter( int reach ) const
