@@ -276,7 +276,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>27</integer>
+									<integer>17</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -328,7 +328,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>40432C4C1373210400888C35</string>
+										<string>40432C5B13734DA200888C35</string>
 										<key>history</key>
 										<array>
 											<string>4003D403134F86C30058C709</string>
@@ -546,7 +546,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>40432C4D1373210400888C35</string>
 		<string>40432BB1137309C000888C35</string>
 		<string>40432BB2137309C000888C35</string>
 		<string>1C78EAAD065D492600B07095</string>
@@ -576,7 +575,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>SeedClusterApp.cpp</string>
+								<string>FrameBridge.h</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>

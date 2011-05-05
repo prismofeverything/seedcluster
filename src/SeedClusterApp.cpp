@@ -15,6 +15,7 @@
 #include "Kinect.h"
 #include "Ease.h"
 #include "HandTracker.h"
+#include "HandCursor.h"
 #include "TileCluster.h"
 #include "Resources.h"
 
@@ -113,6 +114,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Vec3f kinectColor;
 
     ix::HandTracker tracker;
+    ix::HandMap handmap;
     std::vector<float> hues;
     ci::Vec2f closePoint;
     ci::Vec2f zoomPoint;
@@ -286,6 +288,7 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
 void SeedClusterApp::handIn( const ix::Hand & hand )
 {
     std::cout << "hand in - " << hand.hue << std::endl;
+    handmap.in( hand );
 
     // hueEase = Ease( background[0], oneBackground[0], 100 );
     // saturationEase = Ease( background[1], oneBackground[1], 100 );
@@ -295,6 +298,7 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
 void SeedClusterApp::handOut( const ix::Hand & hand )
 {
     std::cout << "hand out - " << hand.hue << std::endl;
+    handmap.out( hand );
 
     // hueEase = Ease( background[0], defaultBackground[0], 100 );
     // saturationEase = Ease( background[1], defaultBackground[1], 100 );
@@ -304,12 +308,14 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
 
 void SeedClusterApp::handMove( const ix::Hand & hand )
 {
+    handmap.move( hand );
     cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
 }
 
 void SeedClusterApp::handClose( const ix::Hand & hand )
 {
     std::cout << "hand close - " << hand.hue << std::endl;
+    handmap.close( hand );
 
     closePoint = Vec2i( hand.center.x, hand.center.y );
 
@@ -323,12 +329,15 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 void SeedClusterApp::handOpen( const ix::Hand & hand )
 {
     std::cout << "hand open - " << hand.hue << std::endl;
+    handmap.open( hand );
 
     cluster.releaseSeed();
 }
 
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
+    handmap.drag( hand );
+
     cv::Point average = hand.smoothCenter( 10 );
     Vec2f smooth( average.x, average.y );
 
@@ -340,11 +349,13 @@ void SeedClusterApp::handDrag( const ix::Hand & hand )
 void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other ) 
 {
     std::cout << "second hand in - " << in.hue << std::endl;
+    handmap.in( in );
 }
 
 void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other ) 
 {
     std::cout << "second hand out - " << out.hue << std::endl;
+    handmap.out( out );
 }
 
 void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & other ) 
@@ -364,6 +375,7 @@ void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & othe
 void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other )
 {
     std::cout << "second hand close - " << close.hue << std::endl;
+    handmap.close( close );
 
     closePoint = Vec2i( other.center.x, other.center.y );
     zoomPoint = Vec2i( close.center.x, close.center.y );
@@ -393,6 +405,8 @@ void SeedClusterApp::mixedHandsMove( const ix::Hand & open, const ix::Hand & clo
 void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & second ) 
 {
     std::cout << "closed hands move" << std::endl;
+    handmap.drag( first );
+    handmap.drag( second );
 
     if ( cluster.isSeedChosen() ) {
         float zoom = sqrt( distance( first.smoothCenter( 3 ), second.smoothCenter( 3 ) ) ) / zoomAnchor;
@@ -433,7 +447,9 @@ void SeedClusterApp::update()
 
     gl::setMatrices( camera );
     gl::rotate( rotation );
+
     cluster.update();
+    handmap.update();
 }
 
 void SeedClusterApp::drawMat( cv::Mat & mat ) 
@@ -476,12 +492,14 @@ void SeedClusterApp::drawCursor( cv::Point smooth, float radius, float alpha )
 
 void SeedClusterApp::drawSmoothHands()
 {
-    for ( std::vector<ix::Hand>::iterator hand = tracker.hands.begin(); hand < tracker.hands.end(); hand++ ) {
-        if ( hand->isHand ) {
-            cv::Point2f smooth = hand->smoothCenter( 10 );
-            drawCursor( smooth, 50.0f, 0.8f );
-        }
-    }
+    handmap.draw();
+
+    // for ( std::vector<ix::Hand>::iterator hand = tracker.hands.begin(); hand < tracker.hands.end(); hand++ ) {
+    //     if ( hand->isHand ) {
+    //         cv::Point2f smooth = hand->smoothCenter( 10 );
+    //         drawCursor( smooth, 50.0f, 0.8f );
+    //     }
+    // }
 }
 
 void SeedClusterApp::drawField()

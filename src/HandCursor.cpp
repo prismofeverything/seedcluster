@@ -1,34 +1,153 @@
+#include "cinder/gl/gl.h"
+#include "CinderOpenCv.h"
+#include "HandCursor.h"
+
+namespace ix {
+
 HandCursor::HandCursor()
+    : radius( 50.0f ),
+      alpha( 0.8f ),
+      color( 0.364, 1, 0.6 ),
+      goingOut( false ),
+      complete( false )
 {
 
+}
+
+void HandCursor::in( cv::Point _center )
+{
+    center = ci::Vec2f( _center.x, _center.y );
+}
+
+void HandCursor::out( cv::Point _center )
+{
+    center = ci::Vec2f( _center.x, _center.y );
+    goingOut = true;
+}
+
+void HandCursor::close( cv::Point _center )
+{
+    center = ci::Vec2f( _center.x, _center.y );
+    radiusEase = Ease( radius, 30.0f, 50 );
+    brightnessEase = Ease( color[2], 0.9f, 50 );
+}
+
+void HandCursor::open( cv::Point _center )
+{
+    center = ci::Vec2f( _center.x, _center.y );
+    radiusEase = Ease( radius, 50.0f, 50 );
+    brightnessEase = Ease( color[2], 0.6f, 50 );
+}
+
+void HandCursor::move( cv::Point _center )
+{
+    center = ci::Vec2f( _center.x, _center.y );
+}
+
+void HandCursor::drag( cv::Point _center )
+{
+    center = ci::Vec2f( _center.x, _center.y );
 }
 
 void HandCursor::update()
 {
+    bool transitionsComplete = true;
     if ( !radiusEase.done() ) {
+        transitionsComplete = false;
         radius = radiusEase.out();
     }
-    if ( !radiusEase.done() ) {
-        radius = radiusEase.out();
+    if ( !alphaEase.done() ) {
+        transitionsComplete = false;
+        alpha = alphaEase.out();
     }
-    if ( !radiusEase.done() ) {
-        radius = radiusEase.out();
+    if ( !brightnessEase.done() ) {
+        transitionsComplete = false;
+        color[2] = brightnessEase.out();
     }
 
+    if ( goingOut && transitionsComplete ) {
+        complete = true;
+    }
 }
 
 void HandCursor::draw()
 {
-    gl::pushModelView();
-    gl::enableAlphaBlending();
+    ci::gl::pushModelView();
+    ci::gl::enableAlphaBlending();
+
     glColor4f( 1, 1, 1, alpha );
-    gl::drawSolidCircle( center, radius * 0.2 );
-    setColor( Vec3f( 0.364, 1, 0.6 ), alpha );
-    gl::drawSolidCircle( center, radius * 0.9 );
+    ci::gl::drawSolidCircle( center, radius * 0.2 );
+
+    ci::Color hsv( ci::CM_HSV, color );
+    glColor4f( hsv.r, hsv.g, hsv.b, alpha );
+    ci::gl::drawSolidCircle( center, radius * 0.9 );
+
     glColor4f( 1, 1, 1, alpha );
-    gl::translate( Vec3f( 0, 0, -1 ) );
-    gl::drawSolidCircle( center, radius );
-    gl::disableAlphaBlending();
-    gl::popModelView();
+    ci::gl::translate( ci::Vec3f( 0, 0, -1 ) );
+    ci::gl::drawSolidCircle( center, radius );
+
+    ci::gl::disableAlphaBlending();
+    ci::gl::popModelView();
 }
 
+HandCursor & HandMap::get( const Hand & hand )
+{
+    return handmap[ hand.hue ];
+}
+
+void HandMap::update()
+{
+    std::vector<float> outs;
+
+    for ( std::map<float, HandCursor>::iterator cursor = handmap.begin(); cursor != handmap.end(); cursor++ ) {
+        cursor->second.update();
+        if ( cursor->second.isOut() ) {
+            outs.push_back( cursor->first );
+        }
+    }
+
+    for ( std::vector<float>::iterator oo = outs.begin(); oo != outs.end(); oo++ ) {
+        handmap.erase( *oo );
+    }
+}
+
+void HandMap::draw()
+{
+    for ( std::map<float, HandCursor>::iterator cursor = handmap.begin(); cursor != handmap.end(); cursor++ ) {
+        cursor->second.draw();
+    }
+}
+
+void HandMap::in( const Hand & hand )
+{
+    HandCursor cursor;
+    cursor.in( hand.center );
+    handmap[ hand.hue ] = cursor;
+}
+
+void HandMap::out( const Hand & hand )
+{
+    handmap[ hand.hue ].out( hand.smoothCenter( smoothing ) );
+}
+
+void HandMap::close( const Hand & hand )
+{
+    handmap[ hand.hue ].close( hand.smoothCenter( smoothing ) );
+}
+
+void HandMap::open( const Hand & hand )
+{
+    handmap[ hand.hue ].open( hand.smoothCenter( smoothing ) );
+}
+
+void HandMap::move( const Hand & hand )
+{
+    handmap[ hand.hue ].move( hand.smoothCenter( smoothing ) );
+}
+
+void HandMap::drag( const Hand & hand )
+{
+    handmap[ hand.hue ].drag( hand.smoothCenter( smoothing ) );
+}
+
+} // namespace ix
