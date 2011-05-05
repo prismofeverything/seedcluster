@@ -30,7 +30,7 @@ class Hand
     void sync( const Hand & other );
     void drawFingertips();
     cv::Point motion() const;
-    cv::Point previousCenter() const;
+    cv::Point previousCenter( int offset=1 ) const;
     inline bool isOpen() { return fingertips.size() > 3; };
     inline bool isEntering() { return !isHand && isOpen(); };
     inline bool isOpening() { return isClosed && isOpen(); };

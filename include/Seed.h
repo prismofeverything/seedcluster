@@ -8,7 +8,7 @@
 
 class Seed {
  public:
-    Seed( ci::Vec2i _center,
+    Seed( ci::Vec2f _center,
           ci::Vec3f _color );
 
     void update();
@@ -19,7 +19,7 @@ class Seed {
     void choose();
     void release();
 
-    void seek( ci::Vec2i towards );
+    void seek( ci::Vec2f towards );
     void zoom( float factor );
 
     float radius;
@@ -27,7 +27,7 @@ class Seed {
     float hoverRadius;
     float z;
 
-    ci::Vec2i center;
+    ci::Vec2f center;
     ci::Vec3f color;
     ci::Vec3f originalColor;
 

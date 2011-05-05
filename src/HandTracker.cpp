@@ -43,14 +43,17 @@ void Hand::sync( const Hand & other )
     }
 }
 
-cv::Point Hand::previousCenter() const 
+cv::Point Hand::previousCenter( int offset ) const 
 {
-    return path[(pathIndex - 1) % maxHistory];
+    int previousIndex = pathIndex-offset;
+    while ( previousIndex < 0 ) previousIndex += maxHistory;
+    while ( previousIndex >= maxHistory ) previousIndex -= maxHistory;
+    return path[previousIndex];
 }
 
 cv::Point Hand::motion() const 
 {
-    return path[pathIndex] - path[(pathIndex - 1) % maxHistory];
+    return path[pathIndex] - previousCenter();
 }
 
 void Hand::drawFingertips()

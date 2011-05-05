@@ -16,7 +16,7 @@ using namespace std;
 
 #define TAU 6.2831853071795862f
 
-Seed::Seed( Vec2i _center, Vec3f _color )
+Seed::Seed( Vec2f _center, Vec3f _color )
     : center( _center ),
       color( _color ),
       originalColor( _color ), 
@@ -50,9 +50,9 @@ void Seed::release()
     brightnessEase = Ease( color[2], originalColor[2], 50 );
 }
 
-void Seed::seek( ci::Vec2i towards )
+void Seed::seek( ci::Vec2f towards )
 {
-    center += (towards - center) * 0.7;
+    center += (towards - center) * 0.5;
 
     // xEase.realign( center[0], towards[0], 50 );
     // yEase.realign( center[1], towards[1], 50 );
@@ -60,7 +60,7 @@ void Seed::seek( ci::Vec2i towards )
 
 void Seed::zoom( float factor )
 {
-    zoomFactor += factor * 0.1;
+    zoomFactor += factor * 0.05;
 
     // zoomFactor += factor * 0.1;
     // // zoomFactor -= zoomFactor * 0.005;

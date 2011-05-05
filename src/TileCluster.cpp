@@ -54,7 +54,7 @@ void TileCluster::unhover()
 
 void TileCluster::plantSeed( Vec2i center, Vec3f color )
 {
-    chosenSeed = seeds.insert( seeds.begin(), Seed( center, color ) );
+    chosenSeed = seeds.insert( seeds.begin(), Seed( Vec2f( center.x, center.y ), color ) );
     chosenSeed->choose();
     hoverSeed = seeds.end();
 }
