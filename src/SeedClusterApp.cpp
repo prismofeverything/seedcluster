@@ -27,42 +27,46 @@ using namespace std;
 
 class Particle {
 public:
-	Particle( Vec2f aPosition )
-	: mPosition( aPosition ), mLastPosition( aPosition ), mVelocity( Vec2f::zero() ), mZ( 0 )
-	{}
-	
-	Vec2f mPosition, mVelocity, mLastPosition;
-	Vec2i centering;
-	float mZ;
+    Particle( Vec2f aPosition )
+    : mPosition( aPosition ), mLastPosition( aPosition ), mVelocity( Vec2f::zero() ), mZ( 0 )
+    {}
+    
+    Vec2f mPosition, mVelocity, mLastPosition;
+    Vec2i centering;
+    float mZ;
 };
 
 class SeedClusterApp : public AppBasic, public ix::HandListener {
   public:
-	void prepareSettings( Settings *settings );
-	void setup();
-	void update();
-	void draw();
+    void prepareSettings( Settings *settings );
+    void setup();
+    void update();
+    void draw();
 
     Vec3f randomVec3f();
     Color randomColor();
     Matrix44f randomMatrix44f( float scale = 1.0f, float offset = 0.0f );
     void setColor( Vec3f color, float alpha );
 
+    void setupParticles();
+    void setupLighting();
     void setupMovieWriter();
     void updateCamera();
+    void updateParticles();
     void drawMat( cv::Mat & mat );
     void drawCursor( cv::Point, float radius, float alpha );
     void drawRawHands();
     void drawSmoothHands();
     void drawField();
     void drawMovieFrame();
+    void drawParticles();
 
-	void keyDown( KeyEvent event );	
-	void keyUp( KeyEvent event );	
-	void mouseDown( MouseEvent event );	
-	void mouseUp( MouseEvent event );	
-	void mouseMove( MouseEvent event );	
-	void mouseDrag( MouseEvent event );	
+    void keyDown( KeyEvent event ); 
+    void keyUp( KeyEvent event );   
+    void mouseDown( MouseEvent event ); 
+    void mouseUp( MouseEvent event );   
+    void mouseMove( MouseEvent event ); 
+    void mouseDrag( MouseEvent event ); 
 
     void handIn( const ix::Hand & hand );
     void handMove( const ix::Hand & hand );
@@ -102,7 +106,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     int cannyLowerThreshold;
     int cannyUpperThreshold;
     qtime::MovieWriter movieWriter;
-	params::InterfaceGl	params;
+    params::InterfaceGl params;
     ix::PointDistance distance;
 
     Vec3f defaultBackground;
@@ -116,13 +120,13 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     cv::Mat depth;
 
     // kinect
-	Kinect kinect;
+    Kinect kinect;
     bool kinectEnabled;
-	gl::Texture depthTexture;
+    gl::Texture depthTexture;
     ci::Surface depthSurface;
     std::shared_ptr<uint16_t> kinectDepth;
-	float kinectTilt, kinectScale;
-	float XOff, mYOff;
+    float kinectTilt, kinectScale;
+    float XOff, mYOff;
     int kinectWidth, kinectHeight;
     Vec3f kinectColor;
 
@@ -134,16 +138,16 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     float zoomAnchor;
 
     float bgx, bgy;
-	
-	bool				isOffscreen( const Vec2f &v );
-	float				CONSERVATION_OF_VELOCITY, SPEED;
-	static const int	NUM_INITIAL_PARTICLES = 40;
-	static const int	NUM_CLICKED_PARTICLES = 20;
-	
-	Perlin				mPerlin;
-	list<Particle>		mParticles;
-	float				mAnimationCounter;
-	float				rotationCounter;
+    
+    bool                isOffscreen( const Vec2f &v );
+    float               CONSERVATION_OF_VELOCITY, SPEED;
+    static const int    NUM_INITIAL_PARTICLES = 40;
+    static const int    NUM_CLICKED_PARTICLES = 20;
+    
+    Perlin              mPerlin;
+    list<Particle>      mParticles;
+    float               mAnimationCounter;
+    float               rotationCounter;
 
     // input
     char key;
@@ -197,8 +201,8 @@ void SeedClusterApp::prepareSettings( Settings *settings )
 
     width = 1920;
     height = 1080;
-	settings->setWindowSize( width, height );
-	settings->setFrameRate( 60.0f );
+    settings->setWindowSize( width, height );
+    settings->setFrameRate( 60.0f );
     fovea = 75.0f;
     near = 5.0f;
     far = 50000.0f;
@@ -211,6 +215,18 @@ void SeedClusterApp::updateCamera()
     camera.lookAt( towards );
 }
 
+void SeedClusterApp::setupParticles()
+{
+    mPerlin.setSeed( clock() );
+    mAnimationCounter = 0;
+    for( int s = 0; s < NUM_INITIAL_PARTICLES; ++s ) {
+        mParticles.push_back( Particle( Vec2f( getWindowWidth()*.25 + Rand::randFloat( getWindowWidth()*.5 ), Rand::randFloat( getWindowHeight()*.5 + 100 ) ) ) );
+    }
+    
+    CONSERVATION_OF_VELOCITY = 0.9f;
+    SPEED = 0.05f;
+}
+
 void SeedClusterApp::setup()
 {
     tracker.registerListener( this );
@@ -218,21 +234,10 @@ void SeedClusterApp::setup()
     cannyLowerThreshold = 0;
     cannyUpperThreshold = 0;
 
-	params = params::InterfaceGl( "seedcluster", Vec2i( 200, 180 ) );
-	params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
-	params.addParam( "canny upper threshold", &cannyUpperThreshold, "min=0 max=250 step=1" );
-	
-	
-	// set up particles //
-	mPerlin.setSeed( clock() );
-	mAnimationCounter = 0;
-	for( int s = 0; s < NUM_INITIAL_PARTICLES; ++s )
-		mParticles.push_back( Particle( Vec2f( getWindowWidth()*.25 + Rand::randFloat( getWindowWidth()*.5 ), Rand::randFloat( getWindowHeight()*.5 + 100 ) ) ) );
-	
-	CONSERVATION_OF_VELOCITY = 0.9f;
-	SPEED = 0.05f;
-	
-	
+    params = params::InterfaceGl( "seedcluster", Vec2i( 200, 180 ) );
+    params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
+    params.addParam( "canny upper threshold", &cannyUpperThreshold, "min=0 max=250 step=1" );
+    
     defaultBackground = Vec3f( 0.0f, 0.1f, 0.2f );
     oneBackground = Vec3f( 0.0f, 0.1f, 0.65f );
     manyBackground = Vec3f( 0.0f, 0.1f, 0.95f );
@@ -249,7 +254,7 @@ void SeedClusterApp::setup()
     eye = Vec3f( 0.0f, 0.0f, -500.0f );
     towards = Vec3f( 0.0f, 00.0f, 0.0f );
     up = Vec3f::yAxis();
-	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
+    camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
 
     for ( int hue = 0; hue < 20; hue++ ) {
         hues.push_back( Rand::randFloat() );
@@ -448,6 +453,27 @@ void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & s
     }
 }
 
+void SeedClusterApp::setupLighting()
+{
+    // enable lighting 
+    glEnable( GL_LIGHTING );
+    glEnable( GL_COLOR_MATERIAL );
+    glEnable( GL_LIGHT0 );
+    glShadeModel( GL_SMOOTH );
+    
+    // Create light components
+    GLfloat ambientLight[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+    GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
+    GLfloat specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+    GLfloat position[] = { -1.5f, 1.0f, -4.0f, 1.0f };
+    
+    // Assign created components to GL_LIGHT0
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+}
+
 void SeedClusterApp::update()
 {
     if ( kinectEnabled ) {
@@ -478,50 +504,51 @@ void SeedClusterApp::update()
     // eye[2] += eye[2] * 0.0035f;
     // towards[0] += 1.0f;
     updateCamera();
+    updateParticles();
 
     gl::setMatrices( camera );
     gl::rotate( rotation );
 
     cluster.update();
     handmap.update();
-	
-	// particles //
-	
-	mAnimationCounter += 10.0f; // move ahead in time, which becomes the z-axis of our 3D noise
-	
-	// Save off the last position for drawing lines
-	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
-		partIt->mLastPosition = partIt->mPosition;
-	
-	// Add some perlin noise to the velocity
-	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
-		Vec3f deriv = mPerlin.dfBm( Vec3f( partIt->mPosition.x, partIt->mPosition.y, mAnimationCounter ) * 0.001f );
-		partIt->mZ = deriv.z;
-		Vec2f deriv2( deriv.x, deriv.y+.4 );
-		deriv2.normalize();
-		partIt->mVelocity += deriv2 * SPEED;
-	}
-	
-	// Move the particles according to their velocities
-	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
-		partIt->mPosition += partIt->mVelocity;
-	
-	// Dampen the velocities for the next frame
-	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
-		partIt->mVelocity *= CONSERVATION_OF_VELOCITY;
-	
-	// Replace any particles that have gone offscreen with a random onscreen position
-	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
-		if( isOffscreen( partIt->mPosition ) )
-			*partIt = Particle( Vec2f( Rand::randFloat( getWindowWidth() ), Rand::randFloat( getWindowHeight() ) ) );
-	}
 }
 
+void SeedClusterApp::updateParticles()
+{
+    mAnimationCounter += 10.0f; // move ahead in time, which becomes the z-axis of our 3D noise
+    
+    // Save off the last position for drawing lines
+    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
+        partIt->mLastPosition = partIt->mPosition;
+    
+    // Add some perlin noise to the velocity
+    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
+        Vec3f deriv = mPerlin.dfBm( Vec3f( partIt->mPosition.x, partIt->mPosition.y, mAnimationCounter ) * 0.001f );
+        partIt->mZ = deriv.z;
+        Vec2f deriv2( deriv.x, deriv.y+.4 );
+        deriv2.normalize();
+        partIt->mVelocity += deriv2 * SPEED;
+    }
+    
+    // Move the particles according to their velocities
+    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
+        partIt->mPosition += partIt->mVelocity;
+    
+    // Dampen the velocities for the next frame
+    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
+        partIt->mVelocity *= CONSERVATION_OF_VELOCITY;
+    
+    // Replace any particles that have gone offscreen with a random onscreen position
+    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
+        if( isOffscreen( partIt->mPosition ) )
+            *partIt = Particle( Vec2f( Rand::randFloat( getWindowWidth() ), Rand::randFloat( getWindowHeight() ) ) );
+    }
+}
 
 // Returns whether a particle is visible in the target area or not //
 bool SeedClusterApp::isOffscreen( const Vec2f &v )
 {
-	return ( ( v.x < getWindowWidth()*.25 ) || ( v.x > getWindowWidth()*.75 ) || ( v.y < 0 ) || ( v.y > getWindowHeight()*.5 + 100 ) );
+    return ( ( v.x < getWindowWidth()*.25 ) || ( v.x > getWindowWidth()*.75 ) || ( v.y < 0 ) || ( v.y > getWindowHeight()*.5 + 100 ) );
 }
 
 
@@ -555,19 +582,19 @@ void SeedClusterApp::drawCursor( cv::Point smooth, float radius, float alpha )
     ci::Vec2f center = ci::Vec2f( smooth.x, smooth.y );
     glColor4f( 1, 1, 1, alpha );
     gl::drawSolidCircle( center, radius * 0.2 );
-	gl::popModelView();
-	
-	gl::pushModelView();
+    gl::popModelView();
+    
+    gl::pushModelView();
     setColor( Vec3f( 0.364, 1, 0.6 ), alpha );
     gl::drawSolidCircle( center, radius * 0.9 );
-	gl::popModelView();
-	
-	gl::pushModelView();
+    gl::popModelView();
+    
+    gl::pushModelView();
     glColor4f( 1, 1, 1, alpha );
     gl::translate( Vec3f( 0, 0, -1 ) );
     gl::drawSolidCircle( center, radius );
     gl::disableAlphaBlending();
-	gl::popModelView();
+    gl::popModelView();
 }
 
 void SeedClusterApp::drawSmoothHands()
@@ -592,44 +619,29 @@ void SeedClusterApp::drawMovieFrame()
     }
 }
 
+void SeedClusterApp::drawParticles()
+{
+    glBegin( GL_LINES );
+    glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+    
+    // draw all the particles as lines from mPosition to mLastPosition
+    glLineWidth(2.0f);
+    
+    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
+        glColor4f( 1.0f,1.0f,1.0f,0.3f );
+        glVertex2f( partIt->mLastPosition );
+        glVertex2f( partIt->mPosition );
+    }
+    
+    glEnd();
+}
+
 void SeedClusterApp::draw()
 {
-	
-	// clear it out to the bg
-	gl::clear( Color( CM_HSV, background ) );
-	
-	// enable lighting 
-	glEnable( GL_LIGHTING );
-	glEnable( GL_COLOR_MATERIAL );
-	glEnable( GL_LIGHT0 );
-	glShadeModel( GL_SMOOTH );
-	
-	// Create light components
-	GLfloat ambientLight[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-	GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
-	GLfloat specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-	GLfloat position[] = { -1.5f, 1.0f, -4.0f, 1.0f };
-	
-	// Assign created components to GL_LIGHT0
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
-	glLightfv(GL_LIGHT0, GL_POSITION, position);
-	
-	glBegin( GL_LINES );
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-	
-	// draw all the particles as lines from mPosition to mLastPosition
-	glLineWidth(2.0f);
-	
-	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
-		glColor4f( 1.0f,1.0f,1.0f,0.3f );
-		glVertex2f( partIt->mLastPosition );
-		glVertex2f( partIt->mPosition );
-	}
-	
-	glEnd();
-	
+    
+    // clear it out to the bg
+    gl::clear( Color( CM_HSV, background ) );
+    
     gl::pushModelView();
     gl::disableAlphaBlending();
     // setColor( Vec3f( 0.364, 1, 1 ), 1.0f );
@@ -640,17 +652,15 @@ void SeedClusterApp::draw()
 
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
     gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
+    drawParticles();
     drawSmoothHands();
     // cluster.draw();
     // drawRawHands();
     // drawField();
     gl::popModelView();
-	gl::enableAlphaBlending();	
-	glColor4f(1.0f,1.0f,1.0f,100);
-	
-
-    // gl::enableAdditiveBlending();
-
+    gl::enableAlphaBlending();  
+    glColor4f(1.0f,1.0f,1.0f,100);
+    
     // params::InterfaceGl::draw();
     // drawMovieFrame();
 }
