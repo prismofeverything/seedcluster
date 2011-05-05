@@ -22,7 +22,7 @@ Seed::Seed( Vec2f _center, Vec3f _color )
       originalColor( _color ), 
       alpha( 0.8f ),
       radius( 1.0f ),
-      zoomFactor( 0.0f )
+      zoomFactor( 1.0f )
 {
     z = 0; // Rand::randFloat() * -20.0 - 20.0;
     baseRadius = Rand::randFloat() * 50.0f + 40.0f;
@@ -52,7 +52,7 @@ void Seed::release()
 
 void Seed::seek( ci::Vec2f towards )
 {
-    center += (towards - center) * 0.5;
+    center += (towards - center) * 0.8;
 
     // xEase.realign( center[0], towards[0], 50 );
     // yEase.realign( center[1], towards[1], 50 );
@@ -60,8 +60,9 @@ void Seed::seek( ci::Vec2f towards )
 
 void Seed::zoom( float factor )
 {
-    zoomFactor += factor * 0.05;
+    zoomFactor += (factor - zoomFactor) * 0.2;
 
+    // zoomFactor += factor * 0.05;
     // zoomFactor += factor * 0.1;
     // // zoomFactor -= zoomFactor * 0.005;
 
@@ -100,7 +101,7 @@ void Seed::draw()
     glColor4f( colorcolor.r, colorcolor.g, colorcolor.b, alpha );
     gl::pushModelView();
     gl::translate( Vec3f( 0.0f, 0.0f, z ) );
-    gl::drawSolidCircle( center, radius + zoomFactor );
+    gl::drawSolidCircle( center, radius * zoomFactor );
     gl::popModelView();
 }
 

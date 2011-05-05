@@ -34,8 +34,12 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Matrix44f randomMatrix44f( float scale = 1.0f, float offset = 0.0f );
     void setColor( Vec3f color, float alpha );
 
-    void drawMat( cv::Mat & mat );
+    void setupMovieWriter();
     void updateCamera();
+    void drawMat( cv::Mat & mat );
+    void drawRawHands();
+    void drawField();
+    void drawMovieFrame();
 
 	void keyDown( KeyEvent event );	
 	void keyUp( KeyEvent event );	
@@ -73,6 +77,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     float fovea;
     float near;
     float far;
+    gl::Texture backgroundTexture;
 
     int width;
     int height;
@@ -192,6 +197,7 @@ void SeedClusterApp::setup()
     manyBackground = Vec3f( 0.0f, 0.1f, 0.95f );
     background = defaultBackground;
     bloomColor = Vec3f( Rand::randFloat(), 0.4f, 1.0f );
+    backgroundTexture = gl::Texture( loadImage( loadResource( RES_BACKGROUND ) ) );
 
     mouseIsDown = false;
     keyIsDown = false;
@@ -221,13 +227,18 @@ void SeedClusterApp::setup()
     gl::enableDepthRead();
     gl::enableDepthWrite();
 
-    // std::string path = getSaveFilePath();
-    // if ( !path.empty() ) {
-    //     qtime::MovieWriter::Format format;
-    //     if( qtime::MovieWriter::getUserCompressionSettings( &format, loadImage( loadResource( RES_WHIRLPOOL ) ) ) ) {
-    //         movieWriter = qtime::MovieWriter( path, getWindowWidth(), getWindowHeight(), format );
-    //     }
-    // }
+    // setupMovieWriter();
+}
+
+void SeedClusterApp::setupMovieWriter()
+{
+    std::string path = getSaveFilePath();
+    if ( !path.empty() ) {
+        qtime::MovieWriter::Format format;
+        if( qtime::MovieWriter::getUserCompressionSettings( &format, loadImage( loadResource( RES_WHIRLPOOL ) ) ) ) {
+            movieWriter = qtime::MovieWriter( path, getWindowWidth(), getWindowHeight(), format );
+        }
+    }
 }
 
 void SeedClusterApp::keyDown( KeyEvent event )
@@ -246,7 +257,6 @@ void SeedClusterApp::mouseDown( MouseEvent event )
     mouseIsDown = true;
     bloomColor[2] = Rand::randFloat();
 
-    // cluster.bloomPoint( mousePosition - centering, mouseVelocity, bloomColor );
     cluster.mouseDown( centering, mouseVelocity, bloomColor );
 }
 
@@ -288,11 +298,7 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
 
 void SeedClusterApp::handMove( const ix::Hand & hand )
 {
-    if ( tracker.numberOfHands() == 1 ) {
-        cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
-    } else {
-        cluster.unhover();
-    }
+    cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
 }
 
 void SeedClusterApp::handClose( const ix::Hand & hand )
@@ -338,11 +344,15 @@ void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other
 void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & other ) 
 {
     std::cout << "first hand close - " << close.hue << std::endl;
+
+    handClose( close );
 }
 
 void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & other ) 
 {
     std::cout << "first hand open - " << open.hue << std::endl;
+
+    handOpen( open );
 }
 
 void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other )
@@ -358,16 +368,20 @@ void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & o
 void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & other ) 
 {
     std::cout << "second hand open - " << open.hue << std::endl;
+
+    handOpen( open );
 }
 
 void SeedClusterApp::openHandsMove( const ix::Hand & first, const ix::Hand & second ) 
 {
-
+    handMove( first );
+    handMove( second );
 }
 
 void SeedClusterApp::mixedHandsMove( const ix::Hand & open, const ix::Hand & close ) 
 {
-
+    handMove( open );
+    handDrag( close );
 }
 
 void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & second ) 
@@ -375,8 +389,8 @@ void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & s
     std::cout << "closed hands move" << std::endl;
 
     if ( cluster.isSeedChosen() ) {
-        float zoom = sqrt( distance( first.center, second.center ) ) - zoomAnchor;
-        cluster.chosenSeed->zoom( zoom );
+        float zoom = sqrt( distance( first.smoothCenter( 3 ), second.smoothCenter( 3 ) ) ) / zoomAnchor;
+        cluster.chosenSeed->zoom( pow( zoom, 2 ) );
     }
 }
 
@@ -422,11 +436,8 @@ void SeedClusterApp::drawMat( cv::Mat & mat )
     gl::draw( texture );
 }
 
-void SeedClusterApp::draw()
+void SeedClusterApp::drawRawHands()
 {
-	gl::clear( Color( CM_HSV, background ) );
-    cluster.draw();
-
     for ( std::vector<ix::Hand>::iterator hand = tracker.hands.begin(); hand < tracker.hands.end(); hand++ ) {
         if ( hand->isHand ) {
             setColor( Vec3f( hand->hue, 0.5f, 0.7f ), 0.8f );
@@ -439,18 +450,36 @@ void SeedClusterApp::draw()
             }
         }
     }
+}
 
+void SeedClusterApp::drawField()
+{
     gl::pushModelView();
     gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );
     setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
     cv::Mat field = tracker.displayField( cannyLowerThreshold, cannyUpperThreshold );
     drawMat( field );
     gl::popModelView();
+}
+
+void SeedClusterApp::drawMovieFrame()
+{
+    if ( movieWriter ) {
+        movieWriter.addFrame( copyWindowSurface() );
+    }
+}
+
+void SeedClusterApp::draw()
+{
+	gl::clear( Color( CM_HSV, background ) );
+    // gl::draw( backgroundTexture );
+
+    cluster.draw();
+    drawRawHands();
+    drawField();
 
 	// params::InterfaceGl::draw();
-    // if ( movieWriter ) {
-    //     movieWriter.addFrame( copyWindowSurface() );
-    // }
+    // drawMovieFrame();
 }
 
 

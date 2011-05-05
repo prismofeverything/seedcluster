@@ -118,7 +118,8 @@ void HandTracker::adaptThreshold( cv::Mat z, int threshold )
 void HandTracker::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
 { 
     handmask = z < zMax & z > zMin;
-    cv::morphologyEx( handmask, handmask, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 2 );
+    cv::morphologyEx( handmask, handmask, cv::MORPH_OPEN, cv::Mat(), cv::Point( -1, -1 ), 3 );
+    cv::morphologyEx( handmask, handmask, cv::MORPH_CLOSE, cv::Mat(), cv::Point( -1, -1 ), 3 );
     // cv::dilate( handmask, handmask, cv::Mat(), cv::Point( -1, -1 ), 3 );
     before = possibleHands;
     possibleHands.clear();
