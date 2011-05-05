@@ -1,6 +1,7 @@
 #include <iostream>
 #include "cinder/app/AppBasic.h"
 #include "cinder/Rand.h"
+#include "cinder/Perlin.h"
 #include "cinder/Vector.h"
 #include "cinder/Matrix.h"
 #include "cinder/Color.h"
@@ -21,6 +22,18 @@
 using namespace ci;
 using namespace ci::app;
 using namespace std;
+
+
+class Particle {
+public:
+	Particle( Vec2f aPosition )
+	: mPosition( aPosition ), mLastPosition( aPosition ), mVelocity( Vec2f::zero() ), mZ( 0 )
+	{}
+	
+	Vec2f mPosition, mVelocity, mLastPosition;
+	Vec2i centering;
+	float mZ;
+};
 
 class SeedClusterApp : public AppBasic, public ix::HandListener {
   public:
@@ -119,6 +132,16 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     float zoomAnchor;
 
     float bgx, bgy;
+	
+	bool				isOffscreen( const Vec2f &v );
+	float				CONSERVATION_OF_VELOCITY, SPEED;
+	static const int	NUM_INITIAL_PARTICLES = 40;
+	static const int	NUM_CLICKED_PARTICLES = 20;
+	
+	Perlin				mPerlin;
+	list<Particle>		mParticles;
+	float				mAnimationCounter;
+	float				rotationCounter;
 
     // input
     char key;
@@ -196,7 +219,18 @@ void SeedClusterApp::setup()
 	params = params::InterfaceGl( "seedcluster", Vec2i( 200, 180 ) );
 	params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
 	params.addParam( "canny upper threshold", &cannyUpperThreshold, "min=0 max=250 step=1" );
-
+	
+	
+	// set up particles //
+	mPerlin.setSeed( clock() );
+	mAnimationCounter = 0;
+	for( int s = 0; s < NUM_INITIAL_PARTICLES; ++s )
+		mParticles.push_back( Particle( Vec2f( getWindowWidth()*.25 + Rand::randFloat( getWindowWidth()*.5 ), Rand::randFloat( getWindowHeight()*.5 + 100 ) ) ) );
+	
+	CONSERVATION_OF_VELOCITY = 0.9f;
+	SPEED = 0.05f;
+	
+	
     defaultBackground = Vec3f( 0.0f, 0.1f, 0.2f );
     oneBackground = Vec3f( 0.0f, 0.1f, 0.65f );
     manyBackground = Vec3f( 0.0f, 0.1f, 0.95f );
@@ -434,7 +468,51 @@ void SeedClusterApp::update()
     gl::setMatrices( camera );
     gl::rotate( rotation );
     cluster.update();
+	
+	
+	// particles //
+	
+	mAnimationCounter += 10.0f; // move ahead in time, which becomes the z-axis of our 3D noise
+	
+	// Save off the last position for drawing lines
+	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
+		partIt->mLastPosition = partIt->mPosition;
+	
+	// Add some perlin noise to the velocity
+	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
+		Vec3f deriv = mPerlin.dfBm( Vec3f( partIt->mPosition.x, partIt->mPosition.y, mAnimationCounter ) * 0.001f );
+		partIt->mZ = deriv.z;
+		Vec2f deriv2( deriv.x, deriv.y+.4 );
+		deriv2.normalize();
+		partIt->mVelocity += deriv2 * SPEED;
+	}
+	
+	// Move the particles according to their velocities
+	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
+		partIt->mPosition += partIt->mVelocity;
+	
+	// Dampen the velocities for the next frame
+	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
+		partIt->mVelocity *= CONSERVATION_OF_VELOCITY;
+	
+	// Replace any particles that have gone offscreen with a random onscreen position
+	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
+		if( isOffscreen( partIt->mPosition ) )
+			*partIt = Particle( Vec2f( Rand::randFloat( getWindowWidth() ), Rand::randFloat( getWindowHeight() ) ) );
+	}
+	
+	
+	
 }
+
+
+// Returns whether a particle is visible in the target area or not //
+bool SeedClusterApp::isOffscreen( const Vec2f &v )
+{
+	return ( ( v.x < getWindowWidth()*.25 ) || ( v.x > getWindowWidth()*.75 ) || ( v.y < 0 ) || ( v.y > getWindowHeight()*.5 + 100 ) );
+}
+
+
 
 void SeedClusterApp::drawMat( cv::Mat & mat ) 
 {
@@ -465,13 +543,19 @@ void SeedClusterApp::drawCursor( cv::Point smooth, float radius, float alpha )
     ci::Vec2f center = ci::Vec2f( smooth.x, smooth.y );
     glColor4f( 1, 1, 1, alpha );
     gl::drawSolidCircle( center, radius * 0.2 );
+	gl::popModelView();
+	
+	gl::pushModelView();
     setColor( Vec3f( 0.364, 1, 0.6 ), alpha );
     gl::drawSolidCircle( center, radius * 0.9 );
+	gl::popModelView();
+	
+	gl::pushModelView();
     glColor4f( 1, 1, 1, alpha );
     gl::translate( Vec3f( 0, 0, -1 ) );
     gl::drawSolidCircle( center, radius );
     gl::disableAlphaBlending();
-    gl::popModelView();
+	gl::popModelView();
 }
 
 void SeedClusterApp::drawSmoothHands()
@@ -479,7 +563,7 @@ void SeedClusterApp::drawSmoothHands()
     for ( std::vector<ix::Hand>::iterator hand = tracker.hands.begin(); hand < tracker.hands.end(); hand++ ) {
         if ( hand->isHand ) {
             cv::Point2f smooth = hand->smoothCenter( 10 );
-            drawCursor( smooth, 50.0f, 0.8f );
+            drawCursor( smooth, 20.0f, 0.8f );
         }
     }
 }
@@ -503,8 +587,42 @@ void SeedClusterApp::drawMovieFrame()
 
 void SeedClusterApp::draw()
 {
+	
+	// clear it out to the bg
 	gl::clear( Color( CM_HSV, background ) );
-
+	
+	// enable lighting 
+	glEnable( GL_LIGHTING );
+	glEnable( GL_COLOR_MATERIAL );
+	glEnable( GL_LIGHT0 );
+	glShadeModel( GL_SMOOTH );
+	
+	// Create light components
+	GLfloat ambientLight[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
+	GLfloat specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	GLfloat position[] = { -1.5f, 1.0f, -4.0f, 1.0f };
+	
+	// Assign created components to GL_LIGHT0
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+	glLightfv(GL_LIGHT0, GL_POSITION, position);
+	
+	glBegin( GL_LINES );
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+	
+	// draw all the particles as lines from mPosition to mLastPosition
+	glLineWidth(2.0f);
+	
+	for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
+		glColor4f( 1.0f,1.0f,1.0f,0.3f );
+		glVertex2f( partIt->mLastPosition );
+		glVertex2f( partIt->mPosition );
+	}
+	
+	glEnd();
+	
     gl::pushModelView();
     gl::disableAlphaBlending();
     // setColor( Vec3f( 0.364, 1, 1 ), 1.0f );
@@ -513,7 +631,6 @@ void SeedClusterApp::draw()
     gl::scale( Vec3f( 0.72f, 0.72f, 1.0f ) );
     gl::draw( backgroundTexture );
 
-    // gl::enableAlphaBlending();
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
     gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
     drawSmoothHands();
@@ -521,6 +638,9 @@ void SeedClusterApp::draw()
     // drawRawHands();
     // drawField();
     gl::popModelView();
+	gl::enableAlphaBlending();	
+	glColor4f(1.0f,1.0f,1.0f,100);
+	
 
     // gl::enableAdditiveBlending();
 
