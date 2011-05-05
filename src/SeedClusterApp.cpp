@@ -493,12 +493,12 @@ void SeedClusterApp::draw()
     gl::pushModelView();
     gl::disableAlphaBlending();
     // setColor( Vec3f( 0.364, 1, 1 ), 1.0f );
-    // glColor4f( 1, 1, 1, 1 );
+    glColor4f( 1, 1, 1, 1 );
     gl::translate( Vec3f( -350.0f, -225.0f, -5.0f ) );
     gl::scale( Vec3f( 0.542f, 0.568f, 1.0f ) );
     gl::draw( backgroundTexture );
 
-    gl::enableAlphaBlending();
+    // gl::enableAlphaBlending();
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
     gl::scale( Vec3f( 2.25f, 2.147f, 1.0f ) );
     drawSmoothHands();
