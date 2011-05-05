@@ -652,11 +652,14 @@ void SeedClusterApp::draw()
 
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
     gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
+
     drawParticles();
     drawSmoothHands();
+
     // cluster.draw();
     // drawRawHands();
     // drawField();
+
     gl::popModelView();
     gl::enableAlphaBlending();  
     glColor4f(1.0f,1.0f,1.0f,100);
