@@ -38,6 +38,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     void updateCamera();
     void drawMat( cv::Mat & mat );
     void drawRawHands();
+    void drawSmoothHands();
     void drawField();
     void drawMovieFrame();
 
@@ -203,8 +204,8 @@ void SeedClusterApp::setup()
     keyIsDown = false;
 
     rotation.w = 0.0f;
-    eye = Vec3f( 320.0f, -240.0f, -250.0f );
-    towards = Vec3f( 320.0f, -240.0f, 0.0f );
+    eye = Vec3f( 0.0f, 0.0f, -500.0f );
+    towards = Vec3f( 0.0f, 00.0f, 0.0f );
     up = Vec3f::yAxis();
 	camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
 
@@ -223,7 +224,6 @@ void SeedClusterApp::setup()
     }
 
     gl::enableAlphaBlending();
-    gl::enableAdditiveBlending();
     gl::enableDepthRead();
     gl::enableDepthWrite();
 
@@ -452,10 +452,27 @@ void SeedClusterApp::drawRawHands()
     }
 }
 
+void SeedClusterApp::drawSmoothHands()
+{
+    for ( std::vector<ix::Hand>::iterator hand = tracker.hands.begin(); hand < tracker.hands.end(); hand++ ) {
+        if ( hand->isHand ) {
+            setColor( Vec3f( hand->hue, 0.5f, 0.7f ), 0.8f );
+            cv::Point2f smooth = hand->smoothCenter( 4 );
+            gl::drawSolidCircle( ci::Vec2f( smooth.x, smooth.y ), 20.0f );
+
+            // setColor( Vec3f( hand->hue, 0.5f, 1.0f ), 0.8f );
+            // for( vector<cv::Point2i>::iterator fingertip = hand->fingertips.begin(); fingertip != hand->fingertips.end(); fingertip++ ) {
+            //     gl::drawSolidCircle( ci::Vec2f( fingertip->x, fingertip->y ), 10.0f );
+            //     gl::drawLine( ci::Vec2f( hand->center.x, hand->center.y ), ci::Vec2f( fingertip->x, fingertip->y ) );
+            // }
+        }
+    }
+}
+
 void SeedClusterApp::drawField()
 {
     gl::pushModelView();
-    gl::translate( Vec3f( 0.0f, 0.0f, -20.0f ) );
+    gl::translate( Vec3f( 0.0f, 0.0f, -2.0f ) );
     setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
     cv::Mat field = tracker.displayField( cannyLowerThreshold, cannyUpperThreshold );
     drawMat( field );
@@ -472,11 +489,26 @@ void SeedClusterApp::drawMovieFrame()
 void SeedClusterApp::draw()
 {
 	gl::clear( Color( CM_HSV, background ) );
-    // gl::draw( backgroundTexture );
 
-    cluster.draw();
-    drawRawHands();
-    drawField();
+    gl::pushModelView();
+    gl::disableAlphaBlending();
+    // setColor( Vec3f( 0.364, 1, 1 ), 1.0f );
+    glColor4f( 1, 1, 1, 1 );
+    gl::translate( Vec3f( -350.0f, -225.0f, -5.0f ) );
+    gl::scale( Vec3f( 0.542f, 0.568f, 1.0f ) );
+    gl::draw( backgroundTexture );
+
+    gl::enableAlphaBlending();
+    gl::translate( Vec3f( 0, 0, 3.0f ) );
+    gl::scale( Vec3f( 3.0f, 2.25f, 1.0f ) );
+    drawSmoothHands();
+    // cluster.draw();
+    // drawRawHands();
+    // drawField();
+    gl::popModelView();
+
+    // gl::enableAdditiveBlending();
+
 
 	// params::InterfaceGl::draw();
     // drawMovieFrame();

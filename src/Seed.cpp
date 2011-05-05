@@ -60,7 +60,7 @@ void Seed::seek( ci::Vec2f towards )
 
 void Seed::zoom( float factor )
 {
-    zoomFactor += (factor - zoomFactor) * 0.2;
+    zoomFactor += (factor - zoomFactor) * 0.1;
 
     // zoomFactor += factor * 0.05;
     // zoomFactor += factor * 0.1;
