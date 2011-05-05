@@ -28,6 +28,7 @@
 		400E02441361515B00855B19 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 400E02431361515B00855B19 /* Ease.cpp */; };
 		4031478A136DE3A200C6B9C1 /* whirlpool.png in Resources */ = {isa = PBXBuildFile; fileRef = 40314789136DE3A200C6B9C1 /* whirlpool.png */; };
 		403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */; };
+		40432BF013730C1D00888C35 /* cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 40432BEF13730C1D00888C35 /* cursor.png */; };
 		407B882013515A490069D7B7 /* TileState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 407B881F13515A490069D7B7 /* TileState.cpp */; };
 		40E259D7135F709800C92521 /* FrameBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40E259D6135F709800C92521 /* FrameBridge.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
@@ -80,6 +81,7 @@
 		40314789136DE3A200C6B9C1 /* whirlpool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whirlpool.png; path = ../resources/whirlpool.png; sourceTree = SOURCE_ROOT; };
 		403BD98B135CA7730071B047 /* HandTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandTracker.h; path = ../include/HandTracker.h; sourceTree = SOURCE_ROOT; };
 		403BD98C135CA7810071B047 /* HandTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HandTracker.cpp; path = ../src/HandTracker.cpp; sourceTree = SOURCE_ROOT; };
+		40432BEF13730C1D00888C35 /* cursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor.png; path = ../resources/cursor.png; sourceTree = SOURCE_ROOT; };
 		407B881E13515A310069D7B7 /* TileState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileState.h; path = ../include/TileState.h; sourceTree = SOURCE_ROOT; };
 		407B881F13515A490069D7B7 /* TileState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileState.cpp; path = ../src/TileState.cpp; sourceTree = SOURCE_ROOT; };
 		40B41CB81360D8740099FCE2 /* cminpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cminpack.h; path = ../include/cminpack.h; sourceTree = SOURCE_ROOT; };
@@ -229,6 +231,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				40432BEF13730C1D00888C35 /* cursor.png */,
 				400821BB137291BE0074DAAF /* bg.png */,
 				40314789136DE3A200C6B9C1 /* whirlpool.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -338,6 +341,7 @@
 				00CCAF15116A9FEE008396D5 /* CinderApp.icns in Resources */,
 				4031478A136DE3A200C6B9C1 /* whirlpool.png in Resources */,
 				400821BC137291BE0074DAAF /* bg.png in Resources */,
+				40432BF013730C1D00888C35 /* cursor.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

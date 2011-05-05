@@ -42,7 +42,7 @@ class Hand
 
     std::vector<cv::Point> path;
     int pathIndex;
-    static const int maxHistory = 12;
+    static const int maxHistory = 20;
 
     int id;
     double area;

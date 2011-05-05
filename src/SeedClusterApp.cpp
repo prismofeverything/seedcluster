@@ -37,6 +37,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     void setupMovieWriter();
     void updateCamera();
     void drawMat( cv::Mat & mat );
+    void drawCursor( cv::Point, float radius, float alpha );
     void drawRawHands();
     void drawSmoothHands();
     void drawField();
@@ -79,6 +80,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     float near;
     float far;
     gl::Texture backgroundTexture;
+    gl::Texture cursorTexture;
 
     int width;
     int height;
@@ -115,6 +117,8 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     ci::Vec2f closePoint;
     ci::Vec2f zoomPoint;
     float zoomAnchor;
+
+    float bgx, bgy;
 
     // input
     char key;
@@ -198,7 +202,9 @@ void SeedClusterApp::setup()
     manyBackground = Vec3f( 0.0f, 0.1f, 0.95f );
     background = defaultBackground;
     bloomColor = Vec3f( Rand::randFloat(), 0.4f, 1.0f );
+
     backgroundTexture = gl::Texture( loadImage( loadResource( RES_BACKGROUND ) ) );
+    cursorTexture = gl::Texture( loadImage( loadResource( RES_CURSOR ) ) );
 
     mouseIsDown = false;
     keyIsDown = false;
@@ -323,7 +329,7 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
 
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
-    cv::Point average = hand.smoothCenter( 5 );
+    cv::Point average = hand.smoothCenter( 10 );
     Vec2f smooth( average.x, average.y );
 
     if ( cluster.isSeedChosen() ) {
@@ -452,19 +458,28 @@ void SeedClusterApp::drawRawHands()
     }
 }
 
+void SeedClusterApp::drawCursor( cv::Point smooth, float radius, float alpha )
+{
+    gl::pushModelView();
+    gl::enableAlphaBlending();
+    ci::Vec2f center = ci::Vec2f( smooth.x, smooth.y );
+    glColor4f( 1, 1, 1, alpha );
+    gl::drawSolidCircle( center, radius * 0.2 );
+    setColor( Vec3f( 0.364, 1, 0.6 ), alpha );
+    gl::drawSolidCircle( center, radius * 0.9 );
+    glColor4f( 1, 1, 1, alpha );
+    gl::translate( Vec3f( 0, 0, -1 ) );
+    gl::drawSolidCircle( center, radius );
+    gl::disableAlphaBlending();
+    gl::popModelView();
+}
+
 void SeedClusterApp::drawSmoothHands()
 {
     for ( std::vector<ix::Hand>::iterator hand = tracker.hands.begin(); hand < tracker.hands.end(); hand++ ) {
         if ( hand->isHand ) {
-            setColor( Vec3f( hand->hue, 0.5f, 0.7f ), 0.8f );
-            cv::Point2f smooth = hand->smoothCenter( 4 );
-            gl::drawSolidCircle( ci::Vec2f( smooth.x, smooth.y ), 50.0f );
-
-            // setColor( Vec3f( hand->hue, 0.5f, 1.0f ), 0.8f );
-            // for( vector<cv::Point2i>::iterator fingertip = hand->fingertips.begin(); fingertip != hand->fingertips.end(); fingertip++ ) {
-            //     gl::drawSolidCircle( ci::Vec2f( fingertip->x, fingertip->y ), 10.0f );
-            //     gl::drawLine( ci::Vec2f( hand->center.x, hand->center.y ), ci::Vec2f( fingertip->x, fingertip->y ) );
-            // }
+            cv::Point2f smooth = hand->smoothCenter( 10 );
+            drawCursor( smooth, 50.0f, 0.8f );
         }
     }
 }
@@ -494,13 +509,13 @@ void SeedClusterApp::draw()
     gl::disableAlphaBlending();
     // setColor( Vec3f( 0.364, 1, 1 ), 1.0f );
     glColor4f( 1, 1, 1, 1 );
-    gl::translate( Vec3f( -350.0f, -225.0f, -5.0f ) );
-    gl::scale( Vec3f( 0.542f, 0.568f, 1.0f ) );
+    gl::translate( Vec3f( -690.0f, -390.0f, -5.0f ) );
+    gl::scale( Vec3f( 0.72f, 0.72f, 1.0f ) );
     gl::draw( backgroundTexture );
 
     // gl::enableAlphaBlending();
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
-    gl::scale( Vec3f( 2.25f, 2.147f, 1.0f ) );
+    gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
     drawSmoothHands();
     // cluster.draw();
     // drawRawHands();
@@ -509,8 +524,7 @@ void SeedClusterApp::draw()
 
     // gl::enableAdditiveBlending();
 
-
-	// params::InterfaceGl::draw();
+    // params::InterfaceGl::draw();
     // drawMovieFrame();
 }
 
