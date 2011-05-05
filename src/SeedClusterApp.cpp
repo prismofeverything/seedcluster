@@ -220,17 +220,19 @@ void SeedClusterApp::setupParticles()
     mPerlin.setSeed( clock() );
     mAnimationCounter = 0;
     for( int s = 0; s < NUM_INITIAL_PARTICLES; ++s ) {
-        mParticles.push_back( Particle( Vec2f( getWindowWidth()*.25 + Rand::randFloat( getWindowWidth()*.5 ), Rand::randFloat( getWindowHeight()*.5 + 100 ) ) ) );
+        mParticles.push_back( Particle( Vec2f( -100.0f, 0.0f ) ));
     }
     
     CONSERVATION_OF_VELOCITY = 0.9f;
-    SPEED = 0.05f;
+    SPEED = 0.03f;
 }
 
 void SeedClusterApp::setup()
 {
     tracker.registerListener( this );
 
+	setupParticles();
+	
     cannyLowerThreshold = 0;
     cannyUpperThreshold = 0;
 
@@ -525,7 +527,7 @@ void SeedClusterApp::updateParticles()
     for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
         Vec3f deriv = mPerlin.dfBm( Vec3f( partIt->mPosition.x, partIt->mPosition.y, mAnimationCounter ) * 0.001f );
         partIt->mZ = deriv.z;
-        Vec2f deriv2( deriv.x, deriv.y+.4 );
+        Vec2f deriv2( deriv.x, deriv.y+.3 );
         deriv2.normalize();
         partIt->mVelocity += deriv2 * SPEED;
     }
@@ -541,14 +543,14 @@ void SeedClusterApp::updateParticles()
     // Replace any particles that have gone offscreen with a random onscreen position
     for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
         if( isOffscreen( partIt->mPosition ) )
-            *partIt = Particle( Vec2f( Rand::randFloat( getWindowWidth() ), Rand::randFloat( getWindowHeight() ) ) );
+            *partIt = Particle( Vec2f( Rand::randFloat( 1000.0f ), Rand::randFloat( 480.0f ) ) );
     }
 }
 
 // Returns whether a particle is visible in the target area or not //
 bool SeedClusterApp::isOffscreen( const Vec2f &v )
 {
-    return ( ( v.x < getWindowWidth()*.25 ) || ( v.x > getWindowWidth()*.75 ) || ( v.y < 0 ) || ( v.y > getWindowHeight()*.5 + 100 ) );
+    return ( ( v.x < 0.0f ) || ( v.x > 640.0f ) || ( v.y < 0 ) || ( v.y > 480) );
 }
 
 
@@ -625,14 +627,17 @@ void SeedClusterApp::drawParticles()
     glBlendFunc(GL_SRC_ALPHA,GL_ONE);
     
     // draw all the particles as lines from mPosition to mLastPosition
-    glLineWidth(2.0f);
-    
+    gl::enableAlphaBlending();
+	
     for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
-        glColor4f( 1.0f,1.0f,1.0f,0.3f );
+        glLineWidth(Rand::randFloat(0.3f));
+		glColor4f( 1.0f,1.0f,1.0f,0.05f );
         glVertex2f( partIt->mLastPosition );
         glVertex2f( partIt->mPosition );
     }
-    
+	
+	gl::disableAlphaBlending();
+	
     glEnd();
 }
 
@@ -653,16 +658,16 @@ void SeedClusterApp::draw()
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
     gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
 
+	 
     drawParticles();
-    drawSmoothHands();
+    gl::enableAlphaBlending();
+	drawSmoothHands();
 
     // cluster.draw();
     // drawRawHands();
     // drawField();
 
     gl::popModelView();
-    gl::enableAlphaBlending();  
-    glColor4f(1.0f,1.0f,1.0f,100);
     
     // params::InterfaceGl::draw();
     // drawMovieFrame();
