@@ -308,7 +308,8 @@ void SeedClusterApp::keyDown( KeyEvent event )
     key = event.getChar();
     keyIsDown = true;
 
-    if ( key == 65 || key == 97 ) { // 'd'
+    if ( key == 68 || key == 100 ) { // 'd'
+        std::cout << "D IS PRESSED" << std::endl;
         rectangleMode = !rectangleMode;
     } else if ( key == 79 || key == 111 ) { // 'o'
         innardsMode = !innardsMode;
@@ -663,7 +664,7 @@ void SeedClusterApp::drawRectangle()
 {
     gl::pushModelView();
     glColor4f( 1.0, 0.8, 0.2, 0.9 );
-    gl::translate( ci::Vec3f( rectangle.center.x, rectangle.center.y, 10 ) );
+    gl::translate( ci::Vec3f( -rectangle.center.x, -rectangle.center.y, 10 ) );
     gl::rotate( ci::Vec3f( 0, 0, rectangle.angle ) );
     gl::drawSolidRect( Rectf( -rectangle.size.width/2, -rectangle.size.height/2, rectangle.size.width, rectangle.size.height ), true );
     gl::popModelView();
@@ -707,7 +708,7 @@ void SeedClusterApp::draw()
     gl::popModelView();
     
     // params::InterfaceGl::draw();
-    // drawMovieFrame();
+    drawMovieFrame();
 }
 
 

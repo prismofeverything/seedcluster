@@ -21,7 +21,7 @@ HandCursor::HandCursor()
 
 void HandCursor::in( const Hand & hand, cv::Point _center )
 {
-    stretchEase = Ease( fingerStretch, 0, 30 );
+    stretchEase = Ease( fingerStretch, 0, 20 );
     center = ci::Vec2f( _center.x, _center.y );
     for ( std::vector<cv::Point>::const_iterator fingertip = hand.fingertips.begin(); fingertip != hand.fingertips.end(); fingertip++ ) {
         fingertips.push_back( ci::Vec2f( _center.x - fingertip->x, _center.y - fingertip->y ) );
@@ -47,7 +47,7 @@ void HandCursor::close( cv::Point _center )
 void HandCursor::open( cv::Point _center )
 {
     fingerStretch = 0.8f;
-    stretchEase = Ease( fingerStretch, 0, 30 );
+    stretchEase = Ease( fingerStretch, 0, 20 );
     center = ci::Vec2f( _center.x, _center.y );
     radiusEase = Ease( radius, fullRadius, 30 );
     brightnessEase = Ease( color[2], 0.6f, 30 );
@@ -113,7 +113,7 @@ void HandCursor::draw()
 {
     drawCircle( center, radius, alpha );
     for ( std::vector<ci::Vec2f>::iterator fingertip = fingertips.begin(); fingertip != fingertips.end(); fingertip++ ) {
-        drawCircle( center - ((*fingertip) * fingerStretch), radius*0.3f, alpha * fingerStretch );
+        drawCircle( center - ((*fingertip) * fingerStretch), radius*0.3f * fingerStretch, alpha * fingerStretch );
     }
 }
 
