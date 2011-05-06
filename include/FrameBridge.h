@@ -99,7 +99,7 @@ std::vector<FrameLink> FrameBridge<T, Distance>::bridge( std::vector<T> a, std::
                     bUnmatched.erase( bUnmatched.begin() );
                 } else {
                     std::vector<FramePath>::iterator weakest = std::max_element( powermatrix[ *mit ].begin(), powermatrix[ *mit ].end(), FramePathCompare( *mit ) );
-                    int unm = weakest->target();
+                    int unm = weakest->links[weakest->target()].a;
                     powermatrix[ *mit ].erase( weakest );
                     aUnmatched.push_back( unm );
                 }
