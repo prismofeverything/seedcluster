@@ -12,6 +12,7 @@ class TileCluster {
     void update();
     void draw();
 
+    void clearSeeds();
     void addTile( ci::Vec2i position, 
                   int rows, int columns, float z, ci::Vec3f color, 
                   int from=-1, int liberty=-1 );

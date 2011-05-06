@@ -48,6 +48,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Matrix44f randomMatrix44f( float scale = 1.0f, float offset = 0.0f );
     void setColor( Vec3f color, float alpha );
 
+    void setupRectangle();
     void setupParticles();
     void setupLighting();
     void setupMovieWriter();
@@ -60,6 +61,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     void drawField();
     void drawMovieFrame();
     void drawParticles();
+    void drawRectangle();
 
     void keyDown( KeyEvent event ); 
     void keyUp( KeyEvent event );   
@@ -138,7 +140,8 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     float zoomAnchor;
     float bgx, bgy;
     
-    bool isOffscreen( const Vec2f &v );
+    // particles
+    bool particleOffscreen( const Vec2f &v );
     float particleInertia, particleSpeed;
     static const int numberOfParticles = 40;
     
@@ -154,6 +157,11 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Vec2i mousePosition;
     Vec2f mouseVelocity;
     Vec2i centering;
+
+    // modes
+    bool innardsMode;
+    bool rectangleMode;
+    cv::RotatedRect rectangle;
 };
 
 Vec3f SeedClusterApp::randomVec3f()
@@ -225,6 +233,11 @@ void SeedClusterApp::setupParticles()
     particleSpeed = 0.03f;
 }
 
+void SeedClusterApp::setupRectangle()
+{
+    rectangle = cv::RotatedRect( cv::Point( -320, -240 ), cv::Size( 100, 80 ), 0.1 );
+}
+
 void SeedClusterApp::setup()
 {
     tracker.registerListener( this );
@@ -233,6 +246,8 @@ void SeedClusterApp::setup()
 	
     cannyLowerThreshold = 0;
     cannyUpperThreshold = 0;
+    innardsMode = false;
+    rectangleMode = false;
 
     params = params::InterfaceGl( "seedcluster", Vec2i( 200, 180 ) );
     params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
@@ -292,6 +307,13 @@ void SeedClusterApp::keyDown( KeyEvent event )
 {
     key = event.getChar();
     keyIsDown = true;
+
+    if ( key == 65 || key == 97 ) { // 'd'
+        rectangleMode = !rectangleMode;
+    } else if ( key == 79 || key == 111 ) { // 'o'
+        innardsMode = !innardsMode;
+        cluster.clearSeeds();
+    }
 }
 
 void SeedClusterApp::keyUp( KeyEvent event )
@@ -540,18 +562,16 @@ void SeedClusterApp::updateParticles()
     
     // Replace any particles that have gone offscreen with a random onscreen position
     for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt ) {
-        if( isOffscreen( partIt->mPosition ) )
+        if( particleOffscreen( partIt->mPosition ) )
             *partIt = Particle( Vec2f( Rand::randFloat( 1000.0f ), Rand::randFloat( 480.0f ) ) );
     }
 }
 
 // Returns whether a particle is visible in the target area or not //
-bool SeedClusterApp::isOffscreen( const Vec2f &v )
+bool SeedClusterApp::particleOffscreen( const Vec2f &v )
 {
     return ( ( v.x < 0.0f ) || ( v.x > 640.0f ) || ( v.y < 0 ) || ( v.y > 480) );
 }
-
-
 
 void SeedClusterApp::drawMat( cv::Mat & mat ) 
 {
@@ -639,9 +659,18 @@ void SeedClusterApp::drawParticles()
     glEnd();
 }
 
+void SeedClusterApp::drawRectangle()
+{
+    gl::pushModelView();
+    glColor4f( 1.0, 0.8, 0.2, 0.9 );
+    gl::translate( ci::Vec3f( rectangle.center.x, rectangle.center.y, 10 ) );
+    gl::rotate( ci::Vec3f( 0, 0, rectangle.angle ) );
+    gl::drawSolidRect( Rectf( -rectangle.size.width/2, -rectangle.size.height/2, rectangle.size.width, rectangle.size.height ), true );
+    gl::popModelView();
+}
+
 void SeedClusterApp::draw()
 {
-    
     // clear it out to the bg
     gl::clear( Color( CM_HSV, background ) );
     
@@ -651,19 +680,29 @@ void SeedClusterApp::draw()
     glColor4f( 1, 1, 1, 1 );
     gl::translate( Vec3f( -690.0f, -390.0f, -5.0f ) );
     gl::scale( Vec3f( 0.72f, 0.72f, 1.0f ) );
-    gl::draw( backgroundTexture );
+
+    if ( !innardsMode ) {
+        gl::draw( backgroundTexture );
+    }
 
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
     gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
-
 	 
-    drawParticles();
-    gl::enableAlphaBlending();
-	drawSmoothHands();
+    if ( rectangleMode ) {
+        drawRectangle();
+    }
 
-    // cluster.draw();
-    // drawRawHands();
-    // drawField();
+    if ( !innardsMode ) {
+        drawParticles();
+        gl::enableAlphaBlending();
+        drawSmoothHands();
+    }
+
+    if ( innardsMode ) {
+        cluster.draw();
+        drawRawHands();
+        drawField();
+    }
 
     gl::popModelView();
     

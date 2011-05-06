@@ -14,6 +14,11 @@ TileCluster::TileCluster()
     hoverSeed = seeds.end();
 }
 
+void TileCluster::clearSeeds()
+{
+    seeds.clear();
+}
+
 void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f color, int from, int liberty )
 {
     tiles.push_back( Tile( *this, tiles.size(), position, rows, columns, z, color ) );
