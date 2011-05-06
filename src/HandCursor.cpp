@@ -8,19 +8,19 @@ namespace ix {
 HandCursor::HandCursor()
     : radius( 1.0f ),
       alpha( 0.8f ),
+      inertia( 0.6f ),
       color( 0.364, 1, 0.6 ),
       goingOut( false ),
       complete( false ),
       fullRadius( 30.0f ),
       closeRadius( 20.0f )
 {
-
+    radiusEase = Ease( radius, fullRadius, 50 );
 }
 
 void HandCursor::in( const Hand & hand, cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
-    radiusEase = Ease( radius, fullRadius, 50 );
+    center += (ci::Vec2f( _center.x, _center.y ) - center) * inertia;
     for ( std::vector<cv::Point>::const_iterator fingertip = hand.fingertips.begin(); fingertip != hand.fingertips.end(); fingertip++ ) {
         fingertips.push_back( ci::Vec2f( _center.x - fingertip->x, _center.y - fingertip->y ) );
     }
@@ -28,7 +28,7 @@ void HandCursor::in( const Hand & hand, cv::Point _center )
 
 void HandCursor::out( cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
+    center += (ci::Vec2f( _center.x, _center.y ) - center) * inertia;
     // radiusEase = Ease( radius, 1.0f, 30 );
     // brightnessEase = Ease( color[2], 0.6f, 30 );
     goingOut = true;
@@ -36,26 +36,26 @@ void HandCursor::out( cv::Point _center )
 
 void HandCursor::close( cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
+    center += (ci::Vec2f( _center.x, _center.y ) - center) * inertia;
     radiusEase = Ease( radius, closeRadius, 50 );
     brightnessEase = Ease( color[2], 0.9f, 50 );
 }
 
 void HandCursor::open( cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
+    center += (ci::Vec2f( _center.x, _center.y ) - center) * inertia;
     radiusEase = Ease( radius, fullRadius, 50 );
     brightnessEase = Ease( color[2], 0.6f, 50 );
 }
 
 void HandCursor::move( cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
+    center += (ci::Vec2f( _center.x, _center.y ) - center) * inertia;
 }
 
 void HandCursor::drag( cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
+    center += (ci::Vec2f( _center.x, _center.y ) - center) * inertia;
 }
 
 void HandCursor::update()

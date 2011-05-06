@@ -4,6 +4,14 @@ class Fixnum
   end
 end
 
+class Array
+  def power(other)
+    self.zip(other).map do |pair|
+      (pair.first - pair.last) ** 2
+    end
+  end
+end
+
 class Link
   def initialize(from, to, power)
     @from = from
@@ -81,7 +89,15 @@ def greedy_exchange(a, b)
   [links, aunmatched, bunmatched]
 end
 
-links, aun, bun = greedy_exchange([5, 14, 200, 99], [8, 30, 40])
+# links, aun, bun = greedy_exchange([5, 14, 200, 99], [8, 30, 40])
+links, aun, bun = greedy_exchange([[ 188, 455 ],
+                                   [ 54, 448 ],
+                                   [ 306, 158 ],
+                                   [ 97, 18 ]],
+                                  [[ 193, 455 ],
+                                   [ 47, 445 ],
+                                   [ 306, 164 ]])
+
 puts "links - #{links}"
 puts "unmatched A - #{aun.inspect}"
 puts "unmatched B - #{bun.inspect}"

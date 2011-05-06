@@ -136,18 +136,16 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     ci::Vec2f closePoint;
     ci::Vec2f zoomPoint;
     float zoomAnchor;
-
     float bgx, bgy;
     
-    bool                isOffscreen( const Vec2f &v );
-    float               CONSERVATION_OF_VELOCITY, SPEED;
-    static const int    NUM_INITIAL_PARTICLES = 40;
-    static const int    NUM_CLICKED_PARTICLES = 20;
+    bool isOffscreen( const Vec2f &v );
+    float particleInertia, particleSpeed;
+    static const int numberOfParticles = 40;
     
-    Perlin              mPerlin;
-    list<Particle>      mParticles;
-    float               mAnimationCounter;
-    float               rotationCounter;
+    Perlin perlin;
+    list<Particle> particles;
+    float animationCounter;
+    float rotationCounter;
 
     // input
     char key;
@@ -217,14 +215,14 @@ void SeedClusterApp::updateCamera()
 
 void SeedClusterApp::setupParticles()
 {
-    mPerlin.setSeed( clock() );
-    mAnimationCounter = 0;
-    for( int s = 0; s < NUM_INITIAL_PARTICLES; ++s ) {
-        mParticles.push_back( Particle( Vec2f( -100.0f, 0.0f ) ));
+    perlin.setSeed( clock() );
+    animationCounter = 0;
+    for( int s = 0; s < numberOfParticles; ++s ) {
+        particles.push_back( Particle( Vec2f( -100.0f, 0.0f ) ));
     }
     
-    CONSERVATION_OF_VELOCITY = 0.9f;
-    SPEED = 0.03f;
+    particleInertia = 0.9f;
+    particleSpeed = 0.03f;
 }
 
 void SeedClusterApp::setup()
@@ -306,7 +304,7 @@ void SeedClusterApp::mouseDown( MouseEvent event )
     mouseIsDown = true;
     bloomColor[2] = Rand::randFloat();
 
-    cluster.mouseDown( centering, mouseVelocity, bloomColor );
+    // cluster.mouseDown( centering, mouseVelocity, bloomColor );
 }
 
 void SeedClusterApp::mouseUp( MouseEvent event )
@@ -517,31 +515,31 @@ void SeedClusterApp::update()
 
 void SeedClusterApp::updateParticles()
 {
-    mAnimationCounter += 10.0f; // move ahead in time, which becomes the z-axis of our 3D noise
+    animationCounter += 10.0f; // move ahead in time, which becomes the z-axis of our 3D noise
     
     // Save off the last position for drawing lines
-    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
+    for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt )
         partIt->mLastPosition = partIt->mPosition;
     
     // Add some perlin noise to the velocity
-    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
-        Vec3f deriv = mPerlin.dfBm( Vec3f( partIt->mPosition.x, partIt->mPosition.y, mAnimationCounter ) * 0.001f );
+    for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt ) {
+        Vec3f deriv = perlin.dfBm( Vec3f( partIt->mPosition.x, partIt->mPosition.y, animationCounter ) * 0.001f );
         partIt->mZ = deriv.z;
         Vec2f deriv2( deriv.x, deriv.y+.3 );
         deriv2.normalize();
-        partIt->mVelocity += deriv2 * SPEED;
+        partIt->mVelocity += deriv2 * particleSpeed;
     }
     
     // Move the particles according to their velocities
-    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
+    for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt )
         partIt->mPosition += partIt->mVelocity;
     
     // Dampen the velocities for the next frame
-    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt )
-        partIt->mVelocity *= CONSERVATION_OF_VELOCITY;
+    for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt )
+        partIt->mVelocity *= particleInertia;
     
     // Replace any particles that have gone offscreen with a random onscreen position
-    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
+    for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt ) {
         if( isOffscreen( partIt->mPosition ) )
             *partIt = Particle( Vec2f( Rand::randFloat( 1000.0f ), Rand::randFloat( 480.0f ) ) );
     }
@@ -629,7 +627,7 @@ void SeedClusterApp::drawParticles()
     // draw all the particles as lines from mPosition to mLastPosition
     gl::enableAlphaBlending();
 	
-    for( list<Particle>::iterator partIt = mParticles.begin(); partIt != mParticles.end(); ++partIt ) {
+    for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt ) {
         glLineWidth(Rand::randFloat(0.3f));
 		glColor4f( 1.0f,1.0f,1.0f,0.05f );
         glVertex2f( partIt->mLastPosition );
@@ -665,7 +663,7 @@ void SeedClusterApp::draw()
 
     // cluster.draw();
     // drawRawHands();
-    // drawField();
+    drawField();
 
     gl::popModelView();
     

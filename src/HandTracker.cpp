@@ -160,14 +160,14 @@ void HandTracker::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
 
     // collect the real hands
     hands.clear();
-    for ( std::vector<Hand>::iterator hand = possibleHands.begin(); hand < possibleHands.end(); hand++ ) {
-        if ( hand->isHand || hand->isEntering() ) {
-            hands.push_back( *hand );
-            hand->isHand = true;
-            if ( hand->isClosing() ) {
-                hand->isClosed = true;
-            } else if ( hand->isOpening() ) {
-                hand->isClosed = false;
+    for ( std::vector<Hand>::iterator possible = possibleHands.begin(); possible < possibleHands.end(); possible++ ) {
+        if ( possible->isHand || possible->isEntering() ) {
+            hands.push_back( *possible );
+            possible->isHand = true;
+            if ( possible->isClosing() ) {
+                possible->isClosed = true;
+            } else if ( possible->isOpening() ) {
+                possible->isClosed = false;
             }
         }
     }

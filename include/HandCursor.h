@@ -30,6 +30,7 @@ class HandCursor {
     ci::Vec3f color;
     float radius;
     float alpha;
+    float inertia;
 
     bool goingOut;
     bool complete;
