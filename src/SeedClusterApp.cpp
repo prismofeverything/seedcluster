@@ -512,7 +512,7 @@ void SeedClusterApp::update()
     gl::rotate( rotation );
 
     cluster.update();
-    handmap.update();
+    handmap.update( tracker );
 }
 
 void SeedClusterApp::updateParticles()

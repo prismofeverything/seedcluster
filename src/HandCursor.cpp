@@ -1,3 +1,4 @@
+#include <vector>
 #include "cinder/gl/gl.h"
 #include "CinderOpenCv.h"
 #include "HandCursor.h"
@@ -18,6 +19,9 @@ void HandCursor::in( const Hand & hand, cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
     radiusEase = Ease( radius, 50.0f, 50 );
+    for ( std::vector<cv::Point>::const_iterator fingertip = hand.fingertips.begin(); fingertip != hand.fingertips.end(); fingertip++ ) {
+        fingertips.push_back( ci::Vec2f( _center.x - fingertip->x, _center.y - fingertip->y ) );
+    }
 }
 
 void HandCursor::out( cv::Point _center )
@@ -74,24 +78,32 @@ void HandCursor::update()
     // }
 }
 
-void HandCursor::draw()
+void HandCursor::drawCircle( ci::Vec2f _center, float _radius, float _alpha )
 {
     ci::gl::pushModelView();
     ci::gl::enableAlphaBlending();
 
-    glColor4f( 1, 1, 1, alpha );
-    ci::gl::drawSolidCircle( center, radius * 0.2 );
+    glColor4f( 1, 1, 1, _alpha );
+    ci::gl::drawSolidCircle( _center, _radius * 0.2 );
 
     ci::Color hsv( ci::CM_HSV, color );
-    glColor4f( hsv.r, hsv.g, hsv.b, alpha );
-    ci::gl::drawSolidCircle( center, radius * 0.9 );
+    glColor4f( hsv.r, hsv.g, hsv.b, _alpha );
+    ci::gl::drawSolidCircle( _center, _radius * 0.9 );
 
-    glColor4f( 1, 1, 1, alpha );
+    glColor4f( 1, 1, 1, _alpha );
     ci::gl::translate( ci::Vec3f( 0, 0, -1 ) );
-    ci::gl::drawSolidCircle( center, radius );
+    ci::gl::drawSolidCircle( _center, _radius );
 
     ci::gl::disableAlphaBlending();
     ci::gl::popModelView();
+}
+
+void HandCursor::draw()
+{
+    drawCircle( center, radius, alpha );
+    for ( std::vector<ci::Vec2f>::iterator fingertip = fingertips.begin(); fingertip != fingertips.end(); fingertip++ ) {
+        drawCircle( center - (*fingertip), radius*0.35f, alpha );
+    }
 }
 
 HandCursor & HandMap::get( const Hand & hand )
@@ -99,7 +111,7 @@ HandCursor & HandMap::get( const Hand & hand )
     return handmap[ hand.hue ];
 }
 
-void HandMap::update()
+void HandMap::update( const HandTracker & tracker )
 {
     std::vector<float> outs;
 

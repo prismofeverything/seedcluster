@@ -21,6 +21,7 @@ class HandCursor {
     void drag( cv::Point _center );
     
     void update();
+    void drawCircle( ci::Vec2f _center, float _radius, float _alpha );
     void draw();
 
     inline bool isOut() { return complete; };
@@ -37,14 +38,14 @@ class HandCursor {
     Ease alphaEase;
     Ease brightnessEase;
 
-    std::vector<Fingertip> fingertips;
+    std::vector<ci::Vec2f> fingertips;
 };
 
 class HandMap {
  public:
     HandMap() {};
     HandCursor & get( const Hand & hand );
-    void update();
+    void update( const HandTracker & tracker );
     void draw();
 
     void in( const Hand & hand );
