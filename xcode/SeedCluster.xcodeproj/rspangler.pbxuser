@@ -2,14 +2,14 @@
 {
 	00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1379, 9308}}";
-			sepNavSelRange = "{20629, 0}";
-			sepNavVisRange = "{5147, 937}";
+			sepNavIntBoundsRect = "{{0, 0}, {1144, 9555}}";
+			sepNavSelRange = "{21310, 0}";
+			sepNavVisRange = "{10420, 681}";
 			sepNavWindowFrame = "{{15, 620}, {750, 558}}";
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Release;
+		activeBuildConfigurationName = Debug;
 		activeExecutable = 4003D24F134F7B010058C709 /* SeedCluster */;
 		activeTarget = 8D1107260486CEB800E47090 /* SeedCluster */;
 		addToTargets = (
@@ -119,6 +119,10 @@
 			4021A918136B3483008D5BB5 = 4021A918136B3483008D5BB5 /* PBXTextBookmark */;
 			40333DB413664C5000D47512 = 40333DB413664C5000D47512 /* PBXTextBookmark */;
 			4034BB871374583F00613FE5 /* PBXTextBookmark */ = 4034BB871374583F00613FE5 /* PBXTextBookmark */;
+			4034BBB5137467FE00613FE5 /* PBXTextBookmark */ = 4034BBB5137467FE00613FE5 /* PBXTextBookmark */;
+			4034BBB6137467FE00613FE5 /* XCBuildMessageTextBookmark */ = 4034BBB6137467FE00613FE5 /* XCBuildMessageTextBookmark */;
+			4034BBB7137467FE00613FE5 /* PBXTextBookmark */ = 4034BBB7137467FE00613FE5 /* PBXTextBookmark */;
+			4034BBC413746A2300613FE5 /* PBXTextBookmark */ = 4034BBC413746A2300613FE5 /* PBXTextBookmark */;
 			403C0E8D136B19E800D7AAB2 = 403C0E8D136B19E800D7AAB2 /* PBXTextBookmark */;
 			4040690713688C28004BCB5C = 4040690713688C28004BCB5C /* PBXTextBookmark */;
 			4048DDB01373EDB0003C28BC = 4048DDB01373EDB0003C28BC /* PBXTextBookmark */;
@@ -309,6 +313,45 @@
 		vrLen = 620;
 		vrLoc = 762;
 	};
+	4034BBB5137467FE00613FE5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */;
+		name = "HandTracker.cpp: 49";
+		rLen = 0;
+		rLoc = 1079;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 762;
+	};
+	4034BBB6137467FE00613FE5 /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'class cv::RotatedRect' has no member named 'contains'";
+		fRef = 00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 382;
+		rType = 1;
+	};
+	4034BBB7137467FE00613FE5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */;
+		name = "SeedClusterApp.cpp: 733";
+		rLen = 0;
+		rLoc = 21310;
+		rType = 0;
+		vrLen = 680;
+		vrLoc = 10420;
+	};
+	4034BBC413746A2300613FE5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */;
+		name = "SeedClusterApp.cpp: 733";
+		rLen = 0;
+		rLoc = 21310;
+		rType = 0;
+		vrLen = 681;
+		vrLoc = 10420;
+	};
 	403BD98B135CA7730071B047 /* HandTracker.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1144, 1183}}";
@@ -416,7 +459,7 @@
 		ignoreCount = 0;
 		lineNumber = 52;
 		location = SeedCluster;
-		modificationTime = 326368048.096946;
+		modificationTime = 326395901.664095;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -434,7 +477,7 @@
 		ignoreCount = 0;
 		lineNumber = 116;
 		location = SeedCluster;
-		modificationTime = 326368048.096958;
+		modificationTime = 326395901.664119;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -498,7 +541,7 @@
 		ignoreCount = 0;
 		lineNumber = 83;
 		location = SeedCluster;
-		modificationTime = 326368048.0969201;
+		modificationTime = 326395901.664066;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};

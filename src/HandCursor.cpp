@@ -137,12 +137,35 @@ void HandMap::update( const HandTracker & tracker )
     for ( std::vector<float>::iterator oo = outs.begin(); oo != outs.end(); oo++ ) {
         handmap.erase( *oo );
     }
+
+    flush( tracker.hands );
 }
 
 void HandMap::draw()
 {
     for ( std::map<float, HandCursor>::iterator cursor = handmap.begin(); cursor != handmap.end(); cursor++ ) {
         cursor->second.draw();
+    }
+}
+
+void HandMap::flush( const std::vector<Hand> & hands )
+{
+    std::vector<float> outs;
+    for ( std::map<float, HandCursor>::iterator cursor = handmap.begin(); cursor != handmap.end(); cursor++ ) {
+        outs.push_back( cursor->first );
+    }
+
+    for ( std::vector<Hand>::const_iterator hand = hands.begin(); hand != hands.end(); hand++ ) {
+        std::vector<float>::iterator found = std::find( outs.begin(), outs.end(), hand->hue );
+        if ( found != outs.end() ) {
+            outs.erase( found );
+        }
+    }
+
+    for ( std::vector<float>::iterator gone = outs.begin(); gone < outs.end(); gone++ ) {
+        if ( !handmap[ *gone ].goingOut ) {
+            handmap.erase( *gone );
+        }
     }
 }
 

@@ -164,6 +164,8 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     cv::RotatedRect rectangle;
     ci::Vec3f rectangleColor;
     float rectangleAlpha;
+    float rectangleFactor;
+    Ease rectangleHoverEase;
 };
 
 Vec3f SeedClusterApp::randomVec3f()
@@ -237,9 +239,10 @@ void SeedClusterApp::setupParticles()
 
 void SeedClusterApp::setupRectangle()
 {
-    rectangle = cv::RotatedRect( cv::Point( -320, -240 ), cv::Size( 124, 80 ), 30 );
+    rectangle = cv::RotatedRect( cv::Point( -320, -240 ), cv::Size( 124, 80 ), 0 );
     rectangleColor = Vec3f( 0.2, 0.7, 0.7 );
     rectangleAlpha = 0.6f;
+    rectangleFactor = 1.0f;
 }
 
 void SeedClusterApp::setup()
@@ -377,6 +380,11 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
 {
     handmap.move( hand );
     cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
+    if ( rectangle.boundingRect().contains( hand.center ) ) {
+        rectangleHoverEase = Ease( rectangleFactor, 1.2f, 30 );
+    } else {
+        rectangleHoverEase = Ease( rectangleFactor, 1.0f, 30 );
+    }
 }
 
 void SeedClusterApp::handClose( const ix::Hand & hand )
@@ -528,6 +536,9 @@ void SeedClusterApp::update()
     if ( !hueEase.done() ) {
         background[2] = brightnessEase.out();
     }
+    if ( !rectangleHoverEase.done() ) {
+        rectangleFactor = rectangleHoverEase.out();
+    }
 
     // eye[2] += eye[2] * 0.0035f;
     // towards[0] += 1.0f;
@@ -668,11 +679,11 @@ void SeedClusterApp::drawParticles()
 void SeedClusterApp::drawRectangle()
 {
     gl::pushModelView();
-    setColor( rectangleColor, rectangleAlpha );
+    setColor( rectangleColor, rectangleAlpha * rectangleFactor );
     // glColor4f( 1.0, 0.8, 0.2, 0.9 );
     gl::translate( ci::Vec3f( -rectangle.center.x, -rectangle.center.y, 10 ) );
     gl::rotate( ci::Vec3f( 0, 0, rectangle.angle ) );
-    gl::drawSolidRect( Rectf( -rectangle.size.width/2, -rectangle.size.height/2, rectangle.size.width, rectangle.size.height ), true );
+    gl::drawSolidRect( Rectf( -rectangle.size.width * rectangleFactor / 2, -rectangle.size.height * rectangleFactor / 2, rectangle.size.width * rectangleFactor, rectangle.size.height * rectangleFactor ), true );
     gl::popModelView();
 }
 

@@ -52,6 +52,7 @@ class HandMap {
     HandCursor & get( const Hand & hand );
     void update( const HandTracker & tracker );
     void draw();
+    void flush( const std::vector<Hand> & hands );
 
     void in( const Hand & hand );
     void out( const Hand & hand );
