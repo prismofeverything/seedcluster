@@ -12,11 +12,12 @@ using namespace std;
 namespace ix {
     
 Hand::Hand()
+    : isHand(false),
+      isClosed(false),
+      pathIndex(0)
 {
     hue = ci::Rand::randFloat();
-    isHand = false;
-    isClosed = false;
-    pathIndex = 0;
+    center = cv::Point( 0, 0 );
 }
 
 void Hand::sync( const Hand & other )
@@ -45,15 +46,15 @@ cv::Point Hand::previousCenter( int offset ) const
         while ( previousIndex >= maxHistory ) previousIndex -= maxHistory;
         return path[previousIndex];
     } else {
-        return cv::Point();
+        return cv::Point( 0, 0 );
     }
 }
 
 cv::Point Hand::smoothCenter( int reach ) const
 {
-    cv::Point average( 0.0f, 0.0f );
+    cv::Point average = center; //( 0.0f, 0.0f );
     if ( reach > 0 ) {
-        for ( int rr = 0; rr < reach; rr++ ) {
+        for ( int rr = 1; rr < reach; rr++ ) {
             average += previousCenter( rr );
         }
         average *= (1.0f / reach);
@@ -142,12 +143,19 @@ void HandTracker::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
         if ( hand.area > 1000 ) { // possible hand
             cv::approxPolyDP( contourMat, hand.approx, 20, true );
 
+            int upper = 640, lower = 0;
+            for (int j=0; j<hand.approx.size(); j++) {
+                if (hand.approx[j].y < upper) upper = hand.approx[j].y;
+                if (hand.approx[j].y > lower) lower = hand.approx[j].y;
+            }
+            float cutoff = lower - (lower - upper) * 0.1f;
+
             for ( int hx = 0; hx < hand.approx.size(); hx++ ) {
                 int px = hx == 0 ? hand.approx.size() - 1 : hx - 1;
                 int sx = hx == hand.approx.size() - 1 ? 0 : hx + 1;
                 double angle = angleBetween( hand.approx[hx], hand.approx[sx], hand.approx[px] );
 
-                if ( angle > 0.0 && angle < 1.0 ) { 
+                if ( angle > 0.0 && angle < 1.0 && hand.approx[hx].y < cutoff ) { 
                     hand.fingertips.push_back( hand.approx[hx] );
                 }
             }
@@ -297,6 +305,15 @@ void HandTracker::notifyListeners()
                       listener != listeners.end(); listener++ ) {
                     (*listener)->firstHandOpen( second, first );
                 }
+            } else if ( first.isClosing() ) {
+                first.isClosed = true;
+                if ( second.isClosed ) {
+                    // secondHandClose
+                    for ( std::vector<HandListener *>::iterator listener = listeners.begin();
+                          listener != listeners.end(); listener++ ) {
+                        (*listener)->secondHandClose( first, second );
+                    }
+                }
             } else {
                 // mixedHandsMove
                 for ( std::vector<HandListener *>::iterator listener = listeners.begin();
@@ -306,19 +323,19 @@ void HandTracker::notifyListeners()
             }
         } else if ( first.isClosing() ) {
             first.isClosed = true;
-            if ( second.isClosed ) {
-                // secondHandClose
-                for ( std::vector<HandListener *>::iterator listener = listeners.begin();
-                      listener != listeners.end(); listener++ ) {
-                    (*listener)->secondHandClose( first, second );
-                }
-            } else {
-                // firstHandClose
-                for ( std::vector<HandListener *>::iterator listener = listeners.begin();
-                      listener != listeners.end(); listener++ ) {
-                    (*listener)->firstHandClose( first, second );
-                }
+            // if ( second.isClosed ) {
+            //     // secondHandClose
+            //     for ( std::vector<HandListener *>::iterator listener = listeners.begin();
+            //           listener != listeners.end(); listener++ ) {
+            //         (*listener)->secondHandClose( first, second );
+            //     }
+            // } else {
+            // firstHandClose
+            for ( std::vector<HandListener *>::iterator listener = listeners.begin();
+                  listener != listeners.end(); listener++ ) {
+                (*listener)->firstHandClose( first, second );
             }
+            // }
         } else if ( second.isClosing() ) {
             // firstHandClose
             second.isClosed = true;

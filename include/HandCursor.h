@@ -31,6 +31,7 @@ class HandCursor {
     float radius;
     float alpha;
     float inertia;
+    float fingerStretch;
 
     bool goingOut;
     bool complete;
@@ -40,6 +41,7 @@ class HandCursor {
     Ease radiusEase;
     Ease alphaEase;
     Ease brightnessEase;
+    Ease stretchEase;
 
     std::vector<ci::Vec2f> fingertips;
 };

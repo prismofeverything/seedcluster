@@ -32,8 +32,8 @@ class Hand
     cv::Point motion() const;
     cv::Point previousCenter( int offset=1 ) const;
     cv::Point smoothCenter( int reach=3 ) const;
-    inline bool isOpen() { return fingertips.size() > 4; };
-    inline bool isEntering() { return !isHand && isOpen(); };
+    inline bool isOpen() { return fingertips.size() > 3; };
+    inline bool isEntering() { return !isHand && fingertips.size() > 4; };
     inline bool isOpening() { return isClosed && isOpen(); };
     inline bool isClosing() { return !isClosed && fingertips.size() < 1; };
 

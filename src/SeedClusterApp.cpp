@@ -663,7 +663,7 @@ void SeedClusterApp::draw()
 
     // cluster.draw();
     // drawRawHands();
-    drawField();
+    // drawField();
 
     gl::popModelView();
     
