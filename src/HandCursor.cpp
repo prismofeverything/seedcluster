@@ -21,7 +21,7 @@ HandCursor::HandCursor()
 
 void HandCursor::in( const Hand & hand, cv::Point _center )
 {
-    stretchEase = Ease( fingerStretch, 0, 20 );
+    stretchEase = Ease( fingerStretch, -5, 20 );
     center = ci::Vec2f( _center.x, _center.y );
     for ( std::vector<cv::Point>::const_iterator fingertip = hand.fingertips.begin(); fingertip != hand.fingertips.end(); fingertip++ ) {
         fingertips.push_back( ci::Vec2f( _center.x - fingertip->x, _center.y - fingertip->y ) );
@@ -31,9 +31,10 @@ void HandCursor::in( const Hand & hand, cv::Point _center )
 void HandCursor::out( cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
-    // center += (ci::Vec2f( _center.x, _center.y ) - center) * inertia;
-    // radiusEase = Ease( radius, 1.0f, 30 );
-    // brightnessEase = Ease( color[2], 0.6f, 30 );
+
+    radiusEase = Ease( radius, -1.0f, 30 );
+    brightnessEase = Ease( color[2], 0.6f, 30 );
+
     goingOut = true;
 }
 
@@ -47,7 +48,7 @@ void HandCursor::close( cv::Point _center )
 void HandCursor::open( cv::Point _center )
 {
     fingerStretch = 0.8f;
-    stretchEase = Ease( fingerStretch, 0, 20 );
+    stretchEase = Ease( fingerStretch, -5, 20 );
     center = ci::Vec2f( _center.x, _center.y );
     radiusEase = Ease( radius, fullRadius, 30 );
     brightnessEase = Ease( color[2], 0.6f, 30 );
@@ -84,9 +85,9 @@ void HandCursor::update()
         fingerStretch = stretchEase.in();
     }
 
-    // if ( goingOut && transitionsComplete ) {
-    //     complete = true;
-    // }
+    if ( goingOut && transitionsComplete ) {
+        complete = true;
+    }
 }
 
 void HandCursor::drawCircle( ci::Vec2f _center, float _radius, float _alpha )
@@ -155,7 +156,7 @@ void HandMap::in( const Hand & hand )
 void HandMap::out( const Hand & hand )
 {
     handmap[ hand.hue ].out( hand.smoothCenter( smoothing ) );
-    handmap.erase( hand.hue );
+    // handmap.erase( hand.hue );
 }
 
 void HandMap::close( const Hand & hand )

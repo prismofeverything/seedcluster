@@ -162,6 +162,8 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     bool innardsMode;
     bool rectangleMode;
     cv::RotatedRect rectangle;
+    ci::Vec3f rectangleColor;
+    float rectangleAlpha;
 };
 
 Vec3f SeedClusterApp::randomVec3f()
@@ -235,7 +237,9 @@ void SeedClusterApp::setupParticles()
 
 void SeedClusterApp::setupRectangle()
 {
-    rectangle = cv::RotatedRect( cv::Point( -320, -240 ), cv::Size( 100, 80 ), 0.1 );
+    rectangle = cv::RotatedRect( cv::Point( -320, -240 ), cv::Size( 124, 80 ), 30 );
+    rectangleColor = Vec3f( 0.2, 0.7, 0.7 );
+    rectangleAlpha = 0.6f;
 }
 
 void SeedClusterApp::setup()
@@ -243,6 +247,7 @@ void SeedClusterApp::setup()
     tracker.registerListener( this );
 
 	setupParticles();
+    setupRectangle();
 	
     cannyLowerThreshold = 0;
     cannyUpperThreshold = 0;
@@ -663,7 +668,8 @@ void SeedClusterApp::drawParticles()
 void SeedClusterApp::drawRectangle()
 {
     gl::pushModelView();
-    glColor4f( 1.0, 0.8, 0.2, 0.9 );
+    setColor( rectangleColor, rectangleAlpha );
+    // glColor4f( 1.0, 0.8, 0.2, 0.9 );
     gl::translate( ci::Vec3f( -rectangle.center.x, -rectangle.center.y, 10 ) );
     gl::rotate( ci::Vec3f( 0, 0, rectangle.angle ) );
     gl::drawSolidRect( Rectf( -rectangle.size.width/2, -rectangle.size.height/2, rectangle.size.width, rectangle.size.height ), true );
