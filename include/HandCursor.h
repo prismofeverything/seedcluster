@@ -34,6 +34,8 @@ class HandCursor {
     bool goingOut;
     bool complete;
 
+    float fullRadius, closeRadius;
+
     Ease radiusEase;
     Ease alphaEase;
     Ease brightnessEase;

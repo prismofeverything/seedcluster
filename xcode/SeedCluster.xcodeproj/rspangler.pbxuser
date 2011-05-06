@@ -244,6 +244,8 @@
 			40432D3013737FFC00888C35 /* PBXTextBookmark */ = 40432D3013737FFC00888C35 /* PBXTextBookmark */;
 			40432D341373803600888C35 /* PBXTextBookmark */ = 40432D341373803600888C35 /* PBXTextBookmark */;
 			40432D351373803600888C35 /* PBXTextBookmark */ = 40432D351373803600888C35 /* PBXTextBookmark */;
+			40432D3B137380E700888C35 /* PBXTextBookmark */ = 40432D3B137380E700888C35 /* PBXTextBookmark */;
+			40432D3C137380E700888C35 /* PBXTextBookmark */ = 40432D3C137380E700888C35 /* PBXTextBookmark */;
 			40620BCE135642AA00881359 = 40620BCE135642AA00881359 /* PBXTextBookmark */;
 			407B87CF1350FFDC0069D7B7 = 407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */;
 			407B89041352F9590069D7B7 = 407B89041352F9590069D7B7 /* PBXTextBookmark */;
@@ -954,7 +956,7 @@
 	40432C5513734D7400888C35 /* HandCursor.cpp */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {971, 2340}}";
-			sepNavSelRange = "{4223, 0}";
+			sepNavSelRange = "{4222, 0}";
 			sepNavVisRange = "{418, 976}";
 		};
 	};
@@ -1751,6 +1753,26 @@
 		vrLen = 976;
 		vrLoc = 418;
 	};
+	40432D3B137380E700888C35 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 40432C5513734D7400888C35 /* HandCursor.cpp */;
+		name = "HandCursor.cpp: 171";
+		rLen = 0;
+		rLoc = 4222;
+		rType = 0;
+		vrLen = 1034;
+		vrLoc = 264;
+	};
+	40432D3C137380E700888C35 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 40432C5513734D7400888C35 /* HandCursor.cpp */;
+		name = "HandCursor.cpp: 171";
+		rLen = 0;
+		rLoc = 4222;
+		rType = 0;
+		vrLen = 976;
+		vrLoc = 418;
+	};
 	404C21761356BE9300C92A6F /* Fingertips.cpp */ = {
 		isa = PBXFileReference;
 		fileEncoding = 4;
@@ -1773,7 +1795,7 @@
 		ignoreCount = 0;
 		lineNumber = 52;
 		location = SeedCluster;
-		modificationTime = 326336565.755999;
+		modificationTime = 326336741.099539;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -1791,7 +1813,7 @@
 		ignoreCount = 0;
 		lineNumber = 116;
 		location = SeedCluster;
-		modificationTime = 326336565.756016;
+		modificationTime = 326336741.099573;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -1845,7 +1867,7 @@
 		ignoreCount = 0;
 		lineNumber = 83;
 		location = SeedCluster;
-		modificationTime = 326336565.755953;
+		modificationTime = 326336741.099497;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
