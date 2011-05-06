@@ -223,7 +223,7 @@ void SeedClusterApp::setup()
     }
 
     gl::enableAlphaBlending();
-    gl::enableAdditiveBlending();
+    //    gl::enableAdditiveBlending();
     gl::enableDepthRead();
     gl::enableDepthWrite();
 
@@ -390,7 +390,7 @@ void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & s
 
     if ( cluster.isSeedChosen() ) {
         float zoom = sqrt( distance( first.smoothCenter( 3 ), second.smoothCenter( 3 ) ) ) / zoomAnchor;
-        cluster.chosenSeed->zoom( pow( zoom, 2 ) );
+        cluster.chosenSeed->zoom( pow( (double) zoom, 1.5 ) );
     }
 }
 
@@ -474,7 +474,9 @@ void SeedClusterApp::draw()
 	gl::clear( Color( CM_HSV, background ) );
     // gl::draw( backgroundTexture );
 
+    gl::disableAlphaBlending();
     cluster.draw();
+    gl::enableAlphaBlending();
     drawRawHands();
     drawField();
 
