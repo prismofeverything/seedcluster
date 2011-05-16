@@ -18,6 +18,8 @@ class Tile {
           float z, 
           ci::Vec3f col );
 
+    //    virtual ~Tile();
+
     void update();
     void draw();
     bool branch();

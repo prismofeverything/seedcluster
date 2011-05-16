@@ -3,8 +3,6 @@
 #include "boost/enable_shared_from_this.hpp"
 #include "Tile.h"
 #include "TileState.h"
-#include "penner/Expo.h"
-
 
 using namespace ci;
 using namespace boost;
@@ -31,7 +29,7 @@ shared_ptr<TileState> BloomTileState::update( Tile & tile )
         full = tile.branch();
     }
 
-    return shared_from_this();
+    // return shared_from_this();
 
     if ( full ) {
         return shared_ptr<TileState>( new LeaveTileState() );
@@ -44,7 +42,7 @@ shared_ptr<TileState> LeaveTileState::update( Tile & tile )
 {
     if ( !alpha.done() ) {
         tile.alpha = alpha.out();
-    } 
+    }
 
     return shared_from_this();
 }
