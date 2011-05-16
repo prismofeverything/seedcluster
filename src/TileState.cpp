@@ -16,11 +16,8 @@ shared_ptr<TileState> TileState::update( Tile & tile )
 
 shared_ptr<TileState> EnterTileState::update( Tile & tile )
 {
-    if ( tile.alpha < 0.9 ) {
-        
-		tile.setAlpha( Expo::easeOut( time, 0.0f, 0.91f, 40.0f ) );
-		time += 1.0f;
-		
+    if ( !alpha.done() ) {
+        tile.alpha = alpha.out();
         return shared_from_this();
     } else {
         return shared_ptr<TileState>( new BloomTileState() );
@@ -36,17 +33,17 @@ shared_ptr<TileState> BloomTileState::update( Tile & tile )
 
     return shared_from_this();
 
-    // if ( full ) {
-    //     return shared_ptr<TileState>( new LeaveTileState() );
-    // } else {
-    //     return shared_from_this();
-    // }
+    if ( full ) {
+        return shared_ptr<TileState>( new LeaveTileState() );
+    } else {
+        return shared_from_this();
+    }
 }
 
 shared_ptr<TileState> LeaveTileState::update( Tile & tile )
 {
-    if ( tile.alpha > 0.2f ) {
-        tile.addAlpha( -0.01f );
+    if ( !alpha.done() ) {
+        tile.alpha = alpha.out();
     } 
 
     return shared_from_this();

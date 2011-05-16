@@ -15,7 +15,7 @@ using namespace std;
 
 #define TAU 6.2831853071795862f
 
-Tile::Tile( TileCluster & clust, int index, Vec2i grid, int row, int column, float z, Vec3f col )
+Tile::Tile( TileCluster * clust, int index, Vec2i grid, int row, int column, float z, Vec3f col )
     : cluster( clust ),
       id( index ),
       corner( grid ),
@@ -32,58 +32,6 @@ Tile::Tile( TileCluster & clust, int index, Vec2i grid, int row, int column, flo
     }
 
     state = boost::shared_ptr<TileState>( new EnterTileState() );
-}
-
-Tile::Tile( const Tile & rhs ) 
-    : cluster( rhs.cluster ),
-      id( rhs.id ),
-      corner( rhs.corner ),
-      rows( rhs.rows ),
-      columns( rhs.columns ),
-      position( rhs.position ),
-      box( rhs.box ),
-      color( rhs.color ),
-      velocity( rhs.velocity ),
-      alpha( rhs.alpha )
-{
-    for ( int l = 0; l < 4; l++ ) {
-        liberties[l] = rhs.liberties[l];
-    }
-
-    state = rhs.state;
-}
-
-Tile & Tile::operator=( const Tile & rhs )
-{
-    id = rhs.id;
-    corner = rhs.corner;
-    rows = rhs.rows;
-    columns = rhs.columns;
-    position = rhs.position;
-    box = rhs.box;
-    color = rhs.color;
-    velocity = rhs.velocity;
-    alpha = rhs.alpha;
-
-    for ( int l = 0; l < 4; l++ ) {
-        liberties[l] = rhs.liberties[l];
-    }
-
-    state = rhs.state;
-
-    return *this;
-}
-
-void Tile::addAlpha( float variance )
-{
-    alpha += variance;
-    if ( alpha < 0.0f ) alpha = 0.0f;
-    if ( alpha > 1.0f ) alpha = 1.0f;
-}
-
-void Tile::setAlpha( float newAlpha )
-{
-    alpha = newAlpha;
 }
 
 bool Tile::branch()
@@ -117,8 +65,8 @@ bool Tile::branch()
                 break;
             }
 
-        liberties[l] = cluster.tiles.size();
-        cluster.addTile( grid, row, column, Rand::randFloat() * 20 - 10, newColor, id, (2 + l) % 4 );
+        liberties[l] = cluster->tiles.size();
+        cluster->addTile( grid, row, column, Rand::randFloat() * 20 - 10, newColor, id, (2 + l) % 4 );
     }
 
     bool full = true;
