@@ -109,8 +109,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 326391867;
-			PBXWorkspaceStateSaveDate = 326391867;
+			PBXPerProjectTemplateStateSaveDate = 327273933;
+			PBXWorkspaceStateSaveDate = 327273933;
 		};
 		perUserProjectItems = {
 			4003D403134F86C30058C709 = 4003D403134F86C30058C709 /* PlistBookmark */;
@@ -118,11 +118,11 @@
 			401B8AE0136A2183002F5573 = 401B8AE0136A2183002F5573 /* PBXTextBookmark */;
 			4021A918136B3483008D5BB5 = 4021A918136B3483008D5BB5 /* PBXTextBookmark */;
 			40333DB413664C5000D47512 = 40333DB413664C5000D47512 /* PBXTextBookmark */;
-			4034BB871374583F00613FE5 /* PBXTextBookmark */ = 4034BB871374583F00613FE5 /* PBXTextBookmark */;
-			4034BBB5137467FE00613FE5 /* PBXTextBookmark */ = 4034BBB5137467FE00613FE5 /* PBXTextBookmark */;
-			4034BBB6137467FE00613FE5 /* XCBuildMessageTextBookmark */ = 4034BBB6137467FE00613FE5 /* XCBuildMessageTextBookmark */;
-			4034BBB7137467FE00613FE5 /* PBXTextBookmark */ = 4034BBB7137467FE00613FE5 /* PBXTextBookmark */;
-			4034BBC413746A2300613FE5 /* PBXTextBookmark */ = 4034BBC413746A2300613FE5 /* PBXTextBookmark */;
+			4034BB871374583F00613FE5 = 4034BB871374583F00613FE5 /* PBXTextBookmark */;
+			4034BBB5137467FE00613FE5 = 4034BBB5137467FE00613FE5 /* PBXTextBookmark */;
+			4034BBB6137467FE00613FE5 = 4034BBB6137467FE00613FE5 /* PBXTextBookmark */;
+			4034BBB7137467FE00613FE5 = 4034BBB7137467FE00613FE5 /* PBXTextBookmark */;
+			4034BBC413746A2300613FE5 = 4034BBC413746A2300613FE5 /* PBXTextBookmark */;
 			403C0E8D136B19E800D7AAB2 = 403C0E8D136B19E800D7AAB2 /* PBXTextBookmark */;
 			4040690713688C28004BCB5C = 4040690713688C28004BCB5C /* PBXTextBookmark */;
 			4048DDB01373EDB0003C28BC = 4048DDB01373EDB0003C28BC /* PBXTextBookmark */;
@@ -323,11 +323,10 @@
 		vrLen = 620;
 		vrLoc = 762;
 	};
-	4034BBB6137467FE00613FE5 /* XCBuildMessageTextBookmark */ = {
+	4034BBB6137467FE00613FE5 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		comments = "'class cv::RotatedRect' has no member named 'contains'";
 		fRef = 00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */;
-		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
 		rLoc = 382;
 		rType = 1;
@@ -477,7 +476,7 @@
 		ignoreCount = 0;
 		lineNumber = 116;
 		location = SeedCluster;
-		modificationTime = 326395901.664119;
+		modificationTime = 326395901.6641191;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};

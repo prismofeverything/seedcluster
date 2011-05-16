@@ -261,7 +261,7 @@ void SeedClusterApp::setup()
     params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
     params.addParam( "canny upper threshold", &cannyUpperThreshold, "min=0 max=250 step=1" );
     
-    defaultBackground = Vec3f( 0.0f, 0.1f, 0.2f );
+    defaultBackground = Vec3f( 0.0f, 0.0f, 0.9f );
     oneBackground = Vec3f( 0.0f, 0.1f, 0.65f );
     manyBackground = Vec3f( 0.0f, 0.1f, 0.95f );
     background = defaultBackground;
@@ -334,8 +334,10 @@ void SeedClusterApp::mouseDown( MouseEvent event )
 {
     mouseIsDown = true;
     bloomColor[2] = Rand::randFloat();
+    mousePosition = event.getPos();
+    Vec2i gridPosition = Vec2i(((float) mousePosition[0]) / Tile::atomWidth, ((float) mousePosition[1]) / Tile::atomHeight);
 
-    // cluster.mouseDown( centering, mouseVelocity, bloomColor );
+    cluster.mouseDown( gridPosition, mouseVelocity, bloomColor );
 }
 
 void SeedClusterApp::mouseUp( MouseEvent event )
@@ -676,16 +678,16 @@ void SeedClusterApp::drawParticles()
     glEnd();
 }
 
-void SeedClusterApp::drawRectangle()
-{
-    gl::pushModelView();
-    setColor( rectangleColor, rectangleAlpha * rectangleFactor );
-    // glColor4f( 1.0, 0.8, 0.2, 0.9 );
-    gl::translate( ci::Vec3f( -rectangle.center.x, -rectangle.center.y, 10 ) );
-    gl::rotate( ci::Vec3f( 0, 0, rectangle.angle ) );
-    gl::drawSolidRect( Rectf( -rectangle.size.width * rectangleFactor / 2, -rectangle.size.height * rectangleFactor / 2, rectangle.size.width * rectangleFactor, rectangle.size.height * rectangleFactor ), true );
-    gl::popModelView();
-}
+// void SeedClusterApp::drawRectangle()
+// {
+//     gl::pushModelView();
+//     setColor( rectangleColor, rectangleAlpha * rectangleFactor );
+//     // glColor4f( 1.0, 0.8, 0.2, 0.9 );
+//     gl::translate( ci::Vec3f( -rectangle.center.x, -rectangle.center.y, 10 ) );
+//     gl::rotate( ci::Vec3f( 0, 0, rectangle.angle ) );
+//     gl::drawSolidRect( Rectf( -rectangle.size.width * rectangleFactor / 2, -rectangle.size.height * rectangleFactor / 2, rectangle.size.width * rectangleFactor, rectangle.size.height * rectangleFactor ), true );
+//     gl::popModelView();
+// }
 
 void SeedClusterApp::draw()
 {
@@ -699,25 +701,26 @@ void SeedClusterApp::draw()
     gl::translate( Vec3f( -690.0f, -390.0f, -5.0f ) );
     gl::scale( Vec3f( 0.72f, 0.72f, 1.0f ) );
 
-    if ( !innardsMode ) {
-        gl::draw( backgroundTexture );
-    }
+    // if ( !innardsMode ) {
+    //     gl::draw( backgroundTexture );
+    // }
 
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
     gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
 	 
-    if ( rectangleMode ) {
-        drawRectangle();
-    }
+    // if ( rectangleMode ) {
+    //     drawRectangle();
+    // }
 
-    if ( !innardsMode ) {
-        drawParticles();
-        gl::enableAlphaBlending();
-        drawSmoothHands();
-    }
+    // if ( !innardsMode ) {
+    //     drawParticles();
+    //     gl::enableAlphaBlending();
+    //     drawSmoothHands();
+    // }
+
+    cluster.draw();
 
     if ( innardsMode ) {
-        cluster.draw();
         drawRawHands();
         drawField();
     }
