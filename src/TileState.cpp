@@ -7,10 +7,11 @@
 using namespace ci;
 using namespace boost;
 
-shared_ptr<TileState> TileState::update( Tile & tile )
-{
-    return shared_from_this();
-}
+// shared_ptr<TileState> TileState::update( Tile & tile )
+// {
+//     std::cout << "in regular tile state?  SHOULD NOT BE HERE" << this << std::endl;
+//     return shared_from_this();
+// }
 
 shared_ptr<TileState> EnterTileState::update( Tile & tile )
 {
@@ -18,6 +19,7 @@ shared_ptr<TileState> EnterTileState::update( Tile & tile )
         tile.alpha = alpha.out();
         return shared_from_this();
     } else {
+        std::cout << "change to bloom: " << this << std::endl;
         return shared_ptr<TileState>( new BloomTileState() );
     }
 }
@@ -32,6 +34,7 @@ shared_ptr<TileState> BloomTileState::update( Tile & tile )
     // return shared_from_this();
 
     if ( full ) {
+        std::cout << "change to leave: " << this << std::endl;
         return shared_ptr<TileState>( new LeaveTileState() );
     } else {
         return shared_from_this();

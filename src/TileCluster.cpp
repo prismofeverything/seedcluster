@@ -22,7 +22,7 @@ void TileCluster::clearSeeds()
 
 void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f color, int from, int liberty )
 {
-    tiles.push_back( Tile( this, tiles.size(), position, rows, columns, z, color ) );
+    tiles.push_back( Tile( this, tiles.size(), position, rows, columns, z, color, boost::shared_ptr<TileState>( new EnterTileState() ) ) );
     if ( from >= 0 ) {
         tiles[tiles.size() - 1].liberties[liberty] = from;
     }

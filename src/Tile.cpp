@@ -15,7 +15,7 @@ using namespace std;
 
 #define TAU 6.2831853071795862f
 
-Tile::Tile( TileCluster * clust, int index, Vec2i grid, int row, int column, float z, Vec3f col )
+Tile::Tile( TileCluster * clust, int index, Vec2i grid, int row, int column, float z, Vec3f col, boost::shared_ptr<TileState> initial )
     : cluster( clust ),
       id( index ),
       corner( grid ),
@@ -25,13 +25,15 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, int row, int column, flo
       box( Rectf( 0, 0, atomWidth*column, atomHeight*row ) ),
       color( col ),
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
-      alpha( 0.0f )
+      alpha( 0.0f ),
+      state( initial )
 {
     for ( int l = 0; l < 4; l++ ) {
         liberties[l] = -1;
     }
 
-    state = boost::shared_ptr<TileState>( new EnterTileState() );
+    std::cout << "initial state: " << this << " - " << state << std::endl;
+    // state = boost::shared_ptr<TileState>( new EnterTileState() );
 }
 
 bool Tile::branch()
@@ -80,6 +82,8 @@ bool Tile::branch()
 
 void Tile::update()
 {
+    std::cout << this << " - " << state << std::endl;
+
     state = state->update( *this );
     position += velocity;
 }

@@ -10,7 +10,7 @@ class TileState : public boost::enable_shared_from_this<TileState> {
  public:
     TileState() {};
     virtual ~TileState() {};
-    virtual boost::shared_ptr<TileState> update( Tile & tile );
+    virtual boost::shared_ptr<TileState> update( Tile & tile ) = 0;
 };
 
 class EnterTileState : public TileState {

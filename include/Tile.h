@@ -16,7 +16,8 @@ class Tile {
           int row, 
           int column, 
           float z, 
-          ci::Vec3f col );
+          ci::Vec3f col,
+          boost::shared_ptr<TileState> initial );
 
     //    virtual ~Tile();
 
