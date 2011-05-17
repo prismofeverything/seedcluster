@@ -30,9 +30,10 @@ class TileCluster {
     void releaseSeed();
     bool isSeedChosen();
 
-    static const float branchRate = 0.1;
+    static const float branchRate = 0.3;
 
     std::vector<Tile> tiles;
+    std::vector<Tile> available;
     std::vector<ci::Vec2i> tileDimensions;
     std::vector<ci::Vec2i> orientations;
 

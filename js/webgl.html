@@ -1,0 +1,902 @@
+
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>WebGL 704</title> 
+		<meta charset="utf-8"> 
+		<meta name="keywords" content="webgl, gpu, opengl, javascript, raytracing, raycasting, performance"> 
+		<meta name="description" content="Interactive WebGL raycasting"> 
+		<style type="text/css"> 
+			*{
+			   -moz-user-select: -moz-none;
+			   -khtml-user-select: none;
+			   -webkit-user-select: none;
+			   -o-user-select: none;
+			   user-select: none;
+			}
+			body {
+				background-color: #000;
+				margin: 0px;
+				overflow: hidden;
+				color: #ffffff;
+				font-family: Monospace;
+				font-size: 25px;
+				font-weight: bold;
+				text-shadow: rgba( 0, 0, 0, 0.75 ) 2px 2px 4px;
+				color:#fff;
+				cursor:default;
+				display:inline;
+			}
+			a:link{
+				color : #fff;
+			}
+			a:visited{
+				color : #fff;
+			}
+			a:hover{
+				color : #ff5;
+			}
+			a:active{
+				color : #fff;
+			}
+			.stdtextdisable {
+                color:#888;
+			}
+			.click:hover {
+                color:#ff5;
+				cursor:pointer;
+			}
+			.footer{
+				width:100%; 
+				position:absolute; 
+				middle:0px; 
+				text-align:center;
+				bottom:0px;
+				font-size: 20px;
+			}
+			.fps{
+				font-size: 20px;
+			}							
+		</style> 
+	</head> 
+	<body> 
+		<script id="shader-vs" type="x-shader/x-vertex"> 
+			varying vec3  scp;
+			
+			uniform float time;
+			uniform float cx;
+			uniform float cy;
+			uniform vec3 prp;
+			uniform vec3 vuv;
+			uniform vec3 vrp;
+ 
+			attribute vec3 vPos;
+ 
+			void main(void){
+ 
+			   vec3 vpn=normalize(vrp-prp);
+			   vec3 u=normalize(cross(vuv,vpn));
+			   vec3 v=cross(vpn,u);
+			   vec3 vcv=(prp+vpn);
+			   		   		   
+			   vec3 scrCoord=vcv+vPos.x*u*cx/cy+vPos.y*v;
+			   scp=normalize(scrCoord-prp);
+			   gl_Position = vec4(vPos, 1.0);
+			}
+		</script> 
+ 
+		<script id="shader-fs" type="x-shader/x-fragment"> 
+			#ifdef GL_ES
+			precision highp float;
+			#endif
+ 
+			uniform float time;
+			uniform vec3 prp;
+ 
+			varying vec3  scp;
+ 
+			const vec3 e = vec3(0.1,0,0);
+			
+			const float maxd=200.0;
+			
+			float stime=sin(time);
+			float ctime=cos(time);
+ 
+			float inObj(in vec3 p) {
+				float oP=length(p);
+				p.x=sin(p.x)+stime;
+				p.z=sin(p.z)+ctime;
+				return float(min(length(p)-1.5-sin(oP-time*4.0),p.y+3.0));
+			}
+ 
+			void main(void){
+ 
+				float s=0.1;
+				vec3 c,p,n;
+ 
+ 				//speed optimization -advance ray (simple raytracing) until plane y=2.5
+				float f=-(prp.y-2.5)/scp.y;
+				if (f>0.0) p=prp+scp*f;
+				else f=maxd;
+ 
+				for(int i=0;i<256;i++){
+					if (abs(s)<.01||f>maxd) break;
+					f+=s;
+					p=prp+scp*f;
+					s=inObj(p);
+				}
+ 
+				if (f<maxd){
+				   if(p.y<-2.5){
+					   if (fract(p.x*.5)>.5)
+						   if (fract(p.z*.5)>.5)
+							   c=vec3(0,0,0);
+						   else
+							   c=vec3(1,1,1);
+					   else
+						   if (fract(p.z*.5)>.5)
+							   c = vec3(1,1,1);
+						   else
+							   c = vec3(0,0,0);
+					   n=vec3(0,1,0);
+				   }
+				   else{
+					  float d=length(p);
+					  c=vec3((sin(d*.25-time*4.0)+1.0)/2.0,(stime+1.0)/2.0,(sin(d-time*4.0)+1.0)/2.0);
+					  n=normalize(
+							   vec3(s-inObj(p-e.xyy),
+									s-inObj(p-e.yxy),
+									s-inObj(p-e.yyx)));
+				   }
+ 
+				   float b=dot(n,normalize(prp-p));
+				   gl_FragColor=vec4((b*c+pow(b,54.0))*(1.0-f*.005),1.0);
+				} else
+				gl_FragColor=vec4(0,0,0,1);
+			}
+		</script> 
+		
+	<canvas id="canvas2d" style="visibility:hidden;display:none" ></canvas> 
+	<canvas id="canvas3d" style="visibility:hidden;display:none" ></canvas> 
+ 
+	<div class="stdtext" style="position:absolute; right:50px; top:25px"> 
+		<span class="click" onClick="changeScale(-1)"><B>&lt;</B></span>&nbsp;<span id="scalefactorvalue">2</span>x&nbsp;<span class="click" onClick="changeScale(1)"><B>&gt;</B></span> 
+	</div> 
+	<div id="camautoman" class="click" onClick="changeCamAutoMan()" style="position:absolute; right:63px; top:60px">Auto</div> 
+	<div id="wtime" class="click" onClick="startStopTime()" style="position:absolute; right:64px; top:95px">Stop</div> 
+	<div id="showinfo" class="click" onClick="changeShowInfo()" style="position:absolute; right:63px; top:127px;">Info</div> 
+	<div id="showcanvas2dwebgl" class="click" onClick="changeShowCanvas2DWebGL()" style="position:absolute; right:55px; top:159px;">WebGL</div> 
+	<div id="footerid" class="footer" style="opacity:0">Use WASD or arrow keys to move. Hold mouse and drag to aim.</div> 
+	<div id="info" style="visibility:hidden" class="fps"> 
+		<div id="resinfo" style="position:absolute; left:25px; top:25px"></div> 
+		<div id="fps" style="position:absolute; left:25px; top:60px"></div> 
+		<div id="pps" style="position:absolute; left:25px; top:95px"></div> 
+	</div> 
+	<div id="contact" style="font-size: 16px; bottom:30px; visibility:hidden"; class="footer"> 
+		<div>paulo.falcao@gmail.com</div> 
+		<div><a href="http://twitter.com/paulofalcao" target="_blank">twitter.com/paulofalcao</a></div> 
+	</div> 
+	
+	<script> 
+		var sin=Math.sin,cos=Math.cos,
+		    min=Math.min,max=Math.max,abs=Math.abs,
+		    sqrt=Math.sqrt,acos=Math.acos,PI=Math.PI,
+		    floor=Math.floor,pow=Math.pow,MATHLOW=0.01;
+		var gl,canvas2d,canvas3d,prog;
+		var ctx2d,ctxImage,ctxImageData;
+		
+		//shader2d global vars
+		var shader2d_stime,shader2d_ctime;
+		var shader2d_maxd=200;
+		var shader2d_s=0.1;
+		var shader2d_longn=100000;			
+		var shader2d_p=newv();
+		var shader2d_n=newv();
+		var shader2d_tempv=newv();
+		var shader2d_i,shader2d_i2,shader2d_f,shader2d_d,shader2d_b,shader2d_t1,shader2d_t2;
+		var shader2d_firstimage=1;
+		
+		//more global vars.
+		var normvc_s,norm_s;
+		
+		var time=0;//time
+		var lasttime=0;//time
+		
+		var cx,cy;//canvas xy
+		var	auto_prp=[20,3,14];//camera position
+		var auto_vuv=[0,1,0];//view up vector
+		var auto_vrp=[0,0,0];//view reference point
+		var	man_prp=[-10,3,0];
+		var man_vuv=[0,1,0];
+		var man_vrp=[-9,3,0];
+		var man_dir=[1,0,0];
+		var vrp=[0,0,0];
+		var vuv=[0,0,0];
+		var prp=[0,0,0];
+		var camroty=camrotx=0;
+		var keyup=keydown=keyleft=keyright=keyspace=0;
+		var mousedown=0;
+		var lastmousex=lastmousey=mousex=mousey=0;
+		
+		var automan=0;//auto-man switch 0=auto 1=man
+		var automantimeto=3;//time to change
+		var automantime=-automantimeto;//time to next automan
+		var automandirty=0;//css stuff
+		
+		var worldtime=0;
+		var worldtimerun=1;//worldtimerun switch 0=false 1=true
+		
+		var fpsarray=[];
+		var fpsarraysize=10;
+		var fpsarraypos=0;
+		
+		var showinfoswitch=0;
+		
+		var showcanvas2dwebglswitch=1;//0=canvas2d, 1=webgl
+		
+		var scale=2;
+		var start = new Date().getTime();
+		var mouseStartPos=null;
+		
+		function $(id){
+			return document.getElementById(id);
+		}
+		
+		window.requestAnimFrame = (function() {
+		  return window.requestAnimationFrame ||
+				 window.webkitRequestAnimationFrame ||
+				 window.mozRequestAnimationFrame ||
+				 window.oRequestAnimationFrame ||
+				 window.msRequestAnimationFrame ||
+				 function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+				   window.setTimeout(callback, 0);
+				 };
+		})();				
+		
+		Array.prototype.avg = function() {
+			var avg=0;
+			var len=this.length;
+			for (var i=0;i<len;i++){
+				avg+=this[i];
+			}
+			return avg/len;
+		}
+		
+		function getTime(){
+			return ((new Date().getTime())-start)/1000;
+		}
+		
+		function newv(){
+			return [0,0,0];
+		}
+		
+		function addv(a,b,dest){
+			dest[0]=a[0]+b[0];
+			dest[1]=a[1]+b[1];
+			dest[2]=a[2]+b[2];
+			return dest;
+		}
+		
+		function subv(a,b,dest){
+			dest[0]=a[0]-b[0];
+			dest[1]=a[1]-b[1];
+			dest[2]=a[2]-b[2];
+			return dest;
+		}
+		
+		function mulv(a,b,dest){
+			dest[0]=a[0]*b[0];
+			dest[1]=a[1]*b[1];
+			dest[2]=a[2]*b[2];
+			return dest;
+		}
+		
+		function muln(a,b,dest){
+			dest[0]=a[0]*b;
+			dest[1]=a[1]*b;
+			dest[2]=a[2]*b;
+			return dest;
+		}
+		
+		function addn(a,b,dest){
+			dest[0]=a[0]+b;
+			dest[1]=a[1]+b;
+			dest[2]=a[2]+b;
+			return dest;
+		}
+		
+		function crossv(a,b,dest){
+			dest[0]=a[1]*b[2]-a[2]*b[1];
+			dest[1]=a[2]*b[0]-a[0]*b[2];
+			dest[2]=a[0]*b[1]-a[1]*b[0];
+			return dest;
+		}
+		
+		function rotx(a,angle,dest){
+			dest[0]=a[0];
+			dest[1]=a[1]*cos(angle)-a[2]*sin(angle);
+			dest[2]=a[1]*sin(angle)+a[2]*cos(angle);
+			return dest;
+		}
+		
+		function roty(a,angle,dest){
+			dest[0]=a[0]*cos(angle)-a[2]*sin(angle);
+			dest[1]=a[1];
+			dest[2]=a[0]*sin(angle)+a[2]*cos(angle);
+			return dest;
+		}
+		
+		function rotz(a,angle,dest){
+			dest[0]=a[0]*cos(angle)-a[1]*sin(angle);
+			dest[1]=a[0]*sin(angle)+a[1]*cos(angle);
+			dest[2]=a[2];
+			return dest;
+		}
+		
+		function dotv(a,b){
+			return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+		}
+		
+		function sizev(a){
+			return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
+		}
+		
+		function sizevc(x,y,z){
+			return sqrt(x*x+y*y+z*z);
+		}
+		
+		function movv(a,dest){
+			dest[0]=a[0];
+			dest[1]=a[1];
+			dest[2]=a[2];
+			return dest;
+		}		
+		
+		function norm(a){
+			norm_s=sizev(a);
+			a[0]=a[0]/norm_s;
+			a[1]=a[1]/norm_s;
+			a[2]=a[2]/norm_s;
+			return a;
+		}
+		
+		function normvc(x,y,z,dest){
+			normvc_s=sizevc(x,y,z);
+			dest[0]=x/normvc_s;
+			dest[1]=y/normvc_s;
+			dest[2]=z/normvc_s;
+			return dest;
+		}
+				
+		function anglev(a,b){
+			return acos(dotv(a,b)/(sizev(a)*sizev(b)));
+		}
+		
+		function smoothstep(x){
+			return x*x*(3-2*x);
+		}
+ 
+		function animate(){
+			//Set Time
+			lasttime=time;
+			time=getTime();
+			var frametime=time-lasttime;
+			
+			//Set Auto camera
+			auto_vuv[0]=sin(time);
+			auto_vrp[0]=sin(time*0.7)*10.0;
+			auto_vrp[2]=cos(time*0.9)*10.0;
+			auto_prp[0]=sin(time*0.7)*20.0+auto_vrp[0]+20.0;
+			auto_prp[1]=sin(time)*4.0+4.0+auto_vrp[1]+3.0;
+			auto_prp[2]=cos(time*0.6)*20.0+auto_vrp[2]+14.0;
+			
+			if (((time-automantime)>automantimeto)&&(automandirty==1)){
+				var camautomanobj=$("camautoman");
+				camautomanobj.className="click";
+				automandirty=0;
+			}			
+ 
+			//manual keys
+			if (keyup==1||keydown==1||keyleft==1||keyright==1){
+				var vecv=norm(subv(man_vrp,man_prp,newv()));
+				if (keyup==1||keydown==1){
+					var tmp=muln(vecv,frametime*30,newv());
+					if (keyup==1){
+						addv(man_vrp,tmp,man_vrp);
+						addv(man_prp,tmp,man_prp);
+					} 
+					if (keydown==1){
+						subv(man_vrp,tmp,man_vrp);
+						subv(man_prp,tmp,man_prp);
+					}
+				}
+				if (keyleft==1||keyright==1){
+					var tmp=crossv(vecv,vuv,newv());
+					norm(tmp);
+					muln(tmp,frametime*30,tmp);
+					if (keyright==1){
+						subv(man_vrp,tmp,man_vrp);
+						subv(man_prp,tmp,man_prp);
+					}			
+					if (keyleft==1){
+						addv(man_vrp,tmp,man_vrp);
+						addv(man_prp,tmp,man_prp);
+					}
+				}
+				if (man_prp[1]<(2.5+MATHLOW)) man_prp[1]=(2.5+MATHLOW);
+			}
+			
+			//mouse
+			if ((mousedown==1)||(keyspace==1)){
+				var mx=mousex-lastmousex;
+				var my=mousey-lastmousey;
+				lastmousex=mousex;
+				lastmousey=mousey;
+				camrotx-=my;
+				if (camrotx>((PI/2)*(150-MATHLOW)))camrotx=(PI/2)*(150-MATHLOW);
+				if (camrotx<(-(PI/2)*(150-MATHLOW)))camrotx=-(PI/2)*(150-MATHLOW);
+				camroty-=mx;
+				var man_dir=[1,0,0]
+				var tmp1=rotz(man_dir,camrotx/150,newv());
+				var tmp2=roty(tmp1,camroty/150,newv());
+				addv(tmp2,man_prp,man_vrp);
+			}
+			
+			//man-auto transition
+			var automantimef=(time-automantime)/automantimeto;
+			automantimef=max(min(automantimef,1),0);
+			if (automan==1) automantimef=-automantimef+1;
+			automantimef=smoothstep(automantimef);
+			
+			if (worldtimerun==1)
+				worldtime+=(time-lasttime);
+ 
+			var vecv=subv(man_vrp,man_prp,newv());
+				
+			//Set camera
+			var tmp=newv();
+			var invautomantimef=1-automantimef;
+			addv(muln(man_vuv,invautomantimef,vuv),muln(auto_vuv,automantimef,tmp),vuv);
+			addv(muln(man_vrp,invautomantimef,vrp),muln(auto_vrp,automantimef,tmp),vrp);
+			addv(muln(man_prp,invautomantimef,prp),muln(auto_prp,automantimef,tmp),prp);
+			
+			//average 30 frames
+			fpsarray[fpsarraypos]=frametime;
+			fpsarraypos=(fpsarraypos+1)%30;
+			
+			var fps=(1/fpsarray.avg());
+			$("resinfo").innerHTML=cx+"x"+cy;
+			$("fps").innerHTML=fps.toFixed(2)+" FPS";
+			$("pps").innerHTML=(cx*cy*fps/1000000).toFixed(2)+" MillionPixelsPerSecond";
+			$("footerid").style.opacity=(1-automantimef);
+		}
+ 
+ 
+		function onWindowResize(event) {
+			
+			cx=canvas2d.width=canvas3d.width=floor(window.innerWidth/scale);
+			cy=canvas2d.height=canvas3d.height=floor(window.innerHeight/scale);
+			canvas2d.style.width=canvas3d.style.width=window.innerWidth+"px";
+			canvas2d.style.height=canvas3d.style.height=window.innerHeight+"px";
+			
+			if (showcanvas2dwebglswitch==0){		
+				ctxImage=ctx2d.getImageData(0,0,cx,cy);
+				ctxImageData=ctxImage.data;
+			} else {
+				gl.viewport(0,0,cx,cy);
+			}
+			
+			fpsarray=[];
+			fpsarraypos=0;
+		}
+ 
+		
+		function mouseDown(event) {
+			lastmousex=mousex;
+			lastmousey=mousey;
+			mousedown=1;
+		}
+		
+		function mouseUp(event) {
+			mousedown=0;
+		}
+		
+		function mouseMove(event) {
+			mousex=event.screenX;
+			mousey=event.screenY;
+		}
+		
+		function doKeyDown(evt) {
+			switch (evt.keyCode) {
+				case 38: /* Up arrow */
+				case 87: /* W key */
+					keyup=1;
+					break;
+				case 40: /* Down arrow */
+				case 83: /* S key */
+					keydown=1;
+					break;
+				case 37: /* Left arrow */
+				case 65: /* A key */
+					keyleft=1;
+					break;
+				case 39: /* Right arrow */
+				case 68: /* D key */
+					keyright=1;
+					break;
+				case 32: /* Space key */
+					lastmousex=mousex;
+					lastmousey=mousey;
+					keyspace=1;
+					break
+			}
+		}
+ 
+		function doKeyUp(evt) {
+			switch (evt.keyCode) {
+				case 38: /* Up arrow */
+				case 87: /* W key */
+					keyup=0;
+					break;
+				case 40: /* Down arrow */
+				case 83: /* S key */
+					keydown=0;
+					break;
+				case 37: /* Left arrow */
+				case 65: /* A key */
+					keyleft=0;
+					break;
+				case 39: /* Right arrow */
+				case 68: /* D key */
+					keyright=0;
+					break;
+				case 32: /* Space key */
+					keyspace=0;
+					break
+			}
+		}
+		
+ 
+		function getShader(gl, id) {
+			var shaderScript = $(id);
+			var str = "";
+			var k = shaderScript.firstChild;
+			while (k) {
+				if (k.nodeType == 3)
+					str += k.textContent;
+				k = k.nextSibling;
+			}
+			var shader;
+			if (shaderScript.type == "x-shader/x-fragment")
+				shader = gl.createShader(gl.FRAGMENT_SHADER);
+			else if (shaderScript.type == "x-shader/x-vertex")
+				shader = gl.createShader(gl.VERTEX_SHADER);
+			else
+				return null;
+			gl.shaderSource(shader, str);
+			gl.compileShader(shader);
+			if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == 0)
+				alert(gl.getShaderInfoLog(shader));
+			return shader;
+		}
+ 
+ 
+		function init(){
+			window.addEventListener("resize", onWindowResize, false);
+			window.addEventListener("mousedown", mouseDown, false);
+			window.addEventListener("mouseup", mouseUp, false);
+			window.addEventListener("mousemove", mouseMove, false);
+			window.addEventListener("keydown", doKeyDown, false);
+			window.addEventListener("keyup", doKeyUp, false);
+			
+			canvas2d = $("canvas2d");
+			canvas3d = $("canvas3d");
+			
+			if (webGLStart()==-1){
+				changeShowCanvas2DWebGL();
+			}
+ 
+			tick();
+		}
+		
+		function webGLStart() {
+			
+			canvas2d.style.visibility="hidden";
+			canvas2d.style.display="none";
+			canvas3d.style.visibility="visible";
+			canvas3d.style.display="inline";
+			
+			var webglnames = [ "webgl", "experimental-webgl", "webkit-3d",
+					"moz-webgl" ];
+			for ( var i in webglnames) {
+				try {
+					gl = canvas3d.getContext(webglnames[i]);
+				} catch (e) {
+					return -1;
+				}
+				if (gl)
+					break;
+			}
+			if (!gl) {
+				alert("There's no WebGL context available.\r\nSoftware rendering using Canvas2D context will be used.");
+				return -1;
+			} 
+ 
+			prog = gl.createProgram();
+			gl.attachShader(prog, getShader(gl, "shader-vs"));
+			gl.attachShader(prog, getShader(gl, "shader-fs"));
+			gl.linkProgram(prog);//compile shader...
+			gl.useProgram(prog);
+			var posAtrLoc = gl.getAttribLocation(prog, "vPos");
+			gl.enableVertexAttribArray(posAtrLoc);
+			var posBuffer = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+			var vertices = new Float32Array([ -1, -1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0 ]);
+			gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+			gl.vertexAttribPointer(posAtrLoc, 3, gl.FLOAT, false, 0, 0);
+			
+			onWindowResize();
+			
+			return 1;
+		}
+ 
+		function drawWebGL() {
+			gl.uniform1f(gl.getUniformLocation(prog, "time"), worldtime);
+			gl.uniform1f(gl.getUniformLocation(prog, "cx"), cx);
+			gl.uniform1f(gl.getUniformLocation(prog, "cy"), cy);
+			gl.uniform3f(gl.getUniformLocation(prog, "prp"), prp[0],prp[1], prp[2]);
+			gl.uniform3f(gl.getUniformLocation(prog, "vuv"), vuv[0],vuv[1], vuv[2]);
+			gl.uniform3f(gl.getUniformLocation(prog, "vrp"), vrp[0],vrp[1], vrp[2]);
+			gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+			gl.flush();
+		}
+ 
+ 
+		function canvas2DStart() {
+			
+			canvas3d.style.visibility="hidden";
+			canvas3d.style.display="none";
+			canvas2d.style.visibility="visible";
+			canvas2d.style.display="inline";
+			
+			if (canvas2d.getContext){
+				ctx2d=canvas2d.getContext("2d");
+				if (ctx2d==null)
+					return -1;
+			} else
+				return -1;
+			
+			onWindowResize();
+			
+			return 1;
+			
+		}
+		
+		function shader2d_inObj(x,y,z){
+			return min(sizevc(sin(x)+shader2d_stime,y,sin(z)+shader2d_ctime)-1.5-sin(sizevc(x,y,z)-worldtime*4.0),shader2d_p[1]+3.0);
+		}
+		
+		function shader2d(x,y,scp,c){
+			//global worldtime,cx,cy,prp,vuv,vrp
+ 
+			shader2d_s=0.1;
+			shader2d_f=-(prp[1]-2.5)/scp[1];
+			
+			if (shader2d_f>0.0){
+				for(shader2d_i=0;shader2d_i<3;shader2d_i++)
+					shader2d_p[shader2d_i]=prp[shader2d_i]+scp[shader2d_i]*shader2d_f;
+			} else{
+				shader2d_f=shader2d_maxd;
+			}
+			
+			for(shader2d_i2=0;shader2d_i2<256;shader2d_i2++){
+				if(abs(shader2d_s)<0.01||shader2d_f>shader2d_maxd) break;
+				shader2d_f+=shader2d_s;
+				for(shader2d_i=0;shader2d_i<3;shader2d_i++)
+					shader2d_p[shader2d_i]=prp[shader2d_i]+scp[shader2d_i]*shader2d_f;
+				shader2d_s=shader2d_inObj(shader2d_p[0],shader2d_p[1],shader2d_p[2]);
+			}
+			
+			if (shader2d_f<shader2d_maxd){
+				if(shader2d_p[1]<-2.5){
+					if((~(shader2d_p[2]+shader2d_longn)+~(shader2d_p[0]+shader2d_longn))&1){
+						c[0]=1;c[1]=1;c[2]=1;
+					} else{
+						c[0]=0;c[1]=0;c[2]=0;						
+					}
+					shader2d_n[0]=0;shader2d_n[1]=1;shader2d_n[2]=0;
+				} else{
+					shader2d_d=sizev(shader2d_p);
+					c[0]=(sin(shader2d_d*0.25-worldtime*4.0)+1.0)/2.0;
+					c[1]=(shader2d_stime+1.0)/2.0;
+					c[2]=(sin(shader2d_d-worldtime*4.0)+1.0)/2.0;
+					normvc(shader2d_s-shader2d_inObj(shader2d_p[0]-0.1,shader2d_p[1],shader2d_p[2]),
+					       shader2d_s-shader2d_inObj(shader2d_p[0],shader2d_p[1]-0.1,shader2d_p[2]),
+					       shader2d_s-shader2d_inObj(shader2d_p[0],shader2d_p[1],shader2d_p[2]-0.1),
+					       shader2d_n);
+				};
+				shader2d_b=dotv(shader2d_n,norm(subv(prp,shader2d_p,shader2d_tempv)));
+				shader2d_t1=pow(shader2d_b,54.0);
+				shader2d_t2=1.0-shader2d_f*0.005;
+				shader2d_b*=shader2d_t2;
+				shader2d_t1*=shader2d_t2;
+				for(shader2d_i=0;shader2d_i<3;shader2d_i++)
+					c[shader2d_i]=max(min(shader2d_b*c[shader2d_i]+shader2d_t1,1),0)*255;
+			} else {
+				c[0]=0;c[1]=0;c[2]=0;
+			}
+			
+		}
+		
+		function drawCanvas2D() {
+			//Global stuff
+			shader2d_stime=sin(worldtime);
+			shader2d_ctime=cos(worldtime);
+			
+			//vertex shader common part
+			var vpn=norm(subv(vrp,prp,newv()));//vec3 vpn=normalize(vrp-prp);
+			var u=norm(crossv(vuv,vpn,newv()));//vec3 u=normalize(cross(vuv,vpn));			
+			var v=crossv(vpn,u,newv());//vec3 v=cross(vpn,u);
+			var vcv=addv(prp,vpn,newv());//vec3 vcv=(prp+vpn);
+			
+			//vertex shader for each vertex
+			var vPos=[
+			[-1, 1], //0--1
+			[ 1, 1], //|  |
+			[ 1,-1], //3--2
+			[-1,-1]];
+			
+			var scp=[];
+			for(var i=0;i<vPos.length;i++){
+				var scrCoord=newv();
+				//vec3 scrCoord=vcv+vPos.x*u*cx/cy+vPos.y*v;
+				for(var f=0;f<3;f++){scrCoord[f]=vcv[f]+vPos[i][0]*u[f]*cx/cy+vPos[i][1]*v[f]};
+				scp[i]=norm(subv(scrCoord,prp,newv()));//scp=normalize(scrCoord-prp);
+			}
+			
+			var grady1v=subv(scp[3],scp[0],newv());
+			muln(grady1v,1/cy,grady1v);
+			var accy1v=newv();
+			movv(scp[0],accy1v);
+			
+			var grady2v=subv(scp[2],scp[1],newv());
+			muln(grady2v,1/cy,grady2v);
+			var accy2v=newv();
+			movv(scp[1],accy2v);
+					
+			var gradxv=newv();
+			var accxv=newv();
+			for(var iy=0,inc=0,x=-0.5,y=-0.5,x_inc=1/cx,y_inc=1/cy,colorout=[0,0,0];iy<cy;iy++){
+				
+				subv(accy2v,accy1v,gradxv);
+				muln(gradxv,1/cx,gradxv);
+				movv(accy1v,accxv);
+				
+				for(var ix=0;ix<cx;ix++){
+					shader2d(x,y,accxv,colorout);
+					for(shader2d_i=0;shader2d_i<3;shader2d_i++){
+						ctxImageData[inc]=colorout[shader2d_i];
+						inc++;
+					}
+					ctxImageData[inc]=255;
+					inc++;
+					x+=x_inc;
+					
+					addv(gradxv,accxv,accxv);
+ 
+				}
+				
+				addv(grady1v,accy1v,accy1v);
+				addv(grady2v,accy2v,accy2v);
+				
+				y+=y_inc;
+				x=-0.5;
+			}
+			
+			ctx2d.putImageData(ctxImage,0,0);
+		}
+ 
+ 
+		function changeScale(value) {
+			scale += value;
+			if (scale < 1)
+				scale = 1;
+			if (scale > 32)
+				scale = 32;
+			$("scalefactorvalue").innerHTML = scale;
+			fpsarray=[];
+			fpsarraypos=0;				
+			onWindowResize();
+		}
+ 
+		function changeCamAutoMan() {
+			var camautomanobj = $("camautoman");
+			var timenow = getTime();
+			if ((timenow - automantime) > automantimeto) {
+				automantime = timenow;
+				if (automan == 0) {
+					automan = 1;
+					camautomanobj.style.right = "47px";
+					camautomanobj.innerHTML = "Manual";
+				} else {
+					automan = 0;
+					camautomanobj.style.right = "63px";
+					camautomanobj.innerHTML = "Auto";
+				}
+				automandirty = 1;
+				camautomanobj.className = "stdtextdisable";
+			}
+		}
+		
+		function startStopTime(){
+			var wtimeobj = $("wtime");
+			if (worldtimerun==0){
+				worldtimerun=1;
+				wtimeobj.style.right = "63px";
+				wtimeobj.innerHTML = "Stop";
+			}
+			else{
+				worldtimerun=0;
+				wtimeobj.style.right = "56px";
+				wtimeobj.innerHTML = "Start";
+			}				
+		}
+ 
+		function changeShowInfo(){
+			if (showinfoswitch==0){
+				showinfoswitch=1;
+				$("info").style.visibility="visible";
+				$("contact").style.visibility="visible";
+			}
+			else{
+				showinfoswitch=0;
+				$("info").style.visibility="hidden";
+				$("contact").style.visibility="hidden";
+			}				
+		}
+		
+		function changeShowCanvas2DWebGL(){
+			var wcanvaswebglobj = $("showcanvas2dwebgl");
+			if (showcanvas2dwebglswitch==0){
+				showcanvas2dwebglswitch=1;
+				wcanvaswebglobj.style.right = "55px";
+				wcanvaswebglobj.innerHTML="WebGL";
+				scale=2;
+				$("scalefactorvalue").innerHTML = scale;
+				fpsarray=[];
+				fpsarraypos=0;	
+				if (webGLStart()==-1){
+					changeShowCanvas2DWebGL();
+				}
+			}
+			else{
+				showcanvas2dwebglswitch=0;
+				wcanvaswebglobj.style.right = "32px";
+				wcanvaswebglobj.innerHTML="Canvas2D";
+				scale=8;
+				$("scalefactorvalue").innerHTML = scale;
+				fpsarray=[];
+				fpsarraypos=0;					
+				if (canvas2DStart()!=1){
+					alert("Sorry, your browser does not support HTML5.\r\nUse a recent version of Chrome, Firefox, Opera, Safari or Internet Explorer 9.\r\nHTML5 is also available on Android mobile phones, iPhone, iPad, and Kindle 3.");
+					return -1;
+				}
+			}				
+		}
+ 
+		function tick() {
+			requestAnimFrame(tick);
+			if (showcanvas2dwebglswitch==1){
+				drawWebGL();
+			} else {
+				drawCanvas2D();
+			}
+			animate();
+		}
+		
+		init();
+		
+	</script> 
+	
+	</body> 
+</html>

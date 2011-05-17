@@ -136,6 +136,7 @@
 			4017079C1383019000560246 /* PBXTextBookmark */ = 4017079C1383019000560246 /* PBXTextBookmark */;
 			4017079D1383019000560246 /* PBXTextBookmark */ = 4017079D1383019000560246 /* PBXTextBookmark */;
 			401707A11383023700560246 /* PBXTextBookmark */ = 401707A11383023700560246 /* PBXTextBookmark */;
+			401707AF138316C200560246 /* PBXTextBookmark */ = 401707AF138316C200560246 /* PBXTextBookmark */;
 			401B8AE0136A2183002F5573 = 401B8AE0136A2183002F5573 /* PBXTextBookmark */;
 			4021A918136B3483008D5BB5 = 4021A918136B3483008D5BB5 /* PBXTextBookmark */;
 			4034BBB5137467FE00613FE5 = 4034BBB5137467FE00613FE5 /* PBXTextBookmark */;
@@ -263,9 +264,9 @@
 	};
 	4003D41E134F8ECA0058C709 /* TileCluster.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1145, 2288}}";
-			sepNavSelRange = "{4244, 0}";
-			sepNavVisRange = "{2488, 907}";
+			sepNavIntBoundsRect = "{{0, 0}, {1145, 2327}}";
+			sepNavSelRange = "{4256, 0}";
+			sepNavVisRange = "{2255, 886}";
 			sepNavWindowFrame = "{{153, 489}, {750, 558}}";
 		};
 	};
@@ -507,6 +508,16 @@
 		vrLen = 907;
 		vrLoc = 2488;
 	};
+	401707AF138316C200560246 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41E134F8ECA0058C709 /* TileCluster.cpp */;
+		name = "TileCluster.cpp: 180";
+		rLen = 0;
+		rLoc = 4256;
+		rType = 0;
+		vrLen = 886;
+		vrLoc = 2255;
+	};
 	401B8AE0136A2183002F5573 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 404069DE1368F291004BCB5C /* Texture.cpp */;
@@ -634,7 +645,7 @@
 		ignoreCount = 0;
 		lineNumber = 52;
 		location = SeedCluster;
-		modificationTime = 327352886.465974;
+		modificationTime = 327358145.446222;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -652,7 +663,7 @@
 		ignoreCount = 0;
 		lineNumber = 116;
 		location = SeedCluster;
-		modificationTime = 327352886.465991;
+		modificationTime = 327358145.446232;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -680,7 +691,7 @@
 		ignoreCount = 0;
 		lineNumber = 83;
 		location = SeedCluster;
-		modificationTime = 327352886.465916;
+		modificationTime = 327358145.446181;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};

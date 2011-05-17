@@ -170,10 +170,10 @@ void TileCluster::draw()
     gl::disableDepthRead();
     gl::disableDepthWrite();
 
-    size = seeds.size();
-    for ( int ee = 0; ee < size; ee++ ) {
-        seeds[ee].draw();
-    }
+    // size = seeds.size();
+    // for ( int ee = 0; ee < size; ee++ ) {
+    //     seeds[ee].draw();
+    // }
 }
 
 };
