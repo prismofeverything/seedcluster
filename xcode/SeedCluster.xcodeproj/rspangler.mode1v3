@@ -317,7 +317,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Tile.cpp</string>
+								<string>TileState.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -325,17 +325,16 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Tile.cpp</string>
+										<string>TileState.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>407FB99613821B6100DEE2A3</string>
+										<string>407FB9D61382414B00DEE2A3</string>
 										<key>history</key>
 										<array>
 											<string>4003D403134F86C30058C709</string>
 											<string>4003D404134F86C30058C709</string>
 											<string>407B87CF1350FFDC0069D7B7</string>
-											<string>407B89041352F9590069D7B7</string>
 											<string>407B890A1352F9F90069D7B7</string>
 											<string>40620BCE135642AA00881359</string>
 											<string>40E25A63135FA51D00C92521</string>
@@ -350,7 +349,9 @@
 											<string>40A4B2F61381FF2600B93872</string>
 											<string>40A4B2F81381FF2600B93872</string>
 											<string>40A4B2FA1381FF2600B93872</string>
-											<string>40A4B2FD1381FF2600B93872</string>
+											<string>407FB9AE13823D8C00DEE2A3</string>
+											<string>407FB9AF13823D8C00DEE2A3</string>
+											<string>407FB9B113823D8C00DEE2A3</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -548,13 +549,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>407FB9A113821B6100DEE2A3</string>
+		<string>407FB9D71382414B00DEE2A3</string>
 		<string>407FB9A213821B6100DEE2A3</string>
 		<string>407FB9A313821B6100DEE2A3</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>4003D382134F80970058C709</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/rspangler/Projects/SeedCluster/xcode/SeedCluster.xcodeproj</string>
+		<string>4003D382134F80970058C709</string>
 	</array>
 	<key>WindowString</key>
 	<string>188 359 1413 819 0 0 1920 1178 </string>
@@ -578,7 +579,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>TileCluster.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -595,6 +596,8 @@
 							<string>439pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -647,7 +650,7 @@
 			<key>WindowToolGUID</key>
 			<string>4003D382134F80970058C709</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -889,6 +892,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -934,7 +939,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

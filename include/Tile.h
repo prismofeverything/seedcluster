@@ -6,6 +6,9 @@
 #include "TileState.h"
 #include <vector>
 
+namespace ix
+{
+
 class TileCluster;
 
 class Tile {
@@ -16,8 +19,7 @@ class Tile {
           int row, 
           int column, 
           float z, 
-          ci::Vec3f col,
-          boost::shared_ptr<TileState> initial );
+          ci::Vec3f col );
 
     //    virtual ~Tile();
 
@@ -29,6 +31,7 @@ class Tile {
     static const int atomHeight = 270;
 
     TileCluster * cluster;
+    TileState state;
 
     ci::Rectf box;
     ci::Vec3f position;
@@ -41,6 +44,7 @@ class Tile {
     int columns;
     float alpha;
 
-    boost::shared_ptr<TileState> state;
     int liberties[4];
+};
+
 };

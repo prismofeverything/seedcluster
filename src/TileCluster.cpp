@@ -9,6 +9,9 @@
 using namespace ci;
 using namespace std;
 
+namespace ix
+{
+
 TileCluster::TileCluster()
 {
     chosenSeed = seeds.end();
@@ -22,7 +25,7 @@ void TileCluster::clearSeeds()
 
 void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f color, int from, int liberty )
 {
-    tiles.push_back( Tile( this, tiles.size(), position, rows, columns, z, color, boost::shared_ptr<TileState>( new EnterTileState() ) ) );
+    tiles.push_back( Tile( this, tiles.size(), position, rows, columns, z, color ) );
     if ( from >= 0 ) {
         tiles[tiles.size() - 1].liberties[liberty] = from;
     }
@@ -122,3 +125,5 @@ void TileCluster::draw()
         seeds[ee].draw();
     }
 }
+
+};

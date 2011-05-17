@@ -87,7 +87,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     void mixedHandsMove( const ix::Hand & open, const ix::Hand & close );
     void closedHandsMove( const ix::Hand & first, const ix::Hand & second );
 
-    TileCluster cluster;
+    ix::TileCluster cluster;
     Vec3f bloomColor;
 
     // viewport
@@ -335,7 +335,7 @@ void SeedClusterApp::mouseDown( MouseEvent event )
     mouseIsDown = true;
     bloomColor[2] = Rand::randFloat();
     mousePosition = event.getPos();
-    Vec2i gridPosition = Vec2i(((float) mousePosition[0]) / Tile::atomWidth, ((float) mousePosition[1]) / Tile::atomHeight);
+    Vec2i gridPosition = Vec2i(((float) mousePosition[0]) / ix::Tile::atomWidth, ((float) mousePosition[1]) / ix::Tile::atomHeight);
 
     cluster.mouseDown( gridPosition, mouseVelocity, bloomColor );
 }

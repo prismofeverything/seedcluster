@@ -6,6 +6,9 @@
 #include "Seed.h"
 #include "Tile.h"
 
+namespace ix
+{
+
 class TileCluster {
  public:
     TileCluster();
@@ -28,4 +31,6 @@ class TileCluster {
     std::vector<Seed>::iterator chosenSeed;
     std::vector<Seed> seeds;
     std::vector<Tile> tiles;
+};
+
 };

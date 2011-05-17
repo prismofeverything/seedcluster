@@ -7,45 +7,46 @@
 using namespace ci;
 using namespace boost;
 
-// shared_ptr<TileState> TileState::update( Tile & tile )
-// {
-//     std::cout << "in regular tile state?  SHOULD NOT BE HERE" << this << std::endl;
-//     return shared_from_this();
-// }
+namespace ix {
 
-shared_ptr<TileState> EnterTileState::update( Tile & tile )
+Entering::Entering()
+    : alpha( 0.0f, 0.9f, 50 )
+{
+    
+}
+
+Leaving::Leaving()
+    : alpha( 0.9f, 0.0f, 50 )
+{
+    
+}
+
+void Entering::updateTile( Tile & tile ) const 
 {
     if ( !alpha.done() ) {
         tile.alpha = alpha.out();
-        return shared_from_this();
     } else {
-        std::cout << "change to bloom: " << this << std::endl;
-        return shared_ptr<TileState>( new BloomTileState() );
+        post_event( Bloom() );
     }
 }
 
-shared_ptr<TileState> BloomTileState::update( Tile & tile )
+void Blooming::updateTile( Tile & tile ) const 
 {
     bool full = false;
     if ( Rand::randFloat() < 0.02 ) {
         full = tile.branch();
     }
 
-    // return shared_from_this();
-
     if ( full ) {
-        std::cout << "change to leave: " << this << std::endl;
-        return shared_ptr<TileState>( new LeaveTileState() );
-    } else {
-        return shared_from_this();
+        post_event( Leave() );
     }
 }
 
-shared_ptr<TileState> LeaveTileState::update( Tile & tile )
+void Leaving::updateTile( Tile & tile ) const
 {
     if ( !alpha.done() ) {
         tile.alpha = alpha.out();
     }
-
-    return shared_from_this();
 }
+
+};
