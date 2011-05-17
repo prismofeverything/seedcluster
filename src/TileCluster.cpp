@@ -16,16 +16,34 @@ TileCluster::TileCluster()
 {
     chosenSeed = seeds.end();
     hoverSeed = seeds.end();
+
+    tileDimensions.push_back( Vec2i( 5, 3 ) );
+    tileDimensions.push_back( Vec2i( 3, 2 ) );
+    tileDimensions.push_back( Vec2i( 4, 3 ) );
+    tileDimensions.push_back( Vec2i( 1, 2 ) );
+    tileDimensions.push_back( Vec2i( 3, 4 ) );
+    tileDimensions.push_back( Vec2i( 2, 3 ) );
+    tileDimensions.push_back( Vec2i( 2, 2 ) );
+
+    orientations.push_back( Vec2i( 0, 1 ) );
+    orientations.push_back( Vec2i( -1, 0 ) );
+    orientations.push_back( Vec2i( 0, -1 ) );
+    orientations.push_back( Vec2i( 1, 0 ) );
 }
 
-void TileCluster::clearSeeds()
+Vec2i TileCluster::chooseDimension()
 {
-    seeds.clear();
+    return tileDimensions[ Rand::randInt( tileDimensions.size() ) ];
 }
 
-void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f color, int from, int liberty )
+Vec2i TileCluster::chooseOrientation()
 {
-    tiles.push_back( Tile( this, tiles.size(), position, rows, columns, z, color ) );
+    return orientations[ Rand::randInt( orientations.size() ) ];
+}
+
+void TileCluster::addTile( Vec2i position, Vec2i dim, float z, Vec3f color, int from, int liberty )
+{
+    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color ) );
     if ( from >= 0 ) {
         tiles[tiles.size() - 1].liberties[liberty] = from;
     }
@@ -33,7 +51,12 @@ void TileCluster::addTile( Vec2i position, int rows, int columns, float z, Vec3f
 
 void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
 {
-    addTile( position, Rand::randInt( 5 ) + 1, Rand::randInt( 3 ) + 2, Rand::randFloat() * 4 - 2, color );
+    addTile( position, chooseDimension(), 0, color );
+}
+
+void TileCluster::clearSeeds()
+{
+    seeds.clear();
 }
 
 void TileCluster::handOver( Vec2i point )
@@ -94,9 +117,31 @@ bool TileCluster::isSeedChosen()
 
 void TileCluster::update()
 {
+    bool branching = Rand::randFloat() < branchRate && tiles.size() > 0;
+    int yellow;
+    Vec2i dim, topLeft, bottomRight;
+
+    if ( branching ) {
+        yellow = Rand::randInt( tiles.size() );
+        dim = chooseDimension();
+        topLeft = tiles[ yellow ].relativeCorner( dim, chooseOrientation() );
+        bottomRight = topLeft + dim;
+    }
+
+    bool tileFits = true;
     int size = tiles.size();
     for ( int ii = 0; ii < size; ii++ ) {
         tiles[ii].update();
+
+        if ( branching && tileFits ) {
+            tileFits = !tiles[ii].collidesWith( topLeft, bottomRight );
+        }
+    }
+
+    if ( branching && tileFits ) {
+        Vec3f newColor = tiles[ yellow ].color;
+        newColor[2] = Rand::randFloat();
+        addTile( topLeft, dim, 0, newColor );
     }
 
     size = seeds.size();
@@ -110,7 +155,10 @@ void TileCluster::draw()
     gl::pushModelView();
     gl::translate( Vec3f( 500.0f, 200.0f, 0.0f ) );
     gl::scale( Vec3f( 0.02f, 0.02f, 1.0f ) );
+
     gl::enableAlphaBlending();
+    gl::enableDepthRead();
+    gl::enableDepthWrite();
 
     int size = tiles.size();
     for ( int ii = 0; ii < size; ii++ ) {
@@ -119,6 +167,8 @@ void TileCluster::draw()
 
     gl::popModelView();
     gl::disableAlphaBlending();
+    gl::disableDepthRead();
+    gl::disableDepthWrite();
 
     size = seeds.size();
     for ( int ee = 0; ee < size; ee++ ) {

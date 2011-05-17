@@ -17,14 +17,14 @@ using namespace std;
 namespace ix
 {
 
-Tile::Tile( TileCluster * clust, int index, Vec2i grid, int row, int column, float z, Vec3f col )
+Tile::Tile( TileCluster * clust, int index, Vec2i grid, Vec2i dim, float z, Vec3f col )
     : cluster( clust ),
       id( index ),
-      corner( grid ),
-      rows( row ),
-      columns( column ),
+      dimension( dim ),
+      topLeft( grid ),
+      bottomRight( grid + dim ), 
       position( Vec3f( grid[0]*atomWidth, grid[1]*atomHeight, z ) ),
-      box( Rectf( 0, 0, atomWidth*column, atomHeight*row ) ),
+      box( Rectf( 0, 0, atomWidth*dim[0], atomHeight*dim[1] ) ),
       color( col ),
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
       alpha( 0.0f ),
@@ -36,47 +36,30 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, int row, int column, flo
     }
 }
 
-bool Tile::branch()
+Vec2i Tile::relativeCorner( Vec2i dim, Vec2i orientation )
 {
-    int l = Rand::randInt( 4 );
-
-    if ( liberties[l] < 0 ) {
-        Vec2i grid;
-        Vec3f newColor = color;
-        newColor[2] = Rand::randFloat();
-        int row = Rand::randInt( 5 ) + 1;
-        int column = Rand::randInt( 5 ) + 1;
-
-        switch( l ) {
-        case 0:
-            grid[0] = corner[0] + columns;
-            grid[1] = Rand::randInt( 5 ) - 2 + corner[1];
-            break;
-        case 1:
-            grid[0] = Rand::randInt( 5 ) - 2 + corner[0];
-            grid[1] = corner[1] - row;
-            break;
-        case 2:
-            grid[0] = corner[0] - column;
-            grid[1] = Rand::randInt( 5 ) - 2 + corner[1];
-            break;
-        case 3:
-            grid[0] = Rand::randInt( 5 ) - 2 + corner[0];
-            grid[1] = corner[1] + rows;
-            break;
-        }
-
-        liberties[l] = cluster->tiles.size();
-        cluster->addTile( grid, row, column, Rand::randFloat() * 20 - 10, newColor, id, (2 + l) % 4 );
-    }
-
-    bool full = true;
-    for ( l = 0 ; l < 4 ; l++ ) {
-        if ( liberties[l] < 0 ) {
-            full = false;
+    Vec2i grid;
+    for ( int i = 0; i < 2; i++ ) {
+        if ( orientation[i] == 0 ) {
+            int axisSpread = dim[i] - 1;
+            int offset = Rand::randInt( axisSpread + dimension[i] ) - axisSpread;
+            grid[i] = offset + topLeft[i];
+        } else if ( orientation[i] < 0 ) {
+            grid[i] = topLeft[i] - dim[i];
+        } else {
+            grid[i] = bottomRight[i];
         }
     }
-    return full;
+
+    return grid;
+}
+
+bool Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
+{
+    return !( br[0] <= topLeft[0] || 
+              br[1] <= topLeft[1] || 
+              tl[0] >= bottomRight[0] || 
+              tl[1] >= bottomRight[1] );
 }
 
 void Tile::update()
@@ -91,9 +74,9 @@ void Tile::update()
         }
         break;
     case Blooming:
-        if ( Rand::randFloat() < 0.02 ) {
-            full = branch();
-        }
+        // if ( Rand::randFloat() < 0.02 ) {
+        //     // full = branch();
+        // }
 
         if ( full ) {
             state = Leaving;
@@ -104,6 +87,7 @@ void Tile::update()
         if ( !alphaEase.done() ) {
             alpha = alphaEase.out();
         }
+        break;
     }
 
     position += velocity;

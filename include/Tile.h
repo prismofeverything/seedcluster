@@ -18,8 +18,7 @@ class Tile {
     Tile( TileCluster * clust, 
           int id,
           ci::Vec2i grid, 
-          int row, 
-          int column, 
+          ci::Vec2i dim,
           float z, 
           ci::Vec3f col );
 
@@ -27,7 +26,9 @@ class Tile {
 
     void update();
     void draw();
-    bool branch();
+
+    ci::Vec2i relativeCorner( ci::Vec2i dim, ci::Vec2i orientation );
+    bool collidesWith( ci::Vec2i tl, ci::Vec2i br );
 
     static const int atomWidth = 240;
     static const int atomHeight = 270;
@@ -41,9 +42,9 @@ class Tile {
     ci::Vec3f color;
   
     int id;
-    ci::Vec2i corner;
-    int rows;
-    int columns;
+    ci::Vec2i topLeft;
+    ci::Vec2i bottomRight;
+    ci::Vec2i dimension;
     float alpha;
     Ease alphaEase;
 
