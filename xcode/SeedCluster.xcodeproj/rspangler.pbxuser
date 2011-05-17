@@ -109,8 +109,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 327305989;
-			PBXWorkspaceStateSaveDate = 327305989;
+			PBXPerProjectTemplateStateSaveDate = 327306296;
+			PBXWorkspaceStateSaveDate = 327306296;
 		};
 		perUserProjectItems = {
 			4003D403134F86C30058C709 = 4003D403134F86C30058C709 /* PlistBookmark */;
@@ -136,10 +136,10 @@
 			407FB9C813823FF700DEE2A3 = 407FB9C813823FF700DEE2A3 /* PBXTextBookmark */;
 			407FB9CD1382403900DEE2A3 = 407FB9CD1382403900DEE2A3 /* PBXTextBookmark */;
 			407FB9D61382414B00DEE2A3 = 407FB9D61382414B00DEE2A3 /* PBXTextBookmark */;
-			407FB9E413824B1300DEE2A3 /* XCBuildMessageTextBookmark */ = 407FB9E413824B1300DEE2A3 /* XCBuildMessageTextBookmark */;
-			407FB9E513824B1300DEE2A3 /* PBXTextBookmark */ = 407FB9E513824B1300DEE2A3 /* PBXTextBookmark */;
-			407FB9EB13824B3500DEE2A3 /* PBXTextBookmark */ = 407FB9EB13824B3500DEE2A3 /* PBXTextBookmark */;
-			407FB9EE13824BD400DEE2A3 /* PBXTextBookmark */ = 407FB9EE13824BD400DEE2A3 /* PBXTextBookmark */;
+			407FB9E413824B1300DEE2A3 = 407FB9E413824B1300DEE2A3 /* PBXTextBookmark */;
+			407FB9E513824B1300DEE2A3 = 407FB9E513824B1300DEE2A3 /* PBXTextBookmark */;
+			407FB9EB13824B3500DEE2A3 = 407FB9EB13824B3500DEE2A3 /* PBXTextBookmark */;
+			407FB9EE13824BD400DEE2A3 = 407FB9EE13824BD400DEE2A3 /* PBXTextBookmark */;
 			40A4B2781381D9E300B93872 = 40A4B2781381D9E300B93872 /* PBXTextBookmark */;
 			40A4B2F61381FF2600B93872 = 40A4B2F61381FF2600B93872 /* PBXTextBookmark */;
 			40A4B2F81381FF2600B93872 = 40A4B2F81381FF2600B93872 /* PBXTextBookmark */;
@@ -236,9 +236,9 @@
 	};
 	4003D41B134F8EB80058C709 /* Tile.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1144, 715}}";
-			sepNavSelRange = "{864, 0}";
-			sepNavVisRange = "{514, 320}";
+			sepNavIntBoundsRect = "{{0, 0}, {1144, 702}}";
+			sepNavSelRange = "{797, 17}";
+			sepNavVisRange = "{552, 282}";
 			sepNavWindowFrame = "{{61, 573}, {750, 558}}";
 		};
 	};
@@ -457,18 +457,30 @@
 		vrLoc = 89;
 	};
 	407B881E13515A310069D7B7 /* TileState.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = TileState.h;
+		path = /Users/rspangler/Projects/SeedCluster/include/TileState.h;
+		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1144, 1352}}";
-			sepNavSelRange = "{2478, 0}";
-			sepNavVisRange = "{65, 410}";
+			sepNavIntBoundsRect = "{{0, 0}, {1144, 858}}";
+			sepNavSelRange = "{399, 38}";
+			sepNavVisRange = "{306, 396}";
 			sepNavWindowFrame = "{{38, 594}, {750, 558}}";
 		};
 	};
 	407B881F13515A490069D7B7 /* TileState.cpp */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = TileState.cpp;
+		path = /Users/rspangler/Projects/SeedCluster/src/TileState.cpp;
+		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1379, 689}}";
-			sepNavSelRange = "{443, 0}";
-			sepNavVisRange = "{311, 499}";
+			sepNavIntBoundsRect = "{{0, 0}, {1144, 754}}";
+			sepNavSelRange = "{647, 0}";
+			sepNavVisRange = "{396, 290}";
 			sepNavWindowFrame = "{{107, 531}, {750, 558}}";
 		};
 	};
@@ -560,7 +572,7 @@
 		fRef = 407B881E13515A310069D7B7 /* TileState.h */;
 		name = "TileState.h: 95";
 		rLen = 0;
-		rLoc = 2372;
+		rLoc = 1500;
 		rType = 0;
 		vrLen = 429;
 		vrLoc = 256;
@@ -570,7 +582,7 @@
 		fRef = 407B881E13515A310069D7B7 /* TileState.h */;
 		name = "TileState.h: 96";
 		rLen = 0;
-		rLoc = 2411;
+		rLoc = 1500;
 		rType = 0;
 		vrLen = 329;
 		vrLoc = 194;
@@ -580,7 +592,7 @@
 		fRef = 407B881E13515A310069D7B7 /* TileState.h */;
 		name = "TileState.h: 96";
 		rLen = 0;
-		rLoc = 2411;
+		rLoc = 1500;
 		rType = 0;
 		vrLen = 329;
 		vrLoc = 194;
@@ -590,7 +602,7 @@
 		fRef = 407B881E13515A310069D7B7 /* TileState.h */;
 		name = "TileState.h: 96";
 		rLen = 0;
-		rLoc = 2423;
+		rLoc = 1500;
 		rType = 0;
 		vrLen = 404;
 		vrLoc = 103;
@@ -600,7 +612,7 @@
 		fRef = 407B881E13515A310069D7B7 /* TileState.h */;
 		name = "TileState.h: 96";
 		rLen = 0;
-		rLoc = 2447;
+		rLoc = 1500;
 		rType = 0;
 		vrLen = 404;
 		vrLoc = 65;
@@ -610,7 +622,7 @@
 		fRef = 407B881E13515A310069D7B7 /* TileState.h */;
 		name = "TileState.h: 96";
 		rLen = 0;
-		rLoc = 2440;
+		rLoc = 1500;
 		rType = 0;
 		vrLen = 404;
 		vrLoc = 65;
@@ -620,16 +632,15 @@
 		fRef = 407B881E13515A310069D7B7 /* TileState.h */;
 		name = "TileState.h: 96";
 		rLen = 0;
-		rLoc = 2478;
+		rLoc = 1500;
 		rType = 0;
 		vrLen = 410;
 		vrLoc = 65;
 	};
-	407FB9E413824B1300DEE2A3 /* XCBuildMessageTextBookmark */ = {
+	407FB9E413824B1300DEE2A3 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		comments = "'Ease' does not name a type";
 		fRef = 4003D41B134F8EB80058C709 /* Tile.h */;
-		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
 		rLoc = 46;
 		rType = 1;

@@ -5,7 +5,6 @@
 #include "cinder/Color.h"
 #include "cinder/CinderMath.h"
 #include "cinder/gl/gl.h"
-#include "TileState.h"
 #include "Seed.h"
 #include "TileCluster.h"
 #include "Ease.h"

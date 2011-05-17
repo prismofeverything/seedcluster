@@ -329,7 +329,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>407FB9EE13824BD400DEE2A3</string>
+										<string>407FB9EF13824C3700DEE2A3</string>
 										<key>history</key>
 										<array>
 											<string>4003D403134F86C30058C709</string>
@@ -549,8 +549,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>/Users/rspangler/Projects/SeedCluster/xcode/SeedCluster.xcodeproj</string>
 		<string>4003D382134F80970058C709</string>
+		<string>/Users/rspangler/Projects/SeedCluster/xcode/SeedCluster.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>188 359 1413 819 0 0 1920 1178 </string>

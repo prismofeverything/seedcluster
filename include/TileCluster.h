@@ -1,8 +1,8 @@
 #pragma once
+#include <vector>
 #include "cinder/Vector.h"
 #include "cinder/Color.h"
 #include "cinder/Rand.h"
-#include <vector>
 #include "Seed.h"
 #include "Tile.h"
 
