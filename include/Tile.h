@@ -1,13 +1,15 @@
 #pragma once
+#include <vector>
 #include "cinder/Cinder.h"
 #include "cinder/Vector.h"
 #include "cinder/Color.h"
 #include "cinder/Rect.h"
-#include "TileState.h"
-#include <vector>
+#include "Ease.h"
 
 namespace ix
 {
+
+enum TileState { Entering, Blooming, Leaving };
 
 class TileCluster;
 
@@ -43,6 +45,7 @@ class Tile {
     int rows;
     int columns;
     float alpha;
+    Ease alphaEase;
 
     int liberties[4];
 };

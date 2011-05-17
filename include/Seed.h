@@ -6,6 +6,8 @@
 #include "Ease.h"
 #include <vector>
 
+namespace ix {
+
 class Seed {
  public:
     Seed( ci::Vec2f _center,
@@ -49,3 +51,4 @@ struct SeedContains
     ci::Vec2i point;
 };
 
+};

@@ -16,6 +16,9 @@ using namespace std;
 
 #define TAU 6.2831853071795862f
 
+namespace ix
+{
+
 Seed::Seed( Vec2f _center, Vec3f _color )
     : center( _center ),
       color( _color ),
@@ -105,3 +108,4 @@ void Seed::draw()
     gl::popModelView();
 }
 
+};

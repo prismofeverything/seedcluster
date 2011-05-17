@@ -5,7 +5,6 @@
 #include "cinder/Color.h"
 #include "cinder/CinderMath.h"
 #include "cinder/gl/gl.h"
-#include "TileState.h"
 #include "Tile.h"
 #include "TileCluster.h"
 #include <vector>
@@ -28,7 +27,9 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, int row, int column, flo
       box( Rectf( 0, 0, atomWidth*column, atomHeight*row ) ),
       color( col ),
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
-      alpha( 0.0f )
+      alpha( 0.0f ),
+      alphaEase( 0.0f, 0.9f, 40 ),
+      state( Entering )
 {
     for ( int l = 0; l < 4; l++ ) {
         liberties[l] = -1;
@@ -46,25 +47,24 @@ bool Tile::branch()
         int row = Rand::randInt( 5 ) + 1;
         int column = Rand::randInt( 5 ) + 1;
 
-        switch( l )
-            {
-            case 0:
-                grid[0] = corner[0] + columns;
-                grid[1] = Rand::randInt( 5 ) - 2 + corner[1];
-                break;
-            case 1:
-                grid[0] = Rand::randInt( 5 ) - 2 + corner[0];
-                grid[1] = corner[1] - row;
-                break;
-            case 2:
-                grid[0] = corner[0] - column;
-                grid[1] = Rand::randInt( 5 ) - 2 + corner[1];
-                break;
-            case 3:
-                grid[0] = Rand::randInt( 5 ) - 2 + corner[0];
-                grid[1] = corner[1] + rows;
-                break;
-            }
+        switch( l ) {
+        case 0:
+            grid[0] = corner[0] + columns;
+            grid[1] = Rand::randInt( 5 ) - 2 + corner[1];
+            break;
+        case 1:
+            grid[0] = Rand::randInt( 5 ) - 2 + corner[0];
+            grid[1] = corner[1] - row;
+            break;
+        case 2:
+            grid[0] = corner[0] - column;
+            grid[1] = Rand::randInt( 5 ) - 2 + corner[1];
+            break;
+        case 3:
+            grid[0] = Rand::randInt( 5 ) - 2 + corner[0];
+            grid[1] = corner[1] + rows;
+            break;
+        }
 
         liberties[l] = cluster->tiles.size();
         cluster->addTile( grid, row, column, Rand::randFloat() * 20 - 10, newColor, id, (2 + l) % 4 );
@@ -81,7 +81,31 @@ bool Tile::branch()
 
 void Tile::update()
 {
-    state.updateTile( *this );
+    bool full = false;
+    switch( state ) {
+    case Entering:
+        if ( !alphaEase.done() ) {
+            alpha = alphaEase.out();
+        } else {
+            state = Blooming;
+        }
+        break;
+    case Blooming:
+        if ( Rand::randFloat() < 0.02 ) {
+            full = branch();
+        }
+
+        if ( full ) {
+            state = Leaving;
+            alphaEase = Ease( alpha, 0.0f, 40 );
+        }
+        break;
+    case Leaving:
+        if ( !alphaEase.done() ) {
+            alpha = alphaEase.out();
+        }
+    }
+
     position += velocity;
 }
 
