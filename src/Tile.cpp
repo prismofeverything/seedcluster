@@ -1,13 +1,16 @@
+#include <vector>
+#include <iostream>
 #include "cinder/Cinder.h"
 #include "cinder/Vector.h"
 #include "cinder/Rand.h"
 #include "cinder/Rect.h"
 #include "cinder/Color.h"
 #include "cinder/CinderMath.h"
-#include "cinder/gl/gl.h"
+#include "cinder/ImageIo.h"
+#include "cinder/Surface.h"
+#include "cinder/ip/Fill.h"
 #include "Tile.h"
 #include "TileCluster.h"
-#include <vector>
 
 using namespace ci;
 using namespace std;
@@ -17,7 +20,7 @@ using namespace std;
 namespace ix
 {
 
-Tile::Tile( TileCluster * clust, int index, Vec2i grid, Vec2i dim, float z, Vec3f col )
+Tile::Tile( TileCluster * clust, int index, Vec2i grid, Vec2i dim, float z, Vec3f col, MovieInfo movie )
     : cluster( clust ),
       id( index ),
       dimension( dim ),
@@ -29,11 +32,34 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, Vec2i dim, float z, Vec3
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
       alpha( 0.0f ),
       alphaEase( 0.0f, 0.9f, 40 ),
-      state( Entering )
+      state( Entering ),
+      movieinfo( movie )
 {
-    for ( int l = 0; l < 4; l++ ) {
-        liberties[l] = -1;
-    }
+    ci::Vec2i posterdim( atomWidth * dim[0], atomHeight * dim[1] * 0.8f );
+    gl::Texture::Format format;
+    format.enableMipmapping( true );
+    format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
+    ci::Surface fullsize = loadImage( "/Users/rspangler/Desktop/movie_posters/" + movie.image );
+    ci::Vec2i difference = (fullsize.getSize() - posterdim) / 2;
+    ci::Surface field = fullsize.clone( ci::Area( difference, difference + posterdim ) );
+    poster = gl::Texture( field, format );
+
+    layout.clear( ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    layout.setFont( segoebold );
+    layout.setColor( Color( 0, 0.8f, 0 ) );
+    layout.addLine( movie.title );
+    layout.setFont( segoesemibold );
+    layout.setColor( Color( 0, 0, 0 ) );
+    layout.addLine( movie.year + ",  " );
+    layout.setFont( segoe );
+    layout.append( movie.genre );
+
+    ci::Vec2i infodim( atomWidth*dim[0], atomHeight*dim[1]*0.2f );
+    Surface info( infodim[0], infodim[1], true );
+    ci::ip::fill( &info, ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    Surface tag = layout.render( true, false );
+    info.copyFrom( tag, ci::Area( ci::Vec2i( 0, 0 ), tag.getSize() ), ci::Vec2i( 10, 10 ) );
+    posterinfo = gl::Texture( info, format );
 }
 
 Vec2i Tile::relativeCorner( Vec2i dim, Vec2i orientation )
@@ -102,5 +128,22 @@ void Tile::draw()
     gl::drawSolidRect( box );
     gl::popModelView();
 }
+
+void Tile::drawPoster()
+{
+    glColor4f( 1.0f, 1.0f, 1.0f, alpha );
+    gl::pushModelView();
+    gl::translate( position );
+
+    gl::draw( poster );
+    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension[1] * 0.8, 0.0f ) );
+    gl::draw( posterinfo );
+    // gl::draw( poster, box );
+    gl::popModelView();
+}
+
+ci::Font Tile::segoe = Font( "Segoe", 18 );
+ci::Font Tile::segoebold = Font( "Segoe Bold", 24 );
+ci::Font Tile::segoesemibold = Font( "Segoe Bold", 18 );
 
 };

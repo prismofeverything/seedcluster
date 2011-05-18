@@ -159,6 +159,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Vec2i centering;
 
     // modes
+    bool posterMode;
     bool innardsMode;
     bool rectangleMode;
     cv::RotatedRect rectangle;
@@ -254,6 +255,8 @@ void SeedClusterApp::setup()
 	
     cannyLowerThreshold = 0;
     cannyUpperThreshold = 0;
+
+    posterMode = false;
     innardsMode = false;
     rectangleMode = false;
 
@@ -274,7 +277,7 @@ void SeedClusterApp::setup()
     keyIsDown = false;
 
     rotation.w = 0.0f;
-    eye = Vec3f( 0.0f, 0.0f, -500.0f );
+    eye = Vec3f( 0.0f, 0.0f, 500.0f );
     towards = Vec3f( 0.0f, 00.0f, 0.0f );
     up = Vec3f::yAxis();
     camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
@@ -317,11 +320,12 @@ void SeedClusterApp::keyDown( KeyEvent event )
     keyIsDown = true;
 
     if ( key == 68 || key == 100 ) { // 'd'
-        std::cout << "D IS PRESSED" << std::endl;
         rectangleMode = !rectangleMode;
     } else if ( key == 79 || key == 111 ) { // 'o'
         innardsMode = !innardsMode;
         cluster.clearSeeds();
+    } else if ( key == 80 || key == 112 ) { // 'p'
+        posterMode = !posterMode;
     }
 }
 
@@ -718,7 +722,7 @@ void SeedClusterApp::draw()
     //     drawSmoothHands();
     // }
 
-    cluster.draw();
+    cluster.draw( posterMode );
 
     if ( innardsMode ) {
         drawRawHands();
