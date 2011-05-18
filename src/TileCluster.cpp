@@ -195,8 +195,8 @@ void TileCluster::update()
 void TileCluster::draw( bool posterMode )
 {
     gl::pushModelView();
-    gl::translate( Vec3f( 300.0f, 200.0f, 0.0f ) );
-    gl::scale( Vec3f( 0.15f, 0.15f, 1.0f ) );
+    gl::translate( Vec3f( 100.0f, 200.0f, 0.0f ) );
+    gl::scale( Vec3f( 0.35f, 0.35f, 1.0f ) );
 
     gl::enableAlphaBlending();
     gl::enableDepthRead();

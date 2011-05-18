@@ -55,7 +55,6 @@ class Tile {
     static ci::Font segoe;
     static ci::Font segoebold;
     static ci::Font segoesemibold;
-    static std::vector<std::string> posternames;
 
     TileCluster * cluster;
     TileState state;
