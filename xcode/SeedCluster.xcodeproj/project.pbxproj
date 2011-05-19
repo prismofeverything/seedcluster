@@ -30,6 +30,52 @@
 		403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */; };
 		40432BF013730C1D00888C35 /* cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 40432BEF13730C1D00888C35 /* cursor.png */; };
 		40432C5613734D7400888C35 /* HandCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40432C5513734D7400888C35 /* HandCursor.cpp */; };
+		40BA3FBF1385C9B800451B6F /* (311009004425)Matrix_Reloaded_Wallpaper3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F901385C9B800451B6F /* (311009004425)Matrix_Reloaded_Wallpaper3.jpg */; };
+		40BA3FC01385C9B800451B6F /* 04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F911385C9B800451B6F /* 04.jpg */; };
+		40BA3FC11385C9B800451B6F /* 1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F921385C9B800451B6F /* 1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg */; };
+		40BA3FC21385C9B800451B6F /* 1287369723_1024x768_sleepy-hollow-poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F931385C9B800451B6F /* 1287369723_1024x768_sleepy-hollow-poster.jpg */; };
+		40BA3FC31385C9B800451B6F /* 2001-space-odyssey_1280x1048.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F941385C9B800451B6F /* 2001-space-odyssey_1280x1048.jpg */; };
+		40BA3FC41385C9B800451B6F /* 2007-sunshine-2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F951385C9B800451B6F /* 2007-sunshine-2.jpg */; };
+		40BA3FC51385C9B800451B6F /* 2010_movie_poster_year_we_make_contact.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F961385C9B800451B6F /* 2010_movie_poster_year_we_make_contact.jpg */; };
+		40BA3FC61385C9B800451B6F /* 936full-solaris-poster-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F971385C9B800451B6F /* 936full-solaris-poster-1.jpg */; };
+		40BA3FC71385C9B800451B6F /* 936full-solaris-poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F981385C9B800451B6F /* 936full-solaris-poster.jpg */; };
+		40BA3FC81385C9B800451B6F /* alice_in_wonderland_xlg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F991385C9B800451B6F /* alice_in_wonderland_xlg.jpg */; };
+		40BA3FC91385C9B800451B6F /* alien3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F9A1385C9B800451B6F /* alien3.jpg */; };
+		40BA3FCA1385C9B800451B6F /* avatar-poster-frensc.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F9B1385C9B800451B6F /* avatar-poster-frensc.jpg */; };
+		40BA3FCB1385C9B800451B6F /* avatar-poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F9C1385C9B800451B6F /* avatar-poster.jpg */; };
+		40BA3FCC1385C9B800451B6F /* blackswan_poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F9D1385C9B800451B6F /* blackswan_poster.jpg */; };
+		40BA3FCD1385C9B800451B6F /* close-encounters-of-the-third-kind-1-1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F9E1385C9B800451B6F /* close-encounters-of-the-third-kind-1-1024.jpg */; };
+		40BA3FCE1385C9B800451B6F /* corpse-bride-6-1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F9F1385C9B800451B6F /* corpse-bride-6-1024.jpg */; };
+		40BA3FCF1385C9B800451B6F /* greenhornet.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA01385C9B800451B6F /* greenhornet.jpg */; };
+		40BA3FD01385C9B800451B6F /* Jim_Carrey_in_A_Christmas_Carol_Wallpaper_2_800.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA11385C9B800451B6F /* Jim_Carrey_in_A_Christmas_Carol_Wallpaper_2_800.jpg */; };
+		40BA3FD11385C9B800451B6F /* Little_Miss_Sunshine_by_lakikaki.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA21385C9B800451B6F /* Little_Miss_Sunshine_by_lakikaki.jpg */; };
+		40BA3FD21385C9B800451B6F /* MOON_Poster_by_pepperberetta.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA31385C9B800451B6F /* MOON_Poster_by_pepperberetta.jpg */; };
+		40BA3FD31385C9B800451B6F /* Movie-Poster-Aliens[1].jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA41385C9B800451B6F /* Movie-Poster-Aliens[1].jpg */; };
+		40BA3FD41385C9B800451B6F /* Movie-Poster-Liar-Liar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA51385C9B800451B6F /* Movie-Poster-Liar-Liar.jpg */; };
+		40BA3FD51385C9B800451B6F /* mpamoonposter2b.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA61385C9B800451B6F /* mpamoonposter2b.jpg */; };
+		40BA3FD61385C9B800451B6F /* mpayesmanposterb.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA71385C9B800451B6F /* mpayesmanposterb.jpg */; };
+		40BA3FD71385C9B800451B6F /* Nine-movie-still-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA81385C9B800451B6F /* Nine-movie-still-3.jpg */; };
+		40BA3FD81385C9B800451B6F /* sweeneytodd.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FA91385C9B800451B6F /* sweeneytodd.jpg */; };
+		40BA3FD91385C9B800451B6F /* Terminator-2-Judgment-Day-movie-poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FAA1385C9B800451B6F /* Terminator-2-Judgment-Day-movie-poster.jpg */; };
+		40BA3FDA1385C9B800451B6F /* terminator-salvation-poster2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FAB1385C9B800451B6F /* terminator-salvation-poster2.jpg */; };
+		40BA3FDB1385C9B800451B6F /* terminator_poster4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FAC1385C9B800451B6F /* terminator_poster4.jpg */; };
+		40BA3FDC1385C9B800451B6F /* terminator_salvation_21.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FAD1385C9B800451B6F /* terminator_salvation_21.jpg */; };
+		40BA3FDD1385C9B800451B6F /* The-Fountain-the-fountain-5530120-1280-1024.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FAE1385C9B800451B6F /* The-Fountain-the-fountain-5530120-1280-1024.jpg */; };
+		40BA3FDE1385C9B800451B6F /* the-mask-original.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FAF1385C9B800451B6F /* the-mask-original.jpg */; };
+		40BA3FDF1385C9B800451B6F /* the_abyss_1989.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB01385C9B800451B6F /* the_abyss_1989.jpg */; };
+		40BA3FE01385C9B800451B6F /* The_Matrix_Reloaded_poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB11385C9B800451B6F /* The_Matrix_Reloaded_poster.jpg */; };
+		40BA3FE11385C9B800451B6F /* the_nightmare_before_christmas_poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB21385C9B800451B6F /* the_nightmare_before_christmas_poster.jpg */; };
+		40BA3FE21385C9B800451B6F /* titanic_ver2_xlg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB31385C9B800451B6F /* titanic_ver2_xlg.jpg */; };
+		40BA3FE31385C9B800451B6F /* True_Lies_lobby_card_Arnold_Schwarzenegger_Jamie_Lee_Curtis_James_Cameron_1994_TV_remake.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB41385C9B800451B6F /* True_Lies_lobby_card_Arnold_Schwarzenegger_Jamie_Lee_Curtis_James_Cameron_1994_TV_remake.jpg */; };
+		40BA3FE41385C9B800451B6F /* vintage-alien-movie-poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB51385C9B800451B6F /* vintage-alien-movie-poster.jpg */; };
+		40BA3FE51385C9B800451B6F /* viral-batman-poster.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB61385C9B800451B6F /* viral-batman-poster.jpg */; };
+		40BA3FE61385C9B800451B6F /* 1200x810.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB81385C9B800451B6F /* 1200x810.png */; };
+		40BA3FE71385C9B800451B6F /* 240x540.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FB91385C9B800451B6F /* 240x540.png */; };
+		40BA3FE81385C9B800451B6F /* 480x540.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FBA1385C9B800451B6F /* 480x540.png */; };
+		40BA3FE91385C9B800451B6F /* 480x810.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FBB1385C9B800451B6F /* 480x810.png */; };
+		40BA3FEA1385C9B800451B6F /* 720x1080.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FBC1385C9B800451B6F /* 720x1080.png */; };
+		40BA3FEB1385C9B800451B6F /* 720x540.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FBD1385C9B800451B6F /* 720x540.png */; };
+		40BA3FEC1385C9B800451B6F /* 960x810.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3FBE1385C9B800451B6F /* 960x810.png */; };
 		40E259D7135F709800C92521 /* FrameBridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40E259D6135F709800C92521 /* FrameBridge.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
@@ -85,6 +131,52 @@
 		40432C5413734D6600888C35 /* HandCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandCursor.h; path = ../include/HandCursor.h; sourceTree = SOURCE_ROOT; };
 		40432C5513734D7400888C35 /* HandCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HandCursor.cpp; path = ../src/HandCursor.cpp; sourceTree = SOURCE_ROOT; };
 		40B41CB81360D8740099FCE2 /* cminpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cminpack.h; path = ../include/cminpack.h; sourceTree = SOURCE_ROOT; };
+		40BA3F901385C9B800451B6F /* (311009004425)Matrix_Reloaded_Wallpaper3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "(311009004425)Matrix_Reloaded_Wallpaper3.jpg"; sourceTree = "<group>"; };
+		40BA3F911385C9B800451B6F /* 04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 04.jpg; sourceTree = "<group>"; };
+		40BA3F921385C9B800451B6F /* 1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg"; sourceTree = "<group>"; };
+		40BA3F931385C9B800451B6F /* 1287369723_1024x768_sleepy-hollow-poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1287369723_1024x768_sleepy-hollow-poster.jpg"; sourceTree = "<group>"; };
+		40BA3F941385C9B800451B6F /* 2001-space-odyssey_1280x1048.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "2001-space-odyssey_1280x1048.jpg"; sourceTree = "<group>"; };
+		40BA3F951385C9B800451B6F /* 2007-sunshine-2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "2007-sunshine-2.jpg"; sourceTree = "<group>"; };
+		40BA3F961385C9B800451B6F /* 2010_movie_poster_year_we_make_contact.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2010_movie_poster_year_we_make_contact.jpg; sourceTree = "<group>"; };
+		40BA3F971385C9B800451B6F /* 936full-solaris-poster-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "936full-solaris-poster-1.jpg"; sourceTree = "<group>"; };
+		40BA3F981385C9B800451B6F /* 936full-solaris-poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "936full-solaris-poster.jpg"; sourceTree = "<group>"; };
+		40BA3F991385C9B800451B6F /* alice_in_wonderland_xlg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = alice_in_wonderland_xlg.jpg; sourceTree = "<group>"; };
+		40BA3F9A1385C9B800451B6F /* alien3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = alien3.jpg; sourceTree = "<group>"; };
+		40BA3F9B1385C9B800451B6F /* avatar-poster-frensc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avatar-poster-frensc.jpg"; sourceTree = "<group>"; };
+		40BA3F9C1385C9B800451B6F /* avatar-poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "avatar-poster.jpg"; sourceTree = "<group>"; };
+		40BA3F9D1385C9B800451B6F /* blackswan_poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = blackswan_poster.jpg; sourceTree = "<group>"; };
+		40BA3F9E1385C9B800451B6F /* close-encounters-of-the-third-kind-1-1024.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "close-encounters-of-the-third-kind-1-1024.jpg"; sourceTree = "<group>"; };
+		40BA3F9F1385C9B800451B6F /* corpse-bride-6-1024.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "corpse-bride-6-1024.jpg"; sourceTree = "<group>"; };
+		40BA3FA01385C9B800451B6F /* greenhornet.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = greenhornet.jpg; sourceTree = "<group>"; };
+		40BA3FA11385C9B800451B6F /* Jim_Carrey_in_A_Christmas_Carol_Wallpaper_2_800.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Jim_Carrey_in_A_Christmas_Carol_Wallpaper_2_800.jpg; sourceTree = "<group>"; };
+		40BA3FA21385C9B800451B6F /* Little_Miss_Sunshine_by_lakikaki.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Little_Miss_Sunshine_by_lakikaki.jpg; sourceTree = "<group>"; };
+		40BA3FA31385C9B800451B6F /* MOON_Poster_by_pepperberetta.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = MOON_Poster_by_pepperberetta.jpg; sourceTree = "<group>"; };
+		40BA3FA41385C9B800451B6F /* Movie-Poster-Aliens[1].jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Movie-Poster-Aliens[1].jpg"; sourceTree = "<group>"; };
+		40BA3FA51385C9B800451B6F /* Movie-Poster-Liar-Liar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Movie-Poster-Liar-Liar.jpg"; sourceTree = "<group>"; };
+		40BA3FA61385C9B800451B6F /* mpamoonposter2b.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mpamoonposter2b.jpg; sourceTree = "<group>"; };
+		40BA3FA71385C9B800451B6F /* mpayesmanposterb.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mpayesmanposterb.jpg; sourceTree = "<group>"; };
+		40BA3FA81385C9B800451B6F /* Nine-movie-still-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nine-movie-still-3.jpg"; sourceTree = "<group>"; };
+		40BA3FA91385C9B800451B6F /* sweeneytodd.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sweeneytodd.jpg; sourceTree = "<group>"; };
+		40BA3FAA1385C9B800451B6F /* Terminator-2-Judgment-Day-movie-poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Terminator-2-Judgment-Day-movie-poster.jpg"; sourceTree = "<group>"; };
+		40BA3FAB1385C9B800451B6F /* terminator-salvation-poster2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "terminator-salvation-poster2.jpg"; sourceTree = "<group>"; };
+		40BA3FAC1385C9B800451B6F /* terminator_poster4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = terminator_poster4.jpg; sourceTree = "<group>"; };
+		40BA3FAD1385C9B800451B6F /* terminator_salvation_21.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = terminator_salvation_21.jpg; sourceTree = "<group>"; };
+		40BA3FAE1385C9B800451B6F /* The-Fountain-the-fountain-5530120-1280-1024.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "The-Fountain-the-fountain-5530120-1280-1024.jpg"; sourceTree = "<group>"; };
+		40BA3FAF1385C9B800451B6F /* the-mask-original.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "the-mask-original.jpg"; sourceTree = "<group>"; };
+		40BA3FB01385C9B800451B6F /* the_abyss_1989.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = the_abyss_1989.jpg; sourceTree = "<group>"; };
+		40BA3FB11385C9B800451B6F /* The_Matrix_Reloaded_poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = The_Matrix_Reloaded_poster.jpg; sourceTree = "<group>"; };
+		40BA3FB21385C9B800451B6F /* the_nightmare_before_christmas_poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = the_nightmare_before_christmas_poster.jpg; sourceTree = "<group>"; };
+		40BA3FB31385C9B800451B6F /* titanic_ver2_xlg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = titanic_ver2_xlg.jpg; sourceTree = "<group>"; };
+		40BA3FB41385C9B800451B6F /* True_Lies_lobby_card_Arnold_Schwarzenegger_Jamie_Lee_Curtis_James_Cameron_1994_TV_remake.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = True_Lies_lobby_card_Arnold_Schwarzenegger_Jamie_Lee_Curtis_James_Cameron_1994_TV_remake.jpg; sourceTree = "<group>"; };
+		40BA3FB51385C9B800451B6F /* vintage-alien-movie-poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "vintage-alien-movie-poster.jpg"; sourceTree = "<group>"; };
+		40BA3FB61385C9B800451B6F /* viral-batman-poster.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "viral-batman-poster.jpg"; sourceTree = "<group>"; };
+		40BA3FB81385C9B800451B6F /* 1200x810.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1200x810.png; sourceTree = "<group>"; };
+		40BA3FB91385C9B800451B6F /* 240x540.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 240x540.png; sourceTree = "<group>"; };
+		40BA3FBA1385C9B800451B6F /* 480x540.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 480x540.png; sourceTree = "<group>"; };
+		40BA3FBB1385C9B800451B6F /* 480x810.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 480x810.png; sourceTree = "<group>"; };
+		40BA3FBC1385C9B800451B6F /* 720x1080.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 720x1080.png; sourceTree = "<group>"; };
+		40BA3FBD1385C9B800451B6F /* 720x540.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 720x540.png; sourceTree = "<group>"; };
+		40BA3FBE1385C9B800451B6F /* 960x810.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 960x810.png; sourceTree = "<group>"; };
 		40E259D5135F708B00C92521 /* FrameBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FrameBridge.h; path = ../include/FrameBridge.h; sourceTree = SOURCE_ROOT; };
 		40E259D6135F709800C92521 /* FrameBridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FrameBridge.cpp; path = ../src/FrameBridge.cpp; sourceTree = SOURCE_ROOT; };
 		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
@@ -231,6 +323,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				40BA3F8F1385C9B800451B6F /* movie_posters */,
+				40BA3FB71385C9B800451B6F /* shadows */,
 				40432BEF13730C1D00888C35 /* cursor.png */,
 				400821BB137291BE0074DAAF /* bg.png */,
 				40314789136DE3A200C6B9C1 /* whirlpool.png */,
@@ -249,6 +343,68 @@
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
+		};
+		40BA3F8F1385C9B800451B6F /* movie_posters */ = {
+			isa = PBXGroup;
+			children = (
+				40BA3F901385C9B800451B6F /* (311009004425)Matrix_Reloaded_Wallpaper3.jpg */,
+				40BA3F911385C9B800451B6F /* 04.jpg */,
+				40BA3F921385C9B800451B6F /* 1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg */,
+				40BA3F931385C9B800451B6F /* 1287369723_1024x768_sleepy-hollow-poster.jpg */,
+				40BA3F941385C9B800451B6F /* 2001-space-odyssey_1280x1048.jpg */,
+				40BA3F951385C9B800451B6F /* 2007-sunshine-2.jpg */,
+				40BA3F961385C9B800451B6F /* 2010_movie_poster_year_we_make_contact.jpg */,
+				40BA3F971385C9B800451B6F /* 936full-solaris-poster-1.jpg */,
+				40BA3F981385C9B800451B6F /* 936full-solaris-poster.jpg */,
+				40BA3F991385C9B800451B6F /* alice_in_wonderland_xlg.jpg */,
+				40BA3F9A1385C9B800451B6F /* alien3.jpg */,
+				40BA3F9B1385C9B800451B6F /* avatar-poster-frensc.jpg */,
+				40BA3F9C1385C9B800451B6F /* avatar-poster.jpg */,
+				40BA3F9D1385C9B800451B6F /* blackswan_poster.jpg */,
+				40BA3F9E1385C9B800451B6F /* close-encounters-of-the-third-kind-1-1024.jpg */,
+				40BA3F9F1385C9B800451B6F /* corpse-bride-6-1024.jpg */,
+				40BA3FA01385C9B800451B6F /* greenhornet.jpg */,
+				40BA3FA11385C9B800451B6F /* Jim_Carrey_in_A_Christmas_Carol_Wallpaper_2_800.jpg */,
+				40BA3FA21385C9B800451B6F /* Little_Miss_Sunshine_by_lakikaki.jpg */,
+				40BA3FA31385C9B800451B6F /* MOON_Poster_by_pepperberetta.jpg */,
+				40BA3FA41385C9B800451B6F /* Movie-Poster-Aliens[1].jpg */,
+				40BA3FA51385C9B800451B6F /* Movie-Poster-Liar-Liar.jpg */,
+				40BA3FA61385C9B800451B6F /* mpamoonposter2b.jpg */,
+				40BA3FA71385C9B800451B6F /* mpayesmanposterb.jpg */,
+				40BA3FA81385C9B800451B6F /* Nine-movie-still-3.jpg */,
+				40BA3FA91385C9B800451B6F /* sweeneytodd.jpg */,
+				40BA3FAA1385C9B800451B6F /* Terminator-2-Judgment-Day-movie-poster.jpg */,
+				40BA3FAB1385C9B800451B6F /* terminator-salvation-poster2.jpg */,
+				40BA3FAC1385C9B800451B6F /* terminator_poster4.jpg */,
+				40BA3FAD1385C9B800451B6F /* terminator_salvation_21.jpg */,
+				40BA3FAE1385C9B800451B6F /* The-Fountain-the-fountain-5530120-1280-1024.jpg */,
+				40BA3FAF1385C9B800451B6F /* the-mask-original.jpg */,
+				40BA3FB01385C9B800451B6F /* the_abyss_1989.jpg */,
+				40BA3FB11385C9B800451B6F /* The_Matrix_Reloaded_poster.jpg */,
+				40BA3FB21385C9B800451B6F /* the_nightmare_before_christmas_poster.jpg */,
+				40BA3FB31385C9B800451B6F /* titanic_ver2_xlg.jpg */,
+				40BA3FB41385C9B800451B6F /* True_Lies_lobby_card_Arnold_Schwarzenegger_Jamie_Lee_Curtis_James_Cameron_1994_TV_remake.jpg */,
+				40BA3FB51385C9B800451B6F /* vintage-alien-movie-poster.jpg */,
+				40BA3FB61385C9B800451B6F /* viral-batman-poster.jpg */,
+			);
+			name = movie_posters;
+			path = ../resources/movie_posters;
+			sourceTree = SOURCE_ROOT;
+		};
+		40BA3FB71385C9B800451B6F /* shadows */ = {
+			isa = PBXGroup;
+			children = (
+				40BA3FB81385C9B800451B6F /* 1200x810.png */,
+				40BA3FB91385C9B800451B6F /* 240x540.png */,
+				40BA3FBA1385C9B800451B6F /* 480x540.png */,
+				40BA3FBB1385C9B800451B6F /* 480x810.png */,
+				40BA3FBC1385C9B800451B6F /* 720x1080.png */,
+				40BA3FBD1385C9B800451B6F /* 720x540.png */,
+				40BA3FBE1385C9B800451B6F /* 960x810.png */,
+			);
+			name = shadows;
+			path = ../resources/shadows;
+			sourceTree = SOURCE_ROOT;
 		};
 		5E29F5731354D4D6009CCA0F /* penner */ = {
 			isa = PBXGroup;
@@ -342,6 +498,52 @@
 				4031478A136DE3A200C6B9C1 /* whirlpool.png in Resources */,
 				400821BC137291BE0074DAAF /* bg.png in Resources */,
 				40432BF013730C1D00888C35 /* cursor.png in Resources */,
+				40BA3FBF1385C9B800451B6F /* (311009004425)Matrix_Reloaded_Wallpaper3.jpg in Resources */,
+				40BA3FC01385C9B800451B6F /* 04.jpg in Resources */,
+				40BA3FC11385C9B800451B6F /* 1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg in Resources */,
+				40BA3FC21385C9B800451B6F /* 1287369723_1024x768_sleepy-hollow-poster.jpg in Resources */,
+				40BA3FC31385C9B800451B6F /* 2001-space-odyssey_1280x1048.jpg in Resources */,
+				40BA3FC41385C9B800451B6F /* 2007-sunshine-2.jpg in Resources */,
+				40BA3FC51385C9B800451B6F /* 2010_movie_poster_year_we_make_contact.jpg in Resources */,
+				40BA3FC61385C9B800451B6F /* 936full-solaris-poster-1.jpg in Resources */,
+				40BA3FC71385C9B800451B6F /* 936full-solaris-poster.jpg in Resources */,
+				40BA3FC81385C9B800451B6F /* alice_in_wonderland_xlg.jpg in Resources */,
+				40BA3FC91385C9B800451B6F /* alien3.jpg in Resources */,
+				40BA3FCA1385C9B800451B6F /* avatar-poster-frensc.jpg in Resources */,
+				40BA3FCB1385C9B800451B6F /* avatar-poster.jpg in Resources */,
+				40BA3FCC1385C9B800451B6F /* blackswan_poster.jpg in Resources */,
+				40BA3FCD1385C9B800451B6F /* close-encounters-of-the-third-kind-1-1024.jpg in Resources */,
+				40BA3FCE1385C9B800451B6F /* corpse-bride-6-1024.jpg in Resources */,
+				40BA3FCF1385C9B800451B6F /* greenhornet.jpg in Resources */,
+				40BA3FD01385C9B800451B6F /* Jim_Carrey_in_A_Christmas_Carol_Wallpaper_2_800.jpg in Resources */,
+				40BA3FD11385C9B800451B6F /* Little_Miss_Sunshine_by_lakikaki.jpg in Resources */,
+				40BA3FD21385C9B800451B6F /* MOON_Poster_by_pepperberetta.jpg in Resources */,
+				40BA3FD31385C9B800451B6F /* Movie-Poster-Aliens[1].jpg in Resources */,
+				40BA3FD41385C9B800451B6F /* Movie-Poster-Liar-Liar.jpg in Resources */,
+				40BA3FD51385C9B800451B6F /* mpamoonposter2b.jpg in Resources */,
+				40BA3FD61385C9B800451B6F /* mpayesmanposterb.jpg in Resources */,
+				40BA3FD71385C9B800451B6F /* Nine-movie-still-3.jpg in Resources */,
+				40BA3FD81385C9B800451B6F /* sweeneytodd.jpg in Resources */,
+				40BA3FD91385C9B800451B6F /* Terminator-2-Judgment-Day-movie-poster.jpg in Resources */,
+				40BA3FDA1385C9B800451B6F /* terminator-salvation-poster2.jpg in Resources */,
+				40BA3FDB1385C9B800451B6F /* terminator_poster4.jpg in Resources */,
+				40BA3FDC1385C9B800451B6F /* terminator_salvation_21.jpg in Resources */,
+				40BA3FDD1385C9B800451B6F /* The-Fountain-the-fountain-5530120-1280-1024.jpg in Resources */,
+				40BA3FDE1385C9B800451B6F /* the-mask-original.jpg in Resources */,
+				40BA3FDF1385C9B800451B6F /* the_abyss_1989.jpg in Resources */,
+				40BA3FE01385C9B800451B6F /* The_Matrix_Reloaded_poster.jpg in Resources */,
+				40BA3FE11385C9B800451B6F /* the_nightmare_before_christmas_poster.jpg in Resources */,
+				40BA3FE21385C9B800451B6F /* titanic_ver2_xlg.jpg in Resources */,
+				40BA3FE31385C9B800451B6F /* True_Lies_lobby_card_Arnold_Schwarzenegger_Jamie_Lee_Curtis_James_Cameron_1994_TV_remake.jpg in Resources */,
+				40BA3FE41385C9B800451B6F /* vintage-alien-movie-poster.jpg in Resources */,
+				40BA3FE51385C9B800451B6F /* viral-batman-poster.jpg in Resources */,
+				40BA3FE61385C9B800451B6F /* 1200x810.png in Resources */,
+				40BA3FE71385C9B800451B6F /* 240x540.png in Resources */,
+				40BA3FE81385C9B800451B6F /* 480x540.png in Resources */,
+				40BA3FE91385C9B800451B6F /* 480x810.png in Resources */,
+				40BA3FEA1385C9B800451B6F /* 720x1080.png in Resources */,
+				40BA3FEB1385C9B800451B6F /* 720x540.png in Resources */,
+				40BA3FEC1385C9B800451B6F /* 960x810.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

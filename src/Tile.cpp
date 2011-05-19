@@ -20,7 +20,7 @@ using namespace std;
 namespace ix
 {
 
-Tile::Tile( TileCluster * clust, int index, Vec2i grid, Vec2i dim, float z, Vec3f col, MovieInfo movie )
+Tile::Tile( TileCluster * clust, int index, Vec2i grid, Vec2i dim, float z, Vec3f col, MovieInfo movie, DataSourceRef shadowresource )
     : cluster( clust ),
       id( index ),
       dimension( dim ),
@@ -35,11 +35,13 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, Vec2i dim, float z, Vec3
       state( Entering ),
       movieinfo( movie )
 {
+    shadow = gl::Texture( loadImage( shadowresource ) );
+
     ci::Vec2i posterdim( atomWidth * dim[0], atomHeight * dim[1] * 0.8f );
     gl::Texture::Format format;
     format.enableMipmapping( true );
     format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
-    ci::Surface fullsize = loadImage( "/Users/rspangler/Desktop/movie_posters/" + movie.image );
+    ci::Surface fullsize = loadImage( movie.image );
     ci::Vec2i difference = (fullsize.getSize() - posterdim) / 2;
     ci::Surface field = fullsize.clone( ci::Area( difference, difference + posterdim ) );
     poster = gl::Texture( field, format );
@@ -126,19 +128,28 @@ void Tile::draw()
     gl::pushModelView();
     gl::translate( position );
     gl::drawSolidRect( box );
+
+    gl::translate( ci::Vec3f( -25.0f, -25.0f, 0.0f ) );
+    gl::draw( shadow );
+
     gl::popModelView();
 }
 
 void Tile::drawPoster()
 {
     glColor4f( 1.0f, 1.0f, 1.0f, alpha );
+
     gl::pushModelView();
     gl::translate( position );
-
     gl::draw( poster );
+
+    gl::pushModelView();
     gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension[1] * 0.8, 0.0f ) );
     gl::draw( posterinfo );
-    // gl::draw( poster, box );
+    gl::popModelView();
+
+    gl::translate( ci::Vec3f( -25.0f, -25.0f, 0.0f ) );
+    gl::draw( shadow );
     gl::popModelView();
 }
 

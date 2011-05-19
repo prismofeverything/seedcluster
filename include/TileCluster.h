@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "cinder/Cinder.h"
+#include "cinder/app/App.h"
 #include "cinder/Vector.h"
 #include "cinder/Color.h"
 #include "cinder/Rand.h"
+#include "cinder/DataSource.h"
 #include "Seed.h"
 #include "Tile.h"
 
@@ -37,6 +40,7 @@ class TileCluster {
     std::vector<Tile> available;
     std::vector<ci::Vec2i> tileDimensions;
     std::vector<ci::Vec2i> orientations;
+    std::map<ci::Vec2i, ci::DataSourceRef> shadowmap;
     std::vector<MovieInfo> posters;
 
     std::vector<Seed> seeds;

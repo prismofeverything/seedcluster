@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "cinder/Cinder.h"
+#include "cinder/DataSource.h"
 #include "cinder/Vector.h"
 #include "cinder/Color.h"
 #include "cinder/Rect.h"
@@ -18,7 +19,7 @@ enum TileState { Entering, Blooming, Leaving };
 class TileCluster;
 
 struct MovieInfo {
-    MovieInfo( std::string _title, std::string _year, std::string _genre, std::string _image )
+MovieInfo( std::string _title, std::string _year, std::string _genre, ci::DataSourceRef _image )
       : title( _title ), 
         year( _year ),
         genre( _genre ),
@@ -27,7 +28,7 @@ struct MovieInfo {
     std::string title;
     std::string year;
     std::string genre;
-    std::string image;
+    ci::DataSourceRef image;
 };
 
 class Tile {
@@ -38,7 +39,8 @@ class Tile {
           ci::Vec2i dim,
           float z, 
           ci::Vec3f col,
-          MovieInfo movie );
+          MovieInfo movie,
+          ci::DataSourceRef shadowresource );
 
     //    virtual ~Tile();
 
@@ -63,8 +65,10 @@ class Tile {
     ci::Vec3f position;
     ci::Vec3f velocity;
     ci::Vec3f color;
+    ci::gl::Texture shadow;
   
     MovieInfo movieinfo;
+
     ci::gl::Texture poster;
     ci::gl::Texture posterinfo;
     ci::TextLayout layout;
