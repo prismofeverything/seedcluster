@@ -20,21 +20,21 @@ TileCluster::TileCluster()
     chosenSeed = seeds.end();
     hoverSeed = seeds.end();
 
-    tileDimensions.push_back( Vec2i( 5, 3 ) );
-    tileDimensions.push_back( Vec2i( 3, 2 ) );
-    tileDimensions.push_back( Vec2i( 4, 3 ) );
-    tileDimensions.push_back( Vec2i( 1, 2 ) );
-    tileDimensions.push_back( Vec2i( 3, 4 ) );
-    tileDimensions.push_back( Vec2i( 2, 3 ) );
-    tileDimensions.push_back( Vec2i( 2, 2 ) );
+    // tileDimensions.push_back( Vec2i( 5, 3 ) );
+    // tileDimensions.push_back( Vec2i( 3, 2 ) );
+    // tileDimensions.push_back( Vec2i( 4, 3 ) );
+    // tileDimensions.push_back( Vec2i( 1, 2 ) );
+    // tileDimensions.push_back( Vec2i( 3, 4 ) );
+    // tileDimensions.push_back( Vec2i( 2, 3 ) );
+    // tileDimensions.push_back( Vec2i( 2, 2 ) );
 
-    shadowmap.insert( pair<Vec2i, DataSourceRef>( Vec2i( 5, 3 ), loadResource( RES_SHADOW_1200x810 ) ) );
-    shadowmap.insert( pair<Vec2i, DataSourceRef>( Vec2i( 1, 2 ), loadResource( RES_SHADOW_240x540 ) ) );
-    shadowmap.insert( pair<Vec2i, DataSourceRef>( Vec2i( 2, 2 ), loadResource( RES_SHADOW_480x540 ) ) );
-    shadowmap.insert( pair<Vec2i, DataSourceRef>( Vec2i( 2, 3 ), loadResource( RES_SHADOW_480x810 ) ) );
-    shadowmap.insert( pair<Vec2i, DataSourceRef>( Vec2i( 3, 4 ), loadResource( RES_SHADOW_720x1080 ) ) );
-    shadowmap.insert( pair<Vec2i, DataSourceRef>( Vec2i( 3, 2 ), loadResource( RES_SHADOW_720x540 ) ) );
-    shadowmap.insert( pair<Vec2i, DataSourceRef>( Vec2i( 4, 3 ), loadResource( RES_SHADOW_960x810 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 5, 3 ), loadResource( RES_SHADOW_1200x810 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 1, 2 ), loadResource( RES_SHADOW_240x540 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 2 ), loadResource( RES_SHADOW_480x540 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 3 ), loadResource( RES_SHADOW_480x810 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 4 ), loadResource( RES_SHADOW_720x1080 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 2 ), loadResource( RES_SHADOW_720x540 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 4, 3 ), loadResource( RES_SHADOW_960x810 ) ) );
 
     orientations.push_back( Vec2i( 0, 1 ) );
     orientations.push_back( Vec2i( -1, 0 ) );
@@ -82,7 +82,7 @@ TileCluster::TileCluster()
     posters.push_back( MovieInfo( "Batman", "2009", "Science Fiction", loadResource( RES_viral_batman_poster ) ) );
 }
 
-Vec2i TileCluster::chooseDimension()
+TileDimension TileCluster::chooseDimension()
 {
     return tileDimensions[ Rand::randInt( tileDimensions.size() ) ];
 }
@@ -97,9 +97,9 @@ MovieInfo TileCluster::choosePoster()
     return posters[ Rand::randInt( posters.size() ) ];
 }
 
-void TileCluster::addTile( Vec2i position, Vec2i dim, float z, Vec3f color )
+void TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f color )
 {
-    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster(), shadowmap[ dim ] ) );
+    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster() ) );
 }
 
 void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
@@ -172,13 +172,14 @@ void TileCluster::update()
 {
     bool branching = Rand::randFloat() < branchRate && tiles.size() > 0;
     int yellow;
-    Vec2i dim, topLeft, bottomRight;
+    TileDimension dim;
+    Vec2i topLeft, bottomRight;
 
     if ( branching ) {
         yellow = Rand::randInt( tiles.size() );
         dim = chooseDimension();
-        topLeft = tiles[ yellow ].relativeCorner( dim, chooseOrientation() );
-        bottomRight = topLeft + dim;
+        topLeft = tiles[ yellow ].relativeCorner( dim.first, chooseOrientation() );
+        bottomRight = topLeft + dim.first;
     }
 
     bool tileFits = true;
@@ -211,7 +212,8 @@ void TileCluster::draw( bool posterMode )
 
     gl::enableAlphaBlending();
     gl::enableDepthRead();
-    gl::enableDepthWrite();
+    gl::disableDepthWrite();
+    // gl::enableDepthWrite();
 
     int size = tiles.size();
 
@@ -224,6 +226,12 @@ void TileCluster::draw( bool posterMode )
             tiles[ii].draw();
         }
     }
+
+    // gl::disableDepthWrite();
+
+    // for ( int ii = 0; ii < size; ii++ ) {
+    //     tiles[ii].drawShadow();
+    // }
 
     gl::popModelView();
     gl::disableAlphaBlending();

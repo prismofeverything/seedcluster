@@ -19,13 +19,13 @@ class TileCluster {
     void update();
     void draw( bool posterMode );
 
-    ci::Vec2i chooseDimension();
+    TileDimension chooseDimension();
     ci::Vec2i chooseOrientation();
     MovieInfo choosePoster();
 
     void clearSeeds();
     void addTile( ci::Vec2i position, 
-                  ci::Vec2i dim, float z, ci::Vec3f color );
+                  TileDimension dim, float z, ci::Vec3f color );
     void mouseDown( ci::Vec2i position, ci::Vec2f velocity, ci::Vec3f color );
     void handOver( ci::Vec2i point );
     void unhover();
@@ -38,9 +38,9 @@ class TileCluster {
 
     std::vector<Tile> tiles;
     std::vector<Tile> available;
-    std::vector<ci::Vec2i> tileDimensions;
+    std::vector<TileDimension> tileDimensions;
     std::vector<ci::Vec2i> orientations;
-    std::map<ci::Vec2i, ci::DataSourceRef> shadowmap;
+    /* std::map<ci::Vec2i, ci::DataSourceRef> shadowmap; */
     std::vector<MovieInfo> posters;
 
     std::vector<Seed> seeds;

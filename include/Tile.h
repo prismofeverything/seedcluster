@@ -15,6 +15,7 @@ namespace ix
 {
 
 enum TileState { Entering, Blooming, Leaving };
+typedef std::pair<ci::Vec2i, ci::DataSourceRef> TileDimension;
 
 class TileCluster;
 
@@ -36,17 +37,17 @@ class Tile {
     Tile( TileCluster * clust, 
           int id,
           ci::Vec2i grid, 
-          ci::Vec2i dim,
+          TileDimension dim,
           float z, 
           ci::Vec3f col,
-          MovieInfo movie,
-          ci::DataSourceRef shadowresource );
+          MovieInfo movie );
 
     //    virtual ~Tile();
 
     void update();
     void draw();
     void drawPoster();
+    void drawShadow();
 
     ci::Vec2i relativeCorner( ci::Vec2i dim, ci::Vec2i orientation );
     bool collidesWith( ci::Vec2i tl, ci::Vec2i br );
@@ -76,7 +77,7 @@ class Tile {
     int id;
     ci::Vec2i topLeft;
     ci::Vec2i bottomRight;
-    ci::Vec2i dimension;
+    TileDimension dimension;
     float alpha;
     Ease alphaEase;
 };
