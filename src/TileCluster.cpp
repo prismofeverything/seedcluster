@@ -28,13 +28,13 @@ TileCluster::TileCluster()
     // tileDimensions.push_back( Vec2i( 2, 3 ) );
     // tileDimensions.push_back( Vec2i( 2, 2 ) );
 
-    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 5, 3 ), loadResource( RES_SHADOW_1200x810 ) ) );
-    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 1, 2 ), loadResource( RES_SHADOW_240x540 ) ) );
-    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 2 ), loadResource( RES_SHADOW_480x540 ) ) );
-    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 3 ), loadResource( RES_SHADOW_480x810 ) ) );
-    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 4 ), loadResource( RES_SHADOW_720x1080 ) ) );
-    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 2 ), loadResource( RES_SHADOW_720x540 ) ) );
-    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 4, 3 ), loadResource( RES_SHADOW_960x810 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 5, 3 ), loadResource( RES_LONGSHADOW_1200x810 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 1, 2 ), loadResource( RES_LONGSHADOW_240x540 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 2 ), loadResource( RES_LONGSHADOW_480x540 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 3 ), loadResource( RES_LONGSHADOW_480x810 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 4 ), loadResource( RES_LONGSHADOW_720x1080 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 2 ), loadResource( RES_LONGSHADOW_720x540 ) ) );
+    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 4, 3 ), loadResource( RES_LONGSHADOW_960x810 ) ) );
 
     orientations.push_back( Vec2i( 0, 1 ) );
     orientations.push_back( Vec2i( -1, 0 ) );
@@ -208,7 +208,7 @@ void TileCluster::draw( bool posterMode )
 {
     gl::pushModelView();
     gl::translate( Vec3f( 100.0f, 200.0f, 0.0f ) );
-    gl::scale( Vec3f( 0.35f, 0.35f, 1.0f ) );
+    gl::scale( Vec3f( 0.15f, 0.15f, 1.0f ) );
 
     gl::enableAlphaBlending();
     gl::enableDepthRead();

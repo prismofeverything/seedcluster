@@ -37,13 +37,30 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
 {
     shadow = gl::Texture( loadImage( dim.second ) );
 
-    ci::Vec2i posterdim( atomWidth * dim.first[0], atomHeight * dim.first[1] * 0.8f );
+    ci::Vec2f posterdim( atomWidth * dim.first[0], atomHeight * dim.first[1] * 0.8f );
+    float posterratio = posterdim[0] / posterdim[1];
     gl::Texture::Format format;
     format.enableMipmapping( true );
     format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
+    format.setMagFilter( GL_LINEAR_MIPMAP_LINEAR );
     ci::Surface fullsize = loadImage( movie.image );
-    ci::Vec2i difference = (fullsize.getSize() - posterdim) / 2;
-    ci::Surface field = fullsize.clone( ci::Area( difference, difference + posterdim ) );
+
+    ci::Vec2f moviedim = fullsize.getSize();
+    float movieratio = moviedim[0] / moviedim[1];
+
+    ci::Vec2i offset;
+    float movieposterratio;
+    if ( movieratio < posterratio ) {
+        float clipheight = moviedim[0] / posterratio;
+        movieposterratio = moviedim[0] / posterdim[0];
+        offset = Vec2i( 0, (moviedim[1] - clipheight) * 0.5 );
+    } else {
+        float clipwidth = moviedim[1] * posterratio;
+        movieposterratio = moviedim[1] / posterdim[1];
+        offset = Vec2i( (moviedim[0] - clipwidth) * 0.5, 0 );
+    }
+
+    ci::Surface field = fullsize.clone( ci::Area( offset, offset + ( Vec2f( posterdim[0], posterdim[1] ) * movieposterratio ) ) );
     poster = gl::Texture( field, format );
 
     layout.clear( ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
@@ -165,7 +182,8 @@ void Tile::drawShadow()
 
     // gl::translate( position );
 
-    gl::translate( ci::Vec3f( -25.0f, -25.0f, 0.0f ) );
+    // gl::translate( ci::Vec3f( -25.0f, -25.0f, 0.0f ) );
+    gl::translate( ci::Vec3f( -50.0f, -50.0f, 0.0f ) );
     gl::draw( shadow );
     gl::popMatrices();
     gl::enableDepthWrite();
@@ -175,9 +193,10 @@ void Tile::drawPoster()
 {
     glColor4f( 1.0f, 1.0f, 1.0f, alpha );
 
+    ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] * 0.8f );
     gl::pushMatrices();
     gl::translate( position );
-    gl::draw( poster );
+    gl::draw( poster, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
 
     gl::pushMatrices();
     gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] * 0.8, 0.0f ) );

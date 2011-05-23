@@ -13,6 +13,14 @@
 #define RES_SHADOW_720x540 CINDER_RESOURCE( ../resources/shadows/, 720x540.png, 128, IMAGE )
 #define RES_SHADOW_960x810 CINDER_RESOURCE( ../resources/shadows/, 960x810.png, 128, IMAGE )
 
+#define RES_LONGSHADOW_1200x810 CINDER_RESOURCE( ../resources/longshadows/, 1200x810l.png, 128, IMAGE )
+#define RES_LONGSHADOW_240x540 CINDER_RESOURCE( ../resources/longshadows/, 240x540l.png, 128, IMAGE )
+#define RES_LONGSHADOW_480x540 CINDER_RESOURCE( ../resources/longshadows/, 480x540l.png, 128, IMAGE )
+#define RES_LONGSHADOW_480x810 CINDER_RESOURCE( ../resources/longshadows/, 480x810l.png, 128, IMAGE )
+#define RES_LONGSHADOW_720x1080 CINDER_RESOURCE( ../resources/longshadows/, 720x1080l.png, 128, IMAGE )
+#define RES_LONGSHADOW_720x540 CINDER_RESOURCE( ../resources/longshadows/, 720x540l.png, 128, IMAGE )
+#define RES_LONGSHADOW_960x810 CINDER_RESOURCE( ../resources/longshadows/, 960x810l.png, 128, IMAGE )
+
 #define RES_Matrix_Reloaded_Wallpaper3 CINDER_RESOURCE( ../resources/movie_posters/, (311009004425)Matrix_Reloaded_Wallpaper3.jpg, 128, IMAGE )
 #define RES_04 CINDER_RESOURCE( ../resources/movie_posters/, 04.jpg, 128, IMAGE )
 #define RES_1166952147_1024x768_movie_stills_of_eternal_sunshine_of_the_spotless_mind CINDER_RESOURCE( ../resources/movie_posters/, 1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg, 128, IMAGE )
