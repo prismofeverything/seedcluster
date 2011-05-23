@@ -37,7 +37,7 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
 {
     shadow = gl::Texture( loadImage( dim.second ) );
 
-    ci::Vec2f posterdim( atomWidth * dim.first[0], atomHeight * dim.first[1] * 0.8f );
+    ci::Vec2f posterdim( atomWidth * dim.first[0], atomHeight * dim.first[1] - 162.0f );
     float posterratio = posterdim[0] / posterdim[1];
     gl::Texture::Format format;
     format.enableMipmapping( true );
@@ -73,11 +73,11 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
     layout.setFont( segoe );
     layout.append( movie.genre );
 
-    ci::Vec2i infodim( atomWidth*dim.first[0], atomHeight*dim.first[1]*0.2f );
+    ci::Vec2i infodim( atomWidth*dim.first[0], 162.0f ); // atomHeight*dim.first[1]*0.2f );
     Surface info( infodim[0], infodim[1], true );
     ci::ip::fill( &info, ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
     Surface tag = layout.render( true, false );
-    info.copyFrom( tag, ci::Area( ci::Vec2i( 0, 0 ), tag.getSize() ), ci::Vec2i( 10, 10 ) );
+    info.copyFrom( tag, ci::Area( ci::Vec2i( 0, 0 ), tag.getSize() ), ci::Vec2i( 25, 20 ) );
     posterinfo = gl::Texture( info, format );
 }
 
@@ -193,13 +193,13 @@ void Tile::drawPoster()
 {
     glColor4f( 1.0f, 1.0f, 1.0f, alpha );
 
-    ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] * 0.8f );
+    ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - 162.0f );
     gl::pushMatrices();
     gl::translate( position );
     gl::draw( poster, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
 
     gl::pushMatrices();
-    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] * 0.8, 0.0f ) );
+    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - 162.0f, 0.0f ) );
     gl::draw( posterinfo );
     gl::popMatrices();
 
@@ -208,8 +208,8 @@ void Tile::drawPoster()
     gl::popMatrices();
 }
 
-ci::Font Tile::segoe = Font( "Segoe", 18 );
-ci::Font Tile::segoebold = Font( "Segoe Bold", 24 );
-ci::Font Tile::segoesemibold = Font( "Segoe Bold", 18 );
+ci::Font Tile::segoe = Font( "Segoe", 24 );
+ci::Font Tile::segoebold = Font( "Segoe Bold", 32 );
+ci::Font Tile::segoesemibold = Font( "Segoe Bold", 24 );
 
 };

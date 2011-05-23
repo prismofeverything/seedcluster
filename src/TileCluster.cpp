@@ -29,7 +29,7 @@ TileCluster::TileCluster()
     // tileDimensions.push_back( Vec2i( 2, 2 ) );
 
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 5, 3 ), loadResource( RES_LONGSHADOW_1200x810 ) ) );
-    tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 1, 2 ), loadResource( RES_LONGSHADOW_240x540 ) ) );
+    // tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 1, 2 ), loadResource( RES_LONGSHADOW_240x540 ) ) );
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 2 ), loadResource( RES_LONGSHADOW_480x540 ) ) );
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 3 ), loadResource( RES_LONGSHADOW_480x810 ) ) );
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 4 ), loadResource( RES_LONGSHADOW_720x1080 ) ) );
