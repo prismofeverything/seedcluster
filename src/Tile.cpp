@@ -119,10 +119,6 @@ void Tile::update()
         }
         break;
     case Blooming:
-        // if ( Rand::randFloat() < 0.02 ) {
-        //     // full = branch();
-        // }
-
         if ( full ) {
             state = Leaving;
             alphaEase = Ease( alpha, 0.0f, 40 );
@@ -156,7 +152,6 @@ void Tile::drawShadow()
     gl::pushMatrices();
     glColor4f( 0.0f, 0.0f, 0.0f, alpha );
     gl::disableDepthWrite();
-    // glColor4f( 0.0f, 0.0f, 0.0f, 0.0f );
 
     // glEnable( GL_BLEND );
     // glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
@@ -181,8 +176,6 @@ void Tile::drawShadow()
     // glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
 
     // gl::translate( position );
-
-    // gl::translate( ci::Vec3f( -25.0f, -25.0f, 0.0f ) );
     gl::translate( ci::Vec3f( -50.0f, -50.0f, 0.0f ) );
     gl::draw( shadow );
     gl::popMatrices();

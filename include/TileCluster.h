@@ -33,6 +33,7 @@ class TileCluster {
     bool chooseSeed( ci::Vec2i point );
     void releaseSeed();
     bool isSeedChosen();
+    void loadPosters();
 
     static const float branchRate = 0.3;
 
@@ -40,7 +41,6 @@ class TileCluster {
     std::vector<Tile> available;
     std::vector<TileDimension> tileDimensions;
     std::vector<ci::Vec2i> orientations;
-    /* std::map<ci::Vec2i, ci::DataSourceRef> shadowmap; */
     std::vector<MovieInfo> posters;
 
     std::vector<Seed> seeds;

@@ -1,11 +1,11 @@
+#include <vector>
+#include <map>
+#include <algorithm>
 #include "TileCluster.h"
 #include "cinder/Rand.h"
 #include "cinder/Vector.h"
 #include "cinder/gl/gl.h"
 #include "Resources.h"
-#include <vector>
-#include <map>
-#include <algorithm>
 #include "Ease.h"
 
 using namespace ci;
@@ -20,66 +20,20 @@ TileCluster::TileCluster()
     chosenSeed = seeds.end();
     hoverSeed = seeds.end();
 
-    // tileDimensions.push_back( Vec2i( 5, 3 ) );
-    // tileDimensions.push_back( Vec2i( 3, 2 ) );
-    // tileDimensions.push_back( Vec2i( 4, 3 ) );
-    // tileDimensions.push_back( Vec2i( 1, 2 ) );
-    // tileDimensions.push_back( Vec2i( 3, 4 ) );
-    // tileDimensions.push_back( Vec2i( 2, 3 ) );
-    // tileDimensions.push_back( Vec2i( 2, 2 ) );
-
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 5, 3 ), loadResource( RES_LONGSHADOW_1200x810 ) ) );
-    // tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 1, 2 ), loadResource( RES_LONGSHADOW_240x540 ) ) );
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 2 ), loadResource( RES_LONGSHADOW_480x540 ) ) );
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 2, 3 ), loadResource( RES_LONGSHADOW_480x810 ) ) );
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 4 ), loadResource( RES_LONGSHADOW_720x1080 ) ) );
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 3, 2 ), loadResource( RES_LONGSHADOW_720x540 ) ) );
     tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 4, 3 ), loadResource( RES_LONGSHADOW_960x810 ) ) );
+    // tileDimensions.push_back( pair<Vec2i, DataSourceRef>( Vec2i( 1, 2 ), loadResource( RES_LONGSHADOW_240x540 ) ) );
 
     orientations.push_back( Vec2i( 0, 1 ) );
     orientations.push_back( Vec2i( -1, 0 ) );
     orientations.push_back( Vec2i( 0, -1 ) );
     orientations.push_back( Vec2i( 1, 0 ) );
 
-    posters.push_back( MovieInfo( "The Matrix", "2001", "Science Fiction", loadResource( RES_Matrix_Reloaded_Wallpaper3 ) ) );
-    posters.push_back( MovieInfo( "Sunshine", "2009", "Science Fiction", loadResource( RES_04 ) ) );
-    posters.push_back( MovieInfo( "Eternal Sunshine of the Spotless Mind", "2009", "Science Fiction", loadResource( RES_1166952147_1024x768_movie_stills_of_eternal_sunshine_of_the_spotless_mind ) ) );
-    posters.push_back( MovieInfo( "Sleepy Hollow", "2009", "Science Fiction", loadResource( RES_1287369723_1024x768_sleepy_hollow_poster ) ) );
-    posters.push_back( MovieInfo( "2001: Space Odyssey", "2009", "Science Fiction", loadResource( RES_2001_space_odyssey_1280x1048 ) ) );
-    posters.push_back( MovieInfo( "Sunshine", "2009", "Science Fiction", loadResource( RES_2007_sunshine_2 ) ) );
-    posters.push_back( MovieInfo( "2010: Contact", "2009", "Science Fiction", loadResource( RES_2010_movie_poster_year_we_make_contact ) ) );
-    posters.push_back( MovieInfo( "Solaris", "2009", "Science Fiction", loadResource( RES_936full_solaris_poster_1 ) ) );
-    posters.push_back( MovieInfo( "Solaris", "2009", "Science Fiction", loadResource( RES_936full_solaris_poster ) ) );
-    posters.push_back( MovieInfo( "A Christmas Carol", "2009", "Science Fiction", loadResource( RES_Jim_Carrey_in_A_Christmas_Carol_Wallpaper_2_800 ) ) );
-    posters.push_back( MovieInfo( "Little Miss Sunshine", "2009", "Science Fiction", loadResource( RES_Little_Miss_Sunshine_by_lakikaki ) ) );
-    posters.push_back( MovieInfo( "Sunshine", "2009", "Science Fiction", loadResource( RES_MOON_Poster_by_pepperberetta ) ) );
-    posters.push_back( MovieInfo( "Aliens", "2009", "Science Fiction", loadResource( RES_Movie_Poster_Aliens ) ) );
-    posters.push_back( MovieInfo( "Liar Liar", "2009", "Science Fiction", loadResource( RES_Movie_Poster_Liar_Liar ) ) );
-    posters.push_back( MovieInfo( "Nine", "2009", "Science Fiction", loadResource( RES_Nine_movie_still_3 ) ) );
-    posters.push_back( MovieInfo( "Terminator 2: Judgment Day", "2009", "Science Fiction", loadResource( RES_Terminator_2_Judgment_Day_movie_poster ) ) );
-    posters.push_back( MovieInfo( "The Fountain", "2009", "Science Fiction", loadResource( RES_The_Fountain_the_fountain_5530120_1280_1024 ) ) );
-    posters.push_back( MovieInfo( "The Matrix: Reloaded", "2009", "Science Fiction", loadResource( RES_The_Matrix_Reloaded_poster ) ) );
-    posters.push_back( MovieInfo( "True Lies", "2009", "Science Fiction", loadResource( RES_True_Lies_lobby_card_Arnold_Schwarzenegger_Jamie_Lee_Curtis_James_Cameron_1994_TV_remake ) ) );
-    posters.push_back( MovieInfo( "Alice in Wonderland", "2009", "Science Fiction", loadResource( RES_alice_in_wonderland_xlg ) ) );
-    posters.push_back( MovieInfo( "Alien 3", "2009", "Science Fiction", loadResource( RES_alien3 ) ) );
-    posters.push_back( MovieInfo( "Avatar", "2009", "Science Fiction", loadResource( RES_avatar_poster_frensc ) ) );
-    posters.push_back( MovieInfo( "Avatar", "2009", "Science Fiction", loadResource( RES_avatar_poster ) ) );
-    posters.push_back( MovieInfo( "Black Swan", "2009", "Science Fiction", loadResource( RES_blackswan_poster ) ) );
-    posters.push_back( MovieInfo( "Close Encounters of the Third Kind", "2009", "Science Fiction", loadResource( RES_close_encounters_of_the_third_kind_1_1024 ) ) );
-    posters.push_back( MovieInfo( "Corpse Bride", "2009", "Science Fiction", loadResource( RES_corpse_bride_6_1024 ) ) );
-    posters.push_back( MovieInfo( "Green Hornet", "2009", "Science Fiction", loadResource( RES_greenhornet ) ) );
-    posters.push_back( MovieInfo( "Moon", "2009", "Science Fiction", loadResource( RES_mpamoonposter2b ) ) );
-    posters.push_back( MovieInfo( "Sunshine", "2009", "Science Fiction", loadResource( RES_mpayesmanposterb ) ) );
-    posters.push_back( MovieInfo( "Sweeney Todd", "2009", "Science Fiction", loadResource( RES_sweeneytodd ) ) );
-    posters.push_back( MovieInfo( "Terminator: Salvation", "2009", "Science Fiction", loadResource( RES_terminator_salvation_poster2 ) ) );
-    posters.push_back( MovieInfo( "Terminator", "2009", "Science Fiction", loadResource( RES_terminator_poster4 ) ) );
-    posters.push_back( MovieInfo( "Terminator: Other", "2009", "Science Fiction", loadResource( RES_terminator_salvation_21 ) ) );
-    posters.push_back( MovieInfo( "The Mask", "2009", "Science Fiction", loadResource( RES_the_mask_original ) ) );
-    posters.push_back( MovieInfo( "The Abyss", "2009", "Science Fiction", loadResource( RES_the_abyss_1989 ) ) );
-    posters.push_back( MovieInfo( "The Nightmare Before Christmas", "2009", "Science Fiction", loadResource( RES_the_nightmare_before_christmas_poster ) ) );
-    posters.push_back( MovieInfo( "Titanic", "2009", "Science Fiction", loadResource( RES_titanic_ver2_xlg ) ) );
-    posters.push_back( MovieInfo( "Alien", "2009", "Science Fiction", loadResource( RES_vintage_alien_movie_poster ) ) );
-    posters.push_back( MovieInfo( "Batman", "2009", "Science Fiction", loadResource( RES_viral_batman_poster ) ) );
+    loadPosters();
 }
 
 TileDimension TileCluster::chooseDimension()
@@ -213,7 +167,6 @@ void TileCluster::draw( bool posterMode )
     gl::enableAlphaBlending();
     gl::enableDepthRead();
     gl::disableDepthWrite();
-    // gl::enableDepthWrite();
 
     int size = tiles.size();
 
@@ -242,6 +195,49 @@ void TileCluster::draw( bool posterMode )
     // for ( int ee = 0; ee < size; ee++ ) {
     //     seeds[ee].draw();
     // }
+}
+
+void TileCluster::loadPosters()
+{
+    posters.push_back( MovieInfo( "The Matrix", "2001", "Science Fiction", loadResource( RES_Matrix_Reloaded_Wallpaper3 ) ) );
+    posters.push_back( MovieInfo( "Sunshine", "2009", "Science Fiction", loadResource( RES_04 ) ) );
+    posters.push_back( MovieInfo( "Eternal Sunshine of the Spotless Mind", "2009", "Science Fiction", loadResource( RES_1166952147_1024x768_movie_stills_of_eternal_sunshine_of_the_spotless_mind ) ) );
+    posters.push_back( MovieInfo( "Sleepy Hollow", "2009", "Science Fiction", loadResource( RES_1287369723_1024x768_sleepy_hollow_poster ) ) );
+    posters.push_back( MovieInfo( "2001: Space Odyssey", "2009", "Science Fiction", loadResource( RES_2001_space_odyssey_1280x1048 ) ) );
+    posters.push_back( MovieInfo( "Sunshine", "2009", "Science Fiction", loadResource( RES_2007_sunshine_2 ) ) );
+    posters.push_back( MovieInfo( "2010: Contact", "2009", "Science Fiction", loadResource( RES_2010_movie_poster_year_we_make_contact ) ) );
+    posters.push_back( MovieInfo( "Solaris", "2009", "Science Fiction", loadResource( RES_936full_solaris_poster_1 ) ) );
+    posters.push_back( MovieInfo( "Solaris", "2009", "Science Fiction", loadResource( RES_936full_solaris_poster ) ) );
+    posters.push_back( MovieInfo( "A Christmas Carol", "2009", "Science Fiction", loadResource( RES_Jim_Carrey_in_A_Christmas_Carol_Wallpaper_2_800 ) ) );
+    posters.push_back( MovieInfo( "Little Miss Sunshine", "2009", "Science Fiction", loadResource( RES_Little_Miss_Sunshine_by_lakikaki ) ) );
+    posters.push_back( MovieInfo( "Sunshine", "2009", "Science Fiction", loadResource( RES_MOON_Poster_by_pepperberetta ) ) );
+    posters.push_back( MovieInfo( "Aliens", "2009", "Science Fiction", loadResource( RES_Movie_Poster_Aliens ) ) );
+    posters.push_back( MovieInfo( "Liar Liar", "2009", "Science Fiction", loadResource( RES_Movie_Poster_Liar_Liar ) ) );
+    posters.push_back( MovieInfo( "Nine", "2009", "Science Fiction", loadResource( RES_Nine_movie_still_3 ) ) );
+    posters.push_back( MovieInfo( "Terminator 2: Judgment Day", "2009", "Science Fiction", loadResource( RES_Terminator_2_Judgment_Day_movie_poster ) ) );
+    posters.push_back( MovieInfo( "The Fountain", "2009", "Science Fiction", loadResource( RES_The_Fountain_the_fountain_5530120_1280_1024 ) ) );
+    posters.push_back( MovieInfo( "The Matrix: Reloaded", "2009", "Science Fiction", loadResource( RES_The_Matrix_Reloaded_poster ) ) );
+    posters.push_back( MovieInfo( "True Lies", "2009", "Science Fiction", loadResource( RES_True_Lies_lobby_card_Arnold_Schwarzenegger_Jamie_Lee_Curtis_James_Cameron_1994_TV_remake ) ) );
+    posters.push_back( MovieInfo( "Alice in Wonderland", "2009", "Science Fiction", loadResource( RES_alice_in_wonderland_xlg ) ) );
+    posters.push_back( MovieInfo( "Alien 3", "2009", "Science Fiction", loadResource( RES_alien3 ) ) );
+    posters.push_back( MovieInfo( "Avatar", "2009", "Science Fiction", loadResource( RES_avatar_poster_frensc ) ) );
+    posters.push_back( MovieInfo( "Avatar", "2009", "Science Fiction", loadResource( RES_avatar_poster ) ) );
+    posters.push_back( MovieInfo( "Black Swan", "2009", "Science Fiction", loadResource( RES_blackswan_poster ) ) );
+    posters.push_back( MovieInfo( "Close Encounters of the Third Kind", "2009", "Science Fiction", loadResource( RES_close_encounters_of_the_third_kind_1_1024 ) ) );
+    posters.push_back( MovieInfo( "Corpse Bride", "2009", "Science Fiction", loadResource( RES_corpse_bride_6_1024 ) ) );
+    posters.push_back( MovieInfo( "Green Hornet", "2009", "Science Fiction", loadResource( RES_greenhornet ) ) );
+    posters.push_back( MovieInfo( "Moon", "2009", "Science Fiction", loadResource( RES_mpamoonposter2b ) ) );
+    posters.push_back( MovieInfo( "Sunshine", "2009", "Science Fiction", loadResource( RES_mpayesmanposterb ) ) );
+    posters.push_back( MovieInfo( "Sweeney Todd", "2009", "Science Fiction", loadResource( RES_sweeneytodd ) ) );
+    posters.push_back( MovieInfo( "Terminator: Salvation", "2009", "Science Fiction", loadResource( RES_terminator_salvation_poster2 ) ) );
+    posters.push_back( MovieInfo( "Terminator", "2009", "Science Fiction", loadResource( RES_terminator_poster4 ) ) );
+    posters.push_back( MovieInfo( "Terminator: Other", "2009", "Science Fiction", loadResource( RES_terminator_salvation_21 ) ) );
+    posters.push_back( MovieInfo( "The Mask", "2009", "Science Fiction", loadResource( RES_the_mask_original ) ) );
+    posters.push_back( MovieInfo( "The Abyss", "2009", "Science Fiction", loadResource( RES_the_abyss_1989 ) ) );
+    posters.push_back( MovieInfo( "The Nightmare Before Christmas", "2009", "Science Fiction", loadResource( RES_the_nightmare_before_christmas_poster ) ) );
+    posters.push_back( MovieInfo( "Titanic", "2009", "Science Fiction", loadResource( RES_titanic_ver2_xlg ) ) );
+    posters.push_back( MovieInfo( "Alien", "2009", "Science Fiction", loadResource( RES_vintage_alien_movie_poster ) ) );
+    posters.push_back( MovieInfo( "Batman", "2009", "Science Fiction", loadResource( RES_viral_batman_poster ) ) );
 }
 
 };
