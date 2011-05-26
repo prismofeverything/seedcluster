@@ -25,6 +25,7 @@ void PosterCursor::in( const Hand & hand, cv::Point _center )
 void PosterCursor::out( cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
+    shift = ci::Vec2f( 0, 0 );
 }
 
 void PosterCursor::close( cv::Point _center )
@@ -40,17 +41,25 @@ void PosterCursor::open( cv::Point _center )
 void PosterCursor::move( cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
-    shift = (center - anchor);
-    shift[0] = -shift[0];
-    // shift -= shift * 0.001f;
-    // anchor = anchor + shift;
+
+    ci::Vec2f shifting = (center - anchor) * 0.07;
+    shifting[1] = -shifting[1];
+    shift += shifting;
+
+    // shift = (center - anchor);
+    // shift[1] = -shift[1];
 }
 
 void PosterCursor::drag( cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
-    shift = (center - anchor);
-    shift[0] = -shift[0];
+
+    ci::Vec2f shifting = (center - anchor) * 0.07;
+    shifting[1] = -shifting[1];
+    shift += shifting;
+
+    // shift = (center - anchor);
+    // shift[1] = -shift[1];
 }
 
 void PosterCursor::update()
