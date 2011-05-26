@@ -17,6 +17,8 @@
 #include "Ease.h"
 #include "HandTracker.h"
 #include "HandCursor.h"
+#include "HandMap.h"
+#include "PosterCursor.h"
 #include "TileCluster.h"
 #include "Resources.h"
 
@@ -133,7 +135,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Vec3f kinectColor;
 
     ix::HandTracker tracker;
-    ix::HandMap handmap;
+    ix::HandMap<ix::PosterCursor> handmap;
     std::vector<float> hues;
     ci::Vec2f closePoint;
     ci::Vec2f zoomPoint;
@@ -157,6 +159,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Vec2i mousePosition;
     Vec2f mouseVelocity;
     Vec2i centering;
+    Vec2f shiftOffset;
 
     // modes
     bool posterMode;
@@ -249,6 +252,8 @@ void SeedClusterApp::setupRectangle()
 void SeedClusterApp::setup()
 {
     tracker.registerListener( this );
+
+    shiftOffset = Vec2f( 0, 0 );
 
 	setupParticles();
     setupRectangle();
@@ -365,10 +370,6 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
 {
     std::cout << "hand in - " << hand.hue << std::endl;
     handmap.in( hand );
-
-    // hueEase = Ease( background[0], oneBackground[0], 100 );
-    // saturationEase = Ease( background[1], oneBackground[1], 100 );
-    // brightnessEase = Ease( background[2], oneBackground[2], 100 );
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
@@ -376,15 +377,14 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
     std::cout << "hand out - " << hand.hue << std::endl;
     handmap.out( hand );
 
-    // hueEase = Ease( background[0], defaultBackground[0], 100 );
-    // saturationEase = Ease( background[1], defaultBackground[1], 100 );
-    // brightnessEase = Ease( background[2], defaultBackground[2], 100 );
     cluster.releaseSeed();
 }
 
 void SeedClusterApp::handMove( const ix::Hand & hand )
 {
     handmap.move( hand );
+    shiftOffset = handmap.get( hand ).shift;
+
     cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
     if ( rectangle.boundingRect().contains( hand.center ) ) {
         rectangleHoverEase = Ease( rectangleFactor, 1.2f, 30 );
@@ -418,6 +418,7 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
     handmap.drag( hand );
+    shiftOffset = handmap.get( hand ).shift;
 
     cv::Point average = hand.smoothCenter( 10 );
     Vec2f smooth( average.x, average.y );
@@ -710,6 +711,7 @@ void SeedClusterApp::draw()
     // }
 
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
+    gl::translate( Vec3f( shiftOffset[0], shiftOffset[1], 0 ) );
     gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
 	 
     // if ( rectangleMode ) {
@@ -719,7 +721,7 @@ void SeedClusterApp::draw()
     // if ( !innardsMode ) {
     //     drawParticles();
     //     gl::enableAlphaBlending();
-    //     drawSmoothHands();
+         drawSmoothHands();
     // }
 
     cluster.draw( posterMode );

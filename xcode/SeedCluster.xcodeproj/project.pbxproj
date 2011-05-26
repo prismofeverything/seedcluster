@@ -30,6 +30,7 @@
 		403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */; };
 		40432BF013730C1D00888C35 /* cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 40432BEF13730C1D00888C35 /* cursor.png */; };
 		40432C5613734D7400888C35 /* HandCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 40432C5513734D7400888C35 /* HandCursor.cpp */; };
+		404690EE138D5DF9003F3789 /* PosterCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 404690ED138D5DF9003F3789 /* PosterCursor.cpp */; };
 		40BA3FBF1385C9B800451B6F /* (311009004425)Matrix_Reloaded_Wallpaper3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F901385C9B800451B6F /* (311009004425)Matrix_Reloaded_Wallpaper3.jpg */; };
 		40BA3FC01385C9B800451B6F /* 04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F911385C9B800451B6F /* 04.jpg */; };
 		40BA3FC11385C9B800451B6F /* 1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 40BA3F921385C9B800451B6F /* 1166952147_1024x768_movie-stills-of-eternal-sunshine-of-the-spotless-mind.jpg */; };
@@ -137,6 +138,8 @@
 		40432BEF13730C1D00888C35 /* cursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cursor.png; path = ../resources/cursor.png; sourceTree = SOURCE_ROOT; };
 		40432C5413734D6600888C35 /* HandCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandCursor.h; path = ../include/HandCursor.h; sourceTree = SOURCE_ROOT; };
 		40432C5513734D7400888C35 /* HandCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HandCursor.cpp; path = ../src/HandCursor.cpp; sourceTree = SOURCE_ROOT; };
+		404690EC138D5DE9003F3789 /* PosterCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PosterCursor.h; path = ../include/PosterCursor.h; sourceTree = SOURCE_ROOT; };
+		404690ED138D5DF9003F3789 /* PosterCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PosterCursor.cpp; path = ../src/PosterCursor.cpp; sourceTree = SOURCE_ROOT; };
 		40B41CB81360D8740099FCE2 /* cminpack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cminpack.h; path = ../include/cminpack.h; sourceTree = SOURCE_ROOT; };
 		40BA3F901385C9B800451B6F /* (311009004425)Matrix_Reloaded_Wallpaper3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "(311009004425)Matrix_Reloaded_Wallpaper3.jpg"; sourceTree = "<group>"; };
 		40BA3F911385C9B800451B6F /* 04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 04.jpg; sourceTree = "<group>"; };
@@ -251,6 +254,7 @@
 		080E96DDFE201D6D7F000001 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				404690ED138D5DF9003F3789 /* PosterCursor.cpp */,
 				40432C5513734D7400888C35 /* HandCursor.cpp */,
 				400E02431361515B00855B19 /* Ease.cpp */,
 				400E022613614EDC00855B19 /* Seed.cpp */,
@@ -316,6 +320,7 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				404690EC138D5DE9003F3789 /* PosterCursor.h */,
 				40432C5413734D6600888C35 /* HandCursor.h */,
 				400E022413614ECC00855B19 /* Ease.h */,
 				400E022513614ECC00855B19 /* Seed.h */,
@@ -611,6 +616,7 @@
 				400E022713614EDC00855B19 /* Seed.cpp in Sources */,
 				400E02441361515B00855B19 /* Ease.cpp in Sources */,
 				40432C5613734D7400888C35 /* HandCursor.cpp in Sources */,
+				404690EE138D5DF9003F3789 /* PosterCursor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
