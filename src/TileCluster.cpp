@@ -124,7 +124,7 @@ bool TileCluster::isSeedChosen()
 
 void TileCluster::update()
 {
-    bool branching = Rand::randFloat() < branchRate && tiles.size() > 0;
+    bool branching = Rand::randFloat() < branchRate && tiles.size() > 0 && tiles.size() < 100;
     int yellow;
     TileDimension dim;
     Vec2i topLeft, bottomRight;

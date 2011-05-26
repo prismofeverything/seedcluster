@@ -10,6 +10,7 @@ namespace ix {
 
 PosterCursor::PosterCursor()
     : shift( 0, 0 ), 
+      dshift( 0, 0 ), 
       complete( false ),
       goingOut( false )
 {
@@ -25,7 +26,7 @@ void PosterCursor::in( const Hand & hand, cv::Point _center )
 void PosterCursor::out( cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
-    shift = ci::Vec2f( 0, 0 );
+    dshift = ci::Vec2f( 0, 0 );
 }
 
 void PosterCursor::close( cv::Point _center )
@@ -41,10 +42,19 @@ void PosterCursor::open( cv::Point _center )
 void PosterCursor::move( cv::Point _center )
 {
     center = ci::Vec2f( _center.x, _center.y );
+    ci::Vec2f dcenter = center - anchor;
 
-    ci::Vec2f shifting = (center - anchor) * 0.07;
-    shifting[1] = -shifting[1];
-    shift += shifting;
+    if ( dcenter.length() > 50 ) {
+        ci::Vec2f shifting = (center - anchor) * 0.034;
+        shifting[1] = -shifting[1];
+        shift += shifting;
+    }
+
+    shift -= shift * 0.15;
+    // shift += dshift;
+    // dshift -= dshift * 0.1;
+
+    // shift += shifting;
 
     // shift = (center - anchor);
     // shift[1] = -shift[1];
@@ -52,14 +62,7 @@ void PosterCursor::move( cv::Point _center )
 
 void PosterCursor::drag( cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
-
-    ci::Vec2f shifting = (center - anchor) * 0.07;
-    shifting[1] = -shifting[1];
-    shift += shifting;
-
-    // shift = (center - anchor);
-    // shift[1] = -shift[1];
+    move( _center );
 }
 
 void PosterCursor::update()

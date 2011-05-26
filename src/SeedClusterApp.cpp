@@ -383,7 +383,7 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
 void SeedClusterApp::handMove( const ix::Hand & hand )
 {
     handmap.move( hand );
-    shiftOffset = handmap.get( hand ).shift;
+    shiftOffset += handmap.get( hand ).shift;
 
     cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
     if ( rectangle.boundingRect().contains( hand.center ) ) {
@@ -418,7 +418,7 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
     handmap.drag( hand );
-    shiftOffset = handmap.get( hand ).shift;
+    shiftOffset += handmap.get( hand ).shift;
 
     cv::Point average = hand.smoothCenter( 10 );
     Vec2f smooth( average.x, average.y );

@@ -16,6 +16,7 @@ using namespace ci;
 using namespace std;
 
 #define TAU 6.2831853071795862f
+#define INFOHEIGHT 162.0f
 
 namespace ix
 {
@@ -37,14 +38,15 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
 {
     shadow = gl::Texture( loadImage( dim.second ) );
 
-    // ci::Vec2f posterdim( atomWidth * dim.first[0], atomHeight * dim.first[1] - 162.0f );
-    // float posterratio = posterdim[0] / posterdim[1];
-    // gl::Texture::Format format;
-    // format.enableMipmapping( true );
-    // format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
-    // format.setMagFilter( GL_LINEAR_MIPMAP_LINEAR );
-    // ci::Surface fullsize = loadImage( movie.image );
+    gl::Texture::Format format;
+    format.enableMipmapping( true );
+    format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
+    format.setMagFilter( GL_LINEAR_MIPMAP_LINEAR );
 
+    // ci::Vec2f posterdim( atomWidth * dim.first[0], atomHeight * dim.first[1] - INFOHEIGHT );
+    // float posterratio = posterdim[0] / posterdim[1];
+
+    // ci::Surface fullsize = loadImage( movie.image );
     // ci::Vec2f moviedim = fullsize.getSize();
     // float movieratio = moviedim[0] / moviedim[1];
 
@@ -63,22 +65,22 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
     // ci::Surface field = fullsize.clone( ci::Area( offset, offset + ( Vec2f( posterdim[0], posterdim[1] ) * movieposterratio ) ) );
     // poster = gl::Texture( field, format );
 
-    // layout.clear( ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
-    // layout.setFont( segoebold );
-    // layout.setColor( Color( 0, 0.8f, 0 ) );
-    // layout.addLine( movie.title );
-    // layout.setFont( segoesemibold );
-    // layout.setColor( Color( 0, 0, 0 ) );
-    // layout.addLine( movie.year + ",  " );
-    // layout.setFont( segoe );
-    // layout.append( movie.genre );
+    layout.clear( ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    layout.setFont( segoebold );
+    layout.setColor( Color( 0, 0.8f, 0 ) );
+    layout.addLine( movie.title );
+    layout.setFont( segoesemibold );
+    layout.setColor( Color( 0, 0, 0 ) );
+    layout.addLine( movie.year + ",  " );
+    layout.setFont( segoe );
+    layout.append( movie.genre );
 
-    // ci::Vec2i infodim( atomWidth*dim.first[0], 162.0f ); // atomHeight*dim.first[1]*0.2f );
-    // Surface info( infodim[0], infodim[1], true );
-    // ci::ip::fill( &info, ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
-    // Surface tag = layout.render( true, false );
-    // info.copyFrom( tag, ci::Area( ci::Vec2i( 0, 0 ), tag.getSize() ), ci::Vec2i( 25, 20 ) );
-    // posterinfo = gl::Texture( info, format );
+    ci::Vec2i infodim( atomWidth*dim.first[0], INFOHEIGHT ); // atomHeight*dim.first[1]*0.2f );
+    Surface info( infodim[0], infodim[1], true );
+    ci::ip::fill( &info, ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    Surface tag = layout.render( true, false );
+    info.copyFrom( tag, ci::Area( ci::Vec2i( 0, 0 ), tag.getSize() ), ci::Vec2i( 25, 20 ) );
+    posterinfo = gl::Texture( info, format );
 }
 
 Vec2i Tile::relativeCorner( Vec2i dim, Vec2i orientation )
@@ -186,13 +188,13 @@ void Tile::drawPoster()
 {
     glColor4f( 1.0f, 1.0f, 1.0f, alpha );
 
-    ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - 162.0f );
+    ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - INFOHEIGHT );
     gl::pushMatrices();
     gl::translate( position );
     gl::draw( poster, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
 
     gl::pushMatrices();
-    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - 162.0f, 0.0f ) );
+    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 0.0f ) );
     gl::draw( posterinfo );
     gl::popMatrices();
 
