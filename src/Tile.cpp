@@ -36,6 +36,8 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       state( Entering ),
       movieinfo( movie )
 {
+    std::cout << "new tile: " << position << std::endl;
+
     gl::Texture::Format format;
     format.enableMipmapping( true );
     format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
@@ -103,6 +105,18 @@ bool Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
               br[1] <= topLeft[1] || 
               tl[0] >= bottomRight[0] || 
               tl[1] >= bottomRight[1] );
+}
+
+void Tile::hover()
+{
+    alphaEase = Ease( alpha, 0.0f, 40 );
+    state = Leaving;
+}
+
+void Tile::unhover()
+{
+    alphaEase = Ease( alpha, 0.9f, 40 );
+    state = Entering;
 }
 
 void Tile::update()

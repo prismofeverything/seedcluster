@@ -1,3 +1,4 @@
+#include <iostream.h>
 #include <vector>
 #include <map>
 #include <algorithm>
@@ -18,9 +19,6 @@ namespace ix
 
 TileCluster::TileCluster()
 {
-    chosenSeed = seeds.end();
-    hoverSeed = seeds.end();
-
     orientations.push_back( Vec2i( 0, 1 ) );
     orientations.push_back( Vec2i( -1, 0 ) );
     orientations.push_back( Vec2i( 0, -1 ) );
@@ -29,6 +27,14 @@ TileCluster::TileCluster()
 
 void TileCluster::setup()
 {
+    chosenSeed = seeds.end();
+    hoverSeed = seeds.end();
+    chosenTile = tiles.end();
+    hoverTile = tiles.end();
+
+    tileOffset = Vec2f( 0, 0 );
+    tileScale = Vec3f( 0.22f, 0.22f, 1.0f );
+
     setupShadows();
     setupPosters();
 }
@@ -50,7 +56,8 @@ MovieInfo TileCluster::choosePoster()
 
 void TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f color )
 {
-    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster() ) );
+    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster() )
+ );
 }
 
 void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
@@ -65,17 +72,42 @@ void TileCluster::clearSeeds()
 
 void TileCluster::handOver( Vec2i point )
 {
-    std::vector<Seed>::iterator previous = hoverSeed;
+    std::vector<Seed>::iterator previousSeed = hoverSeed;
     hoverSeed = std::find_if ( seeds.begin(), seeds.end(), SeedContains( point ) );
 
-    if ( previous == seeds.end() ) {
+    if ( previousSeed == seeds.end() ) {
         if ( hoverSeed != seeds.end() ) {
             hoverSeed->hover();
         }
-    } else if ( previous != hoverSeed ) {
-        previous->unhover();
+    } else if ( previousSeed != hoverSeed ) {
+        previousSeed->unhover();
         if ( hoverSeed != seeds.end() ) {
             hoverSeed->hover();
+        }
+    }
+
+    Vec2f lens( point );
+    lens[0] = 640 - lens[0];
+    lens /= 0.35;
+    lens -= tileOffset + Vec2f( -440.0f, -380.0f );
+
+    std::vector<Tile>::iterator previousTile = hoverTile;
+    hoverTile = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
+
+    std::cout << "over point: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
+
+    if ( previousTile == tiles.end() ) {
+        if ( hoverTile != tiles.end() ) {
+            ci::Vec2i tilepos( hoverTile->position[0], hoverTile->position[1] );
+            std::cout << "tile" << tilepos << " - " << tilepos + hoverTile->box.getLowerRight() << " | hover: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
+            hoverTile->hover();
+        }
+    } else if ( previousTile != hoverTile ) {
+        // previousTile->unhover();
+        if ( hoverTile != tiles.end() ) {
+            ci::Vec2i tilepos( hoverTile->position[0], hoverTile->position[1] );
+            std::cout << "tile" << tilepos << " - " << tilepos + hoverTile->box.getLowerRight() << " | hover: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
+            hoverTile->hover();
         }
     }
 }
@@ -85,6 +117,11 @@ void TileCluster::unhover()
     if ( hoverSeed != seeds.end() ) {
         hoverSeed->unhover();
         hoverSeed = seeds.end();
+    }
+
+    if ( hoverTile != tiles.end() ) {
+        hoverTile->unhover();
+        hoverTile = tiles.end();
     }
 }
 
@@ -155,15 +192,29 @@ void TileCluster::update()
     }
 }
 
-void TileCluster::draw( bool posterMode )
+void TileCluster::draw()
+{
+    drawTiles( false );
+    drawSeeds();
+}
+
+void TileCluster::drawSeeds()
+{
+    int size = seeds.size();
+    for ( int ee = 0; ee < size; ee++ ) {
+        seeds[ee].draw();
+    }
+}
+
+void TileCluster::drawTiles( bool posterMode )
 {
     gl::pushModelView();
-    gl::translate( Vec3f( 100.0f, 200.0f, 0.0f ) );
-    gl::scale( Vec3f( 0.15f, 0.15f, 1.0f ) );
-
     gl::enableAlphaBlending();
     gl::enableDepthRead();
     gl::disableDepthWrite();
+
+    gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) );
+    gl::scale( tileScale );
 
     int size = tiles.size();
 
@@ -187,11 +238,6 @@ void TileCluster::draw( bool posterMode )
     gl::disableAlphaBlending();
     gl::disableDepthRead();
     gl::disableDepthWrite();
-
-    // size = seeds.size();
-    // for ( int ee = 0; ee < size; ee++ ) {
-    //     seeds[ee].draw();
-    // }
 }
 
 void TileCluster::setupPosters()

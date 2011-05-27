@@ -51,6 +51,9 @@ class Tile {
     void drawPoster();
     void drawShadow();
 
+    void hover();
+    void unhover();
+
     ci::Vec2i relativeCorner( ci::Vec2i dim, ci::Vec2i orientation );
     bool collidesWith( ci::Vec2i tl, ci::Vec2i br );
 
@@ -84,6 +87,23 @@ class Tile {
     TileDimension dimension;
     float alpha;
     Ease alphaEase;
+};
+
+struct TileContains
+{
+    TileContains( ci::Vec2i _point ) : point( _point ) {};
+    inline bool operator() ( const Tile & tile ) {
+        /* bool result = point > tile.position && point < tile.position + tile.box.getLowerRight(); */
+
+        bool result = point[0] > tile.position[0]
+            && point[1] > tile.position[1]
+            && point[0] < tile.position[0] + tile.box.getLowerRight()[0]
+            && point[1] < tile.position[1] + tile.box.getLowerRight()[1];
+
+        return result;
+    };
+
+    ci::Vec2i point;
 };
 
 };

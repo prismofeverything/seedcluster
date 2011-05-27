@@ -21,7 +21,9 @@ class TileCluster {
     void setupPosters();
     void setupShadows();
     void update();
-    void draw( bool posterMode );
+    void draw();
+    void drawSeeds();
+    void drawTiles( bool posterMode );
 
     TileDimension chooseDimension();
     ci::Vec2i chooseOrientation();
@@ -40,8 +42,14 @@ class TileCluster {
 
     static const float branchRate = 0.3;
 
+    ci::Vec2f tileOffset;
+    ci::Vec3f tileScale;
+
     std::vector<Tile> tiles;
     std::vector<Tile> available;
+    std::vector<Tile>::iterator hoverTile;
+    std::vector<Tile>::iterator chosenTile;
+
     std::vector<TileDimension> tileDimensions;
     std::vector<ci::Vec2i> orientations;
     std::vector<MovieInfo> posters;

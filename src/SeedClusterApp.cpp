@@ -162,9 +162,12 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Vec2f shiftOffset;
 
     // modes
-    bool posterMode;
     bool innardsMode;
     bool rectangleMode;
+    bool seedMode;
+    bool greenMode;
+    bool tileMode;
+    bool posterMode;
     cv::RotatedRect rectangle;
     ci::Vec3f rectangleColor;
     float rectangleAlpha;
@@ -261,9 +264,12 @@ void SeedClusterApp::setup()
     cannyLowerThreshold = 0;
     cannyUpperThreshold = 0;
 
-    posterMode = false;
+    seedMode = false;
     innardsMode = false;
     rectangleMode = false;
+    greenMode = false;
+    tileMode = true;
+    posterMode = false;
 
     params = params::InterfaceGl( "seedcluster", Vec2i( 200, 180 ) );
     params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
@@ -333,6 +339,12 @@ void SeedClusterApp::keyDown( KeyEvent event )
         cluster.clearSeeds();
     } else if ( key == 80 || key == 112 ) { // 'p'
         posterMode = !posterMode;
+    } else if ( key == 83 || key == 115 ) { // 's'
+        seedMode = !seedMode;
+    } else if ( key == 84 || key == 116 ) { // 't'
+        tileMode = !tileMode;
+    } else if ( key == 71 || key == 103 ) { // 'g'
+        greenMode = !greenMode;
     }
 }
 
@@ -385,9 +397,9 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
 void SeedClusterApp::handMove( const ix::Hand & hand )
 {
     handmap.move( hand );
-    shiftOffset += handmap.get( hand ).shift;
-
+    cluster.tileOffset += handmap.get( hand ).shift;
     cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
+
     if ( rectangle.boundingRect().contains( hand.center ) ) {
         rectangleHoverEase = Ease( rectangleFactor, 1.2f, 30 );
     } else {
@@ -399,6 +411,7 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 {
     std::cout << "hand close - " << hand.hue << std::endl;
     handmap.close( hand );
+    cluster.tileOffset += handmap.get( hand ).shift;
 
     closePoint = Vec2i( hand.center.x, hand.center.y );
 
@@ -413,6 +426,7 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
 {
     std::cout << "hand open - " << hand.hue << std::endl;
     handmap.open( hand );
+    cluster.tileOffset += handmap.get( hand ).shift;
 
     cluster.releaseSeed();
 }
@@ -420,7 +434,7 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
     handmap.drag( hand );
-    shiftOffset += handmap.get( hand ).shift;
+    cluster.tileOffset += handmap.get( hand ).shift;
 
     cv::Point average = hand.smoothCenter( 10 );
     Vec2f smooth( average.x, average.y );
@@ -669,7 +683,7 @@ void SeedClusterApp::drawParticles()
 	
     for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt ) {
         glLineWidth(Rand::randFloat(0.3f));
-		glColor4f( 1.0f,1.0f,1.0f,0.05f );
+		glColor4f( 1.0f,1.0f,1.0f,0.8f );
         glVertex2f( partIt->mLastPosition );
         glVertex2f( partIt->mPosition );
     }
@@ -697,38 +711,49 @@ void SeedClusterApp::draw()
     
     gl::pushModelView();
     gl::disableAlphaBlending();
-    // setColor( Vec3f( 0.364, 1, 1 ), 1.0f );
     glColor4f( 1, 1, 1, 1 );
-    gl::translate( Vec3f( -690.0f, -390.0f, -5.0f ) );
-    gl::scale( Vec3f( 0.72f, 0.72f, 1.0f ) );
 
-    // if ( !innardsMode ) {
-    //     gl::draw( backgroundTexture );
-    // }
+    if ( greenMode ) {
+        gl::pushModelView();
+        gl::translate( Vec3f( -690.0f, -390.0f, -5.0f ) );
+        gl::scale( Vec3f( 0.72f, 0.72f, 1.0f ) );
+        gl::draw( backgroundTexture );
 
-    gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
-    gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
+        // if ( rectangleMode ) {
+        //     drawRectangle();
+        // }
+
+        gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
+        gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
 	 
-    // if ( rectangleMode ) {
-    //     drawRectangle();
-    // }
+        gl::pushModelView();
+        gl::translate( Vec3f( -200.0f, -100.0f, 0 ) );
+        gl::scale( Vec3f( 1.5f, 1.5f, 1.0f ) );
+        drawParticles();
+        gl::popModelView();
 
-    // if ( !innardsMode ) {
-    //     drawParticles();
-    //     gl::enableAlphaBlending();
-    //     drawSmoothHands();
-    // }
+        gl::enableAlphaBlending();
+        drawSmoothHands();
+        gl::disableAlphaBlending();
+        gl::popModelView();
+    }
 
-    gl::pushModelView();
-    gl::translate( Vec3f( shiftOffset[0], shiftOffset[1], 0 ) );
-    cluster.draw( posterMode );
-    gl::popModelView();
+    if ( tileMode ) {
+        cluster.drawTiles( posterMode );
 
-    drawSmoothHands();
+        gl::pushModelView();
+        gl::translate( Vec3f( -440.0f, -380.0f, 0 ) );
+        gl::scale( Vec3f( 1.62f, 1.62f, 1.0f ) );
+        drawSmoothHands();
+        gl::popModelView();
+    }
 
     if ( innardsMode ) {
         drawRawHands();
         drawField();
+        if ( seedMode ) {
+            cluster.drawSeeds();
+        }
     }
 
     gl::popModelView();

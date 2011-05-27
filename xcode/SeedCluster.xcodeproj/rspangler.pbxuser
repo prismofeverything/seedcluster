@@ -2,9 +2,9 @@
 {
 	00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1510, 9802}}";
-			sepNavSelRange = "{21492, 0}";
-			sepNavVisRange = "{11350, 402}";
+			sepNavIntBoundsRect = "{{0, 0}, {1373, 10296}}";
+			sepNavSelRange = "{11028, 0}";
+			sepNavVisRange = "{10914, 440}";
 			sepNavWindowFrame = "{{15, 620}, {750, 558}}";
 		};
 	};
@@ -108,22 +108,28 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 328169172;
-			PBXWorkspaceStateSaveDate = 328169172;
+			PBXPerProjectTemplateStateSaveDate = 328178088;
+			PBXWorkspaceStateSaveDate = 328178088;
 		};
 		perUserProjectItems = {
 			4003D403134F86C30058C709 = 4003D403134F86C30058C709 /* PlistBookmark */;
 			4003D404134F86C30058C709 = 4003D404134F86C30058C709 /* PBXTextBookmark */;
-			400E217B138F76F3004CE865 /* PBXTextBookmark */ = 400E217B138F76F3004CE865 /* PBXTextBookmark */;
+			400E21DD138F9901004CE865 = 400E21DD138F9901004CE865 /* PBXTextBookmark */;
+			400E21DE138F9901004CE865 = 400E21DE138F9901004CE865 /* PBXTextBookmark */;
+			400E21E0138F9901004CE865 = 400E21E0138F9901004CE865 /* PBXTextBookmark */;
+			400E21E1138F9901004CE865 = 400E21E1138F9901004CE865 /* PBXTextBookmark */;
+			400E21EC138F99B3004CE865 /* PBXTextBookmark */ = 400E21EC138F99B3004CE865 /* PBXTextBookmark */;
+			400E2232138FAAED004CE865 /* PBXTextBookmark */ = 400E2232138FAAED004CE865 /* PBXTextBookmark */;
+			400E2233138FAAED004CE865 /* PBXTextBookmark */ = 400E2233138FAAED004CE865 /* PBXTextBookmark */;
+			400E2234138FAAED004CE865 /* PBXTextBookmark */ = 400E2234138FAAED004CE865 /* PBXTextBookmark */;
+			400E2237138FAB7B004CE865 /* PBXTextBookmark */ = 400E2237138FAB7B004CE865 /* PBXTextBookmark */;
+			400E223B138FABC6004CE865 /* PBXTextBookmark */ = 400E223B138FABC6004CE865 /* PBXTextBookmark */;
 			4021A918136B3483008D5BB5 = 4021A918136B3483008D5BB5 /* PBXTextBookmark */;
 			403C0E8D136B19E800D7AAB2 = 403C0E8D136B19E800D7AAB2 /* PBXTextBookmark */;
 			4040690713688C28004BCB5C = 4040690713688C28004BCB5C /* PBXTextBookmark */;
 			407B87CF1350FFDC0069D7B7 = 407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */;
 			40803863138D7458002445C2 = 40803863138D7458002445C2 /* PBXTextBookmark */;
 			40CDA73E138ECE5200474964 = 40CDA73E138ECE5200474964 /* PBXTextBookmark */;
-			40CDA781138EF78B00474964 = 40CDA781138EF78B00474964 /* PBXTextBookmark */;
-			40CDA782138EF78B00474964 = 40CDA782138EF78B00474964 /* PBXTextBookmark */;
-			40CDA785138EF80500474964 = 40CDA785138EF80500474964 /* PBXTextBookmark */;
 			40E25A63135FA51D00C92521 = 40E25A63135FA51D00C92521 /* PBXTextBookmark */;
 			40E25ACD135FB2C400C92521 = 40E25ACD135FB2C400C92521 /* PBXTextBookmark */;
 		};
@@ -221,9 +227,9 @@
 	};
 	4003D41B134F8EB80058C709 /* Tile.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1373, 1170}}";
-			sepNavSelRange = "{1765, 0}";
-			sepNavVisRange = "{460, 320}";
+			sepNavIntBoundsRect = "{{0, 0}, {1373, 1417}}";
+			sepNavSelRange = "{2428, 0}";
+			sepNavVisRange = "{1868, 524}";
 			sepNavWindowFrame = "{{61, 573}, {750, 558}}";
 		};
 	};
@@ -237,17 +243,17 @@
 	};
 	4003D41D134F8ECA0058C709 /* Tile.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1373, 2652}}";
-			sepNavSelRange = "{6516, 0}";
-			sepNavVisRange = "{1664, 634}";
+			sepNavIntBoundsRect = "{{0, 0}, {1151, 3055}}";
+			sepNavSelRange = "{3574, 0}";
+			sepNavVisRange = "{3465, 261}";
 			sepNavWindowFrame = "{{84, 552}, {750, 558}}";
 		};
 	};
 	4003D41E134F8ECA0058C709 /* TileCluster.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1503, 2639}}";
-			sepNavSelRange = "{10907, 0}";
-			sepNavVisRange = "{6107, 2228}";
+			sepNavIntBoundsRect = "{{0, 0}, {1664, 2873}}";
+			sepNavSelRange = "{13448, 0}";
+			sepNavVisRange = "{6860, 2887}";
 			sepNavWindowFrame = "{{153, 489}, {750, 558}}";
 		};
 	};
@@ -272,15 +278,106 @@
 			sepNavVisRange = "{0, 550}";
 		};
 	};
-	400E217B138F76F3004CE865 /* PBXTextBookmark */ = {
+	400E21DD138F9901004CE865 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 40CDA786138EF80500474964 /* Texture.cpp */;
 		name = "Texture.cpp: 842";
 		rLen = 0;
 		rLoc = 27954;
 		rType = 0;
-		vrLen = 388;
+		vrLen = 447;
 		vrLoc = 27818;
+	};
+	400E21DE138F9901004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 400E21DF138F9901004CE865 /* gl.cpp */;
+		name = "gl.cpp: 1162";
+		rLen = 0;
+		rLoc = 38029;
+		rType = 0;
+		vrLen = 439;
+		vrLoc = 37830;
+	};
+	400E21DF138F9901004CE865 /* gl.cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = gl.cpp;
+		path = /Users/rspangler/Projects/Cinder/src/cinder/gl/gl.cpp;
+		sourceTree = "<absolute>";
+	};
+	400E21E0138F9901004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		rLen = 0;
+		rLoc = 114;
+		rType = 1;
+	};
+	400E21E1138F9901004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		name = "Tile.cpp: 115";
+		rLen = 0;
+		rLoc = 3476;
+		rType = 0;
+		vrLen = 284;
+		vrLoc = 3284;
+	};
+	400E21EC138F99B3004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		name = "Tile.cpp: 115";
+		rLen = 0;
+		rLoc = 3476;
+		rType = 0;
+		vrLen = 237;
+		vrLoc = 3284;
+	};
+	400E2232138FAAED004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41E134F8ECA0058C709 /* TileCluster.cpp */;
+		name = "TileCluster.cpp: 302";
+		rLen = 0;
+		rLoc = 13448;
+		rType = 0;
+		vrLen = 2887;
+		vrLoc = 6860;
+	};
+	400E2233138FAAED004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		rLen = 0;
+		rLoc = 117;
+		rType = 1;
+	};
+	400E2234138FAAED004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		name = "Tile.cpp: 118";
+		rLen = 0;
+		rLoc = 3574;
+		rType = 0;
+		vrLen = 333;
+		vrLoc = 3465;
+	};
+	400E2237138FAB7B004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		name = "Tile.cpp: 118";
+		rLen = 0;
+		rLoc = 3574;
+		rType = 0;
+		vrLen = 261;
+		vrLoc = 3465;
+	};
+	400E223B138FABC6004CE865 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		name = "Tile.cpp: 118";
+		rLen = 0;
+		rLoc = 3574;
+		rType = 0;
+		vrLen = 261;
+		vrLoc = 3465;
 	};
 	4021A918136B3483008D5BB5 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -335,13 +432,6 @@
 		vrLen = 397;
 		vrLoc = 0;
 	};
-	404069DE1368F291004BCB5C /* Texture.cpp */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.cpp.cpp;
-		name = Texture.cpp;
-		path = /Users/rspangler/Projects/Cinder/src/cinder/gl/Texture.cpp;
-		sourceTree = "<absolute>";
-	};
 	40432C5413734D6600888C35 /* HandCursor.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1379, 767}}";
@@ -386,7 +476,7 @@
 		ignoreCount = 0;
 		lineNumber = 52;
 		location = SeedCluster;
-		modificationTime = 328169193.810382;
+		modificationTime = 328182725.084467;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -404,7 +494,7 @@
 		ignoreCount = 0;
 		lineNumber = 116;
 		location = SeedCluster;
-		modificationTime = 328169193.810434;
+		modificationTime = 328182725.084494;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -438,44 +528,12 @@
 		vrLen = 402;
 		vrLoc = 11350;
 	};
-	40CDA781138EF78B00474964 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
-		name = "Tile.cpp: 210";
-		rLen = 0;
-		rLoc = 6519;
-		rType = 0;
-		vrLen = 720;
-		vrLoc = 1727;
-	};
-	40CDA782138EF78B00474964 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 404069DE1368F291004BCB5C /* Texture.cpp */;
-		rLen = 0;
-		rLoc = 841;
-		rType = 1;
-	};
-	40CDA785138EF80500474964 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 40CDA786138EF80500474964 /* Texture.cpp */;
-		name = "Texture.cpp: 842";
-		rLen = 0;
-		rLoc = 27954;
-		rType = 0;
-		vrLen = 449;
-		vrLoc = 27818;
-	};
 	40CDA786138EF80500474964 /* Texture.cpp */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.cpp.cpp;
 		name = Texture.cpp;
 		path = /Users/rspangler/Projects/Cinder/src/cinder/gl/Texture.cpp;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1151, 14404}}";
-			sepNavSelRange = "{27954, 0}";
-			sepNavVisRange = "{27818, 388}";
-		};
 	};
 	40E259D5135F708B00C92521 /* FrameBridge.h */ = {
 		uiCtxt = {
