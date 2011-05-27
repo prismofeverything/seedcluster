@@ -563,13 +563,11 @@ void SeedClusterApp::update()
 
 void SeedClusterApp::updateParticles()
 {
-    animationCounter += 10.0f; // move ahead in time, which becomes the z-axis of our 3D noise
-    
-    // Save off the last position for drawing lines
+    animationCounter += 10.0f;
+
     for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt )
         partIt->mLastPosition = partIt->mPosition;
     
-    // Add some perlin noise to the velocity
     for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt ) {
         Vec3f deriv = perlin.dfBm( Vec3f( partIt->mPosition.x, partIt->mPosition.y, animationCounter ) * 0.001f );
         partIt->mZ = deriv.z;
@@ -578,22 +576,18 @@ void SeedClusterApp::updateParticles()
         partIt->mVelocity += deriv2 * particleSpeed;
     }
     
-    // Move the particles according to their velocities
     for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt )
         partIt->mPosition += partIt->mVelocity;
     
-    // Dampen the velocities for the next frame
     for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt )
         partIt->mVelocity *= particleInertia;
     
-    // Replace any particles that have gone offscreen with a random onscreen position
     for( list<Particle>::iterator partIt = particles.begin(); partIt != particles.end(); ++partIt ) {
         if( particleOffscreen( partIt->mPosition ) )
             *partIt = Particle( Vec2f( Rand::randFloat( 1000.0f ), Rand::randFloat( 480.0f ) ) );
     }
 }
 
-// Returns whether a particle is visible in the target area or not //
 bool SeedClusterApp::particleOffscreen( const Vec2f &v )
 {
     return ( ( v.x < 0.0f ) || ( v.x > 640.0f ) || ( v.y < 0 ) || ( v.y > 480) );
@@ -745,3 +739,9 @@ void SeedClusterApp::draw()
 
 
 CINDER_APP_BASIC( SeedClusterApp, RendererGl )
+
+
+
+
+
+

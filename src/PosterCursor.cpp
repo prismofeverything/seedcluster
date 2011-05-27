@@ -47,7 +47,7 @@ void PosterCursor::move( cv::Point _center )
     ci::Vec2f dcenter = center - anchor;
 
     if ( dcenter.length() > 30 && dcenter.length() < 500 ) {
-        ci::Vec2f shifting = (center - anchor) * 0.044;
+        ci::Vec2f shifting = (center - anchor) * 0.034;
         shifting[1] = -shifting[1];
         shift += shifting;
     }
