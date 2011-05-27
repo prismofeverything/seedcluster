@@ -109,14 +109,14 @@ bool Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
 
 void Tile::hover()
 {
-    alphaEase = Ease( alpha, 0.0f, 40 );
-    state = Leaving;
+    // alphaEase = Ease( alpha, 0.0f, 40 );
+    // state = Leaving;
 }
 
 void Tile::unhover()
 {
-    alphaEase = Ease( alpha, 0.9f, 40 );
-    state = Entering;
+    // alphaEase = Ease( alpha, 0.9f, 40 );
+    // state = Entering;
 }
 
 void Tile::update()

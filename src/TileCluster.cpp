@@ -33,7 +33,7 @@ void TileCluster::setup()
     hoverTile = tiles.end();
 
     tileOffset = Vec2f( 0, 0 );
-    tileScale = Vec3f( 0.22f, 0.22f, 1.0f );
+    tileScale = Vec3f( 0.32f, 0.32f, 1.0f );
 
     setupShadows();
     setupPosters();
@@ -88,8 +88,10 @@ void TileCluster::handOver( Vec2i point )
 
     Vec2f lens( point );
     lens[0] = 640 - lens[0];
-    lens /= 0.35;
-    lens -= tileOffset + Vec2f( -440.0f, -380.0f );
+    lens /= 1.62f;
+    lens -= Vec2f( -440.0f, -380.0f );
+    lens /= 0.22;
+    lens -= tileOffset;    
 
     std::vector<Tile>::iterator previousTile = hoverTile;
     hoverTile = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
