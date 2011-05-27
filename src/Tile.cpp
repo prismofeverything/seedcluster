@@ -174,6 +174,7 @@ void Tile::drawShadow()
     // glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
 
     // gl::translate( position );
+
     gl::translate( ci::Vec3f( -50.0f, -50.0f, 0.0f ) );
     gl::draw( dimension.second );
     gl::popMatrices();

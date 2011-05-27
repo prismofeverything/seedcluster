@@ -713,7 +713,6 @@ void SeedClusterApp::draw()
     // }
 
     gl::translate( Vec3f( 250.0f, 10.f, 3.0f ) );
-    gl::translate( Vec3f( shiftOffset[0], shiftOffset[1], 0 ) );
     gl::scale( Vec3f( 2.25f, 2.25f, 1.0f ) );
 	 
     // if ( rectangleMode ) {
@@ -723,10 +722,15 @@ void SeedClusterApp::draw()
     // if ( !innardsMode ) {
     //     drawParticles();
     //     gl::enableAlphaBlending();
-         drawSmoothHands();
+    //     drawSmoothHands();
     // }
 
+    gl::pushModelView();
+    gl::translate( Vec3f( shiftOffset[0], shiftOffset[1], 0 ) );
     cluster.draw( posterMode );
+    gl::popModelView();
+
+    drawSmoothHands();
 
     if ( innardsMode ) {
         drawRawHands();

@@ -46,13 +46,13 @@ void PosterCursor::move( cv::Point _center )
     center = ci::Vec2f( _center.x, _center.y );
     ci::Vec2f dcenter = center - anchor;
 
-    if ( dcenter.length() > 50 && dcenter.length() < 500 ) {
-        ci::Vec2f shifting = (center - anchor) * 0.034;
+    if ( dcenter.length() > 30 && dcenter.length() < 500 ) {
+        ci::Vec2f shifting = (center - anchor) * 0.044;
         shifting[1] = -shifting[1];
         shift += shifting;
     }
 
-    shift -= shift * 0.15;
+    shift -= shift * 0.20;
     // shift += dshift;
     // dshift -= dshift * 0.1;
 
@@ -74,25 +74,28 @@ void PosterCursor::update()
 
 void PosterCursor::draw()
 {
-    float radius = 50.0f;
-    float alpha = 0.5f;
+    float radius = 30.0f;
+    float alpha = 0.6f;
+
+    ci::Vec2f reflected( center );
+    reflected[0] = 640 - reflected[0];
 
     gl::pushModelView();
     gl::enableAlphaBlending();
     glColor4f( 1, 1, 1, alpha );
-    gl::drawSolidCircle( center, radius * 0.2 );
+    gl::drawSolidCircle( reflected, radius * 0.2 );
     gl::popModelView();
     
     gl::pushModelView();
     Color hsv( CM_HSV, Vec3f( 0.364, 1, 0.6 ) );
     glColor4f( hsv.r, hsv.g, hsv.b, alpha );
-    gl::drawSolidCircle( center, radius * 0.9 );
+    gl::drawSolidCircle( reflected, radius * 0.9 );
     gl::popModelView();
     
     gl::pushModelView();
     glColor4f( 1, 1, 1, alpha );
     gl::translate( Vec3f( 0, 0, -1 ) );
-    gl::drawSolidCircle( center, radius );
+    gl::drawSolidCircle( reflected, radius );
     gl::disableAlphaBlending();
     gl::popModelView();
 }
