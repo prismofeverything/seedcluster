@@ -36,34 +36,33 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       state( Entering ),
       movieinfo( movie )
 {
-    shadow = gl::Texture( loadImage( dim.second ) );
+    shadow = gl::Texture( dim.second );
 
     gl::Texture::Format format;
     format.enableMipmapping( true );
     format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
     format.setMagFilter( GL_LINEAR_MIPMAP_LINEAR );
 
-    // ci::Vec2f posterdim( atomWidth * dim.first[0], atomHeight * dim.first[1] - INFOHEIGHT );
-    // float posterratio = posterdim[0] / posterdim[1];
+    ci::Vec2f posterdim( atomWidth * dim.first[0], atomHeight * dim.first[1] - INFOHEIGHT );
+    float posterratio = posterdim[0] / posterdim[1];
 
-    // ci::Surface fullsize = loadImage( movie.image );
-    // ci::Vec2f moviedim = fullsize.getSize();
-    // float movieratio = moviedim[0] / moviedim[1];
+    ci::Vec2f moviedim = movie.image.getSize();
+    float movieratio = moviedim[0] / moviedim[1];
 
-    // ci::Vec2i offset;
-    // float movieposterratio;
-    // if ( movieratio < posterratio ) {
-    //     float clipheight = moviedim[0] / posterratio;
-    //     movieposterratio = moviedim[0] / posterdim[0];
-    //     offset = Vec2i( 0, (moviedim[1] - clipheight) * 0.5 );
-    // } else {
-    //     float clipwidth = moviedim[1] * posterratio;
-    //     movieposterratio = moviedim[1] / posterdim[1];
-    //     offset = Vec2i( (moviedim[0] - clipwidth) * 0.5, 0 );
-    // }
+    ci::Vec2i offset;
+    float movieposterratio;
+    if ( movieratio < posterratio ) {
+        float clipheight = moviedim[0] / posterratio;
+        movieposterratio = moviedim[0] / posterdim[0];
+        offset = Vec2i( 0, (moviedim[1] - clipheight) * 0.5 );
+    } else {
+        float clipwidth = moviedim[1] * posterratio;
+        movieposterratio = moviedim[1] / posterdim[1];
+        offset = Vec2i( (moviedim[0] - clipwidth) * 0.5, 0 );
+    }
 
-    // ci::Surface field = fullsize.clone( ci::Area( offset, offset + ( Vec2f( posterdim[0], posterdim[1] ) * movieposterratio ) ) );
-    // poster = gl::Texture( field, format );
+    ci::Surface field = movie.image.clone( ci::Area( offset, offset + ( Vec2f( posterdim[0], posterdim[1] ) * movieposterratio ) ) );
+    poster = gl::Texture( field, format );
 
     layout.clear( ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
     layout.setFont( segoebold );

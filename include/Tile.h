@@ -2,6 +2,7 @@
 #include <vector>
 #include "cinder/Cinder.h"
 #include "cinder/DataSource.h"
+#include "cinder/ImageIo.h"
 #include "cinder/Vector.h"
 #include "cinder/Color.h"
 #include "cinder/Rect.h"
@@ -15,12 +16,12 @@ namespace ix
 {
 
 enum TileState { Entering, Blooming, Leaving };
-typedef std::pair<ci::Vec2i, ci::DataSourceRef> TileDimension;
+typedef std::pair<ci::Vec2i, ci::Surface> TileDimension;
 
 class TileCluster;
 
 struct MovieInfo {
-MovieInfo( std::string _title, std::string _year, std::string _genre, ci::DataSourceRef _image )
+MovieInfo( std::string _title, std::string _year, std::string _genre, ci::Surface _image )
       : title( _title ), 
         year( _year ),
         genre( _genre ),
@@ -29,7 +30,7 @@ MovieInfo( std::string _title, std::string _year, std::string _genre, ci::DataSo
     std::string title;
     std::string year;
     std::string genre;
-    ci::DataSourceRef image;
+    ci::Surface image;
 };
 
 class Tile {

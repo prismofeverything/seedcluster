@@ -31,12 +31,14 @@ void PosterCursor::out( cv::Point _center )
 
 void PosterCursor::close( cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
+    move( _center );
+    // center = ci::Vec2f( _center.x, _center.y );
 }
 
 void PosterCursor::open( cv::Point _center )
 {
-    center = ci::Vec2f( _center.x, _center.y );
+    move( _center );
+    // center = ci::Vec2f( _center.x, _center.y );
 }
 
 void PosterCursor::move( cv::Point _center )
@@ -44,7 +46,7 @@ void PosterCursor::move( cv::Point _center )
     center = ci::Vec2f( _center.x, _center.y );
     ci::Vec2f dcenter = center - anchor;
 
-    if ( dcenter.length() > 50 ) {
+    if ( dcenter.length() > 50 && dcenter.length() < 500 ) {
         ci::Vec2f shifting = (center - anchor) * 0.034;
         shifting[1] = -shifting[1];
         shift += shifting;
