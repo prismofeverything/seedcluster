@@ -99,7 +99,7 @@ void HandTracker::detectHands( cv::Mat z )
 
     depth = z.clone();
     adaptThreshold( z, 0 );
-    detectHandsInSlice( z, 130, 255 );
+    detectHandsInSlice( z, 140, 255 );
 
     notifyListeners();
 }
