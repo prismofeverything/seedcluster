@@ -36,8 +36,6 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       state( Entering ),
       movieinfo( movie )
 {
-    shadow = gl::Texture( dim.second );
-
     gl::Texture::Format format;
     format.enableMipmapping( true );
     format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
@@ -61,8 +59,7 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
         offset = Vec2i( (moviedim[0] - clipwidth) * 0.5, 0 );
     }
 
-    ci::Surface field = movie.image.clone( ci::Area( offset, offset + ( Vec2f( posterdim[0], posterdim[1] ) * movieposterratio ) ) );
-    poster = gl::Texture( field, format );
+    field = ci::Area( offset, offset + ( Vec2f( posterdim[0], posterdim[1] ) * movieposterratio ) );
 
     layout.clear( ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
     layout.setFont( segoebold );
@@ -74,7 +71,7 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
     layout.setFont( segoe );
     layout.append( movie.genre );
 
-    ci::Vec2i infodim( atomWidth*dim.first[0], INFOHEIGHT ); // atomHeight*dim.first[1]*0.2f );
+    ci::Vec2i infodim( atomWidth*dim.first[0], INFOHEIGHT );
     Surface info( infodim[0], infodim[1], true );
     ci::ip::fill( &info, ColorA( 1.0f, 1.0f, 1.0f, 1.0f ) );
     Surface tag = layout.render( true, false );
@@ -178,7 +175,7 @@ void Tile::drawShadow()
 
     // gl::translate( position );
     gl::translate( ci::Vec3f( -50.0f, -50.0f, 0.0f ) );
-    gl::draw( shadow );
+    gl::draw( dimension.second );
     gl::popMatrices();
     gl::enableDepthWrite();
 }
@@ -190,7 +187,7 @@ void Tile::drawPoster()
     ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - INFOHEIGHT );
     gl::pushMatrices();
     gl::translate( position );
-    gl::draw( poster, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
+    gl::draw( movieinfo.image, field, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
 
     gl::pushMatrices();
     gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 0.0f ) );

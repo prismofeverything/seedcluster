@@ -305,6 +305,8 @@ void SeedClusterApp::setup()
     gl::enableDepthRead();
     gl::enableDepthWrite();
 
+    cluster.setup();
+
     // setupMovieWriter();
 }
 

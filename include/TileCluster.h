@@ -5,6 +5,7 @@
 #include "cinder/app/App.h"
 #include "cinder/Vector.h"
 #include "cinder/Color.h"
+#include "cinder/gl/Texture.h"
 #include "cinder/Rand.h"
 #include "cinder/DataSource.h"
 #include "Seed.h"
@@ -16,6 +17,9 @@ namespace ix
 class TileCluster {
  public:
     TileCluster();
+    void setup();
+    void setupPosters();
+    void setupShadows();
     void update();
     void draw( bool posterMode );
 
@@ -33,7 +37,6 @@ class TileCluster {
     bool chooseSeed( ci::Vec2i point );
     void releaseSeed();
     bool isSeedChosen();
-    void loadPosters();
 
     static const float branchRate = 0.3;
 
