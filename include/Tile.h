@@ -1,5 +1,8 @@
 #pragma once
 #include <vector>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/tuple/tuple.hpp>
+
 #include "cinder/Cinder.h"
 #include "cinder/DataSource.h"
 #include "cinder/ImageIo.h"
@@ -42,7 +45,8 @@ class Tile {
           TileDimension dim,
           float z, 
           ci::Vec3f col,
-          MovieInfo movie );
+          MovieInfo movie,
+          boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor v );
 
     //    virtual ~Tile();
 
@@ -80,6 +84,7 @@ class Tile {
     ci::TextLayout layout;
 
     ci::Area field;
+    boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor vertex;
 
     int id;
     ci::Vec2i topLeft;

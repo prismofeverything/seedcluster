@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/tuple/tuple.hpp>
 #include "cinder/Cinder.h"
 #include "cinder/app/App.h"
 #include "cinder/Vector.h"
@@ -41,6 +43,8 @@ class TileCluster {
     bool isSeedChosen();
 
     static const float branchRate = 0.3;
+
+    boost::adjacency_list<> tileGraph;
 
     ci::Vec2f tileOffset;
     ci::Vec3f tileScale;

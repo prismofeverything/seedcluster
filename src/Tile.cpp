@@ -21,7 +21,7 @@ using namespace std;
 namespace ix
 {
 
-Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float z, Vec3f col, MovieInfo movie )
+Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float z, Vec3f col, MovieInfo movie, boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor v )
     : cluster( clust ),
       id( index ),
       dimension( dim ),
@@ -34,7 +34,8 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       alpha( 0.0f ),
       alphaEase( 0.0f, 0.9f, 40 ),
       state( Entering ),
-      movieinfo( movie )
+      movieinfo( movie ),
+      vertex( v )
 {
     std::cout << "new tile: " << position << std::endl;
 

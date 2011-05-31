@@ -56,8 +56,9 @@ MovieInfo TileCluster::choosePoster()
 
 void TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f color )
 {
-    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster() )
- );
+    boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor v;
+    v = add_vertex( tileGraph );
+    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster(), v ) );
 }
 
 void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
