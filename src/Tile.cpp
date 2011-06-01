@@ -1,5 +1,7 @@
 #include <vector>
 #include <iostream>
+#include <string>
+#include "boost/lexical_cast.hpp"
 #include "cinder/Cinder.h"
 #include "cinder/Vector.h"
 #include "cinder/Rand.h"
@@ -36,7 +38,7 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       state( Entering ),
       movieinfo( movie )
 {
-    std::cout << "new tile: " << position << std::endl;
+    //std::cout << "new tile: " << position << std::endl;
 
     gl::Texture::Format format;
     format.enableMipmapping( true );
@@ -153,7 +155,23 @@ void Tile::draw()
     gl::pushMatrices();
     gl::translate( position );
     gl::drawSolidRect( box );
-
+    
+    
+    /*
+    // -- draws the id, x, y, width & height of the tile at it's center
+    std::string i = boost::lexical_cast<std::string>( id );
+    std::string x = boost::lexical_cast<std::string>( position.x );
+    std::string y = boost::lexical_cast<std::string>( position.y );
+    std::string w = boost::lexical_cast<std::string>( box.getWidth() );
+    std::string h = boost::lexical_cast<std::string>( box.getHeight() );
+    
+    gl::disableDepthRead();
+    gl::disableDepthWrite();
+    ci::gl::drawStringCentered( "ID: " + i + "x: " + x + ", y: " + y + ", w: " + w + ", h: " + h, ci::Vec2i( box.getCenter().x, box.getCenter().y ), ci::ColorA( 1, 0, 0, 1 ), ci::Font( "Helvetica", 24 ) );
+    gl::enableDepthWrite();
+    gl::enableDepthRead();
+    */
+    
     drawShadow();
 
     gl::popMatrices();
@@ -207,6 +225,9 @@ void Tile::drawPoster()
     gl::pushMatrices();
     gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 0.0f ) );
     gl::draw( posterinfo );
+    
+    
+    
     gl::popMatrices();
 
     drawShadow();
@@ -214,8 +235,8 @@ void Tile::drawPoster()
     gl::popMatrices();
 }
 
-ci::Font Tile::segoe = Font( "Segoe", 24 );
-ci::Font Tile::segoebold = Font( "Segoe Bold", 32 );
-ci::Font Tile::segoesemibold = Font( "Segoe Bold", 24 );
+ci::Font Tile::segoe = Font( "Helvetica", 24 );
+ci::Font Tile::segoebold = Font( "Helvetica", 32 );
+ci::Font Tile::segoesemibold = Font( "Helvetica", 24 );
 
 };

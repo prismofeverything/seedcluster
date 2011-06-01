@@ -1,10 +1,16 @@
 #include <vector>
+#include "cinder/app/App.h"
 #include "cinder/Color.h"
 #include "cinder/gl/gl.h"
 #include "CinderOpenCv.h"
 #include "PosterCursor.h"
+#include "boost/lexical_cast.hpp"
+
+#include <string>   
 
 using namespace cinder;
+using namespace ci;
+using namespace ci::app;
 
 namespace ix {
 
@@ -79,7 +85,7 @@ void PosterCursor::draw()
 
     ci::Vec2f reflected( center );
     reflected[0] = 640 - reflected[0];
-
+    
     gl::pushModelView();
     gl::enableAlphaBlending();
     glColor4f( 1, 1, 1, alpha );
@@ -96,6 +102,7 @@ void PosterCursor::draw()
     glColor4f( 1, 1, 1, alpha );
     gl::translate( Vec3f( 0, 0, -1 ) );
     gl::drawSolidCircle( reflected, radius );
+    
     gl::disableAlphaBlending();
     gl::popModelView();
 }

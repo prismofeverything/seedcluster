@@ -105,7 +105,7 @@ void HandCursor::drawCircle( ci::Vec2f _center, float _radius, float _alpha )
     glColor4f( 1, 1, 1, _alpha );
     ci::gl::translate( ci::Vec3f( 0, 0, -1 ) );
     ci::gl::drawSolidCircle( _center, _radius );
-
+    
     ci::gl::disableAlphaBlending();
     ci::gl::popModelView();
 }

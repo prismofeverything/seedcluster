@@ -32,6 +32,8 @@ class PosterCursor {
     ci::Vec2f center;
     ci::Vec2f shift;
     ci::Vec2f dshift;
+    ci::Vec2f reflected;
+    ci::Vec2f projected;
 };
 
 } // namespace ix

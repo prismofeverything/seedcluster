@@ -289,7 +289,7 @@ void SeedClusterApp::setup()
 
     rotation.w = 0.0f;
     eye = Vec3f( 0.0f, 0.0f, 500.0f );
-    towards = Vec3f( 0.0f, 00.0f, 0.0f );
+    towards = Vec3f( 0.0f, 0.0f, 0.0f );
     up = Vec3f::yAxis();
     camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
 
@@ -299,7 +299,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 20.0f;
+        kinectTilt = 5.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;
@@ -382,13 +382,13 @@ void SeedClusterApp::mouseDrag( MouseEvent event )
 
 void SeedClusterApp::handIn( const ix::Hand & hand )
 {
-    std::cout << "hand in - " << hand.hue << std::endl;
+    //std::cout << "hand in - " << hand.hue << std::endl;
     handmap.in( hand );
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
 {
-    std::cout << "hand out - " << hand.hue << std::endl;
+    //std::cout << "hand out - " << hand.hue << std::endl;
     handmap.out( hand );
 
     cluster.releaseSeed();
@@ -398,7 +398,10 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
 {
     handmap.move( hand );
     cluster.tileOffset += handmap.get( hand ).shift;
-    cluster.handOver( Vec2i( hand.center.x, hand.center.y ) );
+    
+    cv::Point p = hand.smoothCenter( 20 );
+    
+    cluster.handOver( Vec2f( p.x, p.y ) );
 
     if ( rectangle.boundingRect().contains( hand.center ) ) {
         rectangleHoverEase = Ease( rectangleFactor, 1.2f, 30 );
@@ -409,11 +412,15 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
 
 void SeedClusterApp::handClose( const ix::Hand & hand )
 {
-    std::cout << "hand close - " << hand.hue << std::endl;
+    //std::cout << "hand close - " << hand.hue << std::endl;
     handmap.close( hand );
     cluster.tileOffset += handmap.get( hand ).shift;
 
     closePoint = Vec2i( hand.center.x, hand.center.y );
+    
+    cv::Point p = hand.smoothCenter( 20 );
+    
+    cluster.handOver( Vec2f( p.x, p.y ) );
 
     if ( cluster.chooseSeed( closePoint ) ) {
         
@@ -424,19 +431,27 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 
 void SeedClusterApp::handOpen( const ix::Hand & hand )
 {
-    std::cout << "hand open - " << hand.hue << std::endl;
+    //std::cout << "hand open - " << hand.hue << std::endl;
     handmap.open( hand );
     cluster.tileOffset += handmap.get( hand ).shift;
 
+    cv::Point p = hand.smoothCenter( 20 );
+    
+    cluster.handOver( Vec2f( p.x, p.y ) );
+    
     cluster.releaseSeed();
 }
 
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
     handmap.drag( hand );
+    
     cluster.tileOffset += handmap.get( hand ).shift;
 
     cv::Point average = hand.smoothCenter( 10 );
+    
+    cluster.handOver( Vec2f( average.x, average.y ) );
+    
     Vec2f smooth( average.x, average.y );
 
     if ( cluster.isSeedChosen() ) {
@@ -446,33 +461,33 @@ void SeedClusterApp::handDrag( const ix::Hand & hand )
 
 void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other ) 
 {
-    std::cout << "second hand in - " << in.hue << std::endl;
+    //std::cout << "second hand in - " << in.hue << std::endl;
     handmap.in( in );
 }
 
 void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other ) 
 {
-    std::cout << "second hand out - " << out.hue << std::endl;
+    //std::cout << "second hand out - " << out.hue << std::endl;
     handmap.out( out );
 }
 
 void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & other ) 
 {
-    std::cout << "first hand close - " << close.hue << std::endl;
+    //std::cout << "first hand close - " << close.hue << std::endl;
 
     handClose( close );
 }
 
 void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & other ) 
 {
-    std::cout << "first hand open - " << open.hue << std::endl;
+    //std::cout << "first hand open - " << open.hue << std::endl;
 
     handOpen( open );
 }
 
 void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other )
 {
-    std::cout << "second hand close - " << close.hue << std::endl;
+    //std::cout << "second hand close - " << close.hue << std::endl;
     handmap.close( close );
 
     closePoint = Vec2i( other.center.x, other.center.y );
@@ -483,7 +498,7 @@ void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & o
 
 void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & other ) 
 {
-    std::cout << "second hand open - " << open.hue << std::endl;
+    //std::cout << "second hand open - " << open.hue << std::endl;
 
     handOpen( open );
 }
@@ -502,7 +517,7 @@ void SeedClusterApp::mixedHandsMove( const ix::Hand & open, const ix::Hand & clo
 
 void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & second ) 
 {
-    std::cout << "closed hands move" << std::endl;
+    //std::cout << "closed hands move" << std::endl;
     handmap.drag( first );
     handmap.drag( second );
 
@@ -709,11 +724,11 @@ void SeedClusterApp::draw()
     // clear it out to the bg
     gl::clear( Color( CM_HSV, background ) );
     
-    gl::pushModelView();
-    gl::disableAlphaBlending();
-    glColor4f( 1, 1, 1, 1 );
+    //gl::pushModelView();
+    //gl::disableAlphaBlending();
+    //glColor4f( 1, 1, 1, 1 );
 
-    if ( greenMode ) {
+    /*if ( greenMode ) {
         gl::pushModelView();
         gl::translate( Vec3f( -690.0f, -390.0f, -5.0f ) );
         gl::scale( Vec3f( 0.72f, 0.72f, 1.0f ) );
@@ -736,30 +751,34 @@ void SeedClusterApp::draw()
         drawSmoothHands();
         gl::disableAlphaBlending();
         gl::popModelView();
-    }
+    }*/
 
-    if ( tileMode ) {
+    if ( tileMode ) 
+    {
         cluster.drawTiles( posterMode );
 
         gl::pushModelView();
-        gl::translate( Vec3f( -440.0f, -380.0f, 0 ) );
-        gl::scale( Vec3f( 1.62f, 1.62f, 1.0f ) );
+        gl::translate( Vec3f( -320.0f, -240.0f, 0 ) );
+        //gl::scale( Vec3f( 1.62f, 1.62f, 1.0f ) );
         drawSmoothHands();
         gl::popModelView();
     }
+    
+    //gl::color( Color( 1, 0, 0 ) );
+    //gl::drawSolidCircle( Vec2i( 0, 0 ), 20 );
 
-    if ( innardsMode ) {
+    /*if ( innardsMode ) {
         drawRawHands();
         drawField();
         if ( seedMode ) {
             cluster.drawSeeds();
         }
-    }
+    }*/
 
-    gl::popModelView();
+    //gl::popModelView();
     
     // params::InterfaceGl::draw();
-    drawMovieFrame();
+    //drawMovieFrame();
 }
 
 

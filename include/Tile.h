@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "cinder/app/App.h"
 #include "cinder/Cinder.h"
 #include "cinder/DataSource.h"
 #include "cinder/ImageIo.h"
@@ -12,6 +13,9 @@
 #include "cinder/Text.h"
 #include "cinder/Font.h"
 #include "Ease.h"
+
+using namespace ci;
+using namespace ci::app;
 
 namespace ix
 {
@@ -99,6 +103,11 @@ struct TileContains
             && point[1] > tile.position[1]
             && point[0] < tile.position[0] + tile.box.getLowerRight()[0]
             && point[1] < tile.position[1] + tile.box.getLowerRight()[1];
+        
+        if( result )
+        {
+            console() << "Intersection @ Tile: " << tile.id << std::endl;
+        }
 
         return result;
     };

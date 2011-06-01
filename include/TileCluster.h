@@ -57,6 +57,8 @@ class TileCluster {
     std::vector<Seed> seeds;
     std::vector<Seed>::iterator hoverSeed;
     std::vector<Seed>::iterator chosenSeed;
+    
+    ci::Vec2f lens;
 };
 
 };

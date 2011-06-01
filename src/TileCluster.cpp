@@ -86,29 +86,34 @@ void TileCluster::handOver( Vec2i point )
         }
     }
 
-    Vec2f lens( point );
-    lens[0] = 640 - lens[0];
-    lens /= 1.62f;
-    lens -= Vec2f( -440.0f, -380.0f );
-    lens /= 0.22;
-    lens -= tileOffset;    
+    lens.set( point );
+    lens.x = 640.0f - lens.x;
+    
+    lens += Vec2f( -320.0f, -240.0f );
+    
+    lens -= tileOffset;
+    
+    lens /= Vec2f(  tileScale.x, tileScale.y );
+    
 
     std::vector<Tile>::iterator previousTile = hoverTile;
     hoverTile = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
 
-    std::cout << "over point: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
+    //std::cout << "over point: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
 
-    if ( previousTile == tiles.end() ) {
-        if ( hoverTile != tiles.end() ) {
+    if ( previousTile == tiles.end() ) 
+    {
+        if ( hoverTile != tiles.end() ) 
+        {
             ci::Vec2i tilepos( hoverTile->position[0], hoverTile->position[1] );
-            std::cout << "tile" << tilepos << " - " << tilepos + hoverTile->box.getLowerRight() << " | hover: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
+            //std::cout << "tile" << tilepos << " - " << tilepos + hoverTile->box.getLowerRight() << " | hover: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
             hoverTile->hover();
         }
     } else if ( previousTile != hoverTile ) {
         // previousTile->unhover();
         if ( hoverTile != tiles.end() ) {
             ci::Vec2i tilepos( hoverTile->position[0], hoverTile->position[1] );
-            std::cout << "tile" << tilepos << " - " << tilepos + hoverTile->box.getLowerRight() << " | hover: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
+            //std::cout << "tile" << tilepos << " - " << tilepos + hoverTile->box.getLowerRight() << " | hover: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
             hoverTile->hover();
         }
     }
@@ -213,7 +218,7 @@ void TileCluster::drawTiles( bool posterMode )
     gl::pushModelView();
     gl::enableAlphaBlending();
     gl::enableDepthRead();
-    gl::disableDepthWrite();
+    //gl::disableDepthWrite();
 
     gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) );
     gl::scale( tileScale );
@@ -235,7 +240,14 @@ void TileCluster::drawTiles( bool posterMode )
     // for ( int ii = 0; ii < size; ii++ ) {
     //     tiles[ii].drawShadow();
     // }
-
+    
+    // -- draws a circle at the lens point
+    //gl::pushMatrices();
+    //gl::color( Color( 1, 0, 1 ) );
+    //gl::translate( Vec3f( 0, 0, -10 ) );
+    //gl::drawSolidCircle( lens, 5 );
+   
+    //gl::popMatrices();
     gl::popModelView();
     gl::disableAlphaBlending();
     gl::disableDepthRead();
