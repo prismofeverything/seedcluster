@@ -52,9 +52,9 @@ class TileCluster {
 
     std::vector<Tile> tiles;
     std::vector<Tile> available;
-    std::vector<Tile>::iterator hoverTile;
-    std::vector<Tile>::iterator previousTile;
-    std::vector<Tile>::iterator chosenTile;
+    Tile * hoverTile;
+    Tile * previousTile;
+    Tile * chosenTile;
 
     std::vector<TileDimension> tileDimensions;
     std::vector<ci::Vec2i> orientations;

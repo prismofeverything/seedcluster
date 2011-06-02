@@ -19,6 +19,8 @@ using namespace std;
 
 #define TAU 6.2831853071795862f
 #define INFOHEIGHT 162.0f
+#define HOVER_SCALE 1.2f
+#define EASING 0.1f
 
 namespace ix
 {
@@ -39,7 +41,8 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       state( Entering ),
       movieinfo( movie ), 
       scale( 1 ),
-      vertex( v )
+      vertex( v ),
+      scrimAlpha( 0 )
 {
     gl::Texture::Format format;
     format.enableMipmapping( true );
@@ -112,18 +115,16 @@ bool Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
 
 void Tile::hover()
 {
-    if( state != Hovering )
+    if( state == Blooming || state == UnHover )
     {
-        scaleEase = Ease( scale, 1.2f, 40 );
         state = Hovering;
     }
 }
 
 void Tile::unhover()
 {
-    if( state != UnHover && state == Hovering )
+    if( state == Hovering )
     {
-        scaleEase = Ease( scale, 1.0f, 40 );
         state = UnHover;
     }
 }
@@ -131,6 +132,9 @@ void Tile::unhover()
 void Tile::update()
 {
     bool full = false;
+    
+    float offsetX = ( ( HOVER_SCALE * box.getWidth() ) - box.getWidth() ) * .5;
+    float offsetY = ( ( HOVER_SCALE * box.getHeight() ) - box.getHeight() ) * .5;
     
     switch( state ) 
     {
@@ -157,27 +161,29 @@ void Tile::update()
                 alpha = alphaEase.out();
             }
             break;
-            
+        
+        // -- TODO: use tweens?
         case Hovering:
-            if( !scaleEase.done() )
-            {
-                scale = 1.2;
-                hoverOffset.x = ( 1.2 * box.getWidth() - box.getWidth() ) * 0.5f;
-                hoverOffset.y = ( 1.2 * box.getHeight() - box.getHeight() ) * 0.5f;
-                
-                console() << "p: " << position << std::endl; 
-                console() << "o: " <<  hoverOffset << std::endl;
-                console() << "--" << std::endl;
-            }
+                scrimAlpha += ( .3 - scrimAlpha ) * EASING;
+                scale += (  HOVER_SCALE - scale ) * EASING;
+                hoverOffset.x += ( offsetX - hoverOffset.x ) * EASING;
+                hoverOffset.y += ( offsetY - hoverOffset.y ) * EASING;
             break;
             
         case UnHover:
-            if( !scaleEase.done() )
+            if( scrimAlpha < .01f ) 
             {
-                scale = scaleEase.out();
+                scrimAlpha += ( 0.0f - scrimAlpha ) * EASING;
+                scale -= (  HOVER_SCALE - scale ) * EASING;
+                hoverOffset.x -= ( offsetX - hoverOffset.x ) * EASING;
+                hoverOffset.y -= ( offsetY - hoverOffset.y ) * EASING;
             } else {
+                scale = 1.0f;
+                scrimAlpha = 0;
+                hoverOffset.set( 0, 0, 0 );
                 state = Blooming;
             }
+            
             break;
     }
 
@@ -240,17 +246,25 @@ void Tile::drawPoster()
 
     ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - INFOHEIGHT );
     gl::pushMatrices();
-    gl::translate( position - hoverOffset );
+    gl::translate( Vec3f( position.x - hoverOffset.x, position.y - hoverOffset.y, state == Hovering ? -1.0f : 0.0f) );
     gl::scale( Vec3f( scale, scale, 1 ) );
     gl::draw( movieinfo.image, field, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
-
+    
     gl::pushMatrices();
-    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 0.0f ) );
+    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, state == Hovering ? -2.0f : 0.0f ) );
     gl::draw( posterinfo );
     gl::popMatrices();
-
+    
     drawShadow();
-
+    
+    gl::popMatrices();
+    
+    gl::pushMatrices();
+    gl::translate( Vec3f( position.x - hoverOffset.x, position.y - hoverOffset.y, state == Hovering ? -4.0f : 0.0f) );
+    gl::scale( Vec3f( scale, scale, 1 ) );
+    
+    gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
+    gl::drawSolidRect( box );
     gl::popMatrices();
 }
 

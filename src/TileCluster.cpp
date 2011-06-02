@@ -29,8 +29,9 @@ void TileCluster::setup()
 {
     chosenSeed = seeds.end();
     hoverSeed = seeds.end();
-    chosenTile = tiles.end();
-    hoverTile = tiles.end();
+    chosenTile = NULL;
+    hoverTile = NULL;
+    previousTile = NULL;
 
     tileOffset = Vec2f( 0, 0 );
     tileScale = Vec3f( 0.32f, 0.32f, 1.0f );
@@ -103,22 +104,28 @@ void TileCluster::handOver( Vec2i point )
     //         tile.unhover();
     //     }
     // }
+    
+    previousTile = hoverTile;
+    std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
 
-    std::vector<Tile>::iterator previousTile = hoverTile;
-    hoverTile = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
-
-    if ( hoverTile == tiles.end() ) {
+    if ( ht == tiles.end() ) {
         generate( lens );
     }
 
-    if ( previousTile == tiles.end() || previousTile != hoverTile ) {
-        if ( hoverTile != tiles.end() ) {
-            hoverTile->hover();
+    if ( previousTile == NULL ) {
+        if ( ht != tiles.end() ) {
+            hoverTile = &( *ht );
+            ht->hover();
         }
-    } else if ( previousTile != hoverTile ) {
+    } 
+    else if( previousTile != NULL && previousTile != &( *ht ) )
+    {
         previousTile->unhover();
-        if ( hoverTile != tiles.end() ) {
-            hoverTile->hover();
+        
+        if ( ht != tiles.end() ) {
+            hoverTile = &( *ht );
+            ht->hover();
+            
         }
     }
 }

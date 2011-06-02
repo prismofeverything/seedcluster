@@ -98,8 +98,7 @@ class Tile {
     float alpha;
     Ease alphaEase;
     float scale;
-    Ease scaleEase;
-    float x, y;
+    float scrimAlpha;
 };
 
 struct TileContains
