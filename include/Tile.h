@@ -20,7 +20,7 @@ using namespace ci::app;
 namespace ix
 {
 
-enum TileState { Entering, Blooming, Leaving };
+enum TileState { Entering, Blooming, Hovering, UnHover, Leaving };
 typedef std::pair<ci::Vec2i, ci::gl::Texture> TileDimension;
 
 class TileCluster;
@@ -72,6 +72,7 @@ class Tile {
     TileState state;
 
     ci::Rectf box;
+    ci::Vec3f hoverOffset;
     ci::Vec3f position;
     ci::Vec3f velocity;
     ci::Vec3f color;
@@ -91,6 +92,9 @@ class Tile {
     TileDimension dimension;
     float alpha;
     Ease alphaEase;
+    float scale;
+    Ease scaleEase;
+    float x, y;
 };
 
 struct TileContains

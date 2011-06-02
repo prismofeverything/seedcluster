@@ -72,7 +72,7 @@ void TileCluster::clearSeeds()
 
 void TileCluster::handOver( Vec2i point )
 {
-    std::vector<Seed>::iterator previousSeed = hoverSeed;
+    /*std::vector<Seed>::iterator previousSeed = hoverSeed;
     hoverSeed = std::find_if ( seeds.begin(), seeds.end(), SeedContains( point ) );
 
     if ( previousSeed == seeds.end() ) {
@@ -84,52 +84,44 @@ void TileCluster::handOver( Vec2i point )
         if ( hoverSeed != seeds.end() ) {
             hoverSeed->hover();
         }
-    }
+    }*/
 
     lens.set( point );
     lens.x = 640.0f - lens.x;
-    
     lens += Vec2f( -320.0f, -240.0f );
-    
     lens -= tileOffset;
-    
     lens /= Vec2f(  tileScale.x, tileScale.y );
     
-
-    std::vector<Tile>::iterator previousTile = hoverTile;
-    hoverTile = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
-
-    //std::cout << "over point: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
-
-    if ( previousTile == tiles.end() ) 
+    int i = 0;
+    
+    for( i = 0; i < tiles.size(); i++ )
     {
-        if ( hoverTile != tiles.end() ) 
-        {
-            ci::Vec2i tilepos( hoverTile->position[0], hoverTile->position[1] );
-            //std::cout << "tile" << tilepos << " - " << tilepos + hoverTile->box.getLowerRight() << " | hover: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
-            hoverTile->hover();
-        }
-    } else if ( previousTile != hoverTile ) {
-        // previousTile->unhover();
-        if ( hoverTile != tiles.end() ) {
-            ci::Vec2i tilepos( hoverTile->position[0], hoverTile->position[1] );
-            //std::cout << "tile" << tilepos << " - " << tilepos + hoverTile->box.getLowerRight() << " | hover: (" << lens[0] << ',' << lens[1] << ')' << std::endl;
-            hoverTile->hover();
-        }
+        Tile & tile = tiles[i];
+       if( lens[0] > tile.position[0] && lens[1] > tile.position[1] 
+           && lens[0] < tile.position[0] + tile.box.getLowerRight()[0]
+           && lens[1] < tile.position[1] + tile.box.getLowerRight()[1] )
+       {
+           tile.hover();
+       } else {
+           tile.unhover();
+       }
     }
 }
 
 void TileCluster::unhover()
 {
-    if ( hoverSeed != seeds.end() ) {
+    /*if ( hoverSeed != seeds.end() ) 
+    {
         hoverSeed->unhover();
         hoverSeed = seeds.end();
     }
 
-    if ( hoverTile != tiles.end() ) {
-        hoverTile->unhover();
+    if ( hoverTile != tiles.end() ) 
+    {
+        previousTile = hoverTile;
+        previousTile->unhover();
         hoverTile = tiles.end();
-    }
+    }*/
 }
 
 void TileCluster::plantSeed( Vec2i center, Vec3f color )

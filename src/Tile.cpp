@@ -28,15 +28,17 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       id( index ),
       dimension( dim ),
       topLeft( grid ),
-      bottomRight( grid + dim.first ), 
+      bottomRight( grid + dim.first ),
       position( Vec3f( grid[0]*atomWidth, grid[1]*atomHeight, z ) ),
+      hoverOffset(Vec3f( 0, 0, 0 ) ),
       box( Rectf( 0, 0, atomWidth*dim.first[0], atomHeight*dim.first[1] ) ),
       color( col ),
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
       alpha( 0.0f ),
       alphaEase( 0.0f, 0.9f, 40 ),
       state( Entering ),
-      movieinfo( movie )
+      movieinfo( movie ), 
+      scale( 1 )
 {
     //std::cout << "new tile: " << position << std::endl;
 
@@ -111,38 +113,67 @@ bool Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
 
 void Tile::hover()
 {
-    // alphaEase = Ease( alpha, 0.0f, 40 );
-    // state = Leaving;
+    if( state != Hovering )
+    {
+        scaleEase = Ease( scale, 1.2f, 40 );
+        state = Hovering;
+    }
 }
 
 void Tile::unhover()
 {
-    // alphaEase = Ease( alpha, 0.9f, 40 );
-    // state = Entering;
+    if( state != UnHover )
+    {
+        scaleEase = Ease( scale, 1.0f, 40 );
+        state = UnHover;
+    }
 }
 
 void Tile::update()
 {
     bool full = false;
-    switch( state ) {
-    case Entering:
-        if ( !alphaEase.done() ) {
-            alpha = alphaEase.out();
-        } else {
-            state = Blooming;
-        }
-        break;
-    case Blooming:
-        if ( full ) {
-            state = Leaving;
-            alphaEase = Ease( alpha, 0.0f, 40 );
-        }
-        break;
-    case Leaving:
-        if ( !alphaEase.done() ) {
-            alpha = alphaEase.out();
-        }
-        break;
+    
+    switch( state ) 
+    {
+        case Entering:
+            if ( !alphaEase.done() ) 
+            {
+                alpha = alphaEase.out();
+            } else {
+                state = Blooming;
+            }
+            break;
+        
+        case Blooming:
+            if ( full ) 
+            {
+                state = Leaving;
+                alphaEase = Ease( alpha, 0.0f, 40 );
+            }
+            break;
+        
+        case Leaving:
+            if ( !alphaEase.done() ) 
+            {
+                alpha = alphaEase.out();
+            }
+            break;
+            
+        case Hovering:
+            if( !scaleEase.done() )
+            {
+                scale = scaleEase.out();
+            }
+            break;
+            
+        case UnHover:
+            if( !scaleEase.done() )
+            {
+                scale = scaleEase.out();
+            } else {
+                state = Blooming;
+            }
+            break;
     }
 
     position += velocity;
@@ -154,23 +185,8 @@ void Tile::draw()
     glColor4f( colorcolor.r, colorcolor.g, colorcolor.b, alpha );
     gl::pushMatrices();
     gl::translate( position );
+    gl::scale( Vec3f( scale, scale, 1 ) );
     gl::drawSolidRect( box );
-    
-    
-    /*
-    // -- draws the id, x, y, width & height of the tile at it's center
-    std::string i = boost::lexical_cast<std::string>( id );
-    std::string x = boost::lexical_cast<std::string>( position.x );
-    std::string y = boost::lexical_cast<std::string>( position.y );
-    std::string w = boost::lexical_cast<std::string>( box.getWidth() );
-    std::string h = boost::lexical_cast<std::string>( box.getHeight() );
-    
-    gl::disableDepthRead();
-    gl::disableDepthWrite();
-    ci::gl::drawStringCentered( "ID: " + i + "x: " + x + ", y: " + y + ", w: " + w + ", h: " + h, ci::Vec2i( box.getCenter().x, box.getCenter().y ), ci::ColorA( 1, 0, 0, 1 ), ci::Font( "Helvetica", 24 ) );
-    gl::enableDepthWrite();
-    gl::enableDepthRead();
-    */
     
     drawShadow();
 
@@ -220,13 +236,12 @@ void Tile::drawPoster()
     ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - INFOHEIGHT );
     gl::pushMatrices();
     gl::translate( position );
+    gl::scale( Vec3f( scale, scale, 1 ) );
     gl::draw( movieinfo.image, field, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
 
     gl::pushMatrices();
     gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 0.0f ) );
     gl::draw( posterinfo );
-    
-    
     
     gl::popMatrices();
 
