@@ -116,6 +116,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* SeedCluster_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeedCluster_Prefix.pch; sourceTree = "<group>"; };
+		3F80E563139611F60002E436 /* HandMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandMap.h; path = ../include/HandMap.h; sourceTree = "<group>"; };
 		4003D274134F7B9A0058C709 /* Kinect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kinect.h; path = ../include/Kinect.h; sourceTree = SOURCE_ROOT; };
 		4003D275134F7B9A0058C709 /* libfreenect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libfreenect.h; path = ../include/libfreenect.h; sourceTree = SOURCE_ROOT; };
 		4003D276134F7B9A0058C709 /* libusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libusb.h; path = ../include/libusb.h; sourceTree = SOURCE_ROOT; };
@@ -320,6 +321,7 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				3F80E563139611F60002E436 /* HandMap.h */,
 				404690EC138D5DE9003F3789 /* PosterCursor.h */,
 				40432C5413734D6600888C35 /* HandCursor.h */,
 				400E022413614ECC00855B19 /* Ease.h */,

@@ -99,12 +99,12 @@ void Seed::update()
 
 void Seed::draw()
 {
-    Color colorcolor = Color( CM_HSV, color );
+    /*Color colorcolor = Color( CM_HSV, color );
     glColor4f( colorcolor.r, colorcolor.g, colorcolor.b, alpha );
     gl::pushModelView();
     gl::translate( Vec3f( 0.0f, 0.0f, z ) );
     gl::drawSolidCircle( center, radius * zoomFactor );
-    gl::popModelView();
+    gl::popModelView();*/
 }
 
 };
