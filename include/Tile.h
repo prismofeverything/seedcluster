@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/tuple/tuple.hpp>
 #include "cinder/app/App.h"
 #include "cinder/Cinder.h"
 #include "cinder/DataSource.h"
@@ -22,6 +24,7 @@ namespace ix
 
 enum TileState { Entering, Blooming, Hovering, UnHover, Leaving };
 typedef std::pair<ci::Vec2i, ci::gl::Texture> TileDimension;
+typedef boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor Vertex;
 
 class TileCluster;
 
@@ -46,7 +49,8 @@ class Tile {
           TileDimension dim,
           float z, 
           ci::Vec3f col,
-          MovieInfo movie );
+          MovieInfo movie,
+          Vertex v );
 
     //    virtual ~Tile();
 
@@ -85,6 +89,7 @@ class Tile {
     ci::TextLayout layout;
 
     ci::Area field;
+    Vertex vertex;
 
     int id;
     ci::Vec2i topLeft;
@@ -101,18 +106,11 @@ struct TileContains
 {
     TileContains( ci::Vec2i _point ) : point( _point ) {};
     inline bool operator() ( const Tile & tile ) {
-        /* bool result = point > tile.position && point < tile.position + tile.box.getLowerRight(); */
-
         bool result = point[0] > tile.position[0]
             && point[1] > tile.position[1]
             && point[0] < tile.position[0] + tile.box.getLowerRight()[0]
             && point[1] < tile.position[1] + tile.box.getLowerRight()[1];
         
-        if( result )
-        {
-            console() << "Intersection @ Tile: " << tile.id << std::endl;
-        }
-
         return result;
     };
 

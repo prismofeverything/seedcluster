@@ -56,8 +56,8 @@ MovieInfo TileCluster::choosePoster()
 
 void TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f color )
 {
-    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster() )
- );
+    Vertex v = add_vertex( tileGraph );
+    tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster(), v ) );
 }
 
 void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
@@ -88,23 +88,38 @@ void TileCluster::handOver( Vec2i point )
 
     lens.set( point );
     lens.x = 640.0f - lens.x;
-    lens += Vec2f( -320.0f, -240.0f );
-    lens -= tileOffset;
+    lens -= Vec2f( 320.0f, 240.0f ) + tileOffset;
     lens /= Vec2f(  tileScale.x, tileScale.y );
-    
-    int i = 0;
-    
-    for( i = 0; i < tiles.size(); i++ )
-    {
-        Tile & tile = tiles[i];
-       if( lens[0] > tile.position[0] && lens[1] > tile.position[1] 
-           && lens[0] < tile.position[0] + tile.box.getLowerRight()[0]
-           && lens[1] < tile.position[1] + tile.box.getLowerRight()[1] )
-       {
-           tile.hover();
-       } else {
-           tile.unhover();
-       }
+
+    // int i = 0;
+    // for( i = 0; i < tiles.size(); i++ )
+    // {
+    //     Tile & tile = tiles[i];
+    //     if( lens[0] > tile.position[0] && lens[1] > tile.position[1] 
+    //         && lens[0] < tile.position[0] + tile.box.getLowerRight()[0]
+    //         && lens[1] < tile.position[1] + tile.box.getLowerRight()[1] ) {
+    //         tile.hover();
+    //     } else {
+    //         tile.unhover();
+    //     }
+    // }
+
+    std::vector<Tile>::iterator previousTile = hoverTile;
+    hoverTile = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
+
+    if ( hoverTile == tiles.end() ) {
+        generate( lens );
+    }
+
+    if ( previousTile == tiles.end() || previousTile != hoverTile ) {
+        if ( hoverTile != tiles.end() ) {
+            hoverTile->hover();
+        }
+    } else if ( previousTile != hoverTile ) {
+        previousTile->unhover();
+        if ( hoverTile != tiles.end() ) {
+            hoverTile->hover();
+        }
     }
 }
 
@@ -155,9 +170,26 @@ bool TileCluster::isSeedChosen()
     return chosenSeed != seeds.end();
 }
 
+void TileCluster::generate( ci::Vec2f center ) {
+    TileDimension dim = chooseDimension();
+    Vec2i topLeft = center / Vec2i( Tile::atomWidth, Tile::atomHeight ) - (dim.first / 2);
+    Vec2i bottomRight = topLeft + dim.first;
+
+    bool tileFits = true;
+    for ( std::vector<Tile>::iterator tile = tiles.begin(); tile != tiles.end() && tileFits; tile++ ) {
+        tileFits = !tile->collidesWith( topLeft, bottomRight );
+    }
+
+    if ( tileFits ) {
+        Vec3f newColor = tiles.size() > 0 ? tiles[0].color : Vec3f( Rand::randFloat(), Rand::randFloat(), 0 );
+        newColor[2] = Rand::randFloat();
+        addTile( topLeft, dim, 0, newColor );
+    }
+}
+
 void TileCluster::update()
 {
-    bool branching = Rand::randFloat() < branchRate && tiles.size() > 0 && tiles.size() < 100;
+    bool branching = false; // Rand::randFloat() < branchRate && tiles.size() > 0 && tiles.size() < 100;
     int yellow;
     TileDimension dim;
     Vec2i topLeft, bottomRight;
@@ -210,6 +242,7 @@ void TileCluster::drawTiles( bool posterMode )
     gl::pushModelView();
     gl::enableAlphaBlending();
     gl::enableDepthRead();
+    gl::enableDepthWrite();
     //gl::disableDepthWrite();
 
     gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) );
@@ -234,12 +267,12 @@ void TileCluster::drawTiles( bool posterMode )
     // }
     
     // -- draws a circle at the lens point
-    //gl::pushMatrices();
-    //gl::color( Color( 1, 0, 1 ) );
-    //gl::translate( Vec3f( 0, 0, -10 ) );
-    //gl::drawSolidCircle( lens, 5 );
+    // gl::pushMatrices();
+    // gl::color( Color( 1, 0, 1 ) );
+    // gl::translate( Vec3f( 0, 0, -10 ) );
+    // gl::drawSolidCircle( lens, 5 );
+    // gl::popMatrices();
    
-    //gl::popMatrices();
     gl::popModelView();
     gl::disableAlphaBlending();
     gl::disableDepthRead();
