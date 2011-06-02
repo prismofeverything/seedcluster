@@ -30,7 +30,7 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       topLeft( grid ),
       bottomRight( grid + dim.first ),
       position( Vec3f( grid[0]*atomWidth, grid[1]*atomHeight, z ) ),
-      hoverOffset(Vec3f( 0, 0, 0 ) ),
+      hoverOffset(Vec3f( 0, 0, z ) ),
       box( Rectf( 0, 0, atomWidth*dim.first[0], atomHeight*dim.first[1] ) ),
       color( col ),
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
@@ -121,7 +121,7 @@ void Tile::hover()
 
 void Tile::unhover()
 {
-    if( state != UnHover )
+    if( state != UnHover && state == Hovering )
     {
         scaleEase = Ease( scale, 1.0f, 40 );
         state = UnHover;
@@ -161,7 +161,13 @@ void Tile::update()
         case Hovering:
             if( !scaleEase.done() )
             {
-                scale = scaleEase.out();
+                scale = ( 1.2 - scale ) * .05;
+                hoverOffset.x = ( 1.2 * box.getWidth() - box.getWidth() ) * 0.5f;
+                hoverOffset.y = ( 1.2 * box.getHeight() - box.getHeight() ) * 0.5f;
+                
+                console() << "p: " << position << std::endl; 
+                console() << "o: " <<  hoverOffset << std::endl;
+                console() << "--" << std::endl;
             }
             break;
             
@@ -234,7 +240,7 @@ void Tile::drawPoster()
 
     ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - INFOHEIGHT );
     gl::pushMatrices();
-    gl::translate( position );
+    gl::translate( position - hoverOffset );
     gl::scale( Vec3f( scale, scale, 1 ) );
     gl::draw( movieinfo.image, field, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
 
