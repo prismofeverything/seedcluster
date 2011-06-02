@@ -384,6 +384,9 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
 {
     //std::cout << "hand in - " << hand.hue << std::endl;
     handmap.in( hand );
+
+    cv::Point p = hand.smoothCenter( 20 );
+    cluster.handOver( Vec2f( p.x, p.y ) );
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
@@ -400,7 +403,6 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
     cluster.tileOffset += handmap.get( hand ).shift;
     
     cv::Point p = hand.smoothCenter( 20 );
-    
     cluster.handOver( Vec2f( p.x, p.y ) );
 
     if ( rectangle.boundingRect().contains( hand.center ) ) {
@@ -417,7 +419,6 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
     cluster.tileOffset += handmap.get( hand ).shift;
 
     closePoint = Vec2i( hand.center.x, hand.center.y );
-    
     cv::Point p = hand.smoothCenter( 20 );
     
     cluster.handOver( Vec2f( p.x, p.y ) );
@@ -436,7 +437,6 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
     cluster.tileOffset += handmap.get( hand ).shift;
 
     cv::Point p = hand.smoothCenter( 20 );
-    
     cluster.handOver( Vec2f( p.x, p.y ) );
     
     cluster.releaseSeed();
@@ -445,11 +445,9 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
     handmap.drag( hand );
-    
     cluster.tileOffset += handmap.get( hand ).shift;
 
     cv::Point average = hand.smoothCenter( 10 );
-    
     cluster.handOver( Vec2f( average.x, average.y ) );
     
     Vec2f smooth( average.x, average.y );

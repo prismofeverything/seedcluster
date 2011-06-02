@@ -23,7 +23,7 @@ using namespace std;
 namespace ix
 {
 
-Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float z, Vec3f col, MovieInfo movie, boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor v )
+Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float z, Vec3f col, MovieInfo movie, Vertex v )
     : cluster( clust ),
       id( index ),
       dimension( dim ),
@@ -39,8 +39,6 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       movieinfo( movie ),
       vertex( v )
 {
-    //std::cout << "new tile: " << position << std::endl;
-
     gl::Texture::Format format;
     format.enableMipmapping( true );
     format.setMinFilter( GL_LINEAR_MIPMAP_LINEAR );
@@ -226,9 +224,6 @@ void Tile::drawPoster()
     gl::pushMatrices();
     gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 0.0f ) );
     gl::draw( posterinfo );
-    
-    
-    
     gl::popMatrices();
 
     drawShadow();

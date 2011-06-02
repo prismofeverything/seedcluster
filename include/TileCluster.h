@@ -36,6 +36,7 @@ class TileCluster {
                   TileDimension dim, float z, ci::Vec3f color );
     void mouseDown( ci::Vec2i position, ci::Vec2f velocity, ci::Vec3f color );
     void handOver( ci::Vec2i point );
+    void generate( ci::Vec2f center );
     void unhover();
     void plantSeed( ci::Vec2i center, ci::Vec3f color );
     bool chooseSeed( ci::Vec2i point );
