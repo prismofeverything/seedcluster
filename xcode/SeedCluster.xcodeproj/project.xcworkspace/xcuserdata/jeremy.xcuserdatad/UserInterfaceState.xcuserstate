@@ -3630,10 +3630,10 @@
 		<string>PrimaryDocumentVisibleCharacterRange</string>
 		<string>HideAllIssues</string>
 		<string>PrimaryDocumentSelectedCharacterRange</string>
-		<real>328735034.58287001</real>
-		<string>{3413, 1640}</string>
-		<string>{3674, 0}</string>
-		<string>Tile::hover()</string>
+		<real>328735248.18600601</real>
+		<string>{4080, 1730}</string>
+		<string>{4608, 0}</string>
+		<string>Tile::update()</string>
 		<string>Xcode.IDEKit.EditorDocument.SourceCode</string>
 		<dict>
 			<key>$class</key>
@@ -9044,9 +9044,9 @@
 				</dict>
 			</array>
 		</dict>
-		<real>328735034.58185899</real>
-		<string>{3413, 1640}</string>
-		<string>{3674, 0}</string>
+		<real>328735248.18524897</real>
+		<string>{4080, 1730}</string>
+		<string>{4608, 0}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -9447,7 +9447,7 @@
 				<integer>705</integer>
 			</dict>
 			<key>NS.time</key>
-			<real>328734857.24377698</real>
+			<real>328735236.86695701</real>
 		</dict>
 		<dict>
 			<key>$classes</key>
@@ -9458,7 +9458,7 @@
 			<key>$classname</key>
 			<string>NSDate</string>
 		</dict>
-		<string>Today at 12:14 PM</string>
+		<string>Today at 12:20 PM</string>
 		<integer>106</integer>
 		<string>SeedCluster</string>
 		<dict>

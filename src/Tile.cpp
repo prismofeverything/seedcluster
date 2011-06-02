@@ -162,7 +162,7 @@ void Tile::update()
         case Hovering:
             if( !scaleEase.done() )
             {
-                scale = ( 1.2 - scale ) * .05;
+                scale = 1.2;
                 hoverOffset.x = ( 1.2 * box.getWidth() - box.getWidth() ) * 0.5f;
                 hoverOffset.y = ( 1.2 * box.getHeight() - box.getHeight() ) * 0.5f;
                 
