@@ -117,7 +117,15 @@ void Tile::hover()
 {
     if( state == Blooming || state == UnHover )
     {
+        float offsetX = ( ( HOVER_SCALE * box.getWidth() ) - box.getWidth() ) * .5;
+        float offsetY = ( ( HOVER_SCALE * box.getHeight() ) - box.getHeight() ) * .5;
+        scaleEase = Ease( scale, HOVER_SCALE, 40 );
+        scrimAlphaEase = Ease( scrimAlpha, .3, 40 );
+        hoverOffsetXEase = Ease( hoverOffset.x, offsetX, 40 );
+        hoverOffsetYEase = Ease( hoverOffset.y, offsetY, 40 );
         state = Hovering;
+    } else {
+        console() << "aborting hover, state is: " << state << std::endl;
     }
 }
 
@@ -125,6 +133,10 @@ void Tile::unhover()
 {
     if( state == Hovering )
     {
+        scaleEase = Ease( scale, 1, 40 );
+        scrimAlphaEase = Ease( scrimAlpha, 0, 40 );
+        hoverOffsetXEase = Ease( hoverOffset.x, 0, 40 );
+        hoverOffsetYEase = Ease( hoverOffset.y, 0, 40 );
         state = UnHover;
     }
 }
@@ -132,9 +144,7 @@ void Tile::unhover()
 void Tile::update()
 {
     bool full = false;
-    
-    float offsetX = ( ( HOVER_SCALE * box.getWidth() ) - box.getWidth() ) * .5;
-    float offsetY = ( ( HOVER_SCALE * box.getHeight() ) - box.getHeight() ) * .5;
+    bool complete = false;
     
     switch( state ) 
     {
@@ -162,28 +172,21 @@ void Tile::update()
             }
             break;
         
-        // -- TODO: use tweens?
         case Hovering:
-                scrimAlpha += ( .3 - scrimAlpha ) * EASING;
-                scale += (  HOVER_SCALE - scale ) * EASING;
-                hoverOffset.x += ( offsetX - hoverOffset.x ) * EASING;
-                hoverOffset.y += ( offsetY - hoverOffset.y ) * EASING;
+            if( !scaleEase.done() ) scale = scaleEase.out();
+            if( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
+            if( !hoverOffsetXEase.done() ) hoverOffset.x = hoverOffsetXEase.out();
+            if( !hoverOffsetYEase.done() ) hoverOffset.y = hoverOffsetYEase.out();
             break;
             
         case UnHover:
-            if( scrimAlpha < .01f ) 
-            {
-                scrimAlpha += ( 0.0f - scrimAlpha ) * EASING;
-                scale -= (  HOVER_SCALE - scale ) * EASING;
-                hoverOffset.x -= ( offsetX - hoverOffset.x ) * EASING;
-                hoverOffset.y -= ( offsetY - hoverOffset.y ) * EASING;
-            } else {
-                scale = 1.0f;
-                scrimAlpha = 0;
-                hoverOffset.set( 0, 0, 0 );
-                state = Blooming;
-            }
-            
+            if( !scaleEase.done() ) scale = scaleEase.out();
+            if( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
+            if( !hoverOffsetXEase.done() ) hoverOffset.x = hoverOffsetXEase.out();
+            if( !hoverOffsetYEase.done() ) hoverOffset.y = hoverOffsetYEase.out();
+
+            complete = scaleEase.done() && scrimAlphaEase.done() && hoverOffsetYEase.done() && hoverOffsetXEase.done();
+            if( complete ) state = Blooming;
             break;
     }
 

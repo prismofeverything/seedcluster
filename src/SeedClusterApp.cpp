@@ -173,6 +173,9 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     float rectangleAlpha;
     float rectangleFactor;
     Ease rectangleHoverEase;
+    
+    // graphics
+    gl::Texture bgImage;
 };
 
 Vec3f SeedClusterApp::randomVec3f()
@@ -256,6 +259,8 @@ void SeedClusterApp::setup()
 {
     tracker.registerListener( this );
 
+    bgImage = gl::Texture( loadImage( loadResource( RES_BG_IMAGE ) )  );
+    
     shiftOffset = Vec2f( 0, 0 );
 
 	setupParticles();
@@ -721,6 +726,14 @@ void SeedClusterApp::draw()
 {
     // clear it out to the bg
     gl::clear( Color( CM_HSV, background ) );
+
+    
+    gl::pushMatrices();
+    gl::enableAlphaBlending();
+    gl::translate( Vec3f( -960.0f, -540.0f, 0 ) );
+    if( bgImage ) gl::draw( bgImage );
+    gl::disableAlphaBlending();
+    gl::popMatrices();
     
     //gl::pushModelView();
     //gl::disableAlphaBlending();

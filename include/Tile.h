@@ -98,7 +98,11 @@ class Tile {
     float alpha;
     Ease alphaEase;
     float scale;
+    Ease scaleEase;
     float scrimAlpha;
+    Ease scrimAlphaEase;
+    Ease hoverOffsetXEase;
+    Ease hoverOffsetYEase;
 };
 
 struct TileContains

@@ -5,6 +5,8 @@
 #define RES_BACKGROUND CINDER_RESOURCE( ../resources/, bg.png, 128, IMAGE )
 #define RES_CURSOR CINDER_RESOURCE( ../resources/, cursor.png, 128, IMAGE )
 
+#define RES_BG_IMAGE CINDER_RESOURCE( ../resources/, whitespace_bg_1920_1080_0019.png, 2, IMAGE )
+
 #define RES_SHADOW_1200x810 CINDER_RESOURCE( ../resources/shadows/, 1200x810.png, 128, IMAGE )
 #define RES_SHADOW_240x540 CINDER_RESOURCE( ../resources/shadows/, 240x540.png, 128, IMAGE )
 #define RES_SHADOW_480x540 CINDER_RESOURCE( ../resources/shadows/, 480x540.png, 128, IMAGE )

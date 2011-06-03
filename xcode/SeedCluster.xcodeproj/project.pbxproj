@@ -15,6 +15,7 @@
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		00BAE65A0E7ED9C10018A608 /* SeedClusterApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */; };
 		00CCAF15116A9FEE008396D5 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 00CCAF14116A9FEE008396D5 /* CinderApp.icns */; };
+		3F96136E13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F96136D13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png */; };
 		4003D289134F7C610058C709 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4003D288134F7C610058C709 /* IOKit.framework */; };
 		4003D34F134F7E120058C709 /* Kinect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4003D34E134F7E120058C709 /* Kinect.cpp */; };
 		4003D375134F80100058C709 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4003D374134F80100058C709 /* CoreFoundation.framework */; };
@@ -117,6 +118,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* SeedCluster_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeedCluster_Prefix.pch; sourceTree = "<group>"; };
 		3F80E563139611F60002E436 /* HandMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandMap.h; path = ../include/HandMap.h; sourceTree = "<group>"; };
+		3F96136D13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whitespace_bg_1920_1080_0019.png; path = ../resources/whitespace_bg_1920_1080_0019.png; sourceTree = "<group>"; };
 		4003D274134F7B9A0058C709 /* Kinect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kinect.h; path = ../include/Kinect.h; sourceTree = SOURCE_ROOT; };
 		4003D275134F7B9A0058C709 /* libfreenect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libfreenect.h; path = ../include/libfreenect.h; sourceTree = SOURCE_ROOT; };
 		4003D276134F7B9A0058C709 /* libusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libusb.h; path = ../include/libusb.h; sourceTree = SOURCE_ROOT; };
@@ -344,6 +346,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3F96136D13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png */,
 				40E79E9D138A494100AA73CA /* longshadows */,
 				40BA3F8F1385C9B800451B6F /* movie_posters */,
 				40BA3FB71385C9B800451B6F /* shadows */,
@@ -588,6 +591,7 @@
 				40E79EA9138A494100AA73CA /* 720x1080l.png in Resources */,
 				40E79EAA138A494100AA73CA /* 720x540l.png in Resources */,
 				40E79EAB138A494100AA73CA /* 960x810l.png in Resources */,
+				3F96136E13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
