@@ -22,7 +22,7 @@ using namespace ci::app;
 namespace ix
 {
 
-enum TileState { Entering, Blooming, Hovering, UnHover, Leaving };
+enum TileState { Entering, FirstHover, Blooming, Hovering, UnHover, Leaving };
 typedef std::pair<ci::Vec2i, ci::gl::Texture> TileDimension;
 typedef boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor Vertex;
 
@@ -59,6 +59,7 @@ class Tile {
     void drawPoster();
     void drawShadow();
 
+    void enter();
     void hover();
     void unhover();
 
@@ -76,8 +77,8 @@ class Tile {
     TileState state;
 
     ci::Rectf box;
-    ci::Vec3f hoverOffset;
     ci::Vec3f position;
+    
     ci::Vec3f velocity;
     ci::Vec3f color;
     ci::gl::Texture shadow;
@@ -97,12 +98,12 @@ class Tile {
     TileDimension dimension;
     float alpha;
     Ease alphaEase;
-    float scale;
-    Ease scaleEase;
     float scrimAlpha;
     Ease scrimAlphaEase;
-    Ease hoverOffsetXEase;
-    Ease hoverOffsetYEase;
+    ci::Vec3f positionOffset;
+    Ease positionOffsetZEase;
+    ci::Vec3f rotation;
+    Ease rotationYEase;
 };
 
 struct TileContains

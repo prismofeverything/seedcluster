@@ -19,8 +19,8 @@ using namespace std;
 
 #define TAU 6.2831853071795862f
 #define INFOHEIGHT 162.0f
-#define HOVER_SCALE 1.2f
-#define EASING 0.1f
+#define HOVER_Z 25.0f
+#define SCRIM_ALPHA 0.3f
 
 namespace ix
 {
@@ -32,15 +32,13 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       topLeft( grid ),
       bottomRight( grid + dim.first ),
       position( Vec3f( grid[0]*atomWidth, grid[1]*atomHeight, z ) ),
-      hoverOffset(Vec3f( 0, 0, z ) ),
       box( Rectf( 0, 0, atomWidth*dim.first[0], atomHeight*dim.first[1] ) ),
       color( col ),
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
       alpha( 0.0f ),
       alphaEase( 0.0f, 0.9f, 40 ),
       state( Entering ),
-      movieinfo( movie ), 
-      scale( 1 ),
+      movieinfo( movie ),
       vertex( v ),
       scrimAlpha( 0 )
 {
@@ -85,6 +83,11 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
     Surface tag = layout.render( true, false );
     info.copyFrom( tag, ci::Area( ci::Vec2i( 0, 0 ), tag.getSize() ), ci::Vec2i( 25, 20 ) );
     posterinfo = gl::Texture( info, format );
+    
+    positionOffset.set( 0.0f, 0.0f, 0.0f );
+    rotation.set( 0.0f, 0.0f, 0.0f );
+    
+    enter();
 }
 
 Vec2i Tile::relativeCorner( Vec2i dim, Vec2i orientation )
@@ -113,30 +116,35 @@ bool Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
               tl[1] >= bottomRight[1] );
 }
 
+void Tile::enter()
+{
+    alphaEase = Ease( 0.0f, 1.0f, 40 );
+    rotationYEase = Ease( -45, 0, 30 );
+    positionOffsetZEase = Ease( -HOVER_Z * 2, -HOVER_Z, 80 );
+    scrimAlphaEase = Ease( 0.7f, SCRIM_ALPHA, 60 );
+    state = Entering;
+}
+
 void Tile::hover()
 {
     if( state == Blooming || state == UnHover )
     {
-        float offsetX = ( ( HOVER_SCALE * box.getWidth() ) - box.getWidth() ) * .5;
-        float offsetY = ( ( HOVER_SCALE * box.getHeight() ) - box.getHeight() ) * .5;
-        scaleEase = Ease( scale, HOVER_SCALE, 40 );
-        scrimAlphaEase = Ease( scrimAlpha, .3, 40 );
-        hoverOffsetXEase = Ease( hoverOffset.x, offsetX, 40 );
-        hoverOffsetYEase = Ease( hoverOffset.y, offsetY, 40 );
+        positionOffsetZEase = Ease( positionOffset.z, -HOVER_Z, 40 );
+        scrimAlphaEase = Ease( scrimAlpha, SCRIM_ALPHA, 40 );
         state = Hovering;
     } else {
-        console() << "aborting hover, state is: " << state << std::endl;
+        //console() << "aborting hover, state is: " << state << std::endl;
     }
 }
 
 void Tile::unhover()
 {
-    if( state == Hovering )
+    if( state == Hovering || state == FirstHover || state == Entering )
     {
-        scaleEase = Ease( scale, 1, 40 );
+        alphaEase = Ease( alpha, 1, 40 );
         scrimAlphaEase = Ease( scrimAlpha, 0, 40 );
-        hoverOffsetXEase = Ease( hoverOffset.x, 0, 40 );
-        hoverOffsetYEase = Ease( hoverOffset.y, 0, 40 );
+        positionOffsetZEase = Ease( positionOffset.z, 0, 40 );
+        rotationYEase = Ease( rotation.y, 0, 30 );
         state = UnHover;
     }
 }
@@ -149,14 +157,21 @@ void Tile::update()
     switch( state ) 
     {
         case Entering:
-            if ( !alphaEase.done() ) 
+            if ( !alphaEase.done() && !scrimAlphaEase.done() && !positionOffsetZEase.done() && !rotationYEase.done() ) 
             {
                 alpha = alphaEase.out();
+                scrimAlpha = scrimAlphaEase.out();
+                positionOffset.z = positionOffsetZEase.out();
+                rotation.y = rotationYEase.out();
             } else {
-                state = Blooming;
+                state = FirstHover;
             }
             break;
         
+        case FirstHover:
+            
+            break;
+            
         case Blooming:
             if ( full ) 
             {
@@ -173,19 +188,16 @@ void Tile::update()
             break;
         
         case Hovering:
-            if( !scaleEase.done() ) scale = scaleEase.out();
             if( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
-            if( !hoverOffsetXEase.done() ) hoverOffset.x = hoverOffsetXEase.out();
-            if( !hoverOffsetYEase.done() ) hoverOffset.y = hoverOffsetYEase.out();
+            if( !positionOffsetZEase.done() )  positionOffset.z = positionOffsetZEase.out();
             break;
             
         case UnHover:
-            if( !scaleEase.done() ) scale = scaleEase.out();
+            if( !alphaEase.done() ) alpha = alphaEase.out();
             if( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
-            if( !hoverOffsetXEase.done() ) hoverOffset.x = hoverOffsetXEase.out();
-            if( !hoverOffsetYEase.done() ) hoverOffset.y = hoverOffsetYEase.out();
-
-            complete = scaleEase.done() && scrimAlphaEase.done() && hoverOffsetYEase.done() && hoverOffsetXEase.done();
+            if( !positionOffsetZEase.done() ) positionOffset.z = positionOffsetZEase.out();
+            if( !rotationYEase.done() ) rotation.y = rotationYEase.out();
+            complete = alphaEase.done() && scrimAlphaEase.done() && positionOffsetZEase.done() && rotationYEase.done();
             if( complete ) state = Blooming;
             break;
     }
@@ -199,7 +211,6 @@ void Tile::draw()
     glColor4f( colorcolor.r, colorcolor.g, colorcolor.b, alpha );
     gl::pushMatrices();
     gl::translate( position );
-    gl::scale( Vec3f( scale, scale, 1 ) );
     gl::drawSolidRect( box );
     
     drawShadow();
@@ -212,6 +223,7 @@ void Tile::drawShadow()
     gl::pushMatrices();
     glColor4f( 0.0f, 0.0f, 0.0f, alpha );
     gl::disableDepthWrite();
+    gl::disableDepthRead();
 
     // glEnable( GL_BLEND );
     // glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
@@ -241,33 +253,34 @@ void Tile::drawShadow()
     gl::draw( dimension.second );
     gl::popMatrices();
     gl::enableDepthWrite();
+    gl::enableDepthRead();
 }
 
 void Tile::drawPoster()
 {
     glColor4f( 1.0f, 1.0f, 1.0f, alpha );
-
+    
     ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - INFOHEIGHT );
     gl::pushMatrices();
-    gl::translate( Vec3f( position.x - hoverOffset.x, position.y - hoverOffset.y, state == Hovering ? -1.0f : 0.0f) );
-    gl::scale( Vec3f( scale, scale, 1 ) );
+    gl::translate( Vec3f( position.x, position.y, position.z + positionOffset.z ) );
+    
+    gl::translate( Vec2f( box.getWidth() * 0.5f, box.getHeight() * 0.5f ) );
+    gl::rotate( rotation );
+    gl::translate( Vec2f( -box.getWidth() * 0.5f, -box.getHeight() * 0.5f ) );
+    
     gl::draw( movieinfo.image, field, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
     
     gl::pushMatrices();
-    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, state == Hovering ? -2.0f : 0.0f ) );
+    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 1.0f ) );
     gl::draw( posterinfo );
     gl::popMatrices();
     
     drawShadow();
     
-    gl::popMatrices();
-    
-    gl::pushMatrices();
-    gl::translate( Vec3f( position.x - hoverOffset.x, position.y - hoverOffset.y, state == Hovering ? -4.0f : 0.0f) );
-    gl::scale( Vec3f( scale, scale, 1 ) );
-    
+    gl::translate( Vec3f( 0.0f, 0.0f,  -2) );
     gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
     gl::drawSolidRect( box );
+    
     gl::popMatrices();
 }
 

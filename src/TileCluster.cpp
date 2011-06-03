@@ -107,25 +107,35 @@ void TileCluster::handOver( Vec2i point )
     
     previousTile = hoverTile;
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
-
-    if ( ht == tiles.end() ) {
+    
+    if ( ht == tiles.end() ) 
+    {
         generate( lens );
+        ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
+        if( ht != tiles.end() )
+        {
+            hoverTile = &( *ht );
+            previousTile = hoverTile;
+        }
     }
-
-    if ( previousTile == NULL ) {
-        if ( ht != tiles.end() ) {
+    
+    if ( previousTile == NULL ) 
+    {
+        if ( ht != tiles.end() ) 
+        {
             hoverTile = &( *ht );
             ht->hover();
         }
     } 
-    else if( previousTile != NULL && previousTile != &( *ht ) )
+    
+    if( previousTile != NULL && previousTile != &( *ht ) )
     {
         previousTile->unhover();
         
-        if ( ht != tiles.end() ) {
+        if ( ht != tiles.end() ) 
+        {
             hoverTile = &( *ht );
             ht->hover();
-            
         }
     }
 }
@@ -250,7 +260,6 @@ void TileCluster::drawTiles( bool posterMode )
     gl::enableAlphaBlending();
     gl::enableDepthRead();
     gl::enableDepthWrite();
-    //gl::disableDepthWrite();
 
     gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) );
     gl::scale( tileScale );
