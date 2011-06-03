@@ -87,6 +87,8 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
     positionOffset.set( 0.0f, 0.0f, 0.0f );
     rotation.set( 0.0f, 0.0f, 0.0f );
     
+    visible = true;
+    
     enter();
 }
 
@@ -148,11 +150,21 @@ void Tile::unhover()
         state = UnHover;
     }
 }
+    
+void Tile::leave()
+{
+    alphaEase = Ease( alpha, 0.0f, 40 );
+    rotationYEase = Ease( rotation.y, -10, 30 );
+    positionOffsetZEase = Ease( position.z, HOVER_Z, 80 );
+    state = Leaving; 
+}
 
 void Tile::update()
 {
     bool full = false;
     bool complete = false;
+    
+    if( state == Nixed ) return;
     
     switch( state ) 
     {
@@ -173,21 +185,26 @@ void Tile::update()
             break;
             
         case Blooming:
-            if ( full ) 
-            {
-                state = Leaving;
-                alphaEase = Ease( alpha, 0.0f, 40 );
-            }
+            leaveTimer++;
+            if( leaveTimer >= 600 ) leave();
             break;
         
         case Leaving:
-            if ( !alphaEase.done() ) 
+            alpha = alphaEase.out();
+            positionOffset.z = positionOffsetZEase.out();
+            rotation.y = rotationYEase.out();
+            
+            complete = alphaEase.done() && positionOffsetZEase.done() && rotationYEase.done();
+            if( complete ) 
             {
-                alpha = alphaEase.out();
+                visible = false;
+                state = Nixed;
             }
+                
             break;
         
         case Hovering:
+            leaveTimer = 0;
             if( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
             if( !positionOffsetZEase.done() )  positionOffset.z = positionOffsetZEase.out();
             break;
@@ -198,7 +215,10 @@ void Tile::update()
             if( !positionOffsetZEase.done() ) positionOffset.z = positionOffsetZEase.out();
             if( !rotationYEase.done() ) rotation.y = rotationYEase.out();
             complete = alphaEase.done() && scrimAlphaEase.done() && positionOffsetZEase.done() && rotationYEase.done();
-            if( complete ) state = Blooming;
+            if( complete ) {
+                state = Blooming;
+                leaveTimer = 0;
+            }
             break;
     }
 
@@ -258,30 +278,33 @@ void Tile::drawShadow()
 
 void Tile::drawPoster()
 {
-    glColor4f( 1.0f, 1.0f, 1.0f, alpha );
-    
-    ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - INFOHEIGHT );
-    gl::pushMatrices();
-    gl::translate( Vec3f( position.x, position.y, position.z + positionOffset.z ) );
-    
-    gl::translate( Vec2f( box.getWidth() * 0.5f, box.getHeight() * 0.5f ) );
-    gl::rotate( rotation );
-    gl::translate( Vec2f( -box.getWidth() * 0.5f, -box.getHeight() * 0.5f ) );
-    
-    gl::draw( movieinfo.image, field, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
-    
-    gl::pushMatrices();
-    gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 1.0f ) );
-    gl::draw( posterinfo );
-    gl::popMatrices();
-    
-    drawShadow();
-    
-    gl::translate( Vec3f( 0.0f, 0.0f,  -2) );
-    gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
-    gl::drawSolidRect( box );
-    
-    gl::popMatrices();
+    if( visible )
+    {
+        glColor4f( 1.0f, 1.0f, 1.0f, alpha );
+        
+        ci::Vec2i posterdim( atomWidth * dimension.first[0], atomHeight * dimension.first[1] - INFOHEIGHT );
+        gl::pushMatrices();
+        gl::translate( Vec3f( position.x, position.y, position.z + positionOffset.z ) );
+        
+        gl::translate( Vec2f( box.getWidth() * 0.5f, box.getHeight() * 0.5f ) );
+        gl::rotate( rotation );
+        gl::translate( Vec2f( -box.getWidth() * 0.5f, -box.getHeight() * 0.5f ) );
+        
+        gl::draw( movieinfo.image, field, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
+        
+        gl::pushMatrices();
+        gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 1.0f ) );
+        gl::draw( posterinfo );
+        gl::popMatrices();
+        
+        drawShadow();
+        
+        gl::translate( Vec3f( 0.0f, 0.0f,  -2) );
+        gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
+        gl::drawSolidRect( box );
+        
+        gl::popMatrices();
+    }
 }
 
 ci::Font Tile::segoe = Font( "Helvetica", 24 );

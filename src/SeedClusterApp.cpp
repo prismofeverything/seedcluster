@@ -768,6 +768,8 @@ void SeedClusterApp::draw()
     {
         cluster.drawTiles( posterMode );
 
+        gl::color( ColorA( 0, 0, 0, 0 ) );
+        
         gl::pushModelView();
         gl::translate( Vec3f( -320.0f, -240.0f, 0 ) );
         //gl::scale( Vec3f( 1.62f, 1.62f, 1.0f ) );
