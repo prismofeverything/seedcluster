@@ -229,7 +229,7 @@ void SeedClusterApp::prepareSettings( Settings *settings )
     settings->setWindowSize( width, height );
     settings->setFrameRate( 60.0f );
     fovea = 75.0f;
-    near = 5.0f;
+    near = 300.0f;
     far = 50000.0f;
     centering = Vec2i( -1, -1 );
 }

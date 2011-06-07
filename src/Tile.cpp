@@ -242,8 +242,8 @@ void Tile::drawShadow()
 {
     gl::pushMatrices();
     glColor4f( 0.0f, 0.0f, 0.0f, alpha );
-    gl::disableDepthWrite();
-    gl::disableDepthRead();
+    //gl::disableDepthWrite();
+    //gl::disableDepthRead();
 
     // glEnable( GL_BLEND );
     // glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
@@ -269,11 +269,16 @@ void Tile::drawShadow()
 
     // gl::translate( position );
 
+    //glAlphaFunc( GL_ALWAYS, GL_ALWAYS );
+    //glAlphaFunc( GL_NOTEQUAL, GL_NOTEQUAL );
+    
+    glDepthFunc( GL_ALWAYS );
+    
     gl::translate( ci::Vec3f( -50.0f, -50.0f, 0.0f ) );
     gl::draw( dimension.second );
     gl::popMatrices();
-    gl::enableDepthWrite();
-    gl::enableDepthRead();
+    //gl::enableDepthWrite();
+    //gl::enableDepthRead();
 }
 
 void Tile::drawPoster()
