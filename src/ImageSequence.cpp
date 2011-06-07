@@ -1,5 +1,8 @@
 #include "ImageSequence.h"
 
+namespace ix
+{
+    
 ImageSequence::ImageSequence() : playheadPosition( 0 ), playheadFrameInc( 1 ), paused( false ), playing( true ), looping( true )
 {
     
@@ -10,7 +13,7 @@ ImageSequence::~ImageSequence()
     textures.clear();
 }
 
-void ImageSequence::play() 
+void ix::ImageSequence::play() 
 {
     paused = false;
     playing = true;
@@ -81,4 +84,23 @@ void ImageSequence::createFromDir( string filePath )
     }
     
     totalFrames = textures.size();
+}
+    
+void ImageSequence::createFromFileList( vector<string> paths )
+{
+    for ( int i = 0; i < paths.size(); ++i ) 
+    {
+        textures.push_back( Texture( loadImage( paths[i] ) ) );
+        console() << textures[i].getCleanBounds() << std::endl;
+    }
+        
+    totalFrames = textures.size();
+}
+    
+void ImageSequence::createFromTextureList( vector<Texture> textureList )
+{
+    textures = textureList;
+    totalFrames = textures.size();
+}
+    
 }

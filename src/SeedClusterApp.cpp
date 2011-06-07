@@ -21,11 +21,12 @@
 #include "PosterCursor.h"
 #include "TileCluster.h"
 #include "Resources.h"
+#include "ImageSequence.h"
+#include "ImageSequenceCursor.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
-
 
 class Particle {
 public:
@@ -135,7 +136,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Vec3f kinectColor;
 
     ix::HandTracker tracker;
-    ix::HandMap<ix::PosterCursor> handmap;
+    ix::HandMap<ix::ImageSequenceCursor> handmap;
     std::vector<float> hues;
     ci::Vec2f closePoint;
     ci::Vec2f zoomPoint;
@@ -176,6 +177,10 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     
     // graphics
     gl::Texture bgImage;
+    
+    // cursor sequence
+    void setupCursorSequence();
+    ix::ImageSequence cursorImageSequence;
 };
 
 Vec3f SeedClusterApp::randomVec3f()
@@ -235,6 +240,33 @@ void SeedClusterApp::updateCamera()
     camera.lookAt( towards );
 }
 
+void SeedClusterApp::setupCursorSequence()
+{
+    // -- load up the images for the sequence
+    vector<Texture> textures;
+    string compareString = "Hand_";
+    string filePath = getResourcePath() + "/";
+    
+    fs::path p( filePath );
+    
+    for ( fs::directory_iterator it( p ); it != fs::directory_iterator(); ++it )
+    {
+        if ( fs::is_regular_file( *it ) )
+        {
+            string fileName = it->path().filename().string();
+            if( !( fileName.compare( ".DS_Store" ) == 0 ) )
+            {
+                if( fileName.compare( compareString ) == 1 )
+                {
+                    textures.push_back( gl::Texture( loadImage( filePath + fileName ) ) );
+                }
+            }
+        }
+    }
+    
+    handmap.cursorTextures = textures;
+}
+
 void SeedClusterApp::setupParticles()
 {
     perlin.setSeed( clock() );
@@ -262,7 +294,7 @@ void SeedClusterApp::setup()
     bgImage = gl::Texture( loadImage( loadResource( RES_BG_IMAGE ) )  );
     
     shiftOffset = Vec2f( 0, 0 );
-
+    
 	setupParticles();
     setupRectangle();
 	
@@ -317,8 +349,8 @@ void SeedClusterApp::setup()
     gl::enableDepthWrite();
 
     cluster.setup();
-
-    // setupMovieWriter();
+    handmap.setup();
+    setupCursorSequence();
 }
 
 void SeedClusterApp::setupMovieWriter()
@@ -408,6 +440,7 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
     cluster.tileOffset += handmap.get( hand ).shift;
     
     cv::Point p = hand.smoothCenter( 20 );
+    
     cluster.handOver( Vec2f( p.x, p.y ) );
 
     if ( rectangle.boundingRect().contains( hand.center ) ) {
@@ -769,10 +802,8 @@ void SeedClusterApp::draw()
         cluster.drawTiles( posterMode );
 
         gl::color( ColorA( 0, 0, 0, 0 ) );
-        
         gl::pushModelView();
         gl::translate( Vec3f( -320.0f, -240.0f, 0 ) );
-        //gl::scale( Vec3f( 1.62f, 1.62f, 1.0f ) );
         drawSmoothHands();
         gl::popModelView();
     }

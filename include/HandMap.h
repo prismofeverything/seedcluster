@@ -2,6 +2,8 @@
 #include <map>
 #include <vector>
 #include "HandTracker.h"
+#include "cinder/gl/gl.h"
+#include "ImageSequence.h"
 
 namespace ix {
 
@@ -10,6 +12,7 @@ class HandMap {
  public:
     HandMap() {};
     Cursor & get( const Hand & hand );
+    void setup();
     void update( const HandTracker & tracker );
     void draw();
     void flush( const std::vector<Hand> & hands );
@@ -23,12 +26,20 @@ class HandMap {
 
     const static int smoothing = 10;
     std::map<float, Cursor> handmap;
+    
+    std::vector<ci::gl::Texture> cursorTextures;
 };
 
 template <class Cursor>
 Cursor & HandMap<Cursor>::get( const Hand & hand )
 {
     return handmap[ hand.hue ];
+}
+    
+template <class Cursor>
+void HandMap<Cursor>::setup()
+{
+    
 }
 
 template <class Cursor>
@@ -84,6 +95,10 @@ template <class Cursor>
 void HandMap<Cursor>::in( const Hand & hand )
 {
     Cursor cursor;
+    ix::ImageSequence sequence;
+    sequence.createFromTextureList( cursorTextures );
+    cursor.sequence = sequence;
+    
     cursor.in( hand, hand.center );
     handmap[ hand.hue ] = cursor;
 }
