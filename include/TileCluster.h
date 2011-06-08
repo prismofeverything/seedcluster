@@ -71,7 +71,7 @@ struct z_depth_compare
 {
     inline bool operator() (const Tile& t1, const Tile& t2)
     {
-        return t1.position.z < t2.position.z;
+        return t1.position.z > t2.position.z;
     }
 };
 

@@ -120,9 +120,9 @@ bool Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
 
 void Tile::enter()
 {
-    alphaEase = Ease( 0.0f, 1.0f, 40 );
-    rotationYEase = Ease( -45, 0, 30 );
-    positionOffsetZEase = Ease( -HOVER_Z * 2, -HOVER_Z, 80 );
+    alphaEase = Ease( 0.0f, 1.0f, 60 );
+    rotationYEase = Ease( 10, 0, 30 );
+    positionOffsetZEase = Ease( HOVER_Z * 4, -HOVER_Z, 80 );
     scrimAlphaEase = Ease( 0.7f, SCRIM_ALPHA, 60 );
     state = Entering;
 }
@@ -161,7 +161,6 @@ void Tile::leave()
 
 void Tile::update()
 {
-    bool full = false;
     bool complete = false;
     
     if( state == Nixed ) return;
@@ -220,6 +219,9 @@ void Tile::update()
                 leaveTimer = 0;
             }
             break;
+            
+        case Nixed:
+            break;
     }
 
     position += velocity;
@@ -243,53 +245,13 @@ void Tile::drawShadow()
     gl::pushMatrices();
     glColor4f( 0.0f, 0.0f, 0.0f, alpha );
 
-    // glEnable( GL_BLEND );
-    // glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
-    // glBlendFunc( GL_DST_COLOR, GL_SRC_ALPHA );
-    // glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
-    // glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
-    // glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    // glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
-    // glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
-    // glBlendFunc(GL_DST_COLOR, GL_SRC_ALPHA);
-
-    // glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_MODULATE);   //Modulate RGB with RGB
-    // glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_PREVIOUS);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_TEXTURE);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);  //Modulate ALPHA with ALPHA
-    // glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA, GL_PREVIOUS);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_TEXTURE);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
-    // glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
-
-    // gl::translate( position );
-
-    //glAlphaFunc( GL_ALWAYS, GL_ALWAYS );
-    //glAlphaFunc( GL_NOTEQUAL, GL_NOTEQUAL );
-    
-    //glDepthFunc( GL_ALWAYS );
-    
-    //glAlphaFunc( GL_ALWAYS, GL_NOTEQUAL );
-    //glDepthFunc( GL_ALWAYS );
-    //glDepthFunc( GL_GREATER );
-    //glDepthFunc( GL_NOTEQUAL );
-    
-    //glDepthFunc( GL_LESS );
-    //glDepthFunc( GL_EQUAL );
-    //glDepthFunc( GL_GEQUAL );
-    
-    //gl::disableDepthRead();
-    //gl::disableDepthWrite();
+    gl::disableDepthWrite();
     
     gl::translate( ci::Vec3f( -50.0f, -50.0f, 0 ) );
     gl::draw( dimension.second );
     gl::popMatrices();
     
-    //gl::enableDepthWrite();
-    //gl::enableDepthRead();	
+    gl::enableDepthWrite();
 }
 
 void Tile::drawPoster()
