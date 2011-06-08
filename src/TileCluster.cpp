@@ -9,6 +9,8 @@
 #include "cinder/gl/gl.h"
 #include "Resources.h"
 #include "Ease.h"
+#include <iostream>
+#include <algorithm>
 
 using namespace ci;
 using namespace ci::app;
@@ -238,6 +240,9 @@ void TileCluster::update()
     for ( int ee = 0; ee < size; ee++ ) {
         seeds[ee].update();
     }
+    
+    // -- attempting to sort the tiles based on z_depth before rendering
+    //sort( tiles.begin(), tiles.end(), z_depth_compare() );
 }
 
 void TileCluster::draw()

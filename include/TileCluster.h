@@ -42,7 +42,7 @@ class TileCluster {
     bool chooseSeed( ci::Vec2i point );
     void releaseSeed();
     bool isSeedChosen();
-
+    
     static const float branchRate = 0.3;
 
     boost::adjacency_list<> tileGraph;
@@ -65,6 +65,14 @@ class TileCluster {
     std::vector<Seed>::iterator chosenSeed;
     
     ci::Vec2f lens;
+};
+    
+struct z_depth_compare
+{
+    inline bool operator() (const Tile& t1, const Tile& t2)
+    {
+        return t1.position.z < t2.position.z;
+    }
 };
 
 };

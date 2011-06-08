@@ -1,11 +1,13 @@
 #include "ImageSequenceCursor.h"
 
+using namespace std;
+
 namespace ix 
 {
     
 ImageSequenceCursor::ImageSequenceCursor() : shift( 0, 0 ), dshift( 0, 0 ), complete( false ), goingOut( false )
 {
-    
+    sequenceScale = 1;
 }
     
 void ImageSequenceCursor::in( const Hand & hand, cv::Point _center )
@@ -72,6 +74,8 @@ void ImageSequenceCursor::update()
     
     // -- tweens scale value
     sequenceScale += ( targetScale - sequenceScale ) * 0.1f;
+    sequenceScale = min( 0.15f, max( sequenceScale, 0.0f ) );
+    std::cout << sequenceScale << std::endl;
 }
     
 void ImageSequenceCursor::draw()
