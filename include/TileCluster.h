@@ -55,6 +55,7 @@ class TileCluster {
     Tile * hoverTile;
     Tile * previousTile;
     Tile * chosenTile;
+    std::map<Vertex, Tile *> vertexmap;
 
     std::vector<TileDimension> tileDimensions;
     std::vector<ci::Vec2i> orientations;

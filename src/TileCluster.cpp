@@ -62,6 +62,7 @@ Tile & TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f c
 {
     Vertex v = add_vertex( tileGraph );
     tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster(), v ) );
+    vertexmap[v] = &tiles.back();
     return tiles.back();
 }
 
@@ -112,17 +113,12 @@ void TileCluster::handOver( Vec2i point )
     previousTile = hoverTile;
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
     
-    if ( ht == tiles.end() ) 
-    {
+    if ( ht == tiles.end() ) {
         generate( lens );
         ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
-        if( ht != tiles.end() )
-        {
-            hoverTile = &( *ht );
-            previousTile = hoverTile;
-        }
     }
     
+<<<<<<< HEAD
     if ( previousTile == NULL ) 
     {
         if ( ht != tiles.end() ) 
@@ -134,13 +130,16 @@ void TileCluster::handOver( Vec2i point )
     
     if( previousTile != NULL && previousTile != &( *ht ) )
     {
+=======
+    if( previousTile && previousTile != &( *ht ) ) {
+>>>>>>> 086d6b48046908780f22c2ab0991e42924cd747f
         previousTile->unhover();
-        
-        if ( ht != tiles.end() ) 
-        {
-            hoverTile = &( *ht );
-            ht->hover();
-        }
+    }
+
+    if ( ht != tiles.end() ) {
+        hoverTile = &( *ht );
+        previousTile = hoverTile;
+        ht->hover();
     }
 }
 
