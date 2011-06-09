@@ -761,12 +761,12 @@ void SeedClusterApp::draw()
     gl::clear( Color( CM_HSV, background ) );
 
     
-    gl::pushMatrices();
-    gl::enableAlphaBlending();
-    gl::translate( Vec3f( -960.0f, -540.0f, 0 ) );
-    if( bgImage ) gl::draw( bgImage );
-    gl::disableAlphaBlending();
-    gl::popMatrices();
+    // gl::pushMatrices();
+    // gl::enableAlphaBlending();
+    // gl::translate( Vec3f( -960.0f, -540.0f, 0 ) );
+    // if( bgImage ) gl::draw( bgImage );
+    // gl::disableAlphaBlending();
+    // gl::popMatrices();
     
     //gl::pushModelView();
     //gl::disableAlphaBlending();

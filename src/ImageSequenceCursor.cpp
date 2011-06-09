@@ -82,10 +82,9 @@ void ImageSequenceCursor::draw()
 {
     if( currentTexture )
     {
-        gl::pushModelView();
+        gl::pushMatrices();
         glColor4f( 1, 1, 1, 1.0f - sequenceScale );
         glBlendFunc( GL_ONE, GL_ONE );
-        gl::pushMatrices();
         gl::enableAlphaBlending();
         gl::translate( reflected );
         gl::scale( Vec3f( sequenceScale, sequenceScale, 1.0f ) );
@@ -93,7 +92,6 @@ void ImageSequenceCursor::draw()
         gl::draw( currentTexture );
         gl::disableAlphaBlending();
         gl::popMatrices();
-        gl::popModelView();
     }
 }
     

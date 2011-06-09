@@ -23,6 +23,7 @@ namespace ix
 {
 
 enum TileState { Entering, FirstHover, Blooming, Hovering, UnHover, Leaving, Nixed };
+enum Collision { Unrelated, Adjacent, Overlapping };
 typedef std::pair<ci::Vec2i, ci::gl::Texture> TileDimension;
 typedef boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor Vertex;
 
@@ -65,7 +66,7 @@ class Tile {
     void leave();
     
     ci::Vec2i relativeCorner( ci::Vec2i dim, ci::Vec2i orientation );
-    bool collidesWith( ci::Vec2i tl, ci::Vec2i br );
+    Collision collidesWith( ci::Vec2i tl, ci::Vec2i br );
 
     static const int atomWidth = 240;
     static const int atomHeight = 270;
