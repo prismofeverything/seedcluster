@@ -57,15 +57,16 @@ MovieInfo TileCluster::choosePoster()
     return posters[ Rand::randInt( posters.size() ) ];
 }
 
-void TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f color )
+Tile & TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f color )
 {
     Vertex v = add_vertex( tileGraph );
     tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster(), v ) );
+    return tiles.back();
 }
 
 void TileCluster::mouseDown( Vec2i position, Vec2f vel, Vec3f color )
 {
-    addTile( position, chooseDimension(), 0, color );
+    // addTile( position, chooseDimension(), 0, color );
 }
 
 void TileCluster::clearSeeds()
@@ -193,16 +194,26 @@ void TileCluster::generate( ci::Vec2f center ) {
     TileDimension dim = chooseDimension();
     Vec2i topLeft = center / Vec2i( Tile::atomWidth, Tile::atomHeight ) - (dim.first / 2);
     Vec2i bottomRight = topLeft + dim.first;
+    std::vector<int> adjacent;
 
     bool tileFits = true;
-    for ( std::vector<Tile>::iterator tile = tiles.begin(); tile != tiles.end() && tileFits; tile++ ) {
-        tileFits = !tile->collidesWith( topLeft, bottomRight );
+    Collision collision = Unrelated;
+    int tt; 
+    for ( tt = 0; tileFits && tt < tiles.size(); tt++ ) {
+        collision = tiles[tt].collidesWith( topLeft, bottomRight );
+        tileFits = ( collision == Unrelated || collision == Adjacent );
+        if ( tileFits == Adjacent ) {
+            adjacent.push_back( tt );
+        }
     }
 
     if ( tileFits ) {
         Vec3f newColor = tiles.size() > 0 ? tiles[0].color : Vec3f( Rand::randFloat(), Rand::randFloat(), 0 );
         newColor[2] = Rand::randFloat();
-        addTile( topLeft, dim, 0, newColor );
+        Tile & tile = addTile( topLeft, dim, 0, newColor );
+        for ( tt = 0; tt < adjacent.size(); tt++ ) {
+            add_edge( tile.vertex, tiles[adjacent[tt]].vertex, tileGraph );
+        }
     }
 }
 
@@ -230,16 +241,16 @@ void TileCluster::update()
         }
     }
 
-    if ( branching && tileFits ) {
-        Vec3f newColor = tiles[ yellow ].color;
-        newColor[2] = Rand::randFloat();
-        addTile( topLeft, dim, 0, newColor );
-    }
+    // if ( branching && tileFits ) {
+    //     Vec3f newColor = tiles[ yellow ].color;
+    //     newColor[2] = Rand::randFloat();
+    //     addTile( topLeft, dim, 0, newColor );
+    // }
 
-    size = seeds.size();
-    for ( int ee = 0; ee < size; ee++ ) {
-        seeds[ee].update();
-    }
+    // size = seeds.size();
+    // for ( int ee = 0; ee < size; ee++ ) {
+    //     seeds[ee].update();
+    // }
     
     // -- attempting to sort the tiles based on z_depth before rendering
     //sort( tiles.begin(), tiles.end(), z_depth_compare() );

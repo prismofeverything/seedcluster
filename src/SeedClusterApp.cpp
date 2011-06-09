@@ -770,7 +770,6 @@ void SeedClusterApp::draw()
     
     gl::pushMatrices();
     gl::enableAlphaBlending();
-    gl::color( ColorA( 1, 1, 1, 1 ) );
     gl::translate( Vec3f( -960.0f, -540.0f, 0 ) );
     if( bgImage ) gl::draw( bgImage );
     gl::disableAlphaBlending();

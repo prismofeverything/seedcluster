@@ -110,12 +110,21 @@ Vec2i Tile::relativeCorner( Vec2i dim, Vec2i orientation )
     return grid;
 }
 
-bool Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
+Collision Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
 {
-    return !( br[0] <= topLeft[0] || 
-              br[1] <= topLeft[1] || 
-              tl[0] >= bottomRight[0] || 
-              tl[1] >= bottomRight[1] );
+    if ( !( br[0] <= topLeft[0] || 
+            br[1] <= topLeft[1] || 
+            tl[0] >= bottomRight[0] || 
+            tl[1] >= bottomRight[1] ) ) {
+        return Overlapping;
+    } else if ( br[0] == topLeft[0] ||
+                br[1] == topLeft[1] ||
+                tl[0] == bottomRight[0] || 
+                tl[1] == bottomRight[1]) {
+        return Adjacent;
+    } else {
+        return Unrelated;
+    }
 }
 
 void Tile::enter()
@@ -232,10 +241,19 @@ void Tile::draw()
     Color colorcolor = Color( CM_HSV, color );
     glColor4f( colorcolor.r, colorcolor.g, colorcolor.b, alpha );
     gl::pushMatrices();
-    gl::translate( position );
+    gl::translate( position + positionOffset );
+
+    gl::translate( Vec2f( box.getWidth() * 0.5f, box.getHeight() * 0.5f ) );
+    gl::rotate( rotation );
+    gl::translate( Vec2f( -box.getWidth() * 0.5f, -box.getHeight() * 0.5f ) );
+
     gl::drawSolidRect( box );
     
     drawShadow();
+
+    gl::translate( Vec3f( 0.0f, 0.0f,  -2) );
+    gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
+    gl::drawSolidRect( box );
 
     gl::popMatrices();
 }

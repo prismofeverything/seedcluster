@@ -32,8 +32,8 @@ class TileCluster {
     MovieInfo choosePoster();
 
     void clearSeeds();
-    void addTile( ci::Vec2i position, 
-                  TileDimension dim, float z, ci::Vec3f color );
+    Tile & addTile( ci::Vec2i position, 
+                    TileDimension dim, float z, ci::Vec3f color );
     void mouseDown( ci::Vec2i position, ci::Vec2f velocity, ci::Vec3f color );
     void handOver( ci::Vec2i point );
     void generate( ci::Vec2f center );
