@@ -9,6 +9,7 @@
 #include "cinder/gl/gl.h"
 #include "Resources.h"
 #include "Ease.h"
+#include "SoundFxPlayer.h"
 #include <iostream>
 #include <algorithm>
 
@@ -129,7 +130,7 @@ void TileCluster::handOver( Vec2i point )
             hoverTile = &( *ht );
             ht->hover();
         }
-    } 
+    }
     
     if( previousTile != NULL && previousTile != &( *ht ) )
     {

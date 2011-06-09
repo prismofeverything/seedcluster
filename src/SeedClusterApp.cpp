@@ -291,7 +291,7 @@ void SeedClusterApp::setupRectangle()
 
 void SeedClusterApp::setup()
 {
-    ix::SoundFXPlayer.init();
+    ix::SoundFXPlayer::init();
     
     tracker.registerListener( this );
 
@@ -428,7 +428,7 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
 
     cv::Point p = hand.smoothCenter( 20 );
     cluster.handOver( Vec2f( p.x, p.y ) );
-    ix::SoundFXPlayer.handIn();
+    Output::play( audio::load( loadResource( RES_HAND_ENTER_SOUND ) ) );
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
@@ -438,7 +438,7 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
 
     cluster.releaseSeed();
     
-    ix::SoundFXPlayer.handOut();
+    Output::play( audio::load( loadResource( RES_HAND_LEAVE_SOUND ) ) );
 }
 
 void SeedClusterApp::handMove( const ix::Hand & hand )
@@ -770,6 +770,7 @@ void SeedClusterApp::draw()
     
     gl::pushMatrices();
     gl::enableAlphaBlending();
+    gl::color( ColorA( 1, 1, 1, 1 ) );
     gl::translate( Vec3f( -960.0f, -540.0f, 0 ) );
     if( bgImage ) gl::draw( bgImage );
     gl::disableAlphaBlending();

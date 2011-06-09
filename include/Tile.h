@@ -22,7 +22,7 @@ using namespace ci::app;
 namespace ix
 {
 
-enum TileState { Entering, FirstHover, Blooming, Hovering, UnHover, Leaving, Nixed };
+enum TileState { Init, Entering, FirstHover, Blooming, Hovering, UnHover, Leaving, Nixed };
 enum Collision { Unrelated, Adjacent, Overlapping };
 typedef std::pair<ci::Vec2i, ci::gl::Texture> TileDimension;
 typedef boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor Vertex;

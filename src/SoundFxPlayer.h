@@ -8,15 +8,20 @@ using namespace ci::audio;
 
 namespace ix
 {
-    class Player
+
+    static TrackRef hoverTrack;
+    static TrackRef handInTrack;
+    static TrackRef handOutTrack;
+    static TrackRef tileFlipTrack;
+    
+    class SoundFXPlayer
     {
-    protected:
+    private:
         
-        TrackRef hoverTrack;
-        TrackRef handInTrack;
-        TrackRef handOutTrack;
         
-        void playSound( TrackRef track )
+        SoundFXPlayer() {};
+        
+        static void playSound( TrackRef track )
         {
             track->stop();
             track->setTime( 0 );
@@ -24,8 +29,8 @@ namespace ix
         }
         
     public:
-
-        void init() 
+        
+        static void init()
         {
             hoverTrack = Output::addTrack( audio::load( loadResource( RES_HOVER_SOUND ) ), false );
             hoverTrack->setLooping( false );
@@ -35,15 +40,18 @@ namespace ix
             
             handOutTrack = Output::addTrack( audio::load( loadResource( RES_HAND_LEAVE_SOUND ) ), false );
             handOutTrack->setLooping( false );
+            
+            tileFlipTrack = Output::addTrack( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ), false );
+            tileFlipTrack->setLooping( false );
         }
         
-        void hoverEnter() { playSound( hoverTrack ); }
+        static void hoverEnter() { playSound( hoverTrack ); }
         
-        void handIn() { playSound( handInTrack ); }
+        static void handIn() { playSound( handInTrack ); }
         
-        void handOut() { playSound( handOutTrack ); }
+        static void handOut() { playSound( handOutTrack ); }
+        
+        static void tileFlip() { playSound( tileFlipTrack ); }
     };
-    
-    static Player SoundFXPlayer;
     
 } // -- ix namespace

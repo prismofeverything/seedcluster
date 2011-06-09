@@ -7,7 +7,7 @@ namespace ix
     
 ImageSequenceCursor::ImageSequenceCursor() : shift( 0, 0 ), dshift( 0, 0 ), complete( false ), goingOut( false )
 {
-    sequenceScale = 1;
+    sequenceScale = 0.0f;
 }
     
 void ImageSequenceCursor::in( const Hand & hand, cv::Point _center )

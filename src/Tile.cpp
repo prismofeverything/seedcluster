@@ -13,8 +13,12 @@
 #include "cinder/ip/Fill.h"
 #include "Tile.h"
 #include "TileCluster.h"
+#include "SoundFxPlayer.h"
+#include "cinder/audio/Output.h"
+#include "Resources.h"
 
 using namespace ci;
+using namespace ci::audio;
 using namespace std;
 
 #define TAU 6.2831853071795862f
@@ -37,7 +41,7 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       velocity( Vec3f( 0.0f, 0.0f, 0.0f ) ),
       alpha( 0.0f ),
       alphaEase( 0.0f, 0.9f, 40 ),
-      state( Entering ),
+      state( Init ),
       movieinfo( movie ),
       vertex( v ),
       scrimAlpha( 0 )
@@ -129,17 +133,22 @@ Collision Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
 
 void Tile::enter()
 {
-    alphaEase = Ease( 0.0f, 1.0f, 60 );
-    rotationYEase = Ease( 10, 0, 30 );
-    positionOffsetZEase = Ease( HOVER_Z * 4, -HOVER_Z, 80 );
-    scrimAlphaEase = Ease( 0.7f, SCRIM_ALPHA, 60 );
-    state = Entering;
+    if( state != Entering )
+    {
+        Output::play( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ) );
+        alphaEase = Ease( 0.0f, 1.0f, 60 );
+        rotationYEase = Ease( 10, 0, 30 );
+        positionOffsetZEase = Ease( HOVER_Z * 4, -HOVER_Z, 80 );
+        scrimAlphaEase = Ease( 0.7f, SCRIM_ALPHA, 60 );
+        state = Entering;
+    }
 }
 
 void Tile::hover()
 {
     if( state == Blooming || state == UnHover )
     {
+        Output::play( audio::load( loadResource( RES_HOVER_SOUND ) ) );
         positionOffsetZEase = Ease( positionOffset.z, -HOVER_Z, 40 );
         scrimAlphaEase = Ease( scrimAlpha, SCRIM_ALPHA, 40 );
         state = Hovering;
