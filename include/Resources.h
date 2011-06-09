@@ -7,6 +7,10 @@
 
 #define RES_BG_IMAGE CINDER_RESOURCE( ../resources/, whitespace_bg_1920_1080_0019.png, 2, IMAGE )
 
+#define RES_HOVER_SOUND CINDER_RESOURCE( ../resources/sound/, Tink.aiff, 4, AIFF )
+#define RES_HAND_ENTER_SOUND CINDER_RESOURCE( ../resources/sound/, Purr.aiff, 8, AIFF )
+#define RES_HAND_LEAVE_SOUND CINDER_RESOURCE( ../resources/sound/, Pop.aiff, 16, AIFF )
+
 #define RES_SHADOW_1200x810 CINDER_RESOURCE( ../resources/shadows/, 1200x810.png, 128, IMAGE )
 #define RES_SHADOW_240x540 CINDER_RESOURCE( ../resources/shadows/, 240x540.png, 128, IMAGE )
 #define RES_SHADOW_480x540 CINDER_RESOURCE( ../resources/shadows/, 480x540.png, 128, IMAGE )

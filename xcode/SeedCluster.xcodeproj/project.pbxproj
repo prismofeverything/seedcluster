@@ -106,6 +106,10 @@
 		3F993ABF139D517800F877D8 /* Hand_00086.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F993A67139D517800F877D8 /* Hand_00086.png */; };
 		3F993AC0139D517800F877D8 /* Hand_00087.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F993A68139D517800F877D8 /* Hand_00087.png */; };
 		3F993AC7139D6EF200F877D8 /* ImageSequenceCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F993AC6139D6EF200F877D8 /* ImageSequenceCursor.cpp */; };
+		3FF44DDA139FF25700DFF343 /* Glass.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3FF44DD6139FF25700DFF343 /* Glass.aiff */; };
+		3FF44DDB139FF25700DFF343 /* Pop.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3FF44DD7139FF25700DFF343 /* Pop.aiff */; };
+		3FF44DDC139FF25700DFF343 /* Purr.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3FF44DD8139FF25700DFF343 /* Purr.aiff */; };
+		3FF44DDD139FF25700DFF343 /* Tink.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 3FF44DD9139FF25700DFF343 /* Tink.aiff */; };
 		4003D289134F7C610058C709 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4003D288134F7C610058C709 /* IOKit.framework */; };
 		4003D34F134F7E120058C709 /* Kinect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4003D34E134F7E120058C709 /* Kinect.cpp */; };
 		4003D375134F80100058C709 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4003D374134F80100058C709 /* CoreFoundation.framework */; };
@@ -301,6 +305,11 @@
 		3F993A68139D517800F877D8 /* Hand_00087.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hand_00087.png; sourceTree = "<group>"; };
 		3F993AC5139D6EEA00F877D8 /* ImageSequenceCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageSequenceCursor.h; path = ../include/ImageSequenceCursor.h; sourceTree = "<group>"; };
 		3F993AC6139D6EF200F877D8 /* ImageSequenceCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageSequenceCursor.cpp; path = ../src/ImageSequenceCursor.cpp; sourceTree = "<group>"; };
+		3FF44DD6139FF25700DFF343 /* Glass.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Glass.aiff; sourceTree = "<group>"; };
+		3FF44DD7139FF25700DFF343 /* Pop.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Pop.aiff; sourceTree = "<group>"; };
+		3FF44DD8139FF25700DFF343 /* Purr.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Purr.aiff; sourceTree = "<group>"; };
+		3FF44DD9139FF25700DFF343 /* Tink.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Tink.aiff; sourceTree = "<group>"; };
+		3FF44DE0139FF71B00DFF343 /* SoundFxPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundFxPlayer.h; path = ../src/SoundFxPlayer.h; sourceTree = "<group>"; };
 		4003D274134F7B9A0058C709 /* Kinect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Kinect.h; path = ../include/Kinect.h; sourceTree = SOURCE_ROOT; };
 		4003D275134F7B9A0058C709 /* libfreenect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libfreenect.h; path = ../include/libfreenect.h; sourceTree = SOURCE_ROOT; };
 		4003D276134F7B9A0058C709 /* libusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = libusb.h; path = ../include/libusb.h; sourceTree = SOURCE_ROOT; };
@@ -507,6 +516,7 @@
 		29B97315FDCFA39411CA2CEA /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				3FF44DE0139FF71B00DFF343 /* SoundFxPlayer.h */,
 				3F993AC5139D6EEA00F877D8 /* ImageSequenceCursor.h */,
 				3F99394E139D434100F877D8 /* ImageSequence.h */,
 				3F80E563139611F60002E436 /* HandMap.h */,
@@ -532,6 +542,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3FF44DD5139FF25700DFF343 /* sound */,
 				3F993A10139D517800F877D8 /* hand_cursor_sequence */,
 				3F96136D13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png */,
 				40E79E9D138A494100AA73CA /* longshadows */,
@@ -650,6 +661,18 @@
 			);
 			name = hand_cursor_sequence;
 			path = ../resources/hand_cursor_sequence;
+			sourceTree = "<group>";
+		};
+		3FF44DD5139FF25700DFF343 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				3FF44DD6139FF25700DFF343 /* Glass.aiff */,
+				3FF44DD7139FF25700DFF343 /* Pop.aiff */,
+				3FF44DD8139FF25700DFF343 /* Purr.aiff */,
+				3FF44DD9139FF25700DFF343 /* Tink.aiff */,
+			);
+			name = sound;
+			path = ../resources/sound;
 			sourceTree = "<group>";
 		};
 		40BA3F8F1385C9B800451B6F /* movie_posters */ = {
@@ -963,6 +986,10 @@
 				3F993ABE139D517800F877D8 /* Hand_00085.png in Resources */,
 				3F993ABF139D517800F877D8 /* Hand_00086.png in Resources */,
 				3F993AC0139D517800F877D8 /* Hand_00087.png in Resources */,
+				3FF44DDA139FF25700DFF343 /* Glass.aiff in Resources */,
+				3FF44DDB139FF25700DFF343 /* Pop.aiff in Resources */,
+				3FF44DDC139FF25700DFF343 /* Purr.aiff in Resources */,
+				3FF44DDD139FF25700DFF343 /* Tink.aiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

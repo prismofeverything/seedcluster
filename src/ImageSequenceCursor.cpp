@@ -75,7 +75,6 @@ void ImageSequenceCursor::update()
     // -- tweens scale value
     sequenceScale += ( targetScale - sequenceScale ) * 0.1f;
     sequenceScale = min( 0.15f, max( sequenceScale, 0.0f ) );
-    std::cout << sequenceScale << std::endl;
 }
     
 void ImageSequenceCursor::draw()

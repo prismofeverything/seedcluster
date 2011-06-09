@@ -11,7 +11,6 @@
 #include "cinder/params/Params.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/gl.h"
-#include "cinder/qtime/MovieWriter.h"
 #include "CinderOpenCv.h"
 #include "Kinect.h"
 #include "Ease.h"
@@ -23,6 +22,9 @@
 #include "Resources.h"
 #include "ImageSequence.h"
 #include "ImageSequenceCursor.h"
+#include "cinder/audio/Output.h"
+#include "SoundFxPlayer.h"
+//#include "cinder/qtime/MovieWriter.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -110,7 +112,7 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
 
     int cannyLowerThreshold;
     int cannyUpperThreshold;
-    qtime::MovieWriter movieWriter;
+    //qtime::MovieWriter movieWriter;
     params::InterfaceGl params;
     ix::PointDistance distance;
 
@@ -289,6 +291,8 @@ void SeedClusterApp::setupRectangle()
 
 void SeedClusterApp::setup()
 {
+    ix::SoundFXPlayer.init();
+    
     tracker.registerListener( this );
 
     bgImage = gl::Texture( loadImage( loadResource( RES_BG_IMAGE ) )  );
@@ -355,13 +359,13 @@ void SeedClusterApp::setup()
 
 void SeedClusterApp::setupMovieWriter()
 {
-    std::string path = getSaveFilePath();
+    /*std::string path = getSaveFilePath();
     if ( !path.empty() ) {
         qtime::MovieWriter::Format format;
         if( qtime::MovieWriter::getUserCompressionSettings( &format, loadImage( loadResource( RES_WHIRLPOOL ) ) ) ) {
             movieWriter = qtime::MovieWriter( path, getWindowWidth(), getWindowHeight(), format );
         }
-    }
+    }*/
 }
 
 void SeedClusterApp::keyDown( KeyEvent event )
@@ -424,6 +428,7 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
 
     cv::Point p = hand.smoothCenter( 20 );
     cluster.handOver( Vec2f( p.x, p.y ) );
+    ix::SoundFXPlayer.handIn();
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
@@ -432,6 +437,8 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
     handmap.out( hand );
 
     cluster.releaseSeed();
+    
+    ix::SoundFXPlayer.handOut();
 }
 
 void SeedClusterApp::handMove( const ix::Hand & hand )
@@ -719,9 +726,9 @@ void SeedClusterApp::drawField()
 
 void SeedClusterApp::drawMovieFrame()
 {
-    if ( movieWriter ) {
-        movieWriter.addFrame( copyWindowSurface() );
-    }
+    //if ( movieWriter ) {
+        //movieWriter.addFrame( copyWindowSurface() );
+    //}
 }
 
 void SeedClusterApp::drawParticles()
@@ -763,6 +770,7 @@ void SeedClusterApp::draw()
     
     gl::pushMatrices();
     gl::enableAlphaBlending();
+    gl::color( ColorA( 1, 1, 1, 1 ) );
     gl::translate( Vec3f( -960.0f, -540.0f, 0 ) );
     if( bgImage ) gl::draw( bgImage );
     gl::disableAlphaBlending();
