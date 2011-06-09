@@ -118,21 +118,7 @@ void TileCluster::handOver( Vec2i point )
         ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
     }
     
-<<<<<<< HEAD
-    if ( previousTile == NULL ) 
-    {
-        if ( ht != tiles.end() ) 
-        {
-            hoverTile = &( *ht );
-            ht->hover();
-        }
-    }
-    
-    if( previousTile != NULL && previousTile != &( *ht ) )
-    {
-=======
     if( previousTile && previousTile != &( *ht ) ) {
->>>>>>> 086d6b48046908780f22c2ab0991e42924cd747f
         previousTile->unhover();
     }
 
