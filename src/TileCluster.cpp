@@ -1,4 +1,4 @@
-#include <iostream.h>
+#include <iostream>
 #include <vector>
 #include <map>
 #include <algorithm>
@@ -126,6 +126,15 @@ void TileCluster::handOver( Vec2i point )
         hoverTile = &( *ht );
         previousTile = hoverTile;
         ht->hover();
+
+        int yoyo = 0;
+        Adjacency adjacent, adjacent_end;
+        for ( tie(adjacent, adjacent_end) = adjacent_vertices( ht->vertex, tileGraph ); 
+              adjacent != adjacent_end; adjacent++ ) {
+            yoyo++;
+        }
+
+        std::cout << yoyo << std::endl;
     }
 }
 
@@ -188,7 +197,7 @@ void TileCluster::generate( ci::Vec2f center ) {
     for ( tt = 0; tileFits && tt < tiles.size(); tt++ ) {
         collision = tiles[tt].collidesWith( topLeft, bottomRight );
         tileFits = ( collision == Unrelated || collision == Adjacent );
-        if ( tileFits == Adjacent ) {
+        if ( collision == Adjacent ) {
             adjacent.push_back( tt );
         }
     }

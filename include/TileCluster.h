@@ -45,7 +45,7 @@ class TileCluster {
     
     static const float branchRate = 0.3;
 
-    boost::adjacency_list<> tileGraph;
+    TileGraph tileGraph;
 
     ci::Vec2f tileOffset;
     ci::Vec3f tileScale;
