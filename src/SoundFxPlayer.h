@@ -4,11 +4,13 @@
 #include "cinder/audio/Output.h"
 #include "Resources.h"
 
+// -- not using this class
+// -- causing a crash when used as such from more than one object instance 
+// -- ix::SoundFXPlayer::hoverEnter();
 using namespace ci::audio;
 
 namespace ix
 {
-
     static TrackRef hoverTrack;
     static TrackRef handInTrack;
     static TrackRef handOutTrack;
@@ -16,8 +18,8 @@ namespace ix
     
     class SoundFXPlayer
     {
-    private:
         
+    private:
         
         SoundFXPlayer() {};
         
