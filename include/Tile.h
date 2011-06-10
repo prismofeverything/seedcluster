@@ -24,8 +24,11 @@ namespace ix
 
 enum TileState { Init, Entering, FirstHover, Blooming, Hovering, UnHover, Leaving, Nixed };
 enum Collision { Unrelated, Adjacent, Overlapping };
+
 typedef std::pair<ci::Vec2i, ci::gl::Texture> TileDimension;
-typedef boost::graph_traits< boost::adjacency_list<> >::vertex_descriptor Vertex;
+typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS> TileGraph;
+typedef boost::graph_traits<TileGraph>::vertex_descriptor Vertex;
+typedef boost::graph_traits<TileGraph>::adjacency_iterator Adjacency;
 
 class TileCluster;
 
@@ -66,7 +69,8 @@ class Tile {
     void leave();
     
     ci::Vec2i relativeCorner( ci::Vec2i dim, ci::Vec2i orientation );
-    Collision collidesWith( ci::Vec2i tl, ci::Vec2i br );
+    bool isAdjacent( const int base, const ci::Vec2i tl, const ci::Vec2i br );
+    Collision collidesWith( const ci::Vec2i tl, const ci::Vec2i br );
 
     static const int atomWidth = 240;
     static const int atomHeight = 270;

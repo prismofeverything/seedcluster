@@ -114,17 +114,23 @@ Vec2i Tile::relativeCorner( Vec2i dim, Vec2i orientation )
     return grid;
 }
 
-Collision Tile::collidesWith( ci::Vec2i tl, ci::Vec2i br )
+bool Tile::isAdjacent( const int base, const ci::Vec2i tl, const ci::Vec2i br ) 
+{
+    return ( tl[base] <= bottomRight[base] && tl[base] >= topLeft[base] ) 
+        || ( br[base] <= bottomRight[base] && br[base] >= topLeft[base] ); 
+}
+
+Collision Tile::collidesWith( const ci::Vec2i tl, const ci::Vec2i br )
 {
     if ( !( br[0] <= topLeft[0] || 
             br[1] <= topLeft[1] || 
             tl[0] >= bottomRight[0] || 
             tl[1] >= bottomRight[1] ) ) {
         return Overlapping;
-    } else if ( br[0] == topLeft[0] ||
-                br[1] == topLeft[1] ||
-                tl[0] == bottomRight[0] || 
-                tl[1] == bottomRight[1]) {
+    } else if ( ( br[0] == topLeft[0] && isAdjacent( 1, tl, br ) ) ||
+                ( br[1] == topLeft[1] && isAdjacent( 0, tl, br ) ) ||
+                ( tl[0] == bottomRight[0] && isAdjacent( 1, tl, br ) ) || 
+                ( tl[1] == bottomRight[1] && isAdjacent( 0, tl, br ) ) ) {
         return Adjacent;
     } else {
         return Unrelated;

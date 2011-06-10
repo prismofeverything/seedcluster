@@ -1,4 +1,4 @@
-#include <iostream.h>
+#include <iostream>
 #include <vector>
 #include <map>
 #include <algorithm>
@@ -62,6 +62,7 @@ Tile & TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f c
 {
     Vertex v = add_vertex( tileGraph );
     tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster(), v ) );
+    vertexmap[v] = &tiles.back();
     return tiles.back();
 }
 
@@ -99,34 +100,31 @@ void TileCluster::handOver( Vec2i point )
     previousTile = hoverTile;
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
     
-    if ( ht == tiles.end() ) 
-    {
-        generate( lens );
+    if ( ht == tiles.end() ) {
+        generateUnder( lens );
         ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
-        if( ht != tiles.end() )
-        {
-            hoverTile = &( *ht );
-            previousTile = hoverTile;
-        }
     }
     
-    if ( previousTile == NULL ) 
-    {
-        if ( ht != tiles.end() ) 
-        {
-            hoverTile = &( *ht );
-            ht->hover();
-        }
-    }
-    
-    if( previousTile != NULL && previousTile != &( *ht ) )
-    {
+    if( previousTile && previousTile != &( *ht ) ) {
         previousTile->unhover();
-        
-        if ( ht != tiles.end() ) 
-        {
-            hoverTile = &( *ht );
-            ht->hover();
+    }
+
+    if ( ht != tiles.end() ) {
+        hoverTile = &( *ht );
+        previousTile = hoverTile;
+        ht->hover();
+
+        int yoyo = 0;
+        Adjacency adjacent, adjacent_end;
+        for ( tie(adjacent, adjacent_end) = adjacent_vertices( ht->vertex, tileGraph ); 
+              adjacent != adjacent_end; adjacent++ ) {
+            yoyo++;
+        }
+
+        if ( yoyo < 4 ) {
+            TileDimension dim = chooseDimension();
+            ci::Vec2i topLeft = ht->relativeCorner( dim.first, chooseOrientation() );
+            generate( dim, topLeft );
         }
     }
 }
@@ -183,9 +181,14 @@ bool TileCluster::isSeedChosen()
     return chosenSeed != seeds.end();
 }
 
-void TileCluster::generate( ci::Vec2f center ) {
+void TileCluster::generateUnder( ci::Vec2f center )
+{
     TileDimension dim = chooseDimension();
     Vec2i topLeft = center / Vec2i( Tile::atomWidth, Tile::atomHeight ) - (dim.first / 2);
+    generate( dim, topLeft );
+}
+
+void TileCluster::generate( TileDimension dim, ci::Vec2i topLeft ) {
     Vec2i bottomRight = topLeft + dim.first;
     std::vector<int> adjacent;
 
@@ -195,7 +198,7 @@ void TileCluster::generate( ci::Vec2f center ) {
     for ( tt = 0; tileFits && tt < tiles.size(); tt++ ) {
         collision = tiles[tt].collidesWith( topLeft, bottomRight );
         tileFits = ( collision == Unrelated || collision == Adjacent );
-        if ( tileFits == Adjacent ) {
+        if ( collision == Adjacent ) {
             adjacent.push_back( tt );
         }
     }
