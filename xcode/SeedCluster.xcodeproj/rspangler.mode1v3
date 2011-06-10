@@ -299,7 +299,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>335 632 1420 819 0 0 2560 1578 </string>
+						<string>150 359 1420 819 0 0 1920 1178 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -327,7 +327,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>4046F55113A1A18C00501BD5</string>
+										<string>4046F56C13A2783F00501BD5</string>
 										<key>history</key>
 										<array>
 											<string>4003D403134F86C30058C709</string>
@@ -352,7 +352,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1212, 102}}</string>
 								<key>RubberWindowFrame</key>
-								<string>335 632 1420 819 0 0 2560 1578 </string>
+								<string>150 359 1420 819 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -374,7 +374,7 @@
 								<key>Frame</key>
 								<string>{{0, 107}, {1212, 671}}</string>
 								<key>RubberWindowFrame</key>
-								<string>335 632 1420 819 0 0 2560 1578 </string>
+								<string>150 359 1420 819 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -538,6 +538,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>4046F56D13A2783F00501BD5</string>
 		<string>4046F52D13A18D0800501BD5</string>
 		<string>4046F52E13A18D0800501BD5</string>
 		<string>1CD10A99069EF8BA00B06720</string>
@@ -546,7 +547,7 @@
 		<string>4003D382134F80970058C709</string>
 	</array>
 	<key>WindowString</key>
-	<string>335 632 1420 819 0 0 2560 1578 </string>
+	<string>150 359 1420 819 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -576,7 +577,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1434, 223}}</string>
 								<key>RubberWindowFrame</key>
-								<string>653 412 1434 788 0 0 2560 1578 </string>
+								<string>243 215 1434 788 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -602,7 +603,7 @@
 								<key>Frame</key>
 								<string>{{0, 228}, {1434, 519}}</string>
 								<key>RubberWindowFrame</key>
-								<string>653 412 1434 788 0 0 2560 1578 </string>
+								<string>243 215 1434 788 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -634,7 +635,7 @@
 			<key>WindowContentMinSize</key>
 			<string>486 300</string>
 			<key>WindowString</key>
-			<string>653 412 1434 788 0 0 2560 1578 </string>
+			<string>243 215 1434 788 0 0 1920 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>4003D382134F80970058C709</string>
 			<key>WindowToolIsVisible</key>
@@ -721,10 +722,10 @@
 									<key>Frame</key>
 									<string>{{514, 0}, {613, 382}}</string>
 									<key>RubberWindowFrame</key>
-									<string>101 138 1127 757 0 0 2560 1578 </string>
+									<string>101 138 1127 757 0 0 1920 1178 </string>
 								</dict>
 								<key>RubberWindowFrame</key>
-								<string>101 138 1127 757 0 0 2560 1578 </string>
+								<string>101 138 1127 757 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugSessionModule</string>
@@ -758,7 +759,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
 			<key>WindowString</key>
-			<string>101 138 1127 757 0 0 2560 1578 </string>
+			<string>101 138 1127 757 0 0 1920 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
@@ -894,7 +895,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {824, 640}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-1353 822 824 681 -1440 700 1440 900 </string>
+								<string>155 236 824 681 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -923,7 +924,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>-1353 822 824 681 -1440 700 1440 900 </string>
+			<string>155 236 824 681 0 0 1920 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>

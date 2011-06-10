@@ -120,6 +120,8 @@
 			4046F54913A1A13A00501BD5 /* XCBuildMessageTextBookmark */ = 4046F54913A1A13A00501BD5 /* XCBuildMessageTextBookmark */;
 			4046F54A13A1A13A00501BD5 /* PBXTextBookmark */ = 4046F54A13A1A13A00501BD5 /* PBXTextBookmark */;
 			4046F55113A1A18C00501BD5 /* PBXTextBookmark */ = 4046F55113A1A18C00501BD5 /* PBXTextBookmark */;
+			4046F56813A277ED00501BD5 /* PBXTextBookmark */ = 4046F56813A277ED00501BD5 /* PBXTextBookmark */;
+			4046F56C13A2783F00501BD5 /* PBXTextBookmark */ = 4046F56C13A2783F00501BD5 /* PBXTextBookmark */;
 			407B87CF1350FFDC0069D7B7 = 407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */;
 			40E25A63135FA51D00C92521 = 40E25A63135FA51D00C92521 /* PBXTextBookmark */;
 			40E25ACD135FB2C400C92521 = 40E25ACD135FB2C400C92521 /* PBXTextBookmark */;
@@ -241,9 +243,9 @@
 	};
 	4003D41D134F8ECA0058C709 /* Tile.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1151, 4173}}";
-			sepNavSelRange = "{9959, 0}";
-			sepNavVisRange = "{4068, 354}";
+			sepNavIntBoundsRect = "{{0, 0}, {1151, 4121}}";
+			sepNavSelRange = "{9956, 0}";
+			sepNavVisRange = "{3998, 285}";
 			sepNavWindowFrame = "{{84, 552}, {750, 558}}";
 		};
 	};
@@ -380,6 +382,26 @@
 		vrLen = 354;
 		vrLoc = 4068;
 	};
+	4046F56813A277ED00501BD5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		name = "Tile.cpp: 326";
+		rLen = 0;
+		rLoc = 9957;
+		rType = 0;
+		vrLen = 318;
+		vrLoc = 4040;
+	};
+	4046F56C13A2783F00501BD5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 4003D41D134F8ECA0058C709 /* Tile.cpp */;
+		name = "Tile.cpp: 326";
+		rLen = 0;
+		rLoc = 9956;
+		rType = 0;
+		vrLen = 285;
+		vrLoc = 3998;
+	};
 	404C21761356BE9300C92A6F /* Fingertips.cpp */ = {
 		isa = PBXFileReference;
 		fileEncoding = 4;
@@ -402,7 +424,7 @@
 		ignoreCount = 0;
 		lineNumber = 52;
 		location = SeedCluster;
-		modificationTime = 329359279.306504;
+		modificationTime = 329414718.106375;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -420,7 +442,7 @@
 		ignoreCount = 0;
 		lineNumber = 116;
 		location = SeedCluster;
-		modificationTime = 329359279.306551;
+		modificationTime = 329414718.106421;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};

@@ -114,7 +114,7 @@ void TileCluster::handOver( Vec2i point )
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
     
     if ( ht == tiles.end() ) {
-        generate( lens );
+        generateUnder( lens );
         ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
     }
     
@@ -134,7 +134,11 @@ void TileCluster::handOver( Vec2i point )
             yoyo++;
         }
 
-        std::cout << yoyo << std::endl;
+        if ( yoyo < 4 ) {
+            TileDimension dim = chooseDimension();
+            ci::Vec2i topLeft = ht->relativeCorner( dim.first, chooseOrientation() );
+            generate( dim, topLeft );
+        }
     }
 }
 
@@ -185,9 +189,14 @@ bool TileCluster::isSeedChosen()
     return chosenSeed != seeds.end();
 }
 
-void TileCluster::generate( ci::Vec2f center ) {
+void TileCluster::generateUnder( ci::Vec2f center )
+{
     TileDimension dim = chooseDimension();
     Vec2i topLeft = center / Vec2i( Tile::atomWidth, Tile::atomHeight ) - (dim.first / 2);
+    generate( dim, topLeft );
+}
+
+void TileCluster::generate( TileDimension dim, ci::Vec2i topLeft ) {
     Vec2i bottomRight = topLeft + dim.first;
     std::vector<int> adjacent;
 
