@@ -386,7 +386,9 @@ void SeedClusterApp::keyDown( KeyEvent event )
         tileMode = !tileMode;
     } else if ( key == 71 || key == 103 ) { // 'g'
         greenMode = !greenMode;
-    }
+    } 
+    
+    console() << "key: " << key << std::endl;
 }
 
 void SeedClusterApp::keyUp( KeyEvent event )
@@ -497,15 +499,23 @@ void SeedClusterApp::handDrag( const ix::Hand & hand )
     
     Vec2f smooth( average.x, average.y );
 
-    if ( cluster.isSeedChosen() ) {
+    if ( cluster.isSeedChosen() ) 
+    {
         cluster.chosenSeed->seek( smooth );
     }
 }
 
 void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other ) 
 {
-    //std::cout << "second hand in - " << in.hue << std::endl;
     handmap.in( in );
+    
+    cv::Point p1 = in.smoothCenter( 10 );
+    Vec2i v1 = Vec2i( p1.x, p1.y );
+    
+    cv::Point p2 = other.smoothCenter( 10 );
+    Vec2i v2 = Vec2i( p2.x, p2.y );
+    
+    cluster.twoHandsIn( v1, v2 );
 }
 
 void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other ) 
@@ -524,7 +534,6 @@ void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & ot
 void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & other ) 
 {
     //std::cout << "first hand open - " << open.hue << std::endl;
-
     handOpen( open );
 }
 
@@ -543,31 +552,49 @@ void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & oth
 {
     //std::cout << "second hand open - " << open.hue << std::endl;
 
-    handOpen( open );
+    //handOpen( open );
 }
 
 void SeedClusterApp::openHandsMove( const ix::Hand & first, const ix::Hand & second ) 
 {
-    handMove( first );
-    handMove( second );
+    handmap.move( first );
+    handmap.move( second );
+    
+    cv::Point p1 = first.smoothCenter( 10 );
+    Vec2i v1 = Vec2i( p1.x, p1.y );
+    
+    cv::Point p2 = second.smoothCenter( 10 );
+    Vec2i v2 = Vec2i( p2.x, p2.y );
+    
+    cluster.twoHandsMove( v1, v2 );
 }
 
 void SeedClusterApp::mixedHandsMove( const ix::Hand & open, const ix::Hand & close ) 
 {
-    handMove( open );
-    handDrag( close );
+    handmap.move( open );
+    handmap.move( close );
+    
+    cv::Point p1 = open.smoothCenter( 10 );
+    Vec2i v1 = Vec2i( p1.x, p1.y );
+    
+    cv::Point p2 = close.smoothCenter( 10 );
+    Vec2i v2 = Vec2i( p2.x, p2.y );
+    
+    cluster.twoHandsMove( v1, v2 );
 }
 
 void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & second ) 
 {
-    //std::cout << "closed hands move" << std::endl;
-    handmap.drag( first );
-    handmap.drag( second );
-
-    if ( cluster.isSeedChosen() ) {
-        float zoom = sqrt( distance( first.smoothCenter( 3 ), second.smoothCenter( 3 ) ) ) / zoomAnchor;
-        cluster.chosenSeed->zoom( pow( zoom, 2 ) );
-    }
+    handmap.move( first );
+    handmap.move( second );
+    
+    cv::Point p1 = first.smoothCenter( 10 );
+    Vec2i v1 = Vec2i( p1.x, p1.y );
+    
+    cv::Point p2 = second.smoothCenter( 10 );
+    Vec2i v2 = Vec2i( p2.x, p2.y );
+    
+    cluster.twoHandsMove( v1, v2 );
 }
 
 void SeedClusterApp::setupLighting()

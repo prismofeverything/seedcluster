@@ -96,19 +96,6 @@ void TileCluster::handOver( Vec2i point )
     lens.x = 640.0f - lens.x;
     lens -= Vec2f( 320.0f, 240.0f ) + tileOffset;
     lens /= Vec2f(  tileScale.x, tileScale.y );
-
-    // int i = 0;
-    // for( i = 0; i < tiles.size(); i++ )
-    // {
-    //     Tile & tile = tiles[i];
-    //     if( lens[0] > tile.position[0] && lens[1] > tile.position[1] 
-    //         && lens[0] < tile.position[0] + tile.box.getLowerRight()[0]
-    //         && lens[1] < tile.position[1] + tile.box.getLowerRight()[1] ) {
-    //         tile.hover();
-    //     } else {
-    //         tile.unhover();
-    //     }
-    // }
     
     previousTile = hoverTile;
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
@@ -144,18 +131,24 @@ void TileCluster::handOver( Vec2i point )
 
 void TileCluster::unhover()
 {
-    /*if ( hoverSeed != seeds.end() ) 
-    {
-        hoverSeed->unhover();
-        hoverSeed = seeds.end();
-    }
-
-    if ( hoverTile != tiles.end() ) 
-    {
-        previousTile = hoverTile;
-        previousTile->unhover();
-        hoverTile = tiles.end();
-    }*/
+    
+}
+    
+    
+// ----------- TWO HANDS - scaling
+    
+void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
+{
+    delta1 = first.distance( second );
+}
+    
+void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
+{
+    delta2 = first.distance( second );
+    
+    //shift = delta1 - delta
+    
+    console() << delta1 / delta2 << std::endl;
 }
 
 void TileCluster::plantSeed( Vec2i center, Vec3f color )
@@ -281,33 +274,20 @@ void TileCluster::drawTiles( bool posterMode )
     gl::enableDepthRead();
     gl::enableDepthWrite();
 
-    gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) );
-    gl::scale( tileScale );
+        gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) );
+        gl::scale( tileScale );
 
-    int size = tiles.size();
+        int size = tiles.size();
 
-    if ( posterMode ) {
-        for ( int ii = 0; ii < size; ii++ ) {
-            tiles[ii].drawPoster();
+        if ( posterMode ) {
+            for ( int ii = 0; ii < size; ii++ ) {
+                tiles[ii].drawPoster();
+            }
+        } else {
+            for ( int ii = 0; ii < size; ii++ ) {
+                tiles[ii].draw();
+            }
         }
-    } else {
-        for ( int ii = 0; ii < size; ii++ ) {
-            tiles[ii].draw();
-        }
-    }
-
-    // gl::disableDepthWrite();
-
-    // for ( int ii = 0; ii < size; ii++ ) {
-    //     tiles[ii].drawShadow();
-    // }
-    
-    // -- draws a circle at the lens point
-    // gl::pushMatrices();
-    // gl::color( Color( 1, 0, 1 ) );
-    // gl::translate( Vec3f( 0, 0, -10 ) );
-    // gl::drawSolidCircle( lens, 5 );
-    // gl::popMatrices();
    
     gl::popModelView();
     gl::disableAlphaBlending();

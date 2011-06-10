@@ -139,13 +139,23 @@ Collision Tile::collidesWith( const ci::Vec2i tl, const ci::Vec2i br )
 
 void Tile::enter()
 {
-    if( state != Entering )
+    /*if( state != Entering )
     {
         Output::play( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ) );
         alphaEase = Ease( 0.0f, 1.0f, 60 );
         rotationYEase = Ease( 10, 0, 30 );
         positionOffsetZEase = Ease( HOVER_Z * 4, -HOVER_Z, 80 );
         scrimAlphaEase = Ease( 0.7f, SCRIM_ALPHA, 60 );
+        state = Entering;
+    }*/
+    
+    if( state != Entering )
+    {
+        Output::play( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ) );
+        alphaEase = Ease( 0.0f, 1.0f, 60 );
+        rotationYEase = Ease( 10, 0.0f, 30 );
+        positionOffsetZEase = Ease( HOVER_Z * 4, 0.0f, 80 );
+        scrimAlphaEase = Ease( 0.7f, 0.0f, 60 );
         state = Entering;
     }
 }
@@ -199,7 +209,7 @@ void Tile::update()
                 positionOffset.z = positionOffsetZEase.out();
                 rotation.y = rotationYEase.out();
             } else {
-                state = FirstHover;
+                state = Blooming;
             }
             break;
         
@@ -208,7 +218,7 @@ void Tile::update()
             break;
             
         case Blooming:
-            leaveTimer++;
+            //leaveTimer++;
             if( leaveTimer >= 600 ) leave();
             break;
         

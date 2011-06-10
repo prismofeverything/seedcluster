@@ -67,6 +67,16 @@ class TileCluster {
     std::vector<Seed>::iterator chosenSeed;
     
     ci::Vec2f lens;
+    
+    // -- two hands
+    double delta1;
+    double delta2;
+    
+    float shift;
+    
+    void twoHandsIn( ci::Vec2i first, ci::Vec2i second );
+    void twoHandsMove( ci::Vec2i first, ci::Vec2i second );
+
 };
     
 struct z_depth_compare
