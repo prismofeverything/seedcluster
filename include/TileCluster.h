@@ -49,7 +49,6 @@ class TileCluster {
     TileGraph tileGraph;
 
     ci::Vec2f tileOffset;
-    ci::Vec3f tileScale;
 
     std::vector<Tile> tiles;
     std::vector<Tile> available;
@@ -69,14 +68,17 @@ class TileCluster {
     ci::Vec2f lens;
     
     // -- two hands
-    double delta1;
-    double delta2;
+    double distance1;
+    double distance2;
     
-    float shift;
+    float prevDelta;
+    float currDelta;
+    
+    ci::Vec3f targScale;
+    ci::Vec3f tileScale;
     
     void twoHandsIn( ci::Vec2i first, ci::Vec2i second );
     void twoHandsMove( ci::Vec2i first, ci::Vec2i second );
-
 };
     
 struct z_depth_compare

@@ -91,6 +91,8 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     void openHandsMove( const ix::Hand & first, const ix::Hand & second );
     void mixedHandsMove( const ix::Hand & open, const ix::Hand & close );
     void closedHandsMove( const ix::Hand & first, const ix::Hand & second );
+    
+    void scaleScene( const ix::Hand & first, const ix::Hand & second );
 
     ix::TileCluster cluster;
     Vec3f bloomColor;
@@ -386,9 +388,7 @@ void SeedClusterApp::keyDown( KeyEvent event )
         tileMode = !tileMode;
     } else if ( key == 71 || key == 103 ) { // 'g'
         greenMode = !greenMode;
-    } 
-    
-    console() << "key: " << key << std::endl;
+    }
 }
 
 void SeedClusterApp::keyUp( KeyEvent event )
@@ -557,33 +557,20 @@ void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & oth
 
 void SeedClusterApp::openHandsMove( const ix::Hand & first, const ix::Hand & second ) 
 {
-    handmap.move( first );
-    handmap.move( second );
-    
-    cv::Point p1 = first.smoothCenter( 10 );
-    Vec2i v1 = Vec2i( p1.x, p1.y );
-    
-    cv::Point p2 = second.smoothCenter( 10 );
-    Vec2i v2 = Vec2i( p2.x, p2.y );
-    
-    cluster.twoHandsMove( v1, v2 );
+    scaleScene( first, second );
 }
 
 void SeedClusterApp::mixedHandsMove( const ix::Hand & open, const ix::Hand & close ) 
 {
-    handmap.move( open );
-    handmap.move( close );
-    
-    cv::Point p1 = open.smoothCenter( 10 );
-    Vec2i v1 = Vec2i( p1.x, p1.y );
-    
-    cv::Point p2 = close.smoothCenter( 10 );
-    Vec2i v2 = Vec2i( p2.x, p2.y );
-    
-    cluster.twoHandsMove( v1, v2 );
+    scaleScene( open, close );
 }
 
 void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & second ) 
+{
+    scaleScene( first, second );
+}
+
+void SeedClusterApp::scaleScene( const ix::Hand & first, const ix::Hand & second )
 {
     handmap.move( first );
     handmap.move( second );
@@ -595,6 +582,8 @@ void SeedClusterApp::closedHandsMove( const ix::Hand & first, const ix::Hand & s
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
     cluster.twoHandsMove( v1, v2 );
+    
+    cluster.tileOffset += ( handmap.get( first ).shift ) + ( handmap.get( second ).shift );
 }
 
 void SeedClusterApp::setupLighting()

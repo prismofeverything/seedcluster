@@ -12,6 +12,7 @@
 #include "SoundFxPlayer.h"
 #include <iostream>
 #include <algorithm>
+#include "cinder/CinderMath.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -37,7 +38,11 @@ void TileCluster::setup()
     previousTile = NULL;
 
     tileOffset = Vec2f( 0, 0 );
-    tileScale = Vec3f( 0.32f, 0.32f, 1.0f );
+    
+    distance1 = 0;
+    distance2 = 0;
+    tileScale.set( 0.32f, 0.32f, 1.0f );
+    targScale.set( tileScale );
 
     setupShadows();
     setupPosters();
@@ -134,21 +139,24 @@ void TileCluster::unhover()
     
 }
     
-    
 // ----------- TWO HANDS - scaling
     
 void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 {
-    delta1 = first.distance( second );
+    distance1 = first.distance( second );
+    distance2 = first.distance( second );
 }
     
 void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
 {
-    delta2 = first.distance( second );
-    
-    //shift = delta1 - delta
-    
-    console() << delta1 / delta2 << std::endl;
+    distance2 = (float)first.distance( second );
+    if( !isnan( distance2 ) )
+    {
+        targScale += ( distance2 - distance1 ) * 0.00005;
+        targScale.x = max( 0.05f, min( targScale.x, 1.0f ) );
+        targScale.y = targScale.x;
+        targScale.z = targScale.x;
+    }
 }
 
 void TileCluster::plantSeed( Vec2i center, Vec3f color )
@@ -251,6 +259,8 @@ void TileCluster::update()
     
     // -- attempting to sort the tiles based on z_depth before rendering
     //sort( tiles.begin(), tiles.end(), z_depth_compare() );
+    
+    tileScale += ( targScale - tileScale ) * 0.1f;
 }
 
 void TileCluster::draw()
