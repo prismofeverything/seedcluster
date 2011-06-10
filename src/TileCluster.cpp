@@ -140,12 +140,13 @@ void TileCluster::unhover()
 void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 {
     delta1 = first.distance( second );
-    //anchor2.set( second );
 }
     
 void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
 {
     delta2 = first.distance( second );
+    
+    //shift = delta1 - delta
     
     console() << delta1 / delta2 << std::endl;
 }

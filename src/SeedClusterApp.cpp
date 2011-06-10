@@ -386,7 +386,9 @@ void SeedClusterApp::keyDown( KeyEvent event )
         tileMode = !tileMode;
     } else if ( key == 71 || key == 103 ) { // 'g'
         greenMode = !greenMode;
-    }
+    } 
+    
+    console() << "key: " << key << std::endl;
 }
 
 void SeedClusterApp::keyUp( KeyEvent event )

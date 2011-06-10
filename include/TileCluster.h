@@ -72,6 +72,8 @@ class TileCluster {
     double delta1;
     double delta2;
     
+    float shift;
+    
     void twoHandsIn( ci::Vec2i first, ci::Vec2i second );
     void twoHandsMove( ci::Vec2i first, ci::Vec2i second );
 
