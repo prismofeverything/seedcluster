@@ -41,8 +41,8 @@ void TileCluster::setup()
     
     anchorDistance = 0;
     scaleDistance = 0;
-    tileScale = initialScale;
-    targetScale = 0;
+    tileScale = targetScale = initialScale;
+    
 
     setupShadows();
     setupPosters();
@@ -100,7 +100,7 @@ void TileCluster::handOver( Vec2i point )
     lens.set( point );
     lens.x = 640.0f - lens.x;
     lens -= Vec2f( 320.0f, 240.0f ) + ( tileOffset * translationFactor() );
-    lens /= Vec2f( tileScale + targetScale, tileScale + targetScale );
+    lens /= Vec2f( tileScale, tileScale );
     
     previousTile = hoverTile;
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
@@ -150,13 +150,15 @@ void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
 {
     scaleDistance = (float) first.distance( second );
-    targetScale = ( scaleDistance - anchorDistance ) * 0.0005;
+    targetScale += ( scaleDistance - anchorDistance ) * 0.00005;
+    targetScale =  max( 0.05f, min( targetScale, 1.0f ) );
+    tileScale = targetScale;
 }
     
 void TileCluster::secondHandOut()
 {
-    tileScale = tileScale + targetScale;
-    targetScale = 0;
+    //tileScale = tileScale + targetScale;
+    //targetScale = 0;
 }
 
 void TileCluster::plantSeed( Vec2i center, Vec3f color )
@@ -251,8 +253,8 @@ void TileCluster::drawTiles( bool posterMode )
     gl::enableDepthRead();
     gl::enableDepthWrite();
 
-        gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) * translationFactor() );
-        gl::scale( Vec3f( targetScale + tileScale, targetScale + tileScale, 1 ) );
+        gl::translate( tileOffset * translationFactor() );
+        gl::scale( Vec3f( tileScale, tileScale, 1 ) );
         
         int size = tiles.size();
 
