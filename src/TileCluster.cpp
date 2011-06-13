@@ -118,7 +118,7 @@ void TileCluster::handOver( Vec2i point )
         hoverTile = &( *ht );
         previousTile = hoverTile;
         ht->hover();
-
+        
         int yoyo = 0;
         Adjacency adjacent, adjacent_end;
         for ( tie(adjacent, adjacent_end) = adjacent_vertices( ht->vertex, tileGraph ); 
@@ -252,7 +252,7 @@ void TileCluster::drawTiles( bool posterMode )
     gl::enableDepthWrite();
 
         gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) * translationFactor() );
-        gl::scale( Vec3f( targetScale + tileScale, targetScale + tileScale, 0 ) );
+        gl::scale( Vec3f( targetScale + tileScale, targetScale + tileScale, 1 ) );
         
         int size = tiles.size();
 

@@ -168,6 +168,7 @@ void Tile::hover()
         positionOffsetZEase = Ease( positionOffset.z, -HOVER_Z, 40 );
         scrimAlphaEase = Ease( scrimAlpha, SCRIM_ALPHA, 40 );
         state = Hovering;
+        console() << "hover()" << std::endl;
     } else {
         //console() << "aborting hover, state is: " << state << std::endl;
     }
