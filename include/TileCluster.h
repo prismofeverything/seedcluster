@@ -43,8 +43,12 @@ class TileCluster {
     bool chooseSeed( ci::Vec2i point );
     void releaseSeed();
     bool isSeedChosen();
+
+    inline float translationFactor() { return (targetScale + tileScale) * initialScaleInverse; };
     
-    static const float branchRate = 0.3;
+    static const float branchRate = 0.3f;
+    static const float initialScale = 0.32f;
+    static const float initialScaleInverse = 1.0f / 0.32f;
 
     TileGraph tileGraph;
 
@@ -68,16 +72,14 @@ class TileCluster {
     ci::Vec2f lens;
     
     // -- two hands
-    double distance1;
-    double distance2;
+    double anchorDistance;
+    double scaleDistance;
     
-    float scaling;
     float prevDelta;
     float currDelta;
     
-    ci::Vec2f startOffset;
-    ci::Vec3f targScale;
-    ci::Vec3f tileScale;
+    float targetScale;
+    float tileScale;
     
     void twoHandsIn( ci::Vec2i first, ci::Vec2i second );
     void twoHandsMove( ci::Vec2i first, ci::Vec2i second );

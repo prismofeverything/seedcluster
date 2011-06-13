@@ -39,10 +39,10 @@ void TileCluster::setup()
 
     tileOffset = Vec2f( 0, 0 );
     
-    distance1 = 0;
-    distance2 = 0;
-    tileScale.set( 0.32f, 0.32f, 1.0f );
-    targScale.set( 0.0f, 0.0f, 0.0f );
+    anchorDistance = 0;
+    scaleDistance = 0;
+    tileScale = initialScale;
+    targetScale = 0;
 
     setupShadows();
     setupPosters();
@@ -99,11 +99,8 @@ void TileCluster::handOver( Vec2i point )
 
     lens.set( point );
     lens.x = 640.0f - lens.x;
-    lens -= Vec2f( 320.0f, 240.0f ) + tileOffset;
-    lens /= Vec2f(  tileScale.x + targScale.x, tileScale.y + targScale.y );
-
-    
-    //console() << lens << std::endl;
+    lens -= Vec2f( 320.0f, 240.0f ) + ( tileOffset * translationFactor() );
+    lens /= Vec2f( tileScale + targetScale, tileScale + targetScale );
     
     previousTile = hoverTile;
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
@@ -146,23 +143,20 @@ void TileCluster::unhover()
     
 void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 {
-    distance1 = first.distance( second );
-    distance2 = distance1;
+    anchorDistance = first.distance( second );
+    scaleDistance = anchorDistance;
 }
     
 void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
 {
-    distance2 = (float)first.distance( second );
-    scaling = ( distance2 - distance1 ) * 0.0005;
-    targScale.x = scaling;
-    targScale.y = scaling;
-    targScale.z = 0.0f;
+    scaleDistance = (float) first.distance( second );
+    targetScale = ( scaleDistance - anchorDistance ) * 0.0005;
 }
     
-void TileCluster::secondHandOut( )
+void TileCluster::secondHandOut()
 {
-    tileScale = tileScale + targScale;
-    targScale = Vec3f( 0.0f, 0.0f, 0.0f );
+    tileScale = tileScale + targetScale;
+    targetScale = 0;
 }
 
 void TileCluster::plantSeed( Vec2i center, Vec3f color )
@@ -230,44 +224,10 @@ void TileCluster::generate( TileDimension dim, ci::Vec2i topLeft ) {
 
 void TileCluster::update()
 {
-    bool branching = false; // Rand::randFloat() < branchRate && tiles.size() > 0 && tiles.size() < 100;
-    int yellow;
-    TileDimension dim;
-    Vec2i topLeft, bottomRight;
-
-    if ( branching ) {
-        yellow = Rand::randInt( tiles.size() );
-        dim = chooseDimension();
-        topLeft = tiles[ yellow ].relativeCorner( dim.first, chooseOrientation() );
-        bottomRight = topLeft + dim.first;
-    }
-
-    bool tileFits = true;
     int size = tiles.size();
     for ( int ii = 0; ii < size; ii++ ) {
         tiles[ii].update();
-
-        if ( branching && tileFits ) {
-            tileFits = !tiles[ii].collidesWith( topLeft, bottomRight );
-        }
     }
-
-    // if ( branching && tileFits ) {
-    //     Vec3f newColor = tiles[ yellow ].color;
-    //     newColor[2] = Rand::randFloat();
-    //     addTile( topLeft, dim, 0, newColor );
-    // }
-
-    // size = seeds.size();
-    // for ( int ee = 0; ee < size; ee++ ) {
-    //     seeds[ee].update();
-    // }
-    
-    // -- attempting to sort the tiles based on z_depth before rendering
-    //sort( tiles.begin(), tiles.end(), z_depth_compare() );
-    
-    // tileScale += ( targScale - tileScale ) * 0.1f;
-    // tileScale = targScale * 0.1f + tileScale;
 }
 
 void TileCluster::draw()
@@ -291,8 +251,8 @@ void TileCluster::drawTiles( bool posterMode )
     gl::enableDepthRead();
     gl::enableDepthWrite();
 
-        gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) * ( targScale.x + tileScale.x ) / 0.32f );
-        gl::scale( targScale + tileScale );
+        gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) * translationFactor() );
+        gl::scale( Vec3f( targetScale + tileScale, targetScale + tileScale, 0 ) );
         
         int size = tiles.size();
 
