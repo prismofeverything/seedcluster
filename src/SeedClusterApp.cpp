@@ -515,6 +515,8 @@ void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other )
     cv::Point p2 = other.smoothCenter( 10 );
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
+    // console() << p1.x << "," << p1.y << " --- " << p2.x << "," << p2.y << std::endl;
+    
     cluster.twoHandsIn( v1, v2 );
 }
 
@@ -522,30 +524,36 @@ void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other
 {
     //std::cout << "second hand out - " << out.hue << std::endl;
     handmap.out( out );
+    cluster.secondHandOut();
+    cv::Point average = other.smoothCenter( 10 );
+    cluster.handOver( Vec2f( average.x, average.y ) );    
 }
 
 void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & other ) 
 {
     //std::cout << "first hand close - " << close.hue << std::endl;
 
-    handClose( close );
+    //handClose( close );
+    scaleScene( close, other );
 }
 
 void SeedClusterApp::firstHandOpen( const ix::Hand & open, const ix::Hand & other ) 
 {
     //std::cout << "first hand open - " << open.hue << std::endl;
-    handOpen( open );
+    //handOpen( open );
+    scaleScene( open, other );
 }
 
 void SeedClusterApp::secondHandClose( const ix::Hand & close, const ix::Hand & other )
 {
     //std::cout << "second hand close - " << close.hue << std::endl;
-    handmap.close( close );
+    //handmap.close( close );
 
     closePoint = Vec2i( other.center.x, other.center.y );
     zoomPoint = Vec2i( close.center.x, close.center.y );
 
     zoomAnchor = sqrt( distance( close.center, other.center ) );
+    scaleScene( close, other );
 }
 
 void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & other ) 
@@ -553,6 +561,7 @@ void SeedClusterApp::secondHandOpen( const ix::Hand & open, const ix::Hand & oth
     //std::cout << "second hand open - " << open.hue << std::endl;
 
     //handOpen( open );
+    scaleScene( open, other );
 }
 
 void SeedClusterApp::openHandsMove( const ix::Hand & first, const ix::Hand & second ) 

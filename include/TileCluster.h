@@ -71,7 +71,7 @@ class TileCluster {
     double distance1;
     double distance2;
     
-    
+    float scaling;
     float prevDelta;
     float currDelta;
     
@@ -81,6 +81,7 @@ class TileCluster {
     
     void twoHandsIn( ci::Vec2i first, ci::Vec2i second );
     void twoHandsMove( ci::Vec2i first, ci::Vec2i second );
+    void secondHandOut();
 };
     
 struct z_depth_compare
