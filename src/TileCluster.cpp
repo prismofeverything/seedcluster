@@ -42,7 +42,7 @@ void TileCluster::setup()
     distance1 = 0;
     distance2 = 0;
     tileScale.set( 0.32f, 0.32f, 1.0f );
-    targScale.set( tileScale );
+    targScale.set( 0.0f, 0.0f, 0.0f );
 
     setupShadows();
     setupPosters();
@@ -100,9 +100,10 @@ void TileCluster::handOver( Vec2i point )
     lens.set( point );
     lens.x = 640.0f - lens.x;
     lens -= Vec2f( 320.0f, 240.0f ) + tileOffset;
-    lens /= Vec2f(  tileScale.x, tileScale.y );
+    lens /= Vec2f(  tileScale.x + targScale.x, tileScale.y + targScale.y );
+
     
-    console() << lens << std::endl;
+    //console() << lens << std::endl;
     
     previousTile = hoverTile;
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
@@ -145,21 +146,23 @@ void TileCluster::unhover()
     
 void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 {
-    startOffset.set( tileOffset );
     distance1 = first.distance( second );
-    distance2 = first.distance( second );
+    distance2 = distance1;
 }
     
 void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
 {
     distance2 = (float)first.distance( second );
-    if( !isnan( distance2 ) )
-    {
-        targScale += ( distance2 - distance1 ) * 0.00005;
-        targScale.x = max( 0.05f, min( targScale.x, 1.0f ) );
-        targScale.y = targScale.x;
-        targScale.z = targScale.x;
-    }
+    scaling = ( distance2 - distance1 ) * 0.0005;
+    targScale.x = scaling;
+    targScale.y = scaling;
+    targScale.z = 0.0f;
+}
+    
+void TileCluster::secondHandOut( )
+{
+    tileScale = tileScale + targScale;
+    targScale = Vec3f( 0.0f, 0.0f, 0.0f );
 }
 
 void TileCluster::plantSeed( Vec2i center, Vec3f color )
@@ -263,7 +266,8 @@ void TileCluster::update()
     // -- attempting to sort the tiles based on z_depth before rendering
     //sort( tiles.begin(), tiles.end(), z_depth_compare() );
     
-    tileScale += ( targScale - tileScale ) * 0.1f;
+    // tileScale += ( targScale - tileScale ) * 0.1f;
+    // tileScale = targScale * 0.1f + tileScale;
 }
 
 void TileCluster::draw()
@@ -287,9 +291,9 @@ void TileCluster::drawTiles( bool posterMode )
     gl::enableDepthRead();
     gl::enableDepthWrite();
 
-        gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) );
-        gl::scale( tileScale );
-
+        gl::translate( ci::Vec3f( tileOffset[0], tileOffset[1], 0 ) * ( targScale.x + tileScale.x ) / 0.32f );
+        gl::scale( targScale + tileScale );
+        
         int size = tiles.size();
 
         if ( posterMode ) {

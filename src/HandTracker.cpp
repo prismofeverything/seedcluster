@@ -40,10 +40,11 @@ void Hand::sync( const Hand & other )
 
 cv::Point Hand::previousCenter( int offset ) const 
 {
-    if ( !path.empty() ) {
+    int pathSize = path.size();
+    if ( pathSize > 0 ) {
         int previousIndex = pathIndex-offset;
-        while ( previousIndex < 0 ) previousIndex += maxHistory;
-        while ( previousIndex >= maxHistory ) previousIndex -= maxHistory;
+        while ( previousIndex < 0 ) previousIndex += pathSize;
+        while ( previousIndex >= pathSize ) previousIndex -= pathSize;
         return path[previousIndex];
     } else {
         return cv::Point( 0, 0 );
