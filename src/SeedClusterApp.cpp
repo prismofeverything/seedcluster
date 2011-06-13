@@ -582,8 +582,6 @@ void SeedClusterApp::scaleScene( const ix::Hand & first, const ix::Hand & second
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
     cluster.twoHandsMove( v1, v2 );
-    
-    cluster.tileOffset += ( handmap.get( first ).shift ) + ( handmap.get( second ).shift );
 }
 
 void SeedClusterApp::setupLighting()

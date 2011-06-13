@@ -71,9 +71,11 @@ class TileCluster {
     double distance1;
     double distance2;
     
+    
     float prevDelta;
     float currDelta;
     
+    ci::Vec2f startOffset;
     ci::Vec3f targScale;
     ci::Vec3f tileScale;
     

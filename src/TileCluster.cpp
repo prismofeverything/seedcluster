@@ -102,6 +102,8 @@ void TileCluster::handOver( Vec2i point )
     lens -= Vec2f( 320.0f, 240.0f ) + tileOffset;
     lens /= Vec2f(  tileScale.x, tileScale.y );
     
+    console() << lens << std::endl;
+    
     previousTile = hoverTile;
     std::vector<Tile>::iterator ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
     
@@ -143,6 +145,7 @@ void TileCluster::unhover()
     
 void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 {
+    startOffset.set( tileOffset );
     distance1 = first.distance( second );
     distance2 = first.distance( second );
 }
