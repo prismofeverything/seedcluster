@@ -623,8 +623,8 @@ void SeedClusterApp::update()
         if( kinect.checkNewDepthFrame() ) {
             ImageSourceRef depthImage = kinect.getDepthImage();
             depthSurface = depthImage;
-            depthTexture = depthImage;
-            kinectDepth = kinect.getDepthData();
+            // depthTexture = depthImage;
+            // kinectDepth = kinect.getDepthData();
             depth = toOcv( Channel8u( depthSurface ) );
             tracker.detectHands( depth ); // , 150, 280 );
         }

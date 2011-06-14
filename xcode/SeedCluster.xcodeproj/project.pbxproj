@@ -14,7 +14,6 @@
 		00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		00BAE65A0E7ED9C10018A608 /* SeedClusterApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */; };
-		00CCAF15116A9FEE008396D5 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 00CCAF14116A9FEE008396D5 /* CinderApp.icns */; };
 		3F96136E13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F96136D13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png */; };
 		3F993951139D43D800F877D8 /* ImageSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F993950139D43D800F877D8 /* ImageSequence.cpp */; };
 		3F993A69139D517800F877D8 /* Hand_00000.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F993A11139D517800F877D8 /* Hand_00000.png */; };
@@ -121,6 +120,7 @@
 		400821BC137291BE0074DAAF /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 400821BB137291BE0074DAAF /* bg.png */; };
 		400E022713614EDC00855B19 /* Seed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 400E022613614EDC00855B19 /* Seed.cpp */; };
 		400E02441361515B00855B19 /* Ease.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 400E02431361515B00855B19 /* Ease.cpp */; };
+		402C422613A6DDA6003C0D04 /* SeedCluster.icns in Resources */ = {isa = PBXBuildFile; fileRef = 402C422513A6DDA6003C0D04 /* SeedCluster.icns */; };
 		4031478A136DE3A200C6B9C1 /* whirlpool.png in Resources */ = {isa = PBXBuildFile; fileRef = 40314789136DE3A200C6B9C1 /* whirlpool.png */; };
 		403BD98D135CA7810071B047 /* HandTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */; };
 		40432BF013730C1D00888C35 /* cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = 40432BEF13730C1D00888C35 /* cursor.png */; };
@@ -205,7 +205,6 @@
 		00B784B10FF439BC000DE1D7 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		00BAE6590E7ED9C10018A608 /* SeedClusterApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SeedClusterApp.cpp; path = ../src/SeedClusterApp.cpp; sourceTree = SOURCE_ROOT; };
-		00CCAF14116A9FEE008396D5 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = SOURCE_ROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -326,6 +325,7 @@
 		400E022513614ECC00855B19 /* Seed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Seed.h; path = ../include/Seed.h; sourceTree = SOURCE_ROOT; };
 		400E022613614EDC00855B19 /* Seed.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Seed.cpp; path = ../src/Seed.cpp; sourceTree = SOURCE_ROOT; };
 		400E02431361515B00855B19 /* Ease.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Ease.cpp; path = ../src/Ease.cpp; sourceTree = SOURCE_ROOT; };
+		402C422513A6DDA6003C0D04 /* SeedCluster.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = SeedCluster.icns; path = ../resources/SeedCluster.icns; sourceTree = SOURCE_ROOT; };
 		40314789136DE3A200C6B9C1 /* whirlpool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whirlpool.png; path = ../resources/whirlpool.png; sourceTree = SOURCE_ROOT; };
 		403BD98B135CA7730071B047 /* HandTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HandTracker.h; path = ../include/HandTracker.h; sourceTree = SOURCE_ROOT; };
 		403BD98C135CA7810071B047 /* HandTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HandTracker.cpp; path = ../src/HandTracker.cpp; sourceTree = SOURCE_ROOT; };
@@ -542,6 +542,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				402C422513A6DDA6003C0D04 /* SeedCluster.icns */,
 				3FF44DD5139FF25700DFF343 /* sound */,
 				3F993A10139D517800F877D8 /* hand_cursor_sequence */,
 				3F96136D13985C7500D767D1 /* whitespace_bg_1920_1080_0019.png */,
@@ -552,7 +553,6 @@
 				400821BB137291BE0074DAAF /* bg.png */,
 				40314789136DE3A200C6B9C1 /* whirlpool.png */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				00CCAF14116A9FEE008396D5 /* CinderApp.icns */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -840,7 +840,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00CCAF15116A9FEE008396D5 /* CinderApp.icns in Resources */,
 				4031478A136DE3A200C6B9C1 /* whirlpool.png in Resources */,
 				400821BC137291BE0074DAAF /* bg.png in Resources */,
 				40432BF013730C1D00888C35 /* cursor.png in Resources */,
@@ -990,6 +989,7 @@
 				3FCD0E8E13A14EBE00BD80F7 /* xbox_hand_appear_01.aif in Resources */,
 				3FCD0E8F13A14EBE00BD80F7 /* xbox_hand_appear_02.aif in Resources */,
 				3FCD0E9013A14EBE00BD80F7 /* xbox_rollover_01.aif in Resources */,
+				402C422613A6DDA6003C0D04 /* SeedCluster.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
