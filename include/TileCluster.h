@@ -86,11 +86,15 @@ class TileCluster {
     void secondHandOut();
 };
     
-struct z_depth_compare
-{
-    inline bool operator() (const Tile& t1, const Tile& t2)
-    {
+struct z_depth_compare {
+    inline bool operator() (const Tile& t1, const Tile& t2) {
         return t1.position.z > t2.position.z;
+    }
+};
+
+struct isNixed {
+    inline bool operator() (const Tile & tile) {
+        return tile.state == Nixed;
     }
 };
 

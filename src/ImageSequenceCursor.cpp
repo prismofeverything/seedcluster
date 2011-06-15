@@ -83,7 +83,7 @@ void ImageSequenceCursor::draw()
     {
         gl::pushMatrices();
         glColor4f( 1, 1, 1, 1.0f - sequenceScale );
-        glBlendFunc( GL_ONE, GL_ONE );
+        // glBlendFunc( GL_ONE, GL_ONE );
         gl::enableAlphaBlending();
         gl::translate( reflected );
         gl::scale( Vec3f( sequenceScale, sequenceScale, 1.0f ) );

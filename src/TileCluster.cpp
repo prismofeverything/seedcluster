@@ -42,7 +42,6 @@ void TileCluster::setup()
     anchorDistance = 0;
     scaleDistance = 0;
     tileScale = targetScale = initialScale;
-    
 
     setupShadows();
     setupPosters();
@@ -226,10 +225,40 @@ void TileCluster::generate( TileDimension dim, ci::Vec2i topLeft ) {
 
 void TileCluster::update()
 {
-    int size = tiles.size();
-    for ( int ii = 0; ii < size; ii++ ) {
-        tiles[ii].update();
+    // int size = tiles.size();
+    // if ( size > 0 ) {
+    //     std::cout << tiles.front().alpha << " --- " << tiles.size() << std::endl;
+    // }
+
+    //     if ( tiles.front().state == Entering ) {
+    //         std::cout << "Entering" << std::endl;
+    //     } else if ( tiles.front().state == Leaving ) {
+    //         std::cout << "Leaving" << std::endl;
+    //     } else if ( tiles.front().state == FirstHover ) {
+    //         std::cout << "First Hover" << std::endl;
+    //     } else if ( tiles.front().state == Blooming ) {
+    //         std::cout << "Blooming" << std::endl;
+    //     } else if ( tiles.front().state == Hovering ) {
+    //         std::cout << "Hovering" << std::endl;
+    //     } else if ( tiles.front().state == Unhover ) {
+    //         std::cout << "Unhovering" << std::endl;
+    //     } else if ( tiles.front().state == Nixed ) {
+    //         std::cout << "Nixed" << std::endl;
+    //     } else if ( tiles.front().state == Init ) {
+    //         std::cout << "Init" << std::endl;
+    //     }
+    // }
+
+    for ( std::vector<Tile>::iterator tile = tiles.begin(); tile != tiles.end(); tile++ ) {
+        tile->update();
+        if ( tile->state == Nixed ) {
+            // remove_vertex( tile->vertex, tileGraph );
+            vertexmap.erase( tile->vertex );
+        }
     }
+
+    std::vector<Tile>::iterator cutoff = remove_if( tiles.begin(), tiles.end(), isNixed() );
+    tiles.erase( cutoff, tiles.end() );
 }
 
 void TileCluster::draw()
@@ -248,23 +277,21 @@ void TileCluster::drawSeeds()
 
 void TileCluster::drawTiles( bool posterMode )
 {
-    gl::pushModelView();
     gl::enableAlphaBlending();
     gl::enableDepthRead();
     gl::enableDepthWrite();
+    gl::pushModelView();
 
         gl::translate( tileOffset * translationFactor() );
-        gl::scale( Vec3f( tileScale, tileScale, 1 ) );
+        gl::scale( Vec3f( tileScale, tileScale, tileScale ) );
         
-        int size = tiles.size();
-
         if ( posterMode ) {
-            for ( int ii = 0; ii < size; ii++ ) {
-                tiles[ii].drawPoster();
+            for ( std::vector<Tile>::iterator tile = tiles.begin(); tile != tiles.end(); tile++ ) {
+                tile->drawPoster();
             }
         } else {
-            for ( int ii = 0; ii < size; ii++ ) {
-                tiles[ii].draw();
+            for ( std::vector<Tile>::iterator tile = tiles.begin(); tile != tiles.end(); tile++ ) {
+                tile->draw();
             }
         }
    

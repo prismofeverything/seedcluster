@@ -22,7 +22,7 @@ using namespace ci::app;
 namespace ix
 {
 
-enum TileState { Init, Entering, FirstHover, Blooming, Hovering, UnHover, Leaving, Nixed };
+enum TileState { Init, Entering, FirstHover, Blooming, Hovering, Unhover, Leaving, Nixed };
 enum Collision { Unrelated, Adjacent, Overlapping };
 
 typedef std::pair<ci::Vec2i, ci::gl::Texture> TileDimension;
@@ -56,7 +56,7 @@ class Tile {
           MovieInfo movie,
           Vertex v );
 
-    //    virtual ~Tile();
+    virtual ~Tile();
 
     void update();
     void draw();

@@ -121,9 +121,6 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     Vec3f defaultBackground;
     Vec3f oneBackground;
     Vec3f manyBackground;
-    Ease hueEase;
-    Ease saturationEase;
-    Ease brightnessEase;
 
     // opencv
     cv::Mat depth;
@@ -253,15 +250,11 @@ void SeedClusterApp::setupCursorSequence()
     
     fs::path p( filePath );
     
-    for ( fs::directory_iterator it( p ); it != fs::directory_iterator(); ++it )
-    {
-        if ( fs::is_regular_file( *it ) )
-        {
+    for ( fs::directory_iterator it( p ); it != fs::directory_iterator(); ++it ) {
+        if ( fs::is_regular_file( *it ) ) {
             string fileName = it->path().filename().string();
-            if( !( fileName.compare( ".DS_Store" ) == 0 ) )
-            {
-                if( fileName.compare( compareString ) == 1 )
-                {
+            if( !( fileName.compare( ".DS_Store" ) == 0 ) ) {
+                if( fileName.compare( compareString ) == 1 ) {
                     textures.push_back( gl::Texture( loadImage( filePath + fileName ) ) );
                 }
             }
@@ -350,9 +343,9 @@ void SeedClusterApp::setup()
         kinectColor = Vec3f( 0.0f, 0.0f, 1.0f );
     }
 
-    gl::enableAlphaBlending();
-    gl::enableDepthRead();
-    gl::enableDepthWrite();
+    // gl::enableAlphaBlending();
+    // gl::enableDepthRead();
+    // gl::enableDepthWrite();
 
     cluster.setup();
     handmap.setup();
@@ -388,6 +381,14 @@ void SeedClusterApp::keyDown( KeyEvent event )
         tileMode = !tileMode;
     } else if ( key == 71 || key == 103 ) { // 'g'
         greenMode = !greenMode;
+    } else if ( key == 37 ) { // left arrow
+        
+    } else if ( key == 38 ) { // up arrow
+        kinectTilt += 1;
+    } else if ( key == 39 ) { // right arrow
+        
+    } else if ( key == 40 ) { // down arrow
+        kinectTilt -= 1;
     }
 }
 
@@ -514,8 +515,6 @@ void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other )
     cv::Point p2 = other.smoothCenter( 10 );
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
-    // console() << p1.x << "," << p1.y << " --- " << p2.x << "," << p2.y << std::endl;
-    
     cluster.twoHandsIn( v1, v2 );
 }
 
@@ -634,23 +633,11 @@ void SeedClusterApp::update()
         }
     }
 
-    if ( !hueEase.done() ) {
-        background[0] = hueEase.out();
-    }
-    if ( !saturationEase.done() ) {
-        background[1] = saturationEase.out();
-    }
-    if ( !hueEase.done() ) {
-        background[2] = brightnessEase.out();
-    }
-    if ( !rectangleHoverEase.done() ) {
-        rectangleFactor = rectangleHoverEase.out();
-    }
-
     // eye[2] += eye[2] * 0.0035f;
     // towards[0] += 1.0f;
+
     updateCamera();
-    updateParticles();
+    // updateParticles();
 
     gl::setMatrices( camera );
     gl::rotate( rotation );
@@ -794,13 +781,13 @@ void SeedClusterApp::draw()
     gl::clear( Color( CM_HSV, background ) );
 
     
-    gl::pushMatrices();
-    gl::enableAlphaBlending();
-    gl::color( ColorA( 1, 1, 1, 1 ) );
-    gl::translate( Vec3f( -960.0f, -540.0f, 0 ) );
-    if( bgImage ) gl::draw( bgImage );
-    gl::disableAlphaBlending();
-    gl::popMatrices();
+    // gl::pushMatrices();
+    // gl::enableAlphaBlending();
+    // gl::color( ColorA( 1, 1, 1, 1 ) );
+    // gl::translate( Vec3f( -960.0f, -540.0f, 0 ) );
+    // if( bgImage ) gl::draw( bgImage );
+    // gl::disableAlphaBlending();
+    // gl::popMatrices();
     
     //gl::pushModelView();
     //gl::disableAlphaBlending();

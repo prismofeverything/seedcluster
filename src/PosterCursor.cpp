@@ -87,24 +87,24 @@ void PosterCursor::draw()
     reflected[0] = 640 - reflected[0];
     
     gl::pushModelView();
-    gl::enableAlphaBlending();
-    glColor4f( 1, 1, 1, alpha );
-    gl::drawSolidCircle( reflected, radius * 0.2 );
+        gl::enableAlphaBlending();
+        glColor4f( 1, 1, 1, alpha );
+        gl::drawSolidCircle( reflected, radius * 0.2 );
     gl::popModelView();
     
     gl::pushModelView();
-    Color hsv( CM_HSV, Vec3f( 0.364, 1, 0.6 ) );
-    glColor4f( hsv.r, hsv.g, hsv.b, alpha );
-    gl::drawSolidCircle( reflected, radius * 0.9 );
+        Color hsv( CM_HSV, Vec3f( 0.364, 1, 0.6 ) );
+        glColor4f( hsv.r, hsv.g, hsv.b, alpha );
+        gl::drawSolidCircle( reflected, radius * 0.9 );
     gl::popModelView();
     
     gl::pushModelView();
-    glColor4f( 1, 1, 1, alpha );
-    gl::translate( Vec3f( 0, 0, -1 ) );
-    gl::drawSolidCircle( reflected, radius );
-    
+        glColor4f( 1, 1, 1, alpha );
+        gl::translate( Vec3f( 0, 0, -1 ) );
+        gl::drawSolidCircle( reflected, radius );
+    gl::popModelView();
+
     gl::disableAlphaBlending();
-    gl::popModelView();
 }
 
 } // namespace ix

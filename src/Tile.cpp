@@ -13,7 +13,7 @@
 #include "cinder/ip/Fill.h"
 #include "Tile.h"
 #include "TileCluster.h"
-#include "SoundFxPlayer.h"
+// #include "SoundFxPlayer.h"
 #include "cinder/audio/Output.h"
 #include "Resources.h"
 
@@ -44,7 +44,8 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       state( Init ),
       movieinfo( movie ),
       vertex( v ),
-      scrimAlpha( 0 )
+      scrimAlpha( 0 ),
+      leaveTimer( 0 )
 {
     gl::Texture::Format format;
     format.enableMipmapping( true );
@@ -96,6 +97,11 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
     enter();
 }
 
+Tile::~Tile()
+{
+    
+}
+
 Vec2i Tile::relativeCorner( Vec2i dim, Vec2i orientation )
 {
     Vec2i grid;
@@ -139,98 +145,71 @@ Collision Tile::collidesWith( const ci::Vec2i tl, const ci::Vec2i br )
 
 void Tile::enter()
 {
-    /*if( state != Entering )
-    {
+    if( state != Entering ) {
         Output::play( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ) );
-        alphaEase = Ease( 0.0f, 1.0f, 60 );
-        rotationYEase = Ease( 10, 0, 30 );
-        positionOffsetZEase = Ease( HOVER_Z * 4, -HOVER_Z, 80 );
-        scrimAlphaEase = Ease( 0.7f, SCRIM_ALPHA, 60 );
-        state = Entering;
-    }*/
-    
-    if( state != Entering )
-    {
-        Output::play( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ) );
-        alphaEase = Ease( 0.0f, 1.0f, 60 );
-        rotationYEase = Ease( 10, 0.0f, 30 );
-        positionOffsetZEase = Ease( HOVER_Z * 4, 0.0f, 80 );
-        scrimAlphaEase = Ease( 0.7f, 0.0f, 60 );
+        alphaEase = Ease( 0.0f, 1.0f, 40 );
+        rotationYEase = Ease( 10, 0.0f, 40 );
+        positionOffsetZEase = Ease( HOVER_Z * 4, 0.0f, 40 );
+        scrimAlphaEase = Ease( 0.7f, 0.0f, 40 );
         state = Entering;
     }
 }
 
 void Tile::hover()
 {
-    if( state == Blooming || state == UnHover )
-    {
+    if( state == Blooming || state == Unhover ) {
         Output::play( audio::load( loadResource( RES_HOVER_SOUND ) ) );
         positionOffsetZEase = Ease( positionOffset.z, -HOVER_Z, 40 );
         scrimAlphaEase = Ease( scrimAlpha, SCRIM_ALPHA, 40 );
         state = Hovering;
-        console() << "hover()" << std::endl;
-    } else {
-        //console() << "aborting hover, state is: " << state << std::endl;
     }
 }
 
 void Tile::unhover()
 {
-    if( state == Hovering || state == FirstHover || state == Entering )
-    {
+    if( state == Hovering || state == FirstHover || state == Entering ) {
         alphaEase = Ease( alpha, 1, 40 );
         scrimAlphaEase = Ease( scrimAlpha, 0, 40 );
         positionOffsetZEase = Ease( positionOffset.z, 0, 40 );
-        rotationYEase = Ease( rotation.y, 0, 30 );
-        state = UnHover;
+        rotationYEase = Ease( rotation.y, 0, 40 );
+        state = Unhover;
     }
 }
     
 void Tile::leave()
 {
     alphaEase = Ease( alpha, 0.0f, 40 );
-    rotationYEase = Ease( rotation.y, -10, 30 );
-    positionOffsetZEase = Ease( position.z, HOVER_Z, 80 );
+    rotationYEase = Ease( rotation.y, -70, 40 );
+    positionOffsetZEase = Ease( positionOffset.z, HOVER_Z * 8, 40 );
+    scrimAlphaEase = Ease( scrimAlpha, 0, 40 );
     state = Leaving; 
 }
 
 void Tile::update()
 {
-    bool complete = false;
-    
-    if( state == Nixed ) return;
-    
+    leaveTimer++;
+    if ( !(state == Leaving) && leaveTimer >= 100 ) leave();
+
+    if ( !alphaEase.done() ) alpha = alphaEase.out();
+    if ( !positionOffsetZEase.done() ) positionOffset.z = positionOffsetZEase.out();
+    if ( !rotationYEase.done() ) rotation.y = rotationYEase.out();
+    if ( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
+    bool complete = alphaEase.done() && scrimAlphaEase.done() && positionOffsetZEase.done() && rotationYEase.done();
+
     switch( state ) 
     {
         case Entering:
-            if ( !alphaEase.done() && !scrimAlphaEase.done() && !positionOffsetZEase.done() && !rotationYEase.done() ) 
-            {
-                alpha = alphaEase.out();
-                scrimAlpha = scrimAlphaEase.out();
-                positionOffset.z = positionOffsetZEase.out();
-                rotation.y = rotationYEase.out();
-            } else {
-                state = Blooming;
-            }
+            if ( complete ) state = Blooming;
             break;
         
         case FirstHover:
-            
             break;
             
         case Blooming:
-            //leaveTimer++;
-            if( leaveTimer >= 600 ) leave();
             break;
         
         case Leaving:
-            alpha = alphaEase.out();
-            positionOffset.z = positionOffsetZEase.out();
-            rotation.y = rotationYEase.out();
-            
-            complete = alphaEase.done() && positionOffsetZEase.done() && rotationYEase.done();
-            if( complete ) 
-            {
+            if( complete ) {
                 visible = false;
                 state = Nixed;
             }
@@ -238,20 +217,11 @@ void Tile::update()
             break;
         
         case Hovering:
-            leaveTimer = 0;
-            if( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
-            if( !positionOffsetZEase.done() )  positionOffset.z = positionOffsetZEase.out();
             break;
             
-        case UnHover:
-            if( !alphaEase.done() ) alpha = alphaEase.out();
-            if( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
-            if( !positionOffsetZEase.done() ) positionOffset.z = positionOffsetZEase.out();
-            if( !rotationYEase.done() ) rotation.y = rotationYEase.out();
-            complete = alphaEase.done() && scrimAlphaEase.done() && positionOffsetZEase.done() && rotationYEase.done();
+        case Unhover:
             if( complete ) {
                 state = Blooming;
-                leaveTimer = 0;
             }
             break;
             
@@ -287,15 +257,12 @@ void Tile::draw()
 void Tile::drawShadow()
 {
     gl::pushMatrices();
-    glColor4f( 0.0f, 0.0f, 0.0f, alpha );
-
-    gl::disableDepthWrite();
-    
-    gl::translate( ci::Vec3f( -50.0f, -50.0f, 0 ) );
-    gl::draw( dimension.second );
+        glColor4f( 0.0f, 0.0f, 0.0f, alpha );
+        gl::disableDepthWrite();
+        gl::translate( ci::Vec3f( -50.0f, -50.0f, 0 ) );
+        gl::draw( dimension.second );
+        gl::enableDepthWrite();
     gl::popMatrices();
-    
-    gl::enableDepthWrite();
 }
 
 void Tile::drawPoster()
@@ -315,15 +282,18 @@ void Tile::drawPoster()
         gl::draw( movieinfo.image, field, ci::Rectf( Vec2i( 0, 0 ), posterdim ) );
         
         gl::pushMatrices();
-        gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 1.0f ) );
+        gl::translate( ci::Vec3f( 0.0f, atomHeight * dimension.first[1] - INFOHEIGHT, 0 ) );
         gl::draw( posterinfo );
         gl::popMatrices();
         
         drawShadow();
         
-        gl::translate( Vec3f( 0.0f, 0.0f,  -2) );
-        gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
-        gl::drawSolidRect( box );
+        if ( scrimAlpha > 0 ) {
+            gl::translate( Vec3f( 0.0f, 0.0f, -2) );
+            gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
+            gl::drawSolidRect( box );
+            glColor4f( 1.0f, 1.0f, 1.0f, alpha );
+        }
         
         gl::popMatrices();
     }
