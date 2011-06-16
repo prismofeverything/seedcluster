@@ -13,12 +13,10 @@
 #include "cinder/ip/Fill.h"
 #include "Tile.h"
 #include "TileCluster.h"
-// #include "SoundFxPlayer.h"
 #include "cinder/audio/Output.h"
 #include "Resources.h"
 
 using namespace ci;
-using namespace ci::audio;
 using namespace std;
 
 #define TAU 6.2831853071795862f
@@ -146,7 +144,7 @@ Collision Tile::collidesWith( const ci::Vec2i tl, const ci::Vec2i br )
 void Tile::enter()
 {
     if( state != Entering ) {
-        Output::play( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ) );
+        audio::Output::play( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ) );
         alphaEase = Ease( 0.0f, 1.0f, 40 );
         rotationYEase = Ease( 10, 0.0f, 40 );
         positionOffsetZEase = Ease( HOVER_Z * 4, 0.0f, 40 );
@@ -157,8 +155,9 @@ void Tile::enter()
 
 void Tile::hover()
 {
+    leaveTimer = 0;
     if( state == Blooming || state == Unhover ) {
-        Output::play( audio::load( loadResource( RES_HOVER_SOUND ) ) );
+        audio::Output::play( audio::load( loadResource( RES_HOVER_SOUND ) ) );
         positionOffsetZEase = Ease( positionOffset.z, -HOVER_Z, 40 );
         scrimAlphaEase = Ease( scrimAlpha, SCRIM_ALPHA, 40 );
         state = Hovering;
@@ -188,7 +187,7 @@ void Tile::leave()
 void Tile::update()
 {
     leaveTimer++;
-    if ( !(state == Leaving) && leaveTimer >= 100 ) leave();
+    if ( !(state == Leaving) && leaveTimer >= 200 ) leave();
 
     if ( !alphaEase.done() ) alpha = alphaEase.out();
     if ( !positionOffsetZEase.done() ) positionOffset.z = positionOffsetZEase.out();
@@ -299,8 +298,8 @@ void Tile::drawPoster()
     }
 }
 
-ci::Font Tile::segoe = Font( "Helvetica", 24 );
-ci::Font Tile::segoebold = Font( "Helvetica", 32 );
-ci::Font Tile::segoesemibold = Font( "Helvetica", 24 );
+ci::Font Tile::segoe = Font( "Segoe", 24 );
+ci::Font Tile::segoebold = Font( "Segoe", 32 );
+ci::Font Tile::segoesemibold = Font( "Segoe", 24 );
 
 };

@@ -31,6 +31,11 @@ TileCluster::TileCluster()
 
 void TileCluster::setup()
 {
+    hoverTrack = audio::Output::addTrack( audio::load( loadResource( RES_HOVER_SOUND ) ), false );
+    hoverTrack->setLooping( false );
+    flipTrack = audio::Output::addTrack( audio::load( loadResource( RES_TILE_FLIP_SOUND ) ), false );
+    flipTrack->setLooping( false );
+
     chosenSeed = seeds.end();
     hoverSeed = seeds.end();
     chosenTile = NULL;
@@ -45,6 +50,13 @@ void TileCluster::setup()
 
     setupShadows();
     setupPosters();
+}
+
+void TileCluster::playSound( audio::TrackRef & track )
+{
+    track->stop();
+    track->setTime( 0 );
+    track->play();
 }
 
 TileDimension TileCluster::chooseDimension()
@@ -67,6 +79,7 @@ Tile & TileCluster::addTile( Vec2i position, TileDimension dim, float z, Vec3f c
     Vertex v = add_vertex( tileGraph );
     tiles.push_back( Tile( this, tiles.size(), position, dim, z, color, choosePoster(), v ) );
     vertexmap[v] = &tiles.back();
+
     return tiles.back();
 }
 
@@ -82,20 +95,6 @@ void TileCluster::clearSeeds()
 
 void TileCluster::handOver( Vec2i point )
 {
-    /*std::vector<Seed>::iterator previousSeed = hoverSeed;
-    hoverSeed = std::find_if ( seeds.begin(), seeds.end(), SeedContains( point ) );
-
-    if ( previousSeed == seeds.end() ) {
-        if ( hoverSeed != seeds.end() ) {
-            hoverSeed->hover();
-        }
-    } else if ( previousSeed != hoverSeed ) {
-        previousSeed->unhover();
-        if ( hoverSeed != seeds.end() ) {
-            hoverSeed->hover();
-        }
-    }*/
-
     lens.set( point );
     lens.x = 640.0f - lens.x;
     lens -= Vec2f( 320.0f, 240.0f ) + ( tileOffset * translationFactor() );
@@ -107,6 +106,7 @@ void TileCluster::handOver( Vec2i point )
     if ( ht == tiles.end() ) {
         generateUnder( lens );
         ht = std::find_if ( tiles.begin(), tiles.end(), TileContains( lens ) );
+        // if ( ht != tiles.end() ) playSound( flipTrack );
     }
     
     if( previousTile && previousTile != &( *ht ) ) {
@@ -116,12 +116,14 @@ void TileCluster::handOver( Vec2i point )
     if ( ht != tiles.end() ) {
         hoverTile = &( *ht );
         previousTile = hoverTile;
+        // if ( ht->state != Hovering ) playSound( hoverTrack );
         ht->hover();
-        
+
         int yoyo = 0;
         Adjacency adjacent, adjacent_end;
         for ( tie(adjacent, adjacent_end) = adjacent_vertices( ht->vertex, tileGraph ); 
               adjacent != adjacent_end; adjacent++ ) {
+            // vertexmap[*adjacent]->leaveTimer = 0;
             yoyo++;
         }
 
@@ -137,8 +139,6 @@ void TileCluster::unhover()
 {
     
 }
-    
-// ----------- TWO HANDS - scaling
     
 void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 {

@@ -5,11 +5,13 @@
 #include <boost/tuple/tuple.hpp>
 #include "cinder/Cinder.h"
 #include "cinder/app/App.h"
+#include "cinder/audio/Output.h"
 #include "cinder/Vector.h"
 #include "cinder/Color.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/Rand.h"
 #include "cinder/DataSource.h"
+#include "Resources.h"
 #include "Seed.h"
 #include "Tile.h"
 
@@ -43,6 +45,7 @@ class TileCluster {
     bool chooseSeed( ci::Vec2i point );
     void releaseSeed();
     bool isSeedChosen();
+    void playSound( ci::audio::TrackRef & track );
 
     inline float translationFactor() { return (targetScale + tileScale) * initialScaleInverse; };
     
@@ -71,6 +74,9 @@ class TileCluster {
     
     ci::Vec2f lens;
     
+    ci::audio::TrackRef hoverTrack;
+    ci::audio::TrackRef flipTrack;
+
     // -- two hands
     double anchorDistance;
     double scaleDistance;

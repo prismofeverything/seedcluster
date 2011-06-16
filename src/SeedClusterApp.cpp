@@ -305,7 +305,7 @@ void SeedClusterApp::setup()
     rectangleMode = false;
     greenMode = false;
     tileMode = true;
-    posterMode = false;
+    posterMode = true;
 
     params = params::InterfaceGl( "seedcluster", Vec2i( 200, 180 ) );
     params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
@@ -335,7 +335,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 5.0f;
+        kinectTilt = 15.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;
@@ -383,12 +383,12 @@ void SeedClusterApp::keyDown( KeyEvent event )
         greenMode = !greenMode;
     } else if ( key == 37 ) { // left arrow
         
-    } else if ( key == 38 ) { // up arrow
-        kinectTilt += 1;
+    } else if ( key == 65 ) { // up arrow
+        kinectTilt += 1.0f;
     } else if ( key == 39 ) { // right arrow
         
-    } else if ( key == 40 ) { // down arrow
-        kinectTilt -= 1;
+    } else if ( key == 91 ) { // down arrow
+        kinectTilt -= 1.0f;
     }
 }
 
@@ -431,7 +431,8 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
 
     cv::Point p = hand.smoothCenter( 20 );
     cluster.handOver( Vec2f( p.x, p.y ) );
-    Output::play( audio::load( loadResource( RES_HAND_ENTER_SOUND ) ) );
+    ix::SoundFXPlayer::handIn();
+    // audio::Output::play( audio::load( loadResource( RES_HAND_ENTER_SOUND ) ) );
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
@@ -440,8 +441,9 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
     handmap.out( hand );
 
     cluster.releaseSeed();
+    ix::SoundFXPlayer::handOut();
     
-    Output::play( audio::load( loadResource( RES_HAND_LEAVE_SOUND ) ) );
+    // audio::Output::play( audio::load( loadResource( RES_HAND_LEAVE_SOUND ) ) );
 }
 
 void SeedClusterApp::handMove( const ix::Hand & hand )
