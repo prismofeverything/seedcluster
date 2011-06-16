@@ -301,11 +301,11 @@ void SeedClusterApp::setup()
     cannyUpperThreshold = 0;
 
     seedMode = false;
-    innardsMode = false;
+    innardsMode = true;
     rectangleMode = false;
     greenMode = false;
-    tileMode = true;
-    posterMode = true;
+    tileMode = false; // true;
+    posterMode = false; // true;
 
     params = params::InterfaceGl( "seedcluster", Vec2i( 200, 180 ) );
     params.addParam( "canny lower threshold", &cannyLowerThreshold, "min=0 max=250 step=1" );
@@ -324,7 +324,7 @@ void SeedClusterApp::setup()
     keyIsDown = false;
 
     rotation.w = 0.0f;
-    eye = Vec3f( 0.0f, 0.0f, 500.0f );
+    eye = Vec3f( 0.0f, 0.0f, -500.0f );
     towards = Vec3f( 0.0f, 0.0f, 0.0f );
     up = Vec3f::yAxis();
     camera.setPerspective( fovea, getWindowAspectRatio(), near, far );
@@ -732,7 +732,8 @@ void SeedClusterApp::drawSmoothHands()
 void SeedClusterApp::drawField()
 {
     gl::pushModelView();
-    gl::translate( Vec3f( 0.0f, 0.0f, -2.0f ) );
+    // gl::translate( Vec3f( 0.0f, 0.0f, -2.0f ) );
+    // gl::translate( Vec3f( -690.0f, -390.0f, 2.0f ) );
     setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
     cv::Mat field = tracker.displayField( cannyLowerThreshold, cannyUpperThreshold );
     drawMat( field );
@@ -781,7 +782,6 @@ void SeedClusterApp::draw()
 {
     // clear it out to the bg
     gl::clear( Color( CM_HSV, background ) );
-
     
     // gl::pushMatrices();
     // gl::enableAlphaBlending();
@@ -834,13 +834,15 @@ void SeedClusterApp::draw()
     //gl::color( Color( 1, 0, 0 ) );
     //gl::drawSolidCircle( Vec2i( 0, 0 ), 20 );
 
-    // if ( innardsMode ) {
-    //     drawRawHands();
-    //     drawField();
-    //     if ( seedMode ) {
-    //         cluster.drawSeeds();
-    //     }
-    // }
+    if ( innardsMode ) {
+        gl::translate( Vec3f( -390.0f, -290.0f, 0.0f ) );
+        drawField();
+        gl::translate( Vec3f( 0.0f, 0.0f, 5.0f ) );
+        drawRawHands();
+        if ( seedMode ) {
+            cluster.drawSeeds();
+        }
+    }
 
     //gl::popModelView();
     
