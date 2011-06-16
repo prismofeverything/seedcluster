@@ -834,13 +834,13 @@ void SeedClusterApp::draw()
     //gl::color( Color( 1, 0, 0 ) );
     //gl::drawSolidCircle( Vec2i( 0, 0 ), 20 );
 
-    /*if ( innardsMode ) {
-        drawRawHands();
-        drawField();
-        if ( seedMode ) {
-            cluster.drawSeeds();
-        }
-    }*/
+    // if ( innardsMode ) {
+    //     drawRawHands();
+    //     drawField();
+    //     if ( seedMode ) {
+    //         cluster.drawSeeds();
+    //     }
+    // }
 
     //gl::popModelView();
     
