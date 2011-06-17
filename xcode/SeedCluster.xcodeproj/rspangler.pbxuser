@@ -108,8 +108,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 329960808;
-			PBXWorkspaceStateSaveDate = 329960808;
+			PBXPerProjectTemplateStateSaveDate = 330025052;
+			PBXWorkspaceStateSaveDate = 330025052;
 		};
 		perUserProjectItems = {
 			4003D404134F86C30058C709 = 4003D404134F86C30058C709 /* PBXTextBookmark */;
@@ -121,9 +121,9 @@
 			40324F0513A9251A0006FB94 = 40324F0513A9251A0006FB94 /* PlistBookmark */;
 			40324F0613A9251A0006FB94 = 40324F0613A9251A0006FB94 /* PBXTextBookmark */;
 			40324F0713A9251A0006FB94 = 40324F0713A9251A0006FB94 /* PBXTextBookmark */;
-			40324F7B13AA61B50006FB94 = 40324F7B13AA61B50006FB94 /* PBXTextBookmark */;
 			403C0E8D136B19E800D7AAB2 = 403C0E8D136B19E800D7AAB2 /* PBXTextBookmark */;
 			4040690713688C28004BCB5C = 4040690713688C28004BCB5C /* PBXTextBookmark */;
+			4058CBC513ABC87900637FD0 /* PBXTextBookmark */ = 4058CBC513ABC87900637FD0 /* PBXTextBookmark */;
 			407B87CF1350FFDC0069D7B7 = 407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */;
 			40DF3CFE13AAB2F700686875 = 40DF3CFE13AAB2F700686875 /* PBXTextBookmark */;
 			40E25A63135FA51D00C92521 = 40E25A63135FA51D00C92521 /* PBXTextBookmark */;
@@ -353,23 +353,6 @@
 		vrLen = 4566;
 		vrLoc = 8158;
 	};
-	40324F7B13AA61B50006FB94 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 40324F7C13AA61B50006FB94 /* basic_string.h */;
-		name = "basic_string.h: 287";
-		rLen = 0;
-		rLoc = 9902;
-		rType = 0;
-		vrLen = 725;
-		vrLoc = 9467;
-	};
-	40324F7C13AA61B50006FB94 /* basic_string.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = basic_string.h;
-		path = "/Developer/SDKs/MacOSX10.6.sdk/usr/include/c++/4.2.1/bits/basic_string.h";
-		sourceTree = "<absolute>";
-	};
 	403BD98B135CA7730071B047 /* HandTracker.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1144, 1183}}";
@@ -382,7 +365,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1157, 5642}}";
 			sepNavSelRange = "{1079, 0}";
-			sepNavVisRange = "{720, 714}";
+			sepNavVisRange = "{760, 612}";
 			sepNavWindowFrame = "{{23, 1012}, {750, 558}}";
 		};
 	};
@@ -478,6 +461,16 @@
 		modificationTime = 329419429.387971;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
+	};
+	4058CBC513ABC87900637FD0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 403BD98C135CA7810071B047 /* HandTracker.cpp */;
+		name = "HandTracker.cpp: 48";
+		rLen = 0;
+		rLoc = 1079;
+		rType = 0;
+		vrLen = 612;
+		vrLoc = 760;
 	};
 	407B87CF1350FFDC0069D7B7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
