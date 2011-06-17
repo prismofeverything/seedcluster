@@ -189,10 +189,18 @@ void Tile::update()
     leaveTimer++;
     if ( !(state == Leaving) && leaveTimer >= 200 ) leave();
 
-    if ( !alphaEase.done() ) alpha = alphaEase.out();
-    if ( !positionOffsetZEase.done() ) positionOffset.z = positionOffsetZEase.out();
-    if ( !rotationYEase.done() ) rotation.y = rotationYEase.out();
-    if ( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
+    if ( state == Leaving ) {
+        if ( !alphaEase.done() ) alpha = alphaEase.in();
+        if ( !positionOffsetZEase.done() ) positionOffset.z = positionOffsetZEase.in();
+        if ( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.in();
+        if ( !rotationYEase.done() ) rotation.y = rotationYEase.in();
+    } else {
+        if ( !alphaEase.done() ) alpha = alphaEase.out();
+        if ( !positionOffsetZEase.done() ) positionOffset.z = positionOffsetZEase.out();
+        if ( !scrimAlphaEase.done() ) scrimAlpha = scrimAlphaEase.out();
+        if ( !rotationYEase.done() ) rotation.y = rotationYEase.out();
+    }
+
     bool complete = alphaEase.done() && scrimAlphaEase.done() && positionOffsetZEase.done() && rotationYEase.done();
 
     switch( state ) 
