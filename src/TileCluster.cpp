@@ -47,6 +47,7 @@ void TileCluster::setup()
     anchorDistance = 0;
     scaleDistance = 0;
     tileScale = targetScale = initialScale;
+    scaleTriggered = false;
 
     setupShadows();
     setupPosters();
@@ -116,7 +117,6 @@ void TileCluster::handOver( Vec2i point )
     if ( ht != tiles.end() ) {
         hoverTile = &( *ht );
         previousTile = hoverTile;
-        // if ( ht->state != Hovering ) playSound( hoverTrack );
         ht->hover();
 
         int yoyo = 0;
@@ -149,9 +149,17 @@ void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
 {
     scaleDistance = (float) first.distance( second );
-    targetScale += ( scaleDistance - anchorDistance ) * 0.00005;
-    targetScale =  max( 0.05f, min( targetScale, 1.0f ) );
-    tileScale = targetScale;
+    if ( !scaleTriggered && scaleDistance - anchorDistance > 0 ) {
+        scaleEase = Ease( tileScale, outScale, 50 );
+        scaleTriggered = true;
+    } else if ( scaleTriggered && scaleDistance - anchorDistance < 0 ) {
+        scaleEase = Ease( tileScale, initialScale, 50 );
+        scaleTriggered = false;
+    }
+
+    // targetScale += ( scaleDistance - anchorDistance ) * 0.00005;
+    // targetScale =  max( 0.05f, min( targetScale, 1.0f ) );
+    // tileScale = targetScale;
 }
     
 void TileCluster::secondHandOut()
@@ -248,6 +256,10 @@ void TileCluster::update()
     //         std::cout << "Init" << std::endl;
     //     }
     // }
+
+    if ( !scaleEase.done() ) {
+        tileScale = scaleEase.in();
+    }
 
     for ( std::vector<Tile>::iterator tile = tiles.begin(); tile != tiles.end(); tile++ ) {
         tile->update();

@@ -432,7 +432,6 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
     cv::Point p = hand.smoothCenter( 20 );
     cluster.handOver( Vec2f( p.x, p.y ) );
     ix::SoundFXPlayer::handIn();
-    // audio::Output::play( audio::load( loadResource( RES_HAND_ENTER_SOUND ) ) );
 }
 
 void SeedClusterApp::handOut( const ix::Hand & hand )
@@ -442,8 +441,6 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
 
     cluster.releaseSeed();
     ix::SoundFXPlayer::handOut();
-    
-    // audio::Output::play( audio::load( loadResource( RES_HAND_LEAVE_SOUND ) ) );
 }
 
 void SeedClusterApp::handMove( const ix::Hand & hand )
@@ -454,11 +451,11 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
     cv::Point p = hand.smoothCenter( 20 );
     cluster.handOver( Vec2f( p.x, p.y ) );
 
-    if ( rectangle.boundingRect().contains( hand.center ) ) {
-        rectangleHoverEase = Ease( rectangleFactor, 1.2f, 30 );
-    } else {
-        rectangleHoverEase = Ease( rectangleFactor, 1.0f, 30 );
-    }
+    // if ( rectangle.boundingRect().contains( hand.center ) ) {
+    //     rectangleHoverEase = Ease( rectangleFactor, 1.2f, 30 );
+    // } else {
+    //     rectangleHoverEase = Ease( rectangleFactor, 1.0f, 30 );
+    // }
 }
 
 void SeedClusterApp::handClose( const ix::Hand & hand )
@@ -472,11 +469,11 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
     cv::Point p = hand.smoothCenter( 20 );
     cluster.handOver( Vec2f( p.x, p.y ) );
 
-    if ( cluster.chooseSeed( closePoint ) ) {
+    // if ( cluster.chooseSeed( closePoint ) ) {
         
-    } else {
-        cluster.plantSeed( closePoint, Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
-    }
+    // } else {
+    //     cluster.plantSeed( closePoint, Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
+    // }
 }
 
 void SeedClusterApp::handOpen( const ix::Hand & hand )
@@ -499,22 +496,23 @@ void SeedClusterApp::handDrag( const ix::Hand & hand )
     cv::Point average = hand.smoothCenter( 10 );
     cluster.handOver( Vec2f( average.x, average.y ) );
     
-    Vec2f smooth( average.x, average.y );
+    // Vec2f smooth( average.x, average.y );
 
-    if ( cluster.isSeedChosen() ) 
-    {
-        cluster.chosenSeed->seek( smooth );
-    }
+    // if ( cluster.isSeedChosen() ) 
+    // {
+    //     cluster.chosenSeed->seek( smooth );
+    // }
 }
 
 void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other ) 
 {
     handmap.in( in );
-    
+
+    // handIn( in );
+
     cv::Point p1 = in.smoothCenter( 10 );
-    Vec2i v1 = Vec2i( p1.x, p1.y );
-    
     cv::Point p2 = other.smoothCenter( 10 );
+    Vec2i v1 = Vec2i( p1.x, p1.y );
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
     cluster.twoHandsIn( v1, v2 );
@@ -524,7 +522,8 @@ void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other
 {
     //std::cout << "second hand out - " << out.hue << std::endl;
     handmap.out( out );
-    cluster.secondHandOut();
+
+    // cluster.secondHandOut();
     cv::Point average = other.smoothCenter( 10 );
     cluster.handOver( Vec2f( average.x, average.y ) );    
 }
@@ -534,6 +533,7 @@ void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & ot
     //std::cout << "first hand close - " << close.hue << std::endl;
 
     //handClose( close );
+
     handmap.close( close );
     scaleScene( close, other );
 }
@@ -589,11 +589,13 @@ void SeedClusterApp::scaleScene( const ix::Hand & first, const ix::Hand & second
     handmap.move( second );
     
     cv::Point p1 = first.smoothCenter( 10 );
-    Vec2i v1 = Vec2i( p1.x, p1.y );
-    
     cv::Point p2 = second.smoothCenter( 10 );
+    Vec2i v1 = Vec2i( p1.x, p1.y );
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
+    // cluster.handOver( v1 );
+    // cluster.handOver( v2 );
+
     cluster.twoHandsMove( v1, v2 );
 }
 

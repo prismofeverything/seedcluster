@@ -112,6 +112,7 @@ class Tile {
     Ease rotationYEase;
     
     int leaveTimer;
+    int hoverTimer;
     bool visible;
 };
 

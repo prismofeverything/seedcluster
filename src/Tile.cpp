@@ -43,7 +43,8 @@ Tile::Tile( TileCluster * clust, int index, Vec2i grid, TileDimension dim, float
       movieinfo( movie ),
       vertex( v ),
       scrimAlpha( 0 ),
-      leaveTimer( 0 )
+      leaveTimer( 0 ),
+      hoverTimer( 0 )
 {
     gl::Texture::Format format;
     format.enableMipmapping( true );
@@ -156,7 +157,8 @@ void Tile::enter()
 void Tile::hover()
 {
     leaveTimer = 0;
-    if( state == Blooming || state == Unhover ) {
+    hoverTimer += 1;
+    if( hoverTimer > 30 && (state == Blooming || state == Unhover) ) {
         audio::Output::play( audio::load( loadResource( RES_HOVER_SOUND ) ) );
         positionOffsetZEase = Ease( positionOffset.z, -HOVER_Z, 40 );
         scrimAlphaEase = Ease( scrimAlpha, SCRIM_ALPHA, 40 );
@@ -167,6 +169,7 @@ void Tile::hover()
 void Tile::unhover()
 {
     if( state == Hovering || state == FirstHover || state == Entering ) {
+        hoverTimer = 0;
         alphaEase = Ease( alpha, 1, 40 );
         scrimAlphaEase = Ease( scrimAlpha, 0, 40 );
         positionOffsetZEase = Ease( positionOffset.z, 0, 40 );
@@ -297,7 +300,8 @@ void Tile::drawPoster()
         
         if ( scrimAlpha > 0 ) {
             gl::translate( Vec3f( 0.0f, 0.0f, -2) );
-            gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
+            glColor4f( 0.619f, 0.823f, 0.0745f, scrimAlpha );
+            //gl::color( ColorA( 0.2f, 0.85f, 0.2f, scrimAlpha ) );
             gl::drawSolidRect( box );
             glColor4f( 1.0f, 1.0f, 1.0f, alpha );
         }
@@ -306,8 +310,8 @@ void Tile::drawPoster()
     }
 }
 
-ci::Font Tile::segoe = Font( "Segoe", 24 );
-ci::Font Tile::segoebold = Font( "Segoe", 32 );
-ci::Font Tile::segoesemibold = Font( "Segoe", 24 );
+ci::Font Tile::segoe = Font( "Segoe Black", 24 );
+ci::Font Tile::segoebold = Font( "Segoe Black", 32 );
+ci::Font Tile::segoesemibold = Font( "Segoe Black", 24 );
 
 };

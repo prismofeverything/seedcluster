@@ -47,11 +47,13 @@ class TileCluster {
     bool isSeedChosen();
     void playSound( ci::audio::TrackRef & track );
 
-    inline float translationFactor() { return (targetScale + tileScale) * initialScaleInverse; };
+    // inline float translationFactor() { return (targetScale + tileScale) * initialScaleInverse; };
+    inline float translationFactor() { return tileScale * initialScaleInverse; };
     
     static const float branchRate = 0.3f;
     static const float initialScale = 0.32f;
     static const float initialScaleInverse = 1.0f / 0.32f;
+    static const float outScale = 0.032f;
 
     TileGraph tileGraph;
 
@@ -86,6 +88,8 @@ class TileCluster {
     
     float targetScale;
     float tileScale;
+    Ease scaleEase;
+    bool scaleTriggered;
     
     void twoHandsIn( ci::Vec2i first, ci::Vec2i second );
     void twoHandsMove( ci::Vec2i first, ci::Vec2i second );
