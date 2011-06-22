@@ -53,11 +53,11 @@ class TileCluster {
     static const float branchRate = 0.3f;
     static const float initialScale = 0.32f;
     static const float initialScaleInverse = 1.0f / 0.32f;
-    static const float outScale = 0.032f;
+    static const float outScale = 0.072f;
+    static const int scaleDuration = 40;
+    static const int ageThreshold = 20;
 
     TileGraph tileGraph;
-
-    ci::Vec2f tileOffset;
 
     std::vector<Tile> tiles;
     std::vector<Tile> available;
@@ -65,6 +65,8 @@ class TileCluster {
     Tile * previousTile;
     Tile * chosenTile;
     std::map<Vertex, Tile *> vertexmap;
+
+    ci::Vec2f tileOffset;
 
     std::vector<TileDimension> tileDimensions;
     std::vector<ci::Vec2i> orientations;

@@ -187,10 +187,10 @@ void Tile::leave()
     state = Leaving; 
 }
 
-void Tile::update()
+void Tile::update( bool age )
 {
-    leaveTimer++;
-    if ( !(state == Leaving) && leaveTimer >= 200 ) leave();
+    if (age) leaveTimer++;
+    if ( !(state == Leaving) && leaveTimer >= 120 ) leave();
 
     if ( state == Leaving ) {
         if ( !alphaEase.done() ) alpha = alphaEase.in();

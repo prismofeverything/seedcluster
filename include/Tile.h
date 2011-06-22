@@ -58,7 +58,7 @@ class Tile {
 
     virtual ~Tile();
 
-    void update();
+    void update( bool age );
     void draw();
     void drawPoster();
     void drawShadow();

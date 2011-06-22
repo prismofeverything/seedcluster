@@ -150,10 +150,10 @@ void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
 {
     scaleDistance = (float) first.distance( second );
     if ( !scaleTriggered && scaleDistance - anchorDistance > 0 ) {
-        scaleEase = Ease( tileScale, outScale, 50 );
+        scaleEase = Ease( tileScale, outScale, scaleDuration + 30 );
         scaleTriggered = true;
     } else if ( scaleTriggered && scaleDistance - anchorDistance < 0 ) {
-        scaleEase = Ease( tileScale, initialScale, 50 );
+        scaleEase = Ease( tileScale, initialScale, scaleDuration );
         scaleTriggered = false;
     }
 
@@ -258,15 +258,21 @@ void TileCluster::update()
     // }
 
     if ( !scaleEase.done() ) {
-        tileScale = scaleEase.in();
+        if ( scaleTriggered ) {
+            tileScale = scaleEase.out();
+        } else {
+            tileScale = scaleEase.in();
+        }
     }
 
+    int age = tiles.size();
     for ( std::vector<Tile>::iterator tile = tiles.begin(); tile != tiles.end(); tile++ ) {
-        tile->update();
+        tile->update( age > ageThreshold );
         if ( tile->state == Nixed ) {
             // remove_vertex( tile->vertex, tileGraph );
             vertexmap.erase( tile->vertex );
         }
+        age--;
     }
 
     std::vector<Tile>::iterator cutoff = remove_if( tiles.begin(), tiles.end(), isNixed() );
