@@ -178,6 +178,9 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     
     // graphics
     gl::Texture bgImage;
+
+    int ticks;
+    int posts;
     
     // cursor sequence
     void setupCursorSequence();
@@ -224,6 +227,9 @@ void SeedClusterApp::setColor( ci::Vec3f color, float alpha )
 void SeedClusterApp::prepareSettings( Settings *settings )
 {
     Rand::randomize();
+
+    ticks = 0;
+    posts = 0;
 
     width = 1920;
     height = 1080;
@@ -335,7 +341,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 15.0f;
+        kinectTilt = 0.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;
@@ -347,7 +353,7 @@ void SeedClusterApp::setup()
     // gl::enableDepthRead();
     // gl::enableDepthWrite();
 
-    cluster.setup();
+    // cluster.setup();
     handmap.setup();
     setupCursorSequence();
 }
@@ -372,7 +378,7 @@ void SeedClusterApp::keyDown( KeyEvent event )
         rectangleMode = !rectangleMode;
     } else if ( key == 79 || key == 111 ) { // 'o'
         innardsMode = !innardsMode;
-        cluster.clearSeeds();
+        // cluster.clearSeeds();
     } else if ( key == 80 || key == 112 ) { // 'p'
         posterMode = !posterMode;
     } else if ( key == 83 || key == 115 ) { // 's'
@@ -404,7 +410,7 @@ void SeedClusterApp::mouseDown( MouseEvent event )
     mousePosition = event.getPos();
     Vec2i gridPosition = Vec2i(((float) mousePosition[0]) / ix::Tile::atomWidth, ((float) mousePosition[1]) / ix::Tile::atomHeight);
 
-    cluster.mouseDown( gridPosition, mouseVelocity, bloomColor );
+    // cluster.mouseDown( gridPosition, mouseVelocity, bloomColor );
 }
 
 void SeedClusterApp::mouseUp( MouseEvent event )
@@ -430,8 +436,8 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
     handmap.in( hand );
 
     cv::Point p = hand.smoothCenter( 20 );
-    cluster.handOver( Vec2f( p.x, p.y ) );
-    ix::SoundFXPlayer::handIn();
+    // cluster.handOver( Vec2f( p.x, p.y ) );
+    // ix::SoundFXPlayer::handIn();
     // audio::Output::play( audio::load( loadResource( RES_HAND_ENTER_SOUND ) ) );
 }
 
@@ -440,8 +446,8 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
     //std::cout << "hand out - " << hand.hue << std::endl;
     handmap.out( hand );
 
-    cluster.releaseSeed();
-    ix::SoundFXPlayer::handOut();
+    // cluster.releaseSeed();
+    // ix::SoundFXPlayer::handOut();
     
     // audio::Output::play( audio::load( loadResource( RES_HAND_LEAVE_SOUND ) ) );
 }
@@ -449,10 +455,10 @@ void SeedClusterApp::handOut( const ix::Hand & hand )
 void SeedClusterApp::handMove( const ix::Hand & hand )
 {
     handmap.move( hand );
-    cluster.tileOffset += handmap.get( hand ).shift;
+    // cluster.tileOffset += handmap.get( hand ).shift;
     
     cv::Point p = hand.smoothCenter( 20 );
-    cluster.handOver( Vec2f( p.x, p.y ) );
+    // cluster.handOver( Vec2f( p.x, p.y ) );
 
     if ( rectangle.boundingRect().contains( hand.center ) ) {
         rectangleHoverEase = Ease( rectangleFactor, 1.2f, 30 );
@@ -465,46 +471,46 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 {
     //std::cout << "hand close - " << hand.hue << std::endl;
     handmap.close( hand );
-    cluster.tileOffset += handmap.get( hand ).shift;
+    // cluster.tileOffset += handmap.get( hand ).shift;
 
     closePoint = Vec2i( hand.center.x, hand.center.y );
 
     cv::Point p = hand.smoothCenter( 20 );
-    cluster.handOver( Vec2f( p.x, p.y ) );
+    // cluster.handOver( Vec2f( p.x, p.y ) );
 
-    if ( cluster.chooseSeed( closePoint ) ) {
+    // if () { // cluster.chooseSeed( closePoint ) ) {
         
-    } else {
-        cluster.plantSeed( closePoint, Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
-    }
+    // } else {
+    //     // cluster.plantSeed( closePoint, Vec3f( hand.hue, Rand::randFloat() * 0.3 + 0.6, Rand::randFloat() * 0.4 + 0.3 ) );
+    // }
 }
 
 void SeedClusterApp::handOpen( const ix::Hand & hand )
 {
     //std::cout << "hand open - " << hand.hue << std::endl;
     handmap.open( hand );
-    cluster.tileOffset += handmap.get( hand ).shift;
+    // cluster.tileOffset += handmap.get( hand ).shift;
 
     cv::Point p = hand.smoothCenter( 20 );
-    cluster.handOver( Vec2f( p.x, p.y ) );
+    // cluster.handOver( Vec2f( p.x, p.y ) );
     
-    cluster.releaseSeed();
+    // cluster.releaseSeed();
 }
 
 void SeedClusterApp::handDrag( const ix::Hand & hand )
 {
     handmap.drag( hand );
-    cluster.tileOffset += handmap.get( hand ).shift;
+    // cluster.tileOffset += handmap.get( hand ).shift;
 
     cv::Point average = hand.smoothCenter( 10 );
-    cluster.handOver( Vec2f( average.x, average.y ) );
+    // cluster.handOver( Vec2f( average.x, average.y ) );
     
     Vec2f smooth( average.x, average.y );
 
-    if ( cluster.isSeedChosen() ) 
-    {
-        cluster.chosenSeed->seek( smooth );
-    }
+    // if () {  // cluster.isSeedChosen() ) 
+    // {
+    //     // cluster.chosenSeed->seek( smooth );
+    // }
 }
 
 void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other ) 
@@ -517,16 +523,16 @@ void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other )
     cv::Point p2 = other.smoothCenter( 10 );
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
-    cluster.twoHandsIn( v1, v2 );
+    // cluster.twoHandsIn( v1, v2 );
 }
 
 void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other ) 
 {
     //std::cout << "second hand out - " << out.hue << std::endl;
     handmap.out( out );
-    cluster.secondHandOut();
+    // cluster.secondHandOut();
     cv::Point average = other.smoothCenter( 10 );
-    cluster.handOver( Vec2f( average.x, average.y ) );    
+    // cluster.handOver( Vec2f( average.x, average.y ) );    
 }
 
 void SeedClusterApp::firstHandClose( const ix::Hand & close, const ix::Hand & other ) 
@@ -594,7 +600,7 @@ void SeedClusterApp::scaleScene( const ix::Hand & first, const ix::Hand & second
     cv::Point p2 = second.smoothCenter( 10 );
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
-    cluster.twoHandsMove( v1, v2 );
+    // cluster.twoHandsMove( v1, v2 );
 }
 
 void SeedClusterApp::setupLighting()
@@ -644,7 +650,7 @@ void SeedClusterApp::update()
     gl::setMatrices( camera );
     gl::rotate( rotation );
 
-    cluster.update();
+    // // cluster.update();
     handmap.update( tracker );
 }
 
@@ -684,6 +690,8 @@ void SeedClusterApp::drawMat( cv::Mat & mat )
 {
     gl::Texture texture( fromOcv( mat ) );
     gl::draw( texture );
+    glColor4f( 0.2f, 0.2f, 0.2f, 0.1f );
+    gl::drawSolidRect( Rectf( 200.0f, 200.0f, 400.0f, 400.0f ) );
 }
 
 void SeedClusterApp::drawRawHands()
@@ -822,7 +830,7 @@ void SeedClusterApp::draw()
 
     if ( tileMode ) 
     {
-        cluster.drawTiles( posterMode );
+        // cluster.drawTiles( posterMode );
 
         gl::color( ColorA( 0, 0, 0, 0 ) );
         gl::pushModelView();
@@ -835,13 +843,35 @@ void SeedClusterApp::draw()
     //gl::drawSolidCircle( Vec2i( 0, 0 ), 20 );
 
     if ( innardsMode ) {
-        gl::translate( Vec3f( -390.0f, -290.0f, 0.0f ) );
-        drawField();
-        gl::translate( Vec3f( 0.0f, 0.0f, 5.0f ) );
-        drawRawHands();
-        if ( seedMode ) {
-            cluster.drawSeeds();
+        gl::translate( Vec3f( -190.0f, -190.0f, 0.0f ) );
+
+        //        drawField();
+        gl::pushModelView();
+        // gl::translate( Vec3f( 0.0f, 0.0f, -2.0f ) );
+        // gl::translate( Vec3f( -690.0f, -390.0f, 2.0f ) );
+        setColor( Vec3f( hues[0], 0.5f, 0.5f ), 1.0f );
+        cv::Mat field = tracker.displayField( cannyLowerThreshold, cannyUpperThreshold );
+        // cvRectangle( field.data, cv::Point( 200, 200 ), cv::Point( 400, 400 ), cv::Scalar( 55 ) );
+        drawMat( field );
+        gl::popModelView();
+
+        ticks++;
+        if ( ticks > 6 ) {
+            posts++;
+            ticks = 0;
+            char buffer[50];
+            sprintf( buffer, "yoyoyo-%d.png", posts );
+            Surface all( fromOcv( field ) );
+            Surface sub( 200, 200, false );
+            sub.copyFrom( all, Area( 200, 200, 400, 400 ) );
+            writeImage( buffer, all );
         }
+
+        // gl::translate( Vec3f( 0.0f, 0.0f, 5.0f ) );
+        // drawRawHands();
+        // if ( seedMode ) {
+        //     // cluster.drawSeeds();
+        // }
     }
 
     //gl::popModelView();

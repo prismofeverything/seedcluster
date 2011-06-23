@@ -377,31 +377,43 @@ void HandTracker::bridgeFrames()
 
 cv::Mat HandTracker::displayField( int lower, int upper )
 {
-    if ( !depth.rows == 0 ) {
-        // cv::Mat amp = handmask * 254.0f;
-        // texture = ci::gl::Texture( ci::fromOcv( amp ) );
-        // texture = ci::gl::Texture( ci::fromOcv( handmask ) );
+    // if ( !depth.rows == 0 ) {
+    //     // cv::Mat amp = handmask * 254.0f;
+    //     // texture = ci::gl::Texture( ci::fromOcv( amp ) );
+    //     // texture = ci::gl::Texture( ci::fromOcv( handmask ) );
 
-        cv::Mat canny = depth.clone();
-        std::vector<std::vector<cv::Point> > edges;
-        cv::Canny( depth, canny, 10, 20 );
-        cv::findContours( canny, edges, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE );
-        cv::drawContours( depth, edges, -1, cv::Scalar( 250.0 ) );
+    //     cv::Mat canny = depth.clone();
+    //     std::vector<std::vector<cv::Point> > edges;
+    //     cv::Canny( depth, canny, 10, 20 );
+    //     cv::findContours( canny, edges, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE );
+    //     cv::drawContours( depth, edges, -1, cv::Scalar( 250.0 ) );
 
-        // for ( int i = 0; i < edges.size(); i++ ) {
-        //     std::vector<cv::Point> approx;
-        //     cv::Mat contourMat = cv::Mat( edges[i] );
-        //     cv::approxPolyDP( contourMat, approx, 10, true );
+    //     // for ( int i = 0; i < edges.size(); i++ ) {
+    //     //     std::vector<cv::Point> approx;
+    //     //     cv::Mat contourMat = cv::Mat( edges[i] );
+    //     //     cv::approxPolyDP( contourMat, approx, 10, true );
 
-        //     if ( approx.size() > 6 ) {
-        //         for ( int j = 0; j < approx.size(); j++ ) {
-        //             cv::line( depth, approx[j], approx[(j-1) % approx.size()], cv::Scalar( 150.0 ) );
-        //         }
-        //     }
-        // }
-    }
+    //     //     if ( approx.size() > 6 ) {
+    //     //         for ( int j = 0; j < approx.size(); j++ ) {
+    //     //             cv::line( depth, approx[j], approx[(j-1) % approx.size()], cv::Scalar( 150.0 ) );
+    //     //         }
+    //     //     }
+    //     // }
+    // }
 
-    return depth;
+    cv::Mat mat = depth > 170;
+    // ticks++;
+    // if ( ticks > 100 ) {
+    //     posts++;
+    //     ticks = 0;
+    //     CvMat output;
+    //     cvGetSubRect( &mat, &output, cv::Rect( 200, 200, 200, 200 ) );
+    //     char buffer[50];
+    //     sprintf( buffer, "%dyoyoyo.xml", posts );
+    //     cvSave( buffer, &output );
+    // }
+
+    return mat;
 }
 
 } // namespace ix
