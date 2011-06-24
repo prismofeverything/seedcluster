@@ -43,7 +43,7 @@ class Hand
 
     std::vector<cv::Point> path;
     int pathIndex;
-    static const int maxHistory = 20;
+    static const int maxHistory = 40;
 
     int id;
     double area;
@@ -78,6 +78,7 @@ class HandListener
 };
 
 double angleBetween( const cv::Point & center, const cv::Point & a, const cv::Point & b );
+cv::Point augmentCenter( cv::Point _center );
 
 struct PointDistance : public std::binary_function<cv::Point, cv::Point, float>
 {

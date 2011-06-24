@@ -24,7 +24,7 @@ class HandMap {
     void move( const Hand & hand );
     void drag( const Hand & hand );
 
-    const static int smoothing = 10;
+    const static int smoothing = 20;
     std::map<float, Cursor> handmap;
     
     std::vector<ci::gl::Texture> cursorTextures;

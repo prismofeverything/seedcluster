@@ -153,7 +153,7 @@ void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
         scaleEase = Ease( tileScale, outScale, scaleDuration + 30 );
         scaleTriggered = true;
     } else if ( scaleTriggered && scaleDistance - anchorDistance < 0 ) {
-        scaleEase = Ease( tileScale, initialScale, scaleDuration );
+        scaleEase = Ease( tileScale, initialScale, scaleDuration + 30 );
         scaleTriggered = false;
     }
 
@@ -261,7 +261,7 @@ void TileCluster::update()
         if ( scaleTriggered ) {
             tileScale = scaleEase.out();
         } else {
-            tileScale = scaleEase.in();
+            tileScale = scaleEase.out();
         }
     }
 

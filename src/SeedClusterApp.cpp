@@ -335,7 +335,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 15.0f;
+        kinectTilt = 25.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;
@@ -429,7 +429,7 @@ void SeedClusterApp::handIn( const ix::Hand & hand )
     //std::cout << "hand in - " << hand.hue << std::endl;
     handmap.in( hand );
 
-    cv::Point p = hand.smoothCenter( 20 );
+    cv::Point p = hand.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
     cluster.handOver( Vec2f( p.x, p.y ) );
     ix::SoundFXPlayer::handIn();
 }
@@ -448,7 +448,7 @@ void SeedClusterApp::handMove( const ix::Hand & hand )
     handmap.move( hand );
     cluster.tileOffset += handmap.get( hand ).shift;
     
-    cv::Point p = hand.smoothCenter( 20 );
+    cv::Point p = hand.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
     cluster.handOver( Vec2f( p.x, p.y ) );
 
     // if ( rectangle.boundingRect().contains( hand.center ) ) {
@@ -466,7 +466,7 @@ void SeedClusterApp::handClose( const ix::Hand & hand )
 
     closePoint = Vec2i( hand.center.x, hand.center.y );
 
-    cv::Point p = hand.smoothCenter( 20 );
+    cv::Point p = hand.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
     cluster.handOver( Vec2f( p.x, p.y ) );
 
     // if ( cluster.chooseSeed( closePoint ) ) {
@@ -482,7 +482,7 @@ void SeedClusterApp::handOpen( const ix::Hand & hand )
     handmap.open( hand );
     cluster.tileOffset += handmap.get( hand ).shift;
 
-    cv::Point p = hand.smoothCenter( 20 );
+    cv::Point p = hand.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
     cluster.handOver( Vec2f( p.x, p.y ) );
     
     cluster.releaseSeed();
@@ -493,7 +493,7 @@ void SeedClusterApp::handDrag( const ix::Hand & hand )
     handmap.drag( hand );
     cluster.tileOffset += handmap.get( hand ).shift;
 
-    cv::Point average = hand.smoothCenter( 10 );
+    cv::Point average = hand.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
     cluster.handOver( Vec2f( average.x, average.y ) );
     
     // Vec2f smooth( average.x, average.y );
@@ -510,8 +510,8 @@ void SeedClusterApp::secondHandIn( const ix::Hand & in, const ix::Hand & other )
 
     // handIn( in );
 
-    cv::Point p1 = in.smoothCenter( 10 );
-    cv::Point p2 = other.smoothCenter( 10 );
+    cv::Point p1 = in.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
+    cv::Point p2 = other.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
     Vec2i v1 = Vec2i( p1.x, p1.y );
     Vec2i v2 = Vec2i( p2.x, p2.y );
     
@@ -524,7 +524,7 @@ void SeedClusterApp::secondHandOut( const ix::Hand & out, const ix::Hand & other
     handmap.out( out );
 
     // cluster.secondHandOut();
-    cv::Point average = other.smoothCenter( 10 );
+    cv::Point average = other.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
     cluster.handOver( Vec2f( average.x, average.y ) );    
 }
 
@@ -588,8 +588,8 @@ void SeedClusterApp::scaleScene( const ix::Hand & first, const ix::Hand & second
     handmap.move( first );
     handmap.move( second );
     
-    cv::Point p1 = first.smoothCenter( 10 );
-    cv::Point p2 = second.smoothCenter( 10 );
+    cv::Point p1 = first.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
+    cv::Point p2 = second.smoothCenter( ix::HandMap<ix::ImageSequenceCursor>::smoothing );
     Vec2i v1 = Vec2i( p1.x, p1.y );
     Vec2i v2 = Vec2i( p2.x, p2.y );
     

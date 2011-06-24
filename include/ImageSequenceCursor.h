@@ -23,6 +23,8 @@ class ImageSequenceCursor
 public:
     ImageSequenceCursor();
         
+    ci::Vec2f augmentCenter( cv::Point _center );
+
     void in( const Hand & hand, cv::Point _center );
     void out( cv::Point _center );
     void close( cv::Point _center );
