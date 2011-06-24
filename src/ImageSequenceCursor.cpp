@@ -51,11 +51,9 @@ void ImageSequenceCursor::move( cv::Point _center )
     center = augmentCenter( _center );
     ci::Vec2f dcenter = center - anchor;
         
-    if ( dcenter.length() > 250 && dcenter.length() < 900 ) 
+    if ( dcenter.length() > 250 && dcenter.length() < 1100 ) 
     {
-        ci::Vec2f shifting = (center - anchor) * 0.004;
-        // ci::Vec2f shifting = (center - anchor) * 0.014;
-        // ci::Vec2f shifting = (center - anchor) * 0.034;
+        ci::Vec2f shifting = (center - anchor) * shiftFactor;
         shifting[1] = -shifting[1];
         shift += shifting;
     }
@@ -100,7 +98,7 @@ void ImageSequenceCursor::draw()
         gl::enableAlphaBlending();
         gl::translate( reflected );
         // gl::scale( Vec3f( sequenceScale, sequenceScale, 1.0f ) );
-        gl::scale( Vec3f( 0.1f, 0.1f, 1.0f ) );
+        gl::scale( Vec3f( 0.15f, 0.15f, 1.0f ) );
         gl::translate( -sequenceOffset );
         gl::draw( currentTexture );
         gl::disableAlphaBlending();

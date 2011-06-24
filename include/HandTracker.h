@@ -32,6 +32,7 @@ class Hand
     cv::Point motion() const;
     cv::Point previousCenter( int offset=1 ) const;
     cv::Point smoothCenter( int reach=3 ) const;
+    static cv::Point augmentCenter( cv::Point _center );
     inline bool isOpen() { return fingertips.size() > 3; };
     inline bool isEntering() { return !isHand && fingertips.size() > 3; };
     inline bool isOpening() { return isClosed && isOpen(); };
@@ -44,6 +45,7 @@ class Hand
     std::vector<cv::Point> path;
     int pathIndex;
     static const int maxHistory = 40;
+    static const float handAugmentation = 3.0f;
 
     int id;
     double area;
@@ -78,7 +80,6 @@ class HandListener
 };
 
 double angleBetween( const cv::Point & center, const cv::Point & a, const cv::Point & b );
-cv::Point augmentCenter( cv::Point _center );
 
 struct PointDistance : public std::binary_function<cv::Point, cv::Point, float>
 {

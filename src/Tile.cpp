@@ -190,7 +190,7 @@ void Tile::leave()
 void Tile::update( bool age )
 {
     if (age) leaveTimer++;
-    if ( !(state == Leaving) && leaveTimer >= 120 ) leave();
+    if ( !(state == Leaving) && leaveTimer >= leaveDelay ) leave();
 
     if ( state == Leaving ) {
         if ( !alphaEase.done() ) alpha = alphaEase.in();
@@ -309,6 +309,10 @@ void Tile::drawPoster()
         gl::popMatrices();
     }
 }
+
+// ci::Font Tile::segoe = Font( RES_SEGOE_BLACK, 24 );
+// ci::Font Tile::segoebold = Font( RES_SEGOE_BLACK, 32 );
+// ci::Font Tile::segoesemibold = Font( RES_SEGOE_BLACK, 24 );
 
 ci::Font Tile::segoe = Font( "Segoe Black", 24 );
 ci::Font Tile::segoebold = Font( "Segoe Black", 32 );

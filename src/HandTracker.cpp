@@ -20,10 +20,10 @@ Hand::Hand()
     center = cv::Point( 0, 0 );
 }
 
-cv::Point augmentCenter( cv::Point _center )
+cv::Point Hand::augmentCenter( cv::Point _center )
 {
     cv::Point core( 320, 240 );
-    return ( (cv::Point( _center.x, _center.y ) - core ) * 6.0 + core );
+    return ( (cv::Point( _center.x, _center.y ) - core ) * handAugmentation + core );
 }
 
 void Hand::sync( const Hand & other )
@@ -144,7 +144,7 @@ void HandTracker::detectHandsInSlice( cv::Mat z, int zMin, int zMax )
 
         cv::Mat contourMat = cv::Mat( hand.contour );
         cv::Scalar center = mean( contourMat );
-        hand.center = augmentCenter( cv::Point( center.val[0], center.val[1] ) );
+        hand.center = Hand::augmentCenter( cv::Point( center.val[0], center.val[1] ) );
         hand.area = cv::contourArea( contourMat );
 
         if ( hand.area > 1000 ) { // possible hand

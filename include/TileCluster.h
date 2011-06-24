@@ -54,6 +54,7 @@ class TileCluster {
     static const float initialScale = 0.32f;
     static const float initialScaleInverse = 1.0f / 0.32f;
     static const float outScale = 0.072f;
+    static const float scaleFactor = 0.000015;
     static const int scaleDuration = 40;
     static const int ageThreshold = 20;
 

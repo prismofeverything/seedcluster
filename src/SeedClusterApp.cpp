@@ -3,6 +3,7 @@
 #include "cinder/Rand.h"
 #include "cinder/Perlin.h"
 #include "cinder/Vector.h"
+
 #include "cinder/Matrix.h"
 #include "cinder/Color.h"
 #include "cinder/Camera.h"
@@ -68,10 +69,10 @@ class SeedClusterApp : public AppBasic, public ix::HandListener {
     void drawParticles();
     void drawRectangle();
 
-    void keyDown( KeyEvent event ); 
-    void keyUp( KeyEvent event );   
-    void mouseDown( MouseEvent event ); 
-    void mouseUp( MouseEvent event );   
+    void keyDown( KeyEvent event );
+    void keyUp( KeyEvent event );
+    void mouseDown( MouseEvent event );
+    void mouseUp( MouseEvent event );
     void mouseMove( MouseEvent event ); 
     void mouseDrag( MouseEvent event ); 
 
@@ -335,7 +336,7 @@ void SeedClusterApp::setup()
 
     kinectEnabled = Kinect::getNumDevices() > 0;
     if ( kinectEnabled ) {
-        kinectTilt = 25.0f;
+        kinectTilt = 15.0f;
         kinect = Kinect( Kinect::Device() );
         kinectWidth = 640;
         kinectHeight = 480;

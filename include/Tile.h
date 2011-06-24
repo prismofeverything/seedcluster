@@ -74,6 +74,7 @@ class Tile {
 
     static const int atomWidth = 240;
     static const int atomHeight = 270;
+    static const int leaveDelay = 70;
 
     static ci::Font segoe;
     static ci::Font segoebold;

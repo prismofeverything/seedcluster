@@ -149,19 +149,22 @@ void TileCluster::twoHandsIn( ci::Vec2i first, ci::Vec2i second )
 void TileCluster::twoHandsMove( ci::Vec2i first, ci::Vec2i second )
 {
     scaleDistance = (float) first.distance( second );
-    if ( !scaleTriggered && scaleDistance - anchorDistance > 0 ) {
-        scaleEase = Ease( tileScale, outScale, scaleDuration + 30 );
-        scaleTriggered = true;
-    } else if ( scaleTriggered && scaleDistance - anchorDistance < 0 ) {
-        scaleEase = Ease( tileScale, initialScale, scaleDuration + 30 );
-        scaleTriggered = false;
-    }
 
-    // targetScale += ( scaleDistance - anchorDistance ) * 0.00005;
-    // targetScale =  max( 0.05f, min( targetScale, 1.0f ) );
-    // tileScale = targetScale;
+    // if ( !scaleTriggered && scaleDistance - anchorDistance > 0 ) {
+    //     scaleEase = Ease( tileScale, outScale, scaleDuration + 30 );
+    //     scaleTriggered = true;
+    // } else if ( scaleTriggered && scaleDistance - anchorDistance < 0 ) {
+    //     scaleEase = Ease( tileScale, initialScale, scaleDuration + 30 );
+    //     scaleTriggered = false;
+    // }
+
+    if ( abs( scaleDistance - anchorDistance ) > 50 ) {
+        targetScale += ( scaleDistance - anchorDistance ) * scaleFactor;
+        targetScale =  max( 0.05f, min( targetScale, 1.0f ) );
+        tileScale = targetScale;
+    }
 }
-    
+
 void TileCluster::secondHandOut()
 {
     //tileScale = tileScale + targetScale;

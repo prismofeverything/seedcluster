@@ -1,6 +1,8 @@
 #pragma once
 #include "cinder/CinderResources.h"
 
+// #define RES_SEGOE_BLACK CINDER_RESOURCE( ../resources/, SegoeBlk.ttf, 256, FONT )
+
 #define RES_WHIRLPOOL CINDER_RESOURCE( ../resources/, whirlpool.png, 128, IMAGE )
 #define RES_BACKGROUND CINDER_RESOURCE( ../resources/, bg.png, 128, IMAGE )
 #define RES_CURSOR CINDER_RESOURCE( ../resources/, cursor.png, 128, IMAGE )
