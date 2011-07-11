@@ -402,6 +402,15 @@ cv::Mat HandTracker::displayField( int lower, int upper )
     // }
 
     cv::Mat mat = depth > 170;
+    cv::Point topRight( 200, 200 );
+    cv::Point bottomRight( 200, 402 );
+    cv::Point bottomLeft( 402, 402 );
+    cv::Point topLeft( 402, 200 );
+    cv::line( mat, topRight, bottomRight, 255 );
+    cv::line( mat, bottomRight, bottomLeft, 255 );
+    cv::line( mat, bottomLeft, topLeft, 255 );
+    cv::line( mat, topLeft, topRight, 255 );
+
     // ticks++;
     // if ( ticks > 100 ) {
     //     posts++;

@@ -231,8 +231,8 @@ void SeedClusterApp::prepareSettings( Settings *settings )
     ticks = 0;
     posts = 0;
 
-    width = 1920;
-    height = 1080;
+    width = 800;
+    height = 800;
     settings->setWindowSize( width, height );
     settings->setFrameRate( 60.0f );
     fovea = 75.0f;
@@ -691,7 +691,7 @@ void SeedClusterApp::drawMat( cv::Mat & mat )
     gl::Texture texture( fromOcv( mat ) );
     gl::draw( texture );
     glColor4f( 0.2f, 0.2f, 0.2f, 0.1f );
-    gl::drawSolidRect( Rectf( 200.0f, 200.0f, 400.0f, 400.0f ) );
+    //     gl::drawSolidRect( Rectf( 200.0f, 200.0f, 400.0f, 400.0f ) );
 }
 
 void SeedClusterApp::drawRawHands()
@@ -828,16 +828,16 @@ void SeedClusterApp::draw()
         gl::popModelView();
     }*/
 
-    if ( tileMode ) 
-    {
-        // cluster.drawTiles( posterMode );
+    // if ( tileMode ) 
+    // {
+    //     // cluster.drawTiles( posterMode );
 
-        gl::color( ColorA( 0, 0, 0, 0 ) );
-        gl::pushModelView();
-        gl::translate( Vec3f( -320.0f, -240.0f, 0 ) );
-        drawSmoothHands();
-        gl::popModelView();
-    }
+    //     gl::color( ColorA( 0, 0, 0, 0 ) );
+    //     gl::pushModelView();
+    //     gl::translate( Vec3f( -320.0f, -240.0f, 0 ) );
+    //     drawSmoothHands();
+    //     gl::popModelView();
+    // }
     
     //gl::color( Color( 1, 0, 0 ) );
     //gl::drawSolidCircle( Vec2i( 0, 0 ), 20 );
@@ -855,17 +855,17 @@ void SeedClusterApp::draw()
         drawMat( field );
         gl::popModelView();
 
-        ticks++;
-        if ( ticks > 6 ) {
-            posts++;
-            ticks = 0;
-            char buffer[50];
-            sprintf( buffer, "yoyoyo-%d.png", posts );
-            Surface all( fromOcv( field ) );
-            Surface sub( 200, 200, false );
-            sub.copyFrom( all, Area( 200, 200, 400, 400 ) );
-            writeImage( buffer, all );
-        }
+        // ticks++;
+        // if ( ticks > 6 ) {
+        //     posts++;
+        //     ticks = 0;
+        //     char buffer[50];
+        //     sprintf( buffer, "yoyoyo-%d.png", posts );
+        //     Surface all( fromOcv( field ) );
+        //     // Surface sub( 200, 200, false );
+        //     // sub.copyFrom( all, Area( 200, 200, 400, 400 ) );
+        //     writeImage( buffer, all );
+        // }
 
         // gl::translate( Vec3f( 0.0f, 0.0f, 5.0f ) );
         // drawRawHands();
